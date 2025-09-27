@@ -7,13 +7,11 @@ import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart' as g;
 import 'package:http_parser/src/media_type.dart' as m;
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../../app/config/app_colors.dart';
 import '../../../app/config/global_var.dart';
-import '../../../app/routes/app_pages.dart';
 import '../../../app/utils/utils.dart';
 import 'api_endpoint.dart';
 
@@ -733,7 +731,7 @@ class APIProvider {
         if (response?.data['code'] == 'token_not_valid') {
           Utils.showToast(message: 'Session Expired');
         }
-        g.Get.offAllNamed(Routes.LOGIN);
+        // g.Get.offAllNamed(Routes.LOGIN);
         // return response?.data;
 
         throw BadRequestException(response?.data.toString());

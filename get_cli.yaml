@@ -1,0 +1,7 @@
+structure:
+  module: false
+  folder_name: false
+
+paths:
+  pages: lib/Presentation
+  routes: lib/Presentation/routes
