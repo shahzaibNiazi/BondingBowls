@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "344604724259",
+    "project_id": "bondingbowls-dc28d",
+    "storage_bucket": "bondingbowls-dc28d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344604724259:android:4efb584665c4b2d785b596",
+        "android_client_info": {
+          "package_name": "com.example.convo_hearts"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs6Fn32xBxPbfCLfbUliwz2oqnok7_xgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
