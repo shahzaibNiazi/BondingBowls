@@ -1,10 +1,8 @@
+import 'dart:developer';
 
-import 'package:convo_hearts/voice_prompt/voice_prompt1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-import '../src/feature/Profile-Creation/profile_creation2.dart';
 
 class VoicePrompt2Controller extends GetxController {
   var question = ''.obs;
@@ -17,16 +15,14 @@ class VoicePrompt2Controller extends GetxController {
 
   void startRecording() {
     // TODO: Implement voice recording start
-    print("Recording started...");
+    log("Recording started...");
   }
 
   void stopRecording() {
     // TODO: Implement voice recording stop
-    print("Recording stopped.");
+    log("Recording stopped.");
   }
 }
-
-
 
 class VoicePrompt2RecordScreen extends StatelessWidget {
   VoicePrompt2RecordScreen({super.key});
@@ -52,160 +48,185 @@ class VoicePrompt2RecordScreen extends StatelessWidget {
                       child: SvgPicture.asset("assets/icon/svg/back_arrow.svg"),
                     ),
                     const SizedBox(width: 16),
-                    
                   ],
                 ),
                 Center(
                   child: const Text(
-                        "Voice Prompts",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
+                    "Voice Prompts",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
-          
+
                 /// Info text
                 const Text(
-                  
                   '*Voice prompts is an optional feature where you answer questions here with your voice. Your voice will be added to your profile for everyone else to hear',
-                  style: TextStyle(fontSize: 15,fontStyle: FontStyle.italic,fontWeight: FontWeight.w300, color: Color(0xff505050)),
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w300,
+                    color: Color(0xff505050),
+                  ),
                   textAlign: TextAlign.center,
                 ),
-          
+
                 const SizedBox(height: 24),
-          
+
                 /// Input field with dynamic count
-          
-                  //     Obx(
-                  //   () => TextField(
-                  //     onChanged: controller.updateQuestion,
-                  //     maxLength: 40,
-                  //     decoration: InputDecoration(
-                  //       hintText: 'What do i think of first dates?',
-                  //       counterText: '', // Hides default counter
-                  //       contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  //       suffix: Text(
-                  //         '${controller.question.value.length}/40',
-                  //         style: const TextStyle(fontSize: 12, color: Colors.black54),
-                  //       ),
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //         borderSide: BorderSide(color: Color(0xff505050))
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-          Obx(
-  () => TextField(
-    onChanged: controller.updateQuestion,
-    maxLength: 40,
-    decoration: InputDecoration(
-      hintText: 'What do i think of first dates?',
-      counterText: '', // Hides default counter
-      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-      suffix: Text(
-        '${controller.question.value.length}/40',
-        style: const TextStyle(fontSize: 12, color: Color(0xff505050)),
-      ),
-      // Always 2px border
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Color(0xff505050), width: 2),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Color(0xff505050), width: 2),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Color(0xff505050), width: 2),
-      ),
-    ),
-  ),
-)
-,
-          
+
+                //     Obx(
+                //   () => TextField(
+                //     onChanged: controller.updateQuestion,
+                //     maxLength: 40,
+                //     decoration: InputDecoration(
+                //       hintText: 'What do i think of first dates?',
+                //       counterText: '', // Hides default counter
+                //       contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                //       suffix: Text(
+                //         '${controller.question.value.length}/40',
+                //         style: const TextStyle(fontSize: 12, color: Colors.black54),
+                //       ),
+                //       border: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(20),
+                //         borderSide: BorderSide(color: Color(0xff505050))
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Obx(
+                  () => TextField(
+                    onChanged: controller.updateQuestion,
+                    maxLength: 40,
+                    decoration: InputDecoration(
+                      hintText: 'What do i think of first dates?',
+                      counterText: '', // Hides default counter
+                      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                      suffix: Text(
+                        '${controller.question.value.length}/40',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xff505050),
+                        ),
+                      ),
+                      // Always 2px border
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          color: Color(0xff505050),
+                          width: 2,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          color: Color(0xff505050),
+                          width: 2,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          color: Color(0xff505050),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
                 const SizedBox(height: 40),
-          
+
                 /// Record mic
                 Center(
                   child: Column(
                     children: [
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           // Get.to(()=>)
                         },
                         onLongPress: controller.startRecording,
                         onLongPressEnd: (_) => controller.stopRecording(),
                         child: Container(
                           height: 80,
-                          width: 80
-                          ,
+                          width: 80,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            border: Border.all(color: Color(0xff505050), width: 2),
-                            color: Color(0xffEEBCBC)
+                            border: Border.all(
+                              color: Color(0xff505050),
+                              width: 2,
+                            ),
+                            color: Color(0xffEEBCBC),
                           ),
-                          child: Image.asset("assets/images/speaker.png"),)
+                          child: Image.asset("assets/images/speaker.png"),
+                        ),
                       ),
                       const SizedBox(height: 30),
                       const Text(
                         'Replay to hear your voice!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontStyle: FontStyle.italic,fontSize: 15,fontWeight: FontWeight.w300, color: Colors.black54),
+                          fontStyle: FontStyle.italic,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black54,
+                        ),
                       ),
-          
-                const SizedBox(height: 30),
-          
+
+                      const SizedBox(height: 30),
+
                       ElevatedButton(
-                        onPressed: (){
+                        onPressed: () {
                           // Navigate back to voice prompt 1 screen
                           Navigator.pop(context);
-                      }, 
-                       style: ElevatedButton.styleFrom(
-                        shadowColor: const Color.fromARGB(223, 0, 0, 0),
-                        backgroundColor: Colors.white, // Approximate color based on image
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shadowColor: const Color.fromARGB(223, 0, 0, 0),
+                          backgroundColor:
+                              Colors.white, // Approximate color based on image
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          minimumSize: Size(285, 50),
                         ),
-                        minimumSize: Size(285, 50),
+                        child: Text(
+                          "Redo",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xff505050),
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        "Redo",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xff505050),
-                        ),
-                      ),),
-          
+
                       const SizedBox(height: 30),
-          
-                      ElevatedButton(onPressed: (){
-                        // Navigate back to profile creation screen
-                        Navigator.pop(context);
-                      }, 
-                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xffC672A5), // Approximate color based on image
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          // Navigate back to profile creation screen
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(
+                            0xffC672A5,
+                          ), // Approximate color based on image
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          minimumSize: Size(285, 50),
                         ),
-                        minimumSize: Size(285, 50),
+                        child: Text(
+                          "Save",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xffFFFFFF),
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        "Save",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xffFFFFFF),
-                        ),
-                      ),)
-          
-          
                     ],
                   ),
                 ),

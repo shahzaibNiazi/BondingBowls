@@ -13,8 +13,6 @@
 
 // // class _ProfileCreationState extends State<ProfileCreation> {
 
-
-
 // //   void selectFoodDiscounts() {
 // //     // Handle food discounts selection
 // //     log("PP 1Food discounts selected");
@@ -28,12 +26,9 @@
 // //   void selectDatingFriends() {
 // //     // Handle dating/friends selection
 // //     log("Dating & friends selected");
-// //     // Navigate to next page   
+// //     // Navigate to next page
 // //       Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileCreation2()));
 // //   }
-
-
-
 
 // //   @override
 // //   Widget build(BuildContext context) {
@@ -193,16 +188,6 @@
 // //     );
 // //   }
 // // }
-
-
-
-
-
-
-
-
-
-
 
 // import 'dart:developer';
 
@@ -409,14 +394,6 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
 import 'dart:developer';
 
 import 'package:convo_hearts/src/feature/Profile-Creation/profile_creation2.dart';
@@ -432,7 +409,6 @@ class ProfileCreation extends StatefulWidget {
 }
 
 class _ProfileCreationState extends State<ProfileCreation> {
-
   void selectFoodDiscounts() {
     // Handle food discounts selection
     log("PP 1Food discounts selected");
@@ -453,19 +429,8 @@ class _ProfileCreationState extends State<ProfileCreation> {
     log("Dating & friends selected");
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => ProfileCreation2(),
-      ),
+      MaterialPageRoute(builder: (context) => ProfileCreation2()),
     );
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => BottomNavBar(
-    //       initialIndex: 0, // Matches tab index
-    //       showDiscountProfile: false, // Show normal screens
-    //     ),
-    //   ),
-    // );
   }
 
   @override
@@ -476,13 +441,19 @@ class _ProfileCreationState extends State<ProfileCreation> {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header Section
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 20),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 35.0,
+                    vertical: 20,
+                  ),
                   child: Center(
                     child: Text(
                       "How would you like to use the Bonding Bowls App?",
@@ -498,8 +469,11 @@ class _ProfileCreationState extends State<ProfileCreation> {
                 const SizedBox(height: 32),
 
                 // Food Discounts Section
-                _buildSectionTitle("I'm just looking for ", "Food discounts 🤑"),
-                
+                _buildSectionTitle(
+                  "I'm just looking for ",
+                  "Food discounts 🤑",
+                ),
+
                 Text(
                   "(free for all users without any further verification)",
                   style: TextStyle(
@@ -509,53 +483,50 @@ class _ProfileCreationState extends State<ProfileCreation> {
                   ),
                 ),
                 const SizedBox(height: 18),
-                
+
                 _buildFeatureList([
                   " Newsletter",
                   " Last minute food discounts from food vendors (notifications)",
                 ]),
-                
+
                 const SizedBox(height: 23),
-                
+
                 _buildActionButton(
                   text: "Just food discounts!",
                   color: Colors.orange,
                   onPressed: selectFoodDiscounts,
                   borderRadius: 20,
                 ),
-                
+
                 const SizedBox(height: 72),
 
                 // Dating/Friends Section
                 _buildSectionTitle("I'm looking for ", "Dating/friends 🕺💃"),
-                
+
                 Text(
                   "(further verification needed after profile setup 🔐)",
-                  style: TextStyle(
-                    color: Color(0xff505050),
-                    fontSize: 16
-                  ),
+                  style: TextStyle(color: Color(0xff505050), fontSize: 16),
                 ),
                 const SizedBox(height: 14),
-                
+
                 _buildDescriptionText([
                   "Try our unique dating feature which eliminates all toxicity from the local dating scene.",
                   "We believe in matching people through their inner beauty, while ensuring every interaction is safe and secure.",
                   "Once you're in, you'll explore and connect through avatars, pseudonyms, and authentic conversations.",
                   "Ready to get started?",
                 ]),
-                
+
                 const SizedBox(height: 60),
-                
+
                 _buildActionButton(
                   text: "Dating & friends!",
                   color: Color(0xffC672A5),
                   onPressed: selectDatingFriends,
                   borderRadius: 12,
                 ),
-                
+
                 const SizedBox(height: 40),
-                
+
                 // Footer Note
                 Center(
                   child: RichText(
@@ -570,7 +541,8 @@ class _ProfileCreationState extends State<ProfileCreation> {
                       ),
                       children: [
                         TextSpan(
-                          text: " Fear not, You can always change your mind later!",
+                          text:
+                              " Fear not, You can always change your mind later!",
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
@@ -620,16 +592,15 @@ class _ProfileCreationState extends State<ProfileCreation> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: features
-          .map((feature) => Padding(
-                padding: const EdgeInsets.only(bottom: 4.0),
-                child: Text(
-                  "• $feature",
-                  style: TextStyle(
-                    color: Color(0xff505050),
-                    fontSize: 16
-                    ),
-                ),
-              ))
+          .map(
+            (feature) => Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: Text(
+                "• $feature",
+                style: TextStyle(color: Color(0xff505050), fontSize: 16),
+              ),
+            ),
+          )
           .toList(),
     );
   }
@@ -639,16 +610,15 @@ class _ProfileCreationState extends State<ProfileCreation> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: descriptions
-          .map((description) => Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  description,
-                  style: TextStyle(
-                    color: Color(0xff505050),
-                    fontSize: 16
-                  ),
-                ),
-              ))
+          .map(
+            (description) => Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                description,
+                style: TextStyle(color: Color(0xff505050), fontSize: 16),
+              ),
+            ),
+          )
           .toList(),
     );
   }
@@ -751,7 +721,8 @@ class _ChipSelectorState extends State<ChipSelector> {
       runSpacing: 8.0,
       children: widget.options.map((option) {
         final isSelected = widget.selectedOptions.contains(option);
-        return FlagChip( // ✅ Direct child of Wrap, no Flexible wrapper
+        return FlagChip(
+          // ✅ Direct child of Wrap, no Flexible wrapper
           label: option,
           isSelected: isSelected,
           onTap: () {
@@ -774,18 +745,22 @@ class _ChipSelectorState extends State<ChipSelector> {
 class FlexibleChipSelector extends StatelessWidget {
   final List<String> options;
 
-  const FlexibleChipSelector({Key? key, required this.options}) : super(key: key);
+  const FlexibleChipSelector({Key? key, required this.options})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row( // ✅ Use Row/Column for Flexible children
+    return Row(
+      // ✅ Use Row/Column for Flexible children
       children: [
-        Expanded( // ✅ Use Expanded instead of Flexible when possible
+        Expanded(
+          // ✅ Use Expanded instead of Flexible when possible
           flex: 2,
           child: FlagChip(label: options.first),
         ),
         const SizedBox(width: 8),
-        Flexible( // ✅ Now Flexible is properly inside Row
+        Flexible(
+          // ✅ Now Flexible is properly inside Row
           flex: 1,
           child: FlagChip(label: options.length > 1 ? options[1] : ''),
         ),

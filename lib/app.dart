@@ -1,6 +1,7 @@
-import 'package:convo_hearts/src/feature/Profile-Creation/profile_creation1.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'app/routes/app_pages.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -19,7 +20,8 @@ class _AppState extends State<App> {
         fontFamily: "InriaSans",
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: ProfileCreation(),
+      initialRoute: Routes.PROFILE_CREATION_DECISION,
+      getPages: AppPages.routes,
     );
   }
 }

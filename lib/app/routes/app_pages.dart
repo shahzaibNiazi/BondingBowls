@@ -1,3 +1,6 @@
+import 'package:convo_hearts/Presentation/profile_creation/views/profile_creation_decision.dart';
+import 'package:convo_hearts/Presentation/profile_creation/views/voice_prompt_one.dart';
+import 'package:convo_hearts/Presentation/profile_creation/views/voice_prompt_second.dart';
 import 'package:get/get.dart';
 
 import '../../Presentation/email_verification/bindings/email_verification_binding.dart';
@@ -6,6 +9,8 @@ import '../../Presentation/home/bindings/home_binding.dart';
 import '../../Presentation/home/views/home_view.dart';
 import '../../Presentation/login/bindings/login_binding.dart';
 import '../../Presentation/login/views/login_view.dart';
+import '../../Presentation/profile_creation/bindings/profile_creation_binding.dart';
+import '../../Presentation/profile_creation/views/profile_creation_view.dart';
 import '../../Presentation/reset_password/bindings/reset_password_binding.dart';
 import '../../Presentation/reset_password/views/reset_password_view.dart';
 import '../../Presentation/second_splash/bindings/second_splash_binding.dart';
@@ -78,6 +83,27 @@ class AppPages {
       name: _Paths.RESET_PASSWORD,
       page: () => const ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_CREATION,
+      page: () => ProfileCreationView(),
+      binding: ProfileCreationBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_CREATION_DECISION,
+      page: () => const ProfileCreationDecisionView(),
+      binding: ProfileCreationBinding(),
+    ),
+    GetPage(
+      name: _Paths.VOICE_PROMPT_ONE,
+      page: () => const VoicePromptOneView(),
+      binding: ProfileCreationBinding(),
+    ),
+    GetPage(
+      name: _Paths.VOICE_PROMPT_SECOND,
+      page: () => const VoicePromptSecondView(),
+      binding: ProfileCreationBinding(),
+      transition: Transition.downToUp,
     ),
   ];
 }
