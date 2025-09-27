@@ -7,6 +7,12 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const SECOND_SPLASH = _Paths.SECOND_SPLASH;
   static const THIRD_SPLASH = _Paths.THIRD_SPLASH;
+  static const LOGIN = _Paths.LOGIN;
+  static const SIGNUP = _Paths.SIGNUP;
+  static const EMAIL_VERIFICATION = _Paths.EMAIL_VERIFICATION;
+  static const SEND_OTP = _Paths.SEND_OTP;
+  static const VERIFY_OTP = _Paths.VERIFY_OTP;
+  static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
 }
 
 abstract class _Paths {
@@ -15,4 +21,10 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const SECOND_SPLASH = '/second-splash';
   static const THIRD_SPLASH = '/third-splash';
+  static const LOGIN = '/login';
+  static const SIGNUP = '/signup';
+  static const EMAIL_VERIFICATION = '/email-verification';
+  static const SEND_OTP = '/send-otp';
+  static const VERIFY_OTP = '/verify-otp';
+  static const RESET_PASSWORD = '/reset-password';
 }

@@ -1,13 +1,25 @@
 import 'package:get/get.dart';
 
+import '../../Presentation/email_verification/bindings/email_verification_binding.dart';
+import '../../Presentation/email_verification/views/email_verification_view.dart';
 import '../../Presentation/home/bindings/home_binding.dart';
 import '../../Presentation/home/views/home_view.dart';
+import '../../Presentation/login/bindings/login_binding.dart';
+import '../../Presentation/login/views/login_view.dart';
+import '../../Presentation/reset_password/bindings/reset_password_binding.dart';
+import '../../Presentation/reset_password/views/reset_password_view.dart';
 import '../../Presentation/second_splash/bindings/second_splash_binding.dart';
 import '../../Presentation/second_splash/views/second_splash_view.dart';
+import '../../Presentation/send_otp/bindings/send_otp_binding.dart';
+import '../../Presentation/send_otp/views/send_otp_view.dart';
+import '../../Presentation/signup/bindings/signup_binding.dart';
+import '../../Presentation/signup/views/signup_view.dart';
 import '../../Presentation/splash/bindings/splash_binding.dart';
 import '../../Presentation/splash/views/splash_view.dart';
 import '../../Presentation/third_splash/bindings/third_splash_binding.dart';
 import '../../Presentation/third_splash/views/third_splash_view.dart';
+import '../../Presentation/verify_otp/bindings/verify_otp_binding.dart';
+import '../../Presentation/verify_otp/views/verify_otp_view.dart';
 
 part 'app_routes.dart';
 
@@ -36,6 +48,36 @@ class AppPages {
       name: _Paths.THIRD_SPLASH,
       page: () => const ThirdSplashView(),
       binding: ThirdSplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => const LoginView(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.SIGNUP,
+      page: () => const SignupView(),
+      binding: SignupBinding(),
+    ),
+    GetPage(
+      name: _Paths.EMAIL_VERIFICATION,
+      page: () => const EmailVerificationView(),
+      binding: EmailVerificationBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEND_OTP,
+      page: () => const SendOtpView(),
+      binding: SendOtpBinding(),
+    ),
+    GetPage(
+      name: _Paths.VERIFY_OTP,
+      page: () => const VerifyOtpView(),
+      binding: VerifyOtpBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD,
+      page: () => const ResetPasswordView(),
+      binding: ResetPasswordBinding(),
     ),
   ];
 }
