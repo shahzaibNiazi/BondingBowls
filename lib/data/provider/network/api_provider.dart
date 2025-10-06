@@ -445,7 +445,6 @@ class APIProvider {
       throw FetchDataException('No Internet connection');
     } on DioException catch (e) {
       dialog.hide();
-      log(e.response?.data);
       if (e.response?.data.runtimeType == String) {
         if (e.response?.data.contains("limit")) {
           return null;
@@ -744,6 +743,7 @@ class APIProvider {
         throw UnauthorisedException(response?.data.toString());
       case 404:
         if (response?.data['error'] != null) {
+          log("Error --------{response?.data['error']}");
           Utils.showToast(message: response?.data['error']);
         } else {
           Utils.showToast(message: response?.data['data']['error']);

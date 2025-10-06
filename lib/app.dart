@@ -1,6 +1,8 @@
-import 'package:convo_hearts/src/feature/Profile-Creation/profile_creation1.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import 'app/routes/app_pages.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -12,14 +14,22 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Convo Hearts',
-      theme: ThemeData(
-        fontFamily: "InriaSans",
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: ProfileCreation(),
+    return ScreenUtilInit(
+      minTextAdapt: true,
+      splitScreenMode: true,
+      designSize: const Size(440, 956),
+      builder: (context, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Convo Hearts',
+          theme: ThemeData(
+            fontFamily: "InriaSans",
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          ),
+          initialRoute: Routes.SPLASH,
+          getPages: AppPages.routes,
+        );
+      },
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 import 'dart:io';
 import 'dart:math';
 
+import 'package:convo_hearts/app/shared_widgets/my_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -315,7 +316,7 @@ class Utils {
     int hours = int.parse(matches[0].group(0)!); // First number is hours
     int minutes = int.parse(matches[1].group(0)!); // Second number is minutes
     int totalMinutes = (hours * 60) + minutes;
-    print("Total Minutes: $totalMinutes");
+    developer.log("Total Minutes: $totalMinutes");
 
     return totalMinutes;
   }
@@ -388,7 +389,7 @@ class Utils {
       isScrollControlled: true,
       isDismissible: isDismissible,
       enableDrag: isDismissible,
-      barrierColor: barrierColor ?? AppColors.black.withOpacity(.4),
+      barrierColor: barrierColor ?? AppColors.black.withValues(alpha: 0.4),
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(
         borderRadius: borderRadius ?? BorderRadius.circular(0),
@@ -510,9 +511,9 @@ class Utils {
   }
 
   static Future getImageFromGallery() async {
-    final file = await ImagePicker.platform.pickImage(
-      source: ImageSource.gallery,
-    );
+    final ImagePicker picker = ImagePicker();
+
+    final file = await picker.pickImage(source: ImageSource.gallery);
     if (file != null) {
       File? returnFile = await refineImage(File(file.path));
       Get.log(
@@ -523,9 +524,8 @@ class Utils {
   }
 
   static Future getImageFromCamera() async {
-    final pickedFile = await ImagePicker.platform.pickImage(
-      source: ImageSource.camera,
-    );
+    ImagePicker image = ImagePicker();
+    final pickedFile = await image.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       File? returnFile = await refineImage(File(pickedFile.path));
       Get.log(
@@ -552,7 +552,7 @@ class Utils {
 
     File toCompress = pickedFile;
 
-    print(toCompress.path);
+    developer.log(toCompress.path);
 
     CroppedFile? croppedFile = await ImageCropper.platform.cropImage(
       sourcePath: toCompress.path,
@@ -583,7 +583,6 @@ class Utils {
           initAspectRatio: CropAspectRatioPreset.original,
           activeControlsWidgetColor: AppColors.secondary,
           backgroundColor: AppColors.secondary,
-          statusBarColor: AppColors.secondary,
           lockAspectRatio: false,
         ),
         IOSUiSettings(title: 'Refine Image'),
@@ -612,7 +611,7 @@ class Utils {
     Permission permission = Permission.photos,
   }) async {
     var status = await permission.status;
-    print(status.isDenied);
+    developer.log(status.isDenied.toString());
 
     if (status.isGranted) {
       return true;
@@ -636,7 +635,6 @@ class Utils {
         return false;
       }
     }
-    return false;
   }
 
   static String getDay(DateTime createdAt) {
@@ -725,5 +723,22 @@ class Utils {
     }
 
     return formattedInterval;
+  }
+
+  static void showSnackBar(
+    String title,
+    String message,
+    Color backgroundColor,
+  ) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(
+      SnackBar(
+        content: MyText(title: '$title: $message'),
+        backgroundColor: backgroundColor.withValues(alpha: 0.8),
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(16),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    );
   }
 }

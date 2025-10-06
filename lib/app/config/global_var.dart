@@ -1,6 +1,9 @@
+import 'package:convo_hearts/data/model/user_model.dart';
+
 class Globals {
   static String authToken = "";
   static String phoneNumber = "";
+  static UserModel? user;
   static String userId = "";
   static int coinsThisWeek = 0;
   static bool isSubscriptionBuy = false;

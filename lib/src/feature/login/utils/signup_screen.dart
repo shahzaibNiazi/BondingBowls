@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:math' hide log;
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convo_hearts/src/feature/login/utils/verfy_email.dart';
 import 'package:convo_hearts/widgets/Custom_TextField.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'login_screen.dart';
 
@@ -26,28 +27,27 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   // Firebase and Auth instances
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ['email', 'profile'],
-  );
-  
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+
   // Form Controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  
+
   // State variables
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
   SignUpState currentState = SignUpState.idle;
   bool isLoading = false;
-  
+
   // Temporary data storage
   String? tempEmail;
   String? tempPassword;
   String? generatedOTP;
   DateTime? otpGeneratedTime;
-  
+
   // Configuration
   static const String _senderEmail = 'ali.sachal0322@gmail.com';
   static const String _senderPassword = 'nvoo lbqg fvdx rohj';
@@ -71,8 +71,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // Computed properties
   bool get isProcessing => currentState != SignUpState.idle;
-  bool get canResendOTP => generatedOTP != null && 
-      otpGeneratedTime != null && 
+  bool get canResendOTP =>
+      generatedOTP != null &&
+      otpGeneratedTime != null &&
       DateTime.now().difference(otpGeneratedTime!).inMinutes >= 1;
   bool get hasValidSession => tempEmail != null && tempPassword != null;
   String get sessionEmail => tempEmail ?? '';
@@ -127,7 +128,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (value.length < 12) {
       return 'Password must be at least 12 characters';
     }
-    if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]').hasMatch(value)) {
+    if (!RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]',
+    ).hasMatch(value)) {
       return 'Password must include uppercase, lowercase, numbers & special characters';
     }
     return null;
@@ -155,14 +158,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     formKey.currentState?.reset();
   }
 
-void clearTempData() {
-  tempEmail = null;
-  tempPassword = null;
-  generatedOTP = null;
-  otpGeneratedTime = null;
-  userToken = null;      // Add this line
-  userData = null;       // Add this line
-}
+  void clearTempData() {
+    tempEmail = null;
+    tempPassword = null;
+    generatedOTP = null;
+    otpGeneratedTime = null;
+    userToken = null; // Add this line
+    userData = null; // Add this line
+  }
 
   void _storeTempData() {
     tempEmail = emailController.text.trim();
@@ -212,181 +215,171 @@ void clearTempData() {
 
   // Email Registration Check
 
-Future<Map<String, dynamic>?> SignupUser({
-  required String email,
-  required String password,
-  required BuildContext context,
-}) async {
-  const String baseUrl = "  https://d1a4cb5f78a8.ngrok-free.app  "; 
-  const String signupUrl = "$baseUrl/api/v1/users/create";
+  Future<Map<String, dynamic>?> SignupUser({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    const String baseUrl = "  https://d1a4cb5f78a8.ngrok-free.app  ";
+    const String signupUrl = "$baseUrl/api/v1/users/create";
 
-  try {
-    final response = await http.post(
-      Uri.parse(signupUrl),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "email": email.trim(),
-        "password": password.trim(),
-      }),
-    );
-
-    final data = jsonDecode(response.body);
-    log("API Response: $data");
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      if (data['success'] == true) {
-        // Store user data and OTP from API response
-        userData = data['user'];
-        userToken = data['token'];
-        generatedOTP = data['user']['otp']?.toString();
-        otpGeneratedTime = DateTime.now();
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Account created! Please verify your email.")),
-        );
-        return data; // Return the response data
-      }
-    } else {
-      // Check if user already exists
-      String errorMessage = data['message'] ?? 'Signup failed';
-      if (errorMessage.toLowerCase().contains('already exists') || 
-          errorMessage.toLowerCase().contains('already registered')) {
-        _showInfoMessage('Email already registered. Redirecting to login...');
-        await Future.delayed(Duration(seconds: 2));
-        navigateToLogin();
-        return null;
-      }
-      
-      log("Network Error: ${response.statusCode}");
-      log("Error Body: ${response.body}");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+    try {
+      final response = await http.post(
+        Uri.parse(signupUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email.trim(), "password": password.trim()}),
       );
-    }
-  } catch (e) {
-    log("Exception: $e");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Network error occurred")),
-    );
-  }
-  return null;
-}
-String? userToken; 
-Map<String, dynamic>? userData;
 
-bool verifyOTPWithAPI(String enteredOTP) {
-  if (tempEmail == null) {
-    _showErrorMessage('Session expired. Please sign up again.');
+      final data = jsonDecode(response.body);
+      log("API Response: $data");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (data['success'] == true) {
+          // Store user data and OTP from API response
+          userData = data['user'];
+          userToken = data['token'];
+          generatedOTP = data['user']['otp']?.toString();
+          otpGeneratedTime = DateTime.now();
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Account created! Please verify your email."),
+            ),
+          );
+          return data; // Return the response data
+        }
+      } else {
+        // Check if user already exists
+        String errorMessage = data['message'] ?? 'Signup failed';
+        if (errorMessage.toLowerCase().contains('already exists') ||
+            errorMessage.toLowerCase().contains('already registered')) {
+          _showInfoMessage('Email already registered. Redirecting to login...');
+          await Future.delayed(Duration(seconds: 2));
+          navigateToLogin();
+          return null;
+        }
+
+        log("Network Error: ${response.statusCode}");
+        log("Error Body: ${response.body}");
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      }
+    } catch (e) {
+      log("Exception: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Network error occurred")));
+    }
+    return null;
+  }
+
+  String? userToken;
+  Map<String, dynamic>? userData;
+
+  bool verifyOTPWithAPI(String enteredOTP) {
+    if (tempEmail == null) {
+      _showErrorMessage('Session expired. Please sign up again.');
+      return false;
+    }
+
+    // Start async verification without waiting
+    _performAsyncOTPVerification(enteredOTP);
+
+    return true;
+  }
+
+  Future<void> _performAsyncOTPVerification(String enteredOTP) async {
+    try {
+      log('=== Starting API OTP Verification ===');
+      log('Entered OTP: $enteredOTP');
+
+      _setState(SignUpState.verifying);
+
+      const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
+      const String verifyUrl = "$baseUrl/api/v1/users/verify-otp";
+
+      final response = await http.post(
+        Uri.parse(verifyUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": tempEmail!.trim(),
+          "otp": enteredOTP.trim(),
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+      log("Verify OTP API Response: $data");
+
+      if (response.statusCode == 200 && data['status'] == true) {
+        userData = data['user'] ?? data['data'];
+        userToken = data['token'];
+
+        _setState(SignUpState.idle);
+        _showSuccessMessage('Email verified successfully!', seconds: 2);
+
+        await _createAccountAfterVerification();
+      } else {
+        _setState(SignUpState.idle);
+        String errorMessage = data['message'] ?? 'Invalid OTP';
+        _showErrorMessage(errorMessage);
+
+        if (mounted) {}
+      }
+    } catch (e) {
+      log("Exception in _performAsyncOTPVerification: $e");
+      _setState(SignUpState.idle);
+      _showErrorMessage("Failed to verify OTP. Please try again.");
+    }
+  }
+
+  Future<bool> resendOTPWithAPI({required String email}) async {
+    const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
+    const String resendUrl = "$baseUrl/api/v1/users/resend-otp";
+
+    try {
+      final response = await http.post(
+        Uri.parse(resendUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email.trim()}),
+      );
+
+      final data = jsonDecode(response.body);
+      log("Resend OTP API Response: $data");
+
+      if (response.statusCode == 200 && data['status'] == true) {
+        // Update stored OTP and timestamp if provided
+        if (data['user'] != null && data['user']['otp'] != null) {
+          generatedOTP = data['user']['otp']?.toString();
+          otpGeneratedTime = DateTime.now();
+        }
+
+        return true;
+      } else {
+        String errorMessage = data['message'] ?? 'Failed to resend OTP';
+        _showErrorMessage(errorMessage);
+      }
+    } catch (e) {
+      log("Exception in resendOTPWithAPI: $e");
+      _showErrorMessage("Network error. Failed to resend OTP.");
+    }
+
     return false;
   }
-
-  // Start async verification without waiting
-  _performAsyncOTPVerification(enteredOTP);
-  
-  return true;
-}
-
-Future<void> _performAsyncOTPVerification(String enteredOTP) async {
-  try {
-    log('=== Starting API OTP Verification ===');
-    log('Entered OTP: $enteredOTP');
-    
-    _setState(SignUpState.verifying);
-
-    const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
-    const String verifyUrl = "$baseUrl/api/v1/users/verify-otp";
-
-    final response = await http.post(
-      Uri.parse(verifyUrl),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "email": tempEmail!.trim(),
-        "otp": enteredOTP.trim(),
-      }),
-    );
-
-    final data = jsonDecode(response.body);
-    log("Verify OTP API Response: $data");
-
-    if (response.statusCode == 200 && data['status'] == true) {
-      userData = data['user'] ?? data['data'];
-      userToken = data['token'];
-      
-      _setState(SignUpState.idle);
-      _showSuccessMessage('Email verified successfully!', seconds: 2);
-      
-      await _createAccountAfterVerification();
-      
-    } else {
-      _setState(SignUpState.idle);
-      String errorMessage = data['message'] ?? 'Invalid OTP';
-      _showErrorMessage(errorMessage);
-      
-
-      if (mounted) {
-
-      }
-    }
-  } catch (e) {
-    log("Exception in _performAsyncOTPVerification: $e");
-    _setState(SignUpState.idle);
-    _showErrorMessage("Failed to verify OTP. Please try again.");
-  }
-}
-
-
-
-Future<bool> resendOTPWithAPI({required String email}) async {
-  const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
-  const String resendUrl = "$baseUrl/api/v1/users/resend-otp";
-
-  try {
-    final response = await http.post(
-      Uri.parse(resendUrl),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "email": email.trim(),
-      }),
-    );
-
-    final data = jsonDecode(response.body);
-    log("Resend OTP API Response: $data");
-
-    if (response.statusCode == 200 && data['status'] == true) {
-      // Update stored OTP and timestamp if provided
-      if (data['user'] != null && data['user']['otp'] != null) {
-        generatedOTP = data['user']['otp']?.toString();
-        otpGeneratedTime = DateTime.now();
-      }
-      
-      return true;
-    } else {
-      String errorMessage = data['message'] ?? 'Failed to resend OTP';
-      _showErrorMessage(errorMessage);
-    }
-  } catch (e) {
-    log("Exception in resendOTPWithAPI: $e");
-    _showErrorMessage("Network error. Failed to resend OTP.");
-  }
-  
-  return false;
-}
-
-
 
   // Future<bool> _isEmailAlreadyRegistered(String email) async {
   //   try {
   //     log('Checking if email is already registered: $email');
   //     _setState(SignUpState.checking);
-      
+
   //     List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
   //     bool isRegistered = signInMethods.isNotEmpty;
-      
+
   //     log('Email registration status: $isRegistered (methods: $signInMethods)');
-      
+
   //     _setState(SignUpState.idle);
   //     return isRegistered;
-      
+
   //   } catch (e) {
   //     log('Error checking email registration: $e');
   //     _setState(SignUpState.idle);
@@ -408,7 +401,8 @@ Future<bool> resendOTPWithAPI({required String email}) async {
 
   bool _isOTPExpired() {
     if (otpGeneratedTime == null) return true;
-    return DateTime.now().difference(otpGeneratedTime!).inMinutes > _otpValidityMinutes;
+    return DateTime.now().difference(otpGeneratedTime!).inMinutes >
+        _otpValidityMinutes;
   }
 
   // Email Sending
@@ -416,7 +410,7 @@ Future<bool> resendOTPWithAPI({required String email}) async {
     try {
       log('Configuring SMTP server for Gmail');
       final smtpServer = gmail(_senderEmail, _senderPassword);
-      
+
       log('Creating email message with OTP: $otp');
       final message = Message()
         ..from = Address(_senderEmail, _appName)
@@ -428,7 +422,6 @@ Future<bool> resendOTPWithAPI({required String email}) async {
       final sendReport = await send(message, smtpServer);
       log('Email sent successfully: ${sendReport.toString()}');
       return true;
-      
     } catch (e) {
       log('Error sending email: $e');
       return false;
@@ -500,128 +493,128 @@ Future<bool> resendOTPWithAPI({required String email}) async {
     }
   }
 
+  Future<void> updateOTPInAPI(String email, String otp) async {
+    try {
+      const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
+      const String updateOTPUrl =
+          "$baseUrl/api/v1/users/update-otp"; // You'll need this endpoint
 
-Future<void> updateOTPInAPI(String email, String otp) async {
-  try {
-    const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
-    const String updateOTPUrl = "$baseUrl/api/v1/users/update-otp"; // You'll need this endpoint
-    
-    final response = await http.post(
-      Uri.parse(updateOTPUrl),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "email": email,
-        "otp": otp,
-      }),
-    );
-    
-    if (response.statusCode == 200) {
-      log('OTP updated in API successfully');
-    } else {
-      log('Failed to update OTP in API: ${response.statusCode}');
+      final response = await http.post(
+        Uri.parse(updateOTPUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "otp": otp}),
+      );
+
+      if (response.statusCode == 200) {
+        log('OTP updated in API successfully');
+      } else {
+        log('Failed to update OTP in API: ${response.statusCode}');
+      }
+    } catch (e) {
+      log('Error updating OTP in API: $e');
     }
-  } catch (e) {
-    log('Error updating OTP in API: $e');
   }
-}
 
+  Future<void> resendOTPViaGmail() async {
+    if (tempEmail == null) {
+      _showErrorMessage('Session expired. Please sign up again.');
+      return;
+    }
 
+    if (!canResendOTP) {
+      _showInfoMessage('Please wait before requesting a new code.');
+      return;
+    }
 
-Future<void> resendOTPViaGmail() async {
-  if (tempEmail == null) {
-    _showErrorMessage('Session expired. Please sign up again.');
-    return;
-  }
-  
-  if (!canResendOTP) {
-    _showInfoMessage('Please wait before requesting a new code.');
-    return;
-  }
-  
-  try {
-    _setState(SignUpState.sendingOTP);
-    
-    // Generate new OTP
-    generatedOTP = _generateOTP();
-    otpGeneratedTime = DateTime.now();
-    
-    // Send via Gmail
-    bool emailSent = await _sendOTPEmail(tempEmail!, generatedOTP!);
-    
-    if (emailSent) {
-      // Update the OTP in your API as well
-      await updateOTPInAPI(tempEmail!, generatedOTP!);
-      _setState(SignUpState.idle);
-      _showSuccessMessage('New verification code sent to $tempEmail');
-    } else {
+    try {
+      _setState(SignUpState.sendingOTP);
+
+      // Generate new OTP
+      generatedOTP = _generateOTP();
+      otpGeneratedTime = DateTime.now();
+
+      // Send via Gmail
+      bool emailSent = await _sendOTPEmail(tempEmail!, generatedOTP!);
+
+      if (emailSent) {
+        // Update the OTP in your API as well
+        await updateOTPInAPI(tempEmail!, generatedOTP!);
+        _setState(SignUpState.idle);
+        _showSuccessMessage('New verification code sent to $tempEmail');
+      } else {
+        _setState(SignUpState.idle);
+        _showErrorMessage('Failed to resend OTP. Please try again.');
+        generatedOTP = null;
+        otpGeneratedTime = null;
+      }
+    } catch (e) {
+      log('Error in resendOTPViaGmail: $e');
       _setState(SignUpState.idle);
       _showErrorMessage('Failed to resend OTP. Please try again.');
-      generatedOTP = null;
-      otpGeneratedTime = null;
     }
-  } catch (e) {
-    log('Error in resendOTPViaGmail: $e');
-    _setState(SignUpState.idle);
-    _showErrorMessage('Failed to resend OTP. Please try again.');
   }
-}
 
+  Future<void> onEmailSignUp() async {
+    if (!_validateInputs()) return;
 
+    try {
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
 
-Future<void> onEmailSignUp() async {
-  if (!_validateInputs()) return;
-  
-  try {
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
-    
-    _setState(SignUpState.checking);
-    _storeTempData();
-    
-    // Create user with API and send OTP
-    final result = await SignupUserWithCustomOTP(
-      email: email,
-      password: password,
-      context: context,
-    );
-    
-    if (result != null && result['success'] == true) {
-      clearForm();
-      _setState(SignUpState.idle);
-      
-      Navigator.push(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => VerifyEmail(
-            tempEmail: tempEmail!,
-            tempPassword: tempPassword!,
-            generatedOTP: generatedOTP!,
-            verifyOTP: verifyOTPWithAPI, // Now synchronous wrapper
-            resendOTP: resendOTP,
-            createFirebaseAccount: createFirebaseAccount,
-          ),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            const curve = Curves.ease;
-            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            return SlideTransition(position: animation.drive(tween), child: child);
-          },
-          transitionDuration: Duration(milliseconds: 800),
-        ),
+      _setState(SignUpState.checking);
+      _storeTempData();
+
+      // Create user with API and send OTP
+      final result = await SignupUserWithCustomOTP(
+        email: email,
+        password: password,
+        context: context,
       );
-    } else {
-      clearTempData();
+
+      if (result != null && result['success'] == true) {
+        clearForm();
+        _setState(SignUpState.idle);
+
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                VerifyEmail(
+                  tempEmail: tempEmail!,
+                  tempPassword: tempPassword!,
+                  generatedOTP: generatedOTP!,
+                  verifyOTP: verifyOTPWithAPI, // Now synchronous wrapper
+                  resendOTP: resendOTP,
+                  createFirebaseAccount: createFirebaseAccount,
+                ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(1.0, 0.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+                  var tween = Tween(
+                    begin: begin,
+                    end: end,
+                  ).chain(CurveTween(curve: curve));
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+            transitionDuration: Duration(milliseconds: 800),
+          ),
+        );
+      } else {
+        clearTempData();
+        _setState(SignUpState.idle);
+      }
+    } catch (e) {
+      log('Error in onEmailSignUp: $e');
       _setState(SignUpState.idle);
+      clearTempData();
+      _showErrorMessage('Something went wrong. Please try again.');
     }
-    
-  } catch (e) {
-    log('Error in onEmailSignUp: $e');
-    _setState(SignUpState.idle);
-    clearTempData();
-    _showErrorMessage('Something went wrong. Please try again.');
   }
-}
 
   // Send OTP to stored email
   Future<bool> sendOTPToEmail() async {
@@ -629,28 +622,27 @@ Future<void> onEmailSignUp() async {
       _showErrorMessage('Session expired. Please try again.');
       return false;
     }
-    
+
     try {
       log('Starting OTP send process for: $tempEmail');
       _setState(SignUpState.sendingOTP);
-      
+
       generatedOTP = _generateOTP();
       otpGeneratedTime = DateTime.now();
       log('Generated OTP: $generatedOTP at ${otpGeneratedTime.toString()}');
-      
+
       bool emailSent = await _sendOTPEmail(tempEmail!, generatedOTP!);
-      
+
       if (!emailSent) {
         _showErrorMessage(
           'Failed to send verification email. Please check your internet connection and try again.',
-          seconds: 5
+          seconds: 5,
         );
         generatedOTP = null;
         otpGeneratedTime = null;
       }
-      
+
       return emailSent;
-      
     } catch (e) {
       log('Error in _sendOTPToEmail: $e');
       _showErrorMessage('Failed to send OTP: ${e.toString()}');
@@ -660,110 +652,111 @@ Future<void> onEmailSignUp() async {
     }
   }
 
+  Future<Map<String, dynamic>?> SignupUserWithCustomOTP({
+    required String email,
+    required String password,
+    required BuildContext context,
+  }) async {
+    const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
+    const String signupUrl = "$baseUrl/api/v1/users/create";
 
-Future<Map<String, dynamic>?> SignupUserWithCustomOTP({
-  required String email,
-  required String password,
-  required BuildContext context,
-}) async {
-  const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app"; 
-  const String signupUrl = "$baseUrl/api/v1/users/create";
+    // Generate OTP locally
+    generatedOTP = _generateOTP();
+    otpGeneratedTime = DateTime.now();
 
-  // Generate OTP locally
-  generatedOTP = _generateOTP();
-  otpGeneratedTime = DateTime.now();
+    try {
+      // First, send OTP via Gmail
+      _setState(SignUpState.sendingOTP);
+      bool emailSent = await _sendOTPEmail(email, generatedOTP!);
 
-  try {
-    // First, send OTP via Gmail
-    _setState(SignUpState.sendingOTP);
-    bool emailSent = await _sendOTPEmail(email, generatedOTP!);
-    
-    if (!emailSent) {
-      _showErrorMessage('Failed to send verification email. Please try again.');
-      return null;
-    }
-
-    // Then create user account with the generated OTP
-    final response = await http.post(
-      Uri.parse(signupUrl),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "email": email.trim(),
-        "password": password.trim(),
-        "otp": generatedOTP, // Send our generated OTP to API
-      }),
-    );
-
-    final data = jsonDecode(response.body);
-    log("API Response: $data");
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      if (data['success'] == true) {
-        // Store user data from API response
-        userData = data['user'];
-        userToken = data['token'];
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Account created! Please verify your email.")),
+      if (!emailSent) {
+        _showErrorMessage(
+          'Failed to send verification email. Please try again.',
         );
-        return data;
-      }
-    } else {
-      // Check if user already exists
-      String errorMessage = data['message'] ?? 'Signup failed';
-      if (errorMessage.toLowerCase().contains('already exists') || 
-          errorMessage.toLowerCase().contains('already registered')) {
-        _showInfoMessage('Email already registered. Redirecting to login...');
-        await Future.delayed(Duration(seconds: 2));
-        navigateToLogin();
         return null;
       }
-      
-      log("Network Error: ${response.statusCode}");
-      log("Error Body: ${response.body}");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+
+      // Then create user account with the generated OTP
+      final response = await http.post(
+        Uri.parse(signupUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": email.trim(),
+          "password": password.trim(),
+          "otp": generatedOTP, // Send our generated OTP to API
+        }),
       );
+
+      final data = jsonDecode(response.body);
+      log("API Response: $data");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (data['success'] == true) {
+          // Store user data from API response
+          userData = data['user'];
+          userToken = data['token'];
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Account created! Please verify your email."),
+            ),
+          );
+          return data;
+        }
+      } else {
+        // Check if user already exists
+        String errorMessage = data['message'] ?? 'Signup failed';
+        if (errorMessage.toLowerCase().contains('already exists') ||
+            errorMessage.toLowerCase().contains('already registered')) {
+          _showInfoMessage('Email already registered. Redirecting to login...');
+          await Future.delayed(Duration(seconds: 2));
+          navigateToLogin();
+          return null;
+        }
+
+        log("Network Error: ${response.statusCode}");
+        log("Error Body: ${response.body}");
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(errorMessage)));
+      }
+    } catch (e) {
+      log("Exception: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Network error occurred")));
     }
-  } catch (e) {
-    log("Exception: $e");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Network error occurred")),
-    );
+    return null;
   }
-  return null;
-}
 
-Future<void> resendOTP() async {
-  if (tempEmail == null) {
-    _showErrorMessage('Session expired. Please sign up again.');
-    return;
-  }
-  
-  if (!canResendOTP) {
-    _showInfoMessage('Please wait before requesting a new code.');
-    return;
-  }
-  
-  try {
-    _setState(SignUpState.sendingOTP);
-    
-    // Use the API resend function
-    bool success = await resendOTPWithAPI(email: tempEmail!);
-    
-    if (success) {
-      _showSuccessMessage('New verification code sent to $tempEmail');
+  Future<void> resendOTP() async {
+    if (tempEmail == null) {
+      _showErrorMessage('Session expired. Please sign up again.');
+      return;
     }
-    
-    _setState(SignUpState.idle);
-  } catch (e) {
-    log('Error in resendOTP: $e');
-    _setState(SignUpState.idle);
-    _showErrorMessage('Failed to resend OTP. Please try again.');
+
+    if (!canResendOTP) {
+      _showInfoMessage('Please wait before requesting a new code.');
+      return;
+    }
+
+    try {
+      _setState(SignUpState.sendingOTP);
+
+      // Use the API resend function
+      bool success = await resendOTPWithAPI(email: tempEmail!);
+
+      if (success) {
+        _showSuccessMessage('New verification code sent to $tempEmail');
+      }
+
+      _setState(SignUpState.idle);
+    } catch (e) {
+      log('Error in resendOTP: $e');
+      _setState(SignUpState.idle);
+      _showErrorMessage('Failed to resend OTP. Please try again.');
+    }
   }
-}
-
-
 
   // Enhanced OTP verification
   bool verifyOTP(String enteredOTP) {
@@ -771,7 +764,7 @@ Future<void> resendOTP() async {
       log('=== Starting OTP Verification ===');
       log('Entered OTP: $enteredOTP');
       log('Stored OTP: $generatedOTP');
-      
+
       if (generatedOTP == null) {
         log('❌ No OTP found in memory');
         _showErrorMessage('No OTP found. Please request a new one.');
@@ -788,13 +781,13 @@ Future<void> resendOTP() async {
 
       final cleanEnteredOTP = enteredOTP.trim();
       bool isValid = generatedOTP == cleanEnteredOTP;
-      
+
       if (!isValid) {
         _showErrorMessage('Invalid OTP. Please check and try again.');
       } else {
         _showSuccessMessage('OTP verified successfully!', seconds: 2);
       }
-      
+
       return isValid;
     } catch (e) {
       log('❌ Error verifying OTP: $e');
@@ -803,80 +796,79 @@ Future<void> resendOTP() async {
     }
   }
 
-Future<bool> createFirebaseAccount() async {
-  return await _createAccountAfterVerification();
-}
-
-
-Future<bool> _createAccountAfterVerification() async {
-  if (tempEmail == null || tempPassword == null) {
-    _showErrorMessage('Session expired. Please sign up again.');
-    return false;
+  Future<bool> createFirebaseAccount() async {
+    return await _createAccountAfterVerification();
   }
 
-  try {
-    _setState(SignUpState.creating);
-    log('Creating Firebase account for verified user');
-
-    // Create Firebase account
-    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-      email: tempEmail!,
-      password: tempPassword!,
-    );
-
-    final user = userCredential.user;
-
-    if (user != null) {
-      // Prepare user data for Firestore
-      Map<String, dynamic> firestoreData = {
-        'uid': user.uid,
-        'email': user.email,
-        'createdAt': FieldValue.serverTimestamp(),
-        'isVerified': true,
-        'loginType': 'email',
-      };
-
-      // Add API data if available
-      if (userData != null) {
-        firestoreData.addAll({
-          'role': userData!['role'] ?? 'user',
-          'status': userData!['status'] ?? 'Active',
-          'profilePhoto': userData!['profilePhoto'] ?? '',
-          'apiUserId': userData!['_id'] ?? userData!['id'],
-          'apiToken': userToken,
-        });
-      }
-
-      // Save to Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .set(firestoreData);
-
-      log('✅ Firebase account created and data saved successfully');
-      clearTempData();
-      _setState(SignUpState.idle);
-      _showSuccessMessage('Account created successfully! Welcome to $_appName!');
-      return true;
+  Future<bool> _createAccountAfterVerification() async {
+    if (tempEmail == null || tempPassword == null) {
+      _showErrorMessage('Session expired. Please sign up again.');
+      return false;
     }
 
-    return false;
+    try {
+      _setState(SignUpState.creating);
+      log('Creating Firebase account for verified user');
 
-  } on FirebaseAuthException catch (e) {
-    log('Firebase Auth Error: ${e.code} - ${e.message}');
-    _setState(SignUpState.idle);
-    String message = _getFirebaseErrorMessage(e.code);
-    _showErrorMessage(message);
-    return false;
+      // Create Firebase account
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
+            email: tempEmail!,
+            password: tempPassword!,
+          );
 
-  } catch (e) {
-    log('General Error: $e');
-    _setState(SignUpState.idle);
-    _showErrorMessage('Something went wrong. Please try again.');
-    return false;
+      final user = userCredential.user;
+
+      if (user != null) {
+        // Prepare user data for Firestore
+        Map<String, dynamic> firestoreData = {
+          'uid': user.uid,
+          'email': user.email,
+          'createdAt': FieldValue.serverTimestamp(),
+          'isVerified': true,
+          'loginType': 'email',
+        };
+
+        // Add API data if available
+        if (userData != null) {
+          firestoreData.addAll({
+            'role': userData!['role'] ?? 'user',
+            'status': userData!['status'] ?? 'Active',
+            'profilePhoto': userData!['profilePhoto'] ?? '',
+            'apiUserId': userData!['_id'] ?? userData!['id'],
+            'apiToken': userToken,
+          });
+        }
+
+        // Save to Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .set(firestoreData);
+
+        log('✅ Firebase account created and data saved successfully');
+        clearTempData();
+        _setState(SignUpState.idle);
+        _showSuccessMessage(
+          'Account created successfully! Welcome to $_appName!',
+        );
+        return true;
+      }
+
+      return false;
+    } on FirebaseAuthException catch (e) {
+      log('Firebase Auth Error: ${e.code} - ${e.message}');
+      _setState(SignUpState.idle);
+      String message = _getFirebaseErrorMessage(e.code);
+      _showErrorMessage(message);
+      return false;
+    } catch (e) {
+      log('General Error: $e');
+      _setState(SignUpState.idle);
+      _showErrorMessage('Something went wrong. Please try again.');
+      return false;
+    }
   }
-}
-
 
   String _getFirebaseErrorMessage(String code) {
     switch (code) {
@@ -897,21 +889,24 @@ Future<bool> _createAccountAfterVerification() async {
   Future<void> onGoogleSignUp() async {
     try {
       _setState(SignUpState.creating);
-      
+
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         _setState(SignUpState.idle);
         return;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
-      
+      UserCredential userCredential = await _auth.signInWithCredential(
+        credential,
+      );
+
       if (userCredential.user != null) {
         await _saveUserToFirestore(userCredential.user!);
         clearForm();
@@ -919,7 +914,6 @@ Future<bool> _createAccountAfterVerification() async {
         _setState(SignUpState.idle);
         _showSuccessMessage('Signed up with Google successfully!');
       }
-      
     } on FirebaseAuthException catch (e) {
       _setState(SignUpState.idle);
       _showErrorMessage(e.message ?? 'Google sign up failed');
@@ -932,7 +926,7 @@ Future<bool> _createAccountAfterVerification() async {
   Future<void> onAppleSignUp() async {
     try {
       _setState(SignUpState.creating);
-      
+
       final credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
@@ -945,8 +939,10 @@ Future<bool> _createAccountAfterVerification() async {
         accessToken: credential.authorizationCode,
       );
 
-      UserCredential userCredential = await _auth.signInWithCredential(oauthCredential);
-      
+      UserCredential userCredential = await _auth.signInWithCredential(
+        oauthCredential,
+      );
+
       if (userCredential.user != null) {
         await _saveUserToFirestore(userCredential.user!);
         clearForm();
@@ -954,7 +950,6 @@ Future<bool> _createAccountAfterVerification() async {
         _setState(SignUpState.idle);
         _showSuccessMessage('Signed up with Apple successfully!');
       }
-      
     } on FirebaseAuthException catch (e) {
       _setState(SignUpState.idle);
       _showErrorMessage(e.message ?? 'Apple sign up failed');
@@ -984,8 +979,14 @@ Future<bool> _createAccountAfterVerification() async {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.ease;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          return SlideTransition(position: animation.drive(tween), child: child);
+          var tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
         },
         transitionDuration: Duration(milliseconds: 800),
       ),
@@ -1007,7 +1008,10 @@ Future<bool> _createAccountAfterVerification() async {
             // Scroll behavior configuration
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             // Consistent padding
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -1079,7 +1083,9 @@ Future<bool> _createAccountAfterVerification() async {
                   suffixIcon: GestureDetector(
                     onTap: toggleConfirmPasswordVisibility,
                     child: Icon(
-                      obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                      obscureConfirmPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: Colors.grey,
                     ),
                   ),
@@ -1094,7 +1100,10 @@ Future<bool> _createAccountAfterVerification() async {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       "Create passwords with at least 12\ncharacters, including a mix of:",
-                      style: TextStyle(fontSize: 12, color: Color.fromARGB(221, 179, 179, 179)),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color.fromARGB(221, 179, 179, 179),
+                      ),
                     ),
                   ),
                 ),
@@ -1106,46 +1115,52 @@ Future<bool> _createAccountAfterVerification() async {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("        • Uppercase and lowercase letters", 
-                          style: TextStyle(fontSize: 12, color: Color.fromARGB(221, 179, 179, 179)),
+                        Text(
+                          "        • Uppercase and lowercase letters",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(221, 179, 179, 179),
+                          ),
                         ),
-                        Text("        • Numbers",
-                          style: TextStyle(fontSize: 12, color: Color.fromARGB(221, 179, 179, 179)),
+                        Text(
+                          "        • Numbers",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(221, 179, 179, 179),
+                          ),
                         ),
-                        Text("        • Special characters (e.g., ! @ # \$ %)",
-                          style: TextStyle(fontSize: 12, color: Color.fromARGB(221, 179, 179, 179)),
+                        Text(
+                          "        • Special characters (e.g., ! @ # \$ %)",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color.fromARGB(221, 179, 179, 179),
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                  const SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 // OR Divider
                 Row(
                   children: const [
                     Expanded(
-                      child: Divider(
-                        color: Color(0xFFE9ECEF),
-                        thickness: 1,
-                      ),
+                      child: Divider(color: Color(0xFFE9ECEF), thickness: 1),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         "or sign up with",
                         style: TextStyle(
-                          fontSize: 12, 
+                          fontSize: 12,
                           color: Color(0xFF6C757D),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                     Expanded(
-                      child: Divider(
-                        color: Color(0xFFE9ECEF),
-                        thickness: 1,
-                      ),
+                      child: Divider(color: Color(0xFFE9ECEF), thickness: 1),
                     ),
                   ],
                 ),
@@ -1158,10 +1173,10 @@ Future<bool> _createAccountAfterVerification() async {
                     // Google Sign Up Button
                     Container(
                       child: IconButton(
-                        icon: isLoading 
+                        icon: isLoading
                             ? const SizedBox(
-                                width: 30, 
-                                height: 30, 
+                                width: 30,
+                                height: 30,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   color: Color(0xFF6C757D),
@@ -1178,12 +1193,12 @@ Future<bool> _createAccountAfterVerification() async {
                     ),
                     const SizedBox(width: 16),
                     // Apple Sign Up Button
-                   Container(
+                    Container(
                       child: IconButton(
-                        icon: isLoading 
+                        icon: isLoading
                             ? const SizedBox(
-                                width: 30, 
-                                height: 30, 
+                                width: 30,
+                                height: 30,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   color: Color(0xFF6C757D),
@@ -1202,7 +1217,7 @@ Future<bool> _createAccountAfterVerification() async {
                 ),
                 const SizedBox(height: 32),
 
-                  // Terms and Privacy Policy
+                // Terms and Privacy Policy
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: RichText(
@@ -1215,7 +1230,8 @@ Future<bool> _createAccountAfterVerification() async {
                       ),
                       children: [
                         const TextSpan(
-                          text: 'By Signing up, I have read, understood and accepted the',
+                          text:
+                              'By Signing up, I have read, understood and accepted the',
                         ),
                         TextSpan(
                           text: ' Terms of Service',
@@ -1227,9 +1243,7 @@ Future<bool> _createAccountAfterVerification() async {
                           recognizer: TapGestureRecognizer()
                             ..onTap = onTermsOfServiceTap,
                         ),
-                        const TextSpan(
-                          text: ' and the ',
-                        ),
+                        const TextSpan(text: ' and the '),
                         TextSpan(
                           text: 'Privacy Policy',
                           style: const TextStyle(
@@ -1240,15 +1254,12 @@ Future<bool> _createAccountAfterVerification() async {
                           recognizer: TapGestureRecognizer()
                             ..onTap = onPrivacyPolicyTap,
                         ),
-                        const TextSpan(
-                          text: '.',
-                        ),
+                        const TextSpan(text: '.'),
                       ],
                     ),
                   ),
                 ),
                 const SizedBox(height: 32),
-
 
                 // Sign Up Button
                 SizedBox(
@@ -1273,7 +1284,9 @@ Future<bool> _createAccountAfterVerification() async {
                             height: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
                             ),
                           )
                         : const Text(
@@ -1296,9 +1309,7 @@ Future<bool> _createAccountAfterVerification() async {
                         color: Color(0xFF6C757D),
                       ),
                       children: [
-                        const TextSpan(
-                          text: "Already have an account? ",
-                        ),
+                        const TextSpan(text: "Already have an account? "),
                         TextSpan(
                           text: 'Sign In',
                           style: const TextStyle(
@@ -1313,7 +1324,7 @@ Future<bool> _createAccountAfterVerification() async {
                     ),
                   ),
                 ),
-                
+
                 // Extra bottom padding for keyboard
                 const SizedBox(height: 32),
               ],
