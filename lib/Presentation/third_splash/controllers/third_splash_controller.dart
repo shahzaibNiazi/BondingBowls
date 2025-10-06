@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 
-import '../../../src/feature/login/utils/login_screen.dart';
 import '../../../src/feature/login/utils/signup_screen.dart';
 
 class ThirdSplashController extends GetxController {
@@ -16,14 +15,6 @@ class ThirdSplashController extends GetxController {
     Get.to(
       () => SignUpScreen(),
       transition: Transition.leftToRight,
-      duration: Duration(milliseconds: 800),
-    );
-  }
-
-  void navigateToLogin() {
-    Get.to(
-      () => LoginScreen(),
-      transition: Transition.rightToLeft,
       duration: Duration(milliseconds: 800),
     );
   }

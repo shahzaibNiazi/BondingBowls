@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -36,10 +37,10 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                       ],
                     ),
                     Center(
-                      child: const Text(
+                      child: Text(
                         "Voice Prompts",
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
                           color: Colors.black,
                         ),
@@ -48,10 +49,10 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                     const SizedBox(height: 16),
 
                     /// Info text
-                    const Text(
+                    Text(
                       '*Voice prompts is an optional feature where you answer questions here with your voice. Your voice will be added to your profile for everyone else to hear',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         color: Color(0xff505050),
                         fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w300,
@@ -76,8 +77,8 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                           ),
                           suffix: Text(
                             '${controller.question.value.length}/40',
-                            style: const TextStyle(
-                              fontSize: 12,
+                            style: TextStyle(
+                              fontSize: 12.sp,
                               color: Color(0xff505050),
                             ),
                           ),
@@ -140,7 +141,7 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic,
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w300,
                                   color: Colors.black54,
                                 ),

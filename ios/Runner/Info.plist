@@ -14,6 +14,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>convo_hearts</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to upload images.</string>
 	<key>NSMicrophoneUsageDescription</key>
     <string>We need microphone access to record your voice.</string>
     <key>UIBackgroundModes</key>

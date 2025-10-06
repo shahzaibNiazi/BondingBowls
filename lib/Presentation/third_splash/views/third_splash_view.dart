@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../app/routes/app_pages.dart';
 import '../controllers/third_splash_controller.dart';
 
 class ThirdSplashView extends GetView<ThirdSplashController> {
@@ -54,7 +55,7 @@ class ThirdSplashView extends GetView<ThirdSplashController> {
 
                     // Log In button
                     ElevatedButton(
-                      onPressed: () => controller.navigateToLogin(),
+                      onPressed: () => Get.toNamed(Routes.LOGIN),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,
                         foregroundColor: Colors.white,

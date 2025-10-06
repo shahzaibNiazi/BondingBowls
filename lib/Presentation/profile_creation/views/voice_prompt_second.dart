@@ -29,7 +29,10 @@ class VoicePromptSecondView extends GetView<ProfileCreationController> {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => Get.back(),
+                          onTap: () {
+                            controller.redoRecording();
+                            Get.back();
+                          },
                           child: SvgPicture.asset(
                             "assets/icon/svg/back_arrow.svg",
                           ),
@@ -200,7 +203,12 @@ class VoicePromptSecondView extends GetView<ProfileCreationController> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          // TODO: Send to API
+                          if (controller.recordedFilePath != null &&
+                              controller.recordedFilePath!.isNotEmpty) {
+                            controller.uploadAudio(
+                              controller.recordedFilePath ?? '',
+                            );
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xffC672A5),

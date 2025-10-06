@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_pages.dart';
@@ -33,7 +34,7 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
                       "How would you like to use the Bonding Bowls App?",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 24.sp,
                         fontWeight: FontWeight.w700,
                         color: Color(0xff0087A7),
                       ),
@@ -52,7 +53,7 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
                   "(free for all users without any further verification)",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     color: Color(0xff505050),
                   ),
                 ),
@@ -85,7 +86,7 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
 
                 Text(
                   "(further verification needed after profile setup 🔐)",
-                  style: TextStyle(color: Color(0xff505050), fontSize: 16),
+                  style: TextStyle(color: Color(0xff505050), fontSize: 16.sp),
                 ),
                 const SizedBox(height: 14),
 
@@ -116,21 +117,21 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       text: "P.S.",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontStyle: FontStyle.italic,
                         color: Colors.black,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w700,
                       ),
                       children: [
                         TextSpan(
                           text:
                               " Fear not, You can always change your mind later!",
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
                             fontStyle: FontStyle.italic,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                           ),
                         ),
                       ],
@@ -151,18 +152,18 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
     return RichText(
       text: TextSpan(
         text: prefix,
-        style: const TextStyle(
+        style: TextStyle(
           color: Color(0xFF505050),
           fontWeight: FontWeight.w700,
-          fontSize: 16,
+          fontSize: 16.sp,
         ),
         children: [
           TextSpan(
             text: highlight,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color.fromARGB(255, 255, 26, 26),
               fontWeight: FontWeight.w700,
-              fontSize: 16,
+              fontSize: 16.sp,
             ),
           ),
         ],
@@ -180,7 +181,7 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
               padding: const EdgeInsets.only(bottom: 4.0),
               child: Text(
                 "• $feature",
-                style: TextStyle(color: Color(0xff505050), fontSize: 16),
+                style: TextStyle(color: Color(0xff505050), fontSize: 16.sp),
               ),
             ),
           )

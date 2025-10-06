@@ -95,7 +95,7 @@ class LoginView extends GetView<LoginController> {
                         onPressed: controller.navigateToForgotPassword,
                         style: TextButton.styleFrom(
                           splashFactory: InkRipple.splashFactory,
-                          overlayColor: Colors.orange.withOpacity(0.1),
+                          overlayColor: Colors.orange.withValues(alpha: 0.1),
                         ),
                         child: const Text(
                           "Forgot Password?",
@@ -107,23 +107,23 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 32),
 
                     // Log In Button with loading state (replacing Obx)
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
                         onPressed: controller.isLoading
                             ? null
-                            : controller.handleLogin,
+                            : controller.login,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: controller.isLoading
-                              ? Colors.orange.withOpacity(0.7)
+                              ? Colors.orange.withValues(alpha: 0.7)
                               : Colors.orange,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
                           ),
                           elevation: controller.isLoading ? 0 : 2,
-                          shadowColor: Colors.orange.withOpacity(0.3),
+                          shadowColor: Colors.orange.withValues(alpha: 0.3),
                         ),
                         child: controller.isLoading
                             ? const SizedBox(
@@ -180,59 +180,58 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 24),
 
                     // Social Login Buttons (replacing Obx)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Google Login Button
-                        Container(
-                          child: IconButton(
-                            icon: controller.isLoading
-                                ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Color(0xFF6C757D),
-                                    ),
-                                  )
-                                : SvgPicture.asset(
-                                    "assets/icon/svg/Google_icon.svg",
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                            onPressed: controller.isLoading
-                                ? null
-                                : controller.handleGoogleLogin,
-                            padding: const EdgeInsets.all(12),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        // Apple Login Button
-                        Container(
-                          child: IconButton(
-                            icon: controller.isLoading
-                                ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Color(0xFF6C757D),
-                                    ),
-                                  )
-                                : SvgPicture.asset(
-                                    "assets/icon/svg/Apple.svg",
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                            onPressed: controller.isLoading
-                                ? null
-                                : controller.handleAppleLogin,
-                            padding: const EdgeInsets.all(12),
-                          ),
-                        ),
-                      ],
-                    ),
-
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     // Google Login Button
+                    //     Container(
+                    //       child: IconButton(
+                    //         icon: controller.isLoading
+                    //             ? const SizedBox(
+                    //                 width: 24,
+                    //                 height: 24,
+                    //                 child: CircularProgressIndicator(
+                    //                   strokeWidth: 2,
+                    //                   color: Color(0xFF6C757D),
+                    //                 ),
+                    //               )
+                    //             : SvgPicture.asset(
+                    //                 "assets/icon/svg/Google_icon.svg",
+                    //                 width: 24,
+                    //                 height: 24,
+                    //               ),
+                    //         onPressed: controller.isLoading
+                    //             ? null
+                    //             : controller.handleGoogleLogin,
+                    //         padding: const EdgeInsets.all(12),
+                    //       ),
+                    //     ),
+                    //     const SizedBox(width: 16),
+                    //     // Apple Login Button
+                    //     Container(
+                    //       child: IconButton(
+                    //         icon: controller.isLoading
+                    //             ? const SizedBox(
+                    //                 width: 24,
+                    //                 height: 24,
+                    //                 child: CircularProgressIndicator(
+                    //                   strokeWidth: 2,
+                    //                   color: Color(0xFF6C757D),
+                    //                 ),
+                    //               )
+                    //             : SvgPicture.asset(
+                    //                 "assets/icon/svg/Apple.svg",
+                    //                 width: 24,
+                    //                 height: 24,
+                    //               ),
+                    //         onPressed: controller.isLoading
+                    //             ? null
+                    //             : controller.handleAppleLogin,
+                    //         padding: const EdgeInsets.all(12),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(height: 32),
 
                     // Sign Up Prompt (simplified like signup)

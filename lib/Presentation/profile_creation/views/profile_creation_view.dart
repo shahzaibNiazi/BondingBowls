@@ -1,622 +1,670 @@
 import 'dart:developer';
 
+import 'package:convo_hearts/Presentation/profile_creation/widgets/red_flag_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../../app/config/global_var.dart';
 import '../../../app/routes/app_pages.dart';
+import '../../../app/utils/image_picker_widget.dart';
+import '../../../app/utils/utils.dart';
 import '../../../src/feature/Profile-Creation/profile_creation3.dart';
 import '../controllers/profile_creation_controller.dart';
+import '../widgets/audio_file.dart';
+import '../widgets/green_flag_chip.dart';
 
 class ProfileCreationView extends GetView<ProfileCreationController> {
   ProfileCreationView({super.key});
   @override
   Widget build(BuildContext context) {
+    log(Globals.user!.voicePrompt.toString());
     return GetBuilder<ProfileCreationController>(
       init: ProfileCreationController(),
       builder: (context) {
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          // Back Button
-                          GestureDetector(
-                            onTap: () => Get.back(),
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              child: SvgPicture.asset(
-                                "assets/icon/svg/back_arrow.svg",
-                              ), // Replace with SVG if needed
-                            ),
-                          ),
-
-                          // Title
-                          const Expanded(
-                            child: Text(
-                              'Profile Creation',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
+        return GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            // Back Button
+                            GestureDetector(
+                              onTap: () => Get.back(),
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                child: SvgPicture.asset(
+                                  "assets/icon/svg/back_arrow.svg",
+                                ), // Replace with SVG if needed
                               ),
                             ),
-                          ),
 
-                          // Spacer for alignment
-                          const SizedBox(width: 40),
-                        ],
-                      ),
-
-                      // Profile Picture Section
-                      CircleAvatar(
-                        radius: 70,
-                        backgroundImage: AssetImage("assets/images/avatar.jpg"),
-                      ),
-                      const SizedBox(height: 30),
-                      InkWell(
-                        onTap: () {
-                          log("PP2 ");
-                          Get.to(ProfileCreation3());
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color(0xffFA6D8C),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: const Text(
-                            'Edit my AI Avatar',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
+                            // Title
+                            Expanded(
+                              child: Text(
+                                'Profile Creation',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
-                          ),
+
+                            // Spacer for alignment
+                            const SizedBox(width: 40),
+                          ],
                         ),
-                      ),
 
-                      const SizedBox(height: 30),
-
-                      // Form Fields
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Nickname:',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-
-                      _buildTextField(
-                        '',
-                        controller.updateNickname,
-                        showCharCount: true,
-                        showLabelAbove: false,
-                        maxLength: 20,
-                      ),
-                      const SizedBox(height: 15),
-
-                      ElevatedButton(
-                        onPressed: () {
-                          log("upload Picture ");
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-                          minimumSize: Size(260, 50),
-                          side: BorderSide(color: Color(0xffFA6D8C)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 12,
-                          ),
-                        ),
-                        child: Row(
+                        // Profile Picture Section
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset("assets/icon/svg/upload.svg"),
-                            SizedBox(width: 5),
-                            Text(
-                              "upload 3 Images (Optional)",
-                              style: TextStyle(color: Color(0xffFA6D8C)),
+                            CircleAvatar(
+                              radius: 70,
+                              backgroundImage: AssetImage(
+                                "assets/images/avatar.jpg",
+                              ),
                             ),
                           ],
                         ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Dating Intentions Section
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Dating Intentions:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildDatingIntentionChip('Serious'),
-                          const SizedBox(width: 8),
-                          _buildDatingIntentionChip('Friends'),
-                          const SizedBox(width: 8),
-                          _buildDatingIntentionChip('Casual'),
-                        ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Describe Yourself Section
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Describe Yourself:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-
-                      _buildTextField(
-                        'Occupation',
-                        controller.updateOccupation,
-                        showCharCount: true,
-                        maxLength: 20,
-                        showLabelAbove: false,
-                      ),
-                      SizedBox(height: 20),
-                      _buildTextField(
-                        'Hobbies',
-                        controller.updateHobbies,
-                        showCharCount: true,
-                        maxLength: 20,
-                        showLabelAbove: false,
-                      ),
-                      SizedBox(height: 20),
-                      _buildTextField(
-                        'Lifestyle / Interests',
-                        controller.updateLifestyleInterests,
-                        showCharCount: true,
-                        maxLength: 20,
-                        showLabelAbove: false,
-                      ),
-                      SizedBox(height: 20),
-
-                      Column(
-                        children: [
-                          // Bio Section
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Bio:',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(height: 8),
-
-                          // Bio TextField with character count in row
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  onChanged: controller.updateBio,
-                                  maxLines: 6,
-                                  maxLength: 200,
-                                  decoration: InputDecoration(
-                                    hintText: 'Write more about yourself',
-                                    hintStyle: TextStyle(
-                                      color: const Color.fromARGB(167, 0, 0, 0),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade300,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade300,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: const BorderSide(
-                                        color: Colors.pink,
-                                      ),
-                                    ),
-                                    contentPadding: const EdgeInsets.all(12),
-                                    counterText: '', // Hide the default counter
-                                  ),
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                log("PP2 ");
+                                Get.to(ProfileCreation3());
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
                                 ),
-                              ),
-                              const SizedBox(width: 10),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 12),
-                                // Align with text field content
+                                decoration: BoxDecoration(
+                                  color: Color(0xffFA6D8C),
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
                                 child: Text(
-                                  '${controller.bio.length}/200',
+                                  'Edit my AI Avatar',
                                   style: TextStyle(
-                                    fontSize: 12,
+                                    color: Colors.white,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.w700,
-                                    color: Color(0xff000000),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-
-                          // Dropdowns
-                          Column(
-                            children: [
-                              _buildGenericDropdown(
-                                "assets/icon/svg/location.svg",
-                                "Location",
-                                controller.selectedLocation,
-                                [
-                                  'North',
-                                  'North-East',
-                                  'North-West',
-                                  'South',
-                                  'South-East',
-                                  'South-West',
-                                  'West',
-                                  'Central',
-                                ],
-                                'location',
-                              ),
-
-                              const SizedBox(height: 15),
-
-                              // For Religion:
-                              _buildGenericDropdown(
-                                "assets/icon/svg/reglion.svg",
-                                "Religion",
-                                controller.selectedReligion,
-                                [
-                                  'Atheist',
-                                  'Buddhism',
-                                  'Christianity',
-                                  'Islam',
-                                  'Taoism',
-                                  'Hinduism',
-                                ],
-                                'religion',
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          const SizedBox(height: 10),
-
-                          // Status Section
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Status :',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            spacing: 14,
-                            children: [
-                              _buildStatusChip('Studying'),
-                              _buildStatusChip('Working'),
-                              _buildStatusChip('Others'),
-                            ],
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          // Do you smoke Section
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Do you smoke ?',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            spacing: 14,
-                            children: [
-                              _buildLifestyleChip('Frequent', 'smoking'),
-                              _buildLifestyleChip('Occasionally', 'smoking'),
-                              _buildLifestyleChip('Never', 'smoking'),
-                            ],
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          // Do you drink Section
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Do you drink ?',
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            spacing: 14,
-                            children: [
-                              _buildLifestyleChip('Frequent', 'drinking'),
-                              _buildLifestyleChip('Occasionally', 'drinking'),
-                              _buildLifestyleChip('Never', 'drinking'),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Do you go to clubs Section
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Do you go to clubs ?',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                          ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        spacing: 14,
-                        children: [
-                          _buildLifestyleChip('Frequent', 'clubs'),
-                          _buildLifestyleChip('Occasionally', 'clubs'),
-                          _buildLifestyleChip('Never', 'clubs'),
-                        ],
-                      ),
 
-                      const SizedBox(height: 20),
+                        const SizedBox(height: 30),
 
-                      // Do you own pets Section
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Do you own pets ?',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Column(
-                        children: [
-                          _buildRadioOption('yes', 'Yes'),
-                          _buildRadioOption('no', 'No'),
-                        ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Voice Prompt Section
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Voice Prompt (Optional)',
+                        // Form Fields
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Nickname:',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+
+                        _buildTextField(
+                          '',
+                          controller.nickname,
+                          controller.updateNickname,
+                          showCharCount: true,
+                          showLabelAbove: false,
+                          maxLength: 20,
+                        ),
+                        const SizedBox(height: 15),
+
+                        ElevatedButton(
+                          onPressed: () {
+                            if (controller.images.length > 2) {
+                              Utils.showSnackBar(
+                                "Warning",
+                                "max limit is 3",
+                                Colors.red,
+                              );
+                            } else {
+                              controller.pickImage();
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                            minimumSize: Size(260, 50),
+                            side: BorderSide(color: Color(0xffFA6D8C)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/icon/svg/upload.svg"),
+                              SizedBox(width: 5),
+                              Text(
+                                "upload 3 Images (Optional)",
+                                style: TextStyle(color: Color(0xffFA6D8C)),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Obx(() {
+                          final images = controller.images;
+                          return Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: images.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final img = entry.value;
+                              return ImageItemWidget(
+                                img: img,
+                                onRemove: () => controller.removeImage(index),
+                              );
+                            }).toList(),
+                          );
+                        }),
+                        const SizedBox(height: 10),
+                        // Dating Intentions Section
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Dating Intentions:',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildDatingIntentionChip('Serious'),
+                            const SizedBox(width: 8),
+                            _buildDatingIntentionChip('Friends'),
+                            const SizedBox(width: 8),
+                            _buildDatingIntentionChip('Casual'),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Describe Yourself Section
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Describe Yourself:',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+
+                        _buildTextField(
+                          'Occupation',
+                          controller.occupation,
+                          controller.updateOccupation,
+                          showCharCount: true,
+                          maxLength: 20,
+                          showLabelAbove: false,
+                        ),
+                        SizedBox(height: 20),
+                        _buildTextField(
+                          'Hobbies',
+                          controller.hobbies,
+                          controller.updateHobbies,
+                          showCharCount: true,
+                          maxLength: 20,
+                          showLabelAbove: false,
+                        ),
+                        SizedBox(height: 20),
+                        _buildTextField(
+                          'Lifestyle / Interests',
+                          controller.lifestyleInterests,
+                          controller.updateLifestyleInterests,
+                          showCharCount: true,
+                          maxLength: 20,
+                          showLabelAbove: false,
+                        ),
+                        SizedBox(height: 20),
+
+                        Column(
+                          children: [
+                            // Bio Section
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Bio:',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 8),
+
+                            // Bio TextField with character count in row
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: controller.bio,
+                                    onChanged: controller.updateBio,
+                                    maxLines: 6,
+                                    maxLength: 200,
+                                    decoration: InputDecoration(
+                                      hintText: 'Write more about yourself',
+                                      hintStyle: TextStyle(
+                                        color: const Color.fromARGB(
+                                          167,
+                                          0,
+                                          0,
+                                          0,
+                                        ),
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade300,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: BorderSide(
+                                          color: Colors.grey.shade300,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        borderSide: const BorderSide(
+                                          color: Colors.pink,
+                                        ),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(12),
+                                      counterText:
+                                          '', // Hide the default counter
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12),
+                                  // Align with text field content
+                                  child: Text(
+                                    '${controller.bio.text.length}/200',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+
+                            // Dropdowns
+                            Column(
+                              children: [
+                                _buildGenericDropdown(
+                                  "assets/icon/svg/location.svg",
+                                  "Location",
+                                  controller.selectedLocation,
+                                  controller.locations,
+                                  'location',
+                                ),
+
+                                const SizedBox(height: 15),
+
+                                // For Religion:
+                                _buildGenericDropdown(
+                                  "assets/icon/svg/reglion.svg",
+                                  "Religion",
+                                  controller.selectedReligion,
+                                  controller.religions,
+                                  'religion',
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            const SizedBox(height: 10),
+
+                            // Status Section
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Status :',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              spacing: 14,
+                              children: [
+                                _buildStatusChip('Studying'),
+                                _buildStatusChip('Working'),
+                                _buildStatusChip('Others'),
+                              ],
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            // Do you smoke Section
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Do you smoke ?',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              spacing: 14,
+                              children: [
+                                _buildLifestyleChip('Frequent', 'smoking'),
+                                _buildLifestyleChip('Occasionally', 'smoking'),
+                                _buildLifestyleChip('Never', 'smoking'),
+                              ],
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            // Do you drink Section
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Do you drink ?',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              spacing: 14,
+                              children: [
+                                _buildLifestyleChip('Frequent', 'drinking'),
+                                _buildLifestyleChip('Occasionally', 'drinking'),
+                                _buildLifestyleChip('Never', 'drinking'),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Do you go to clubs Section
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Do you go to clubs ?',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          spacing: 14,
+                          children: [
+                            _buildLifestyleChip('Frequent', 'clubs'),
+                            _buildLifestyleChip('Occasionally', 'clubs'),
+                            _buildLifestyleChip('Never', 'clubs'),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Do you own pets Section
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Do you own pets ?',
+                            style: TextStyle(
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.VOICE_PROMPT_ONE);
-                            },
-                            child: SizedBox(
-                              width: 32,
-                              height: 32,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 0,
-                                    top: 7,
-                                    child: SvgPicture.asset(
-                                      "assets/icon/svg/voice_command.svg",
-                                    ), // Replace with SVG if needed
-                                  ),
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: SvgPicture.asset(
-                                      "assets/icon/svg/voice_command_plus.svg",
-                                    ), // Replace with SVG if needed
-                                  ),
-                                ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          children: [
+                            _buildRadioOption('yes', 'Yes'),
+                            _buildRadioOption('no', 'No'),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Voice Prompt Section
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Voice Prompt (Optional)',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Green Flags',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Color(0xff008000),
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-
-                      Wrap(
-                        spacing: 2,
-                        runSpacing: 2,
-                        children: [
-                          _buildLanguageChip('Likes to Call'),
-                          _buildLanguageChip('Open Communication'),
-                          _buildLanguageChip('Trustworthy & Honest'),
-                          _buildLanguageChip('Accountability'),
-                          _buildLanguageChip('Supportive Behavior'),
-                          _buildLanguageChip('Conflict Resolver'),
-                          _buildLanguageChip('Flexibilty'),
-                          _buildLanguageChip('Sharing Responsibilities'),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Red Flags',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Color(0xffFF0000),
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-
-                      Wrap(
-                        spacing: 2,
-                        runSpacing: 2,
-                        children: [
-                          _buildRedLanguageChip('Dry Texter'),
-                          _buildRedLanguageChip('Lack Communication'),
-                          _buildRedLanguageChip('Bad Anger Management'),
-                          _buildRedLanguageChip('Bad Time Management'),
-                          _buildRedLanguageChip('Avoids Conflict'),
-                          _buildRedLanguageChip('Controlling'),
-                          _buildRedLanguageChip('Unflexible'),
-                          _buildRedLanguageChip('Inconsistent Behavior'),
-                        ],
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      // Create Button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: controller.ViewProfile,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffC672A5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25),
+                            InkWell(
+                              onTap: () {
+                                controller.seconds.value = 0;
+                                Get.toNamed(Routes.VOICE_PROMPT_ONE);
+                              },
+                              child: SizedBox(
+                                width: 32,
+                                height: 32,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      left: 0,
+                                      top: 7,
+                                      child: SvgPicture.asset(
+                                        "assets/icon/svg/voice_command.svg",
+                                      ), // Replace with SVG if needed
+                                    ),
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: SvgPicture.asset(
+                                        "assets/icon/svg/voice_command_plus.svg",
+                                      ), // Replace with SVG if needed
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
+                          ],
+                        ),
+
+                        if (controller.audioUrl != null &&
+                            controller.audioUrl!.isNotEmpty)
+                          AudioPlayerWidget(
+                            audioUrl: controller.audioUrl!,
+                            isSentByMe: true,
                           ),
-                          child: const Text(
-                            'Create',
+
+                        const SizedBox(height: 30),
+
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Green Flags',
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
+                              fontSize: 15.sp,
+                              color: Color(0xff008000),
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 10),
 
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
+                        Wrap(
+                          spacing: 2,
+                          runSpacing: 2,
+                          children: controller.greenFlags.map((e) {
+                            return buildGreenFlagChip(e, () {
+                              log(e);
+                              controller.toggleGreenFlag(e);
+                            }, controller.isGreenFlagSelected(e));
+                          }).toList(),
+                        ),
+                        const SizedBox(height: 30),
 
-                // Dropdown overlays positioned outside the scroll view
-                if (isLocationDropdownOpen || isReligionDropdownOpen)
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: () {
-                        isLocationDropdownOpen = false;
-                        isReligionDropdownOpen = false;
-                      },
-                      child: Container(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () {},
-                            // Prevent closing when tapping on dropdown content
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 20,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Red Flags',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: Color(0xffFF0000),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+
+                        Wrap(
+                          spacing: 2,
+                          runSpacing: 4,
+                          alignment: WrapAlignment.start,
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          children: controller.redFlags.map((e) {
+                            return buildRedFlagChip(e, () {
+                              controller.toggleRedFlag(e);
+                            }, controller.isRedFlagSelected(e));
+                          }).toList(),
+                        ),
+
+                        const SizedBox(height: 30),
+
+                        // Create Button
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: controller.updateProfileCreation,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xffC672A5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
                               ),
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
+                            ),
+                            child: Text(
+                              'Create',
+                              style: TextStyle(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.2),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 5),
-                                  ),
-                                ],
+                                fontSize: 24.sp,
+                                fontWeight: FontWeight.w700,
                               ),
-                              child: Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: _buildDropdownOptions(),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+
+                  // Dropdown overlays positioned outside the scroll view
+                  if (isLocationDropdownOpen || isReligionDropdownOpen)
+                    Positioned.fill(
+                      child: GestureDetector(
+                        onTap: () {
+                          isLocationDropdownOpen = false;
+                          isReligionDropdownOpen = false;
+                        },
+                        child: Container(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          child: Center(
+                            child: GestureDetector(
+                              onTap: () {},
+                              // Prevent closing when tapping on dropdown content
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.2,
+                                      ),
+                                      blurRadius: 15,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
+                                ),
+                                child: Wrap(
+                                  spacing: 8,
+                                  runSpacing: 8,
+                                  children: _buildDropdownOptions(),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -626,6 +674,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
 
   Widget _buildTextField(
     String label,
+    TextEditingController title,
     Function(String) onChanged, {
     int maxLines = 1,
     bool showCharCount = false,
@@ -641,17 +690,17 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
             children: [
               Text(
                 label,
-                style: const TextStyle(
-                  fontSize: 15,
+                style: TextStyle(
+                  fontSize: 15.sp,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
               ),
               if (showCharCount && maxLength != null)
                 Text(
-                  '${_getCurrentLength(label)}/$maxLength',
-                  style: const TextStyle(
-                    fontSize: 12,
+                  '${controller.getCurrentLength(label)}/$maxLength',
+                  style: TextStyle(
+                    fontSize: 12.sp,
                     color: Color.fromARGB(192, 0, 0, 0),
                   ),
                 ),
@@ -662,6 +711,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
           children: [
             Expanded(
               child: TextField(
+                controller: title,
                 onChanged: onChanged,
                 maxLines: maxLines,
                 maxLength: maxLength,
@@ -669,7 +719,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                   hintText: showLabelAbove ? null : label,
                   hintStyle: TextStyle(
                     color: const Color(0xff000000).withValues(alpha: 0.7),
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   border: OutlineInputBorder(
@@ -692,9 +742,9 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
             if (!showLabelAbove && showCharCount && maxLength != null) ...[
               const SizedBox(width: 10),
               Text(
-                '${_getCurrentLength(label)}/$maxLength',
-                style: const TextStyle(
-                  fontSize: 12,
+                '${controller.getCurrentLength(label)}/$maxLength',
+                style: TextStyle(
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
                   color: Color.fromARGB(178, 0, 0, 0),
                 ),
@@ -704,21 +754,6 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
         ),
       ],
     );
-  }
-
-  int _getCurrentLength(String label) {
-    switch (label) {
-      case 'Nickname':
-        return controller.nickname.length;
-      case 'Occupation':
-        return controller.occupation.length;
-      case 'Hobbies':
-        return controller.hobbies.length;
-      case 'Lifestyle / Interests':
-        return controller.lifestyleInterests.length;
-      default:
-        return 0;
-    }
   }
 
   bool isLocationDropdownOpen = false;
@@ -744,6 +779,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
           isReligionDropdownOpen = !isReligionDropdownOpen;
           isLocationDropdownOpen = false; // Close other dropdown
         }
+        controller.update();
       },
       child: Container(
         width: double.infinity,
@@ -768,7 +804,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                   color: selectedValue.isEmpty || selectedValue == placeholder
                       ? const Color(0xff040001)
                       : Colors.black,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                 ),
               ),
             ),
@@ -786,27 +822,11 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
     String dropdownType = '';
 
     if (isLocationDropdownOpen) {
-      options = [
-        'North',
-        'North-East',
-        'North-West',
-        'South',
-        'South-East',
-        'South-West',
-        'West',
-        'Central',
-      ];
+      options = controller.locations;
       selectedValue = controller.selectedLocation;
       dropdownType = 'location';
     } else if (isReligionDropdownOpen) {
-      options = [
-        'Atheist',
-        'Buddhism',
-        'Christianity',
-        'Islam',
-        'Taoism',
-        'Hinduism',
-      ];
+      options = controller.religions;
       selectedValue = controller.selectedReligion;
       dropdownType = 'religion';
     }
@@ -823,6 +843,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
             controller.selectedReligion = option;
             isReligionDropdownOpen = false;
           }
+          controller.update();
         },
         child: Container(
           width: 150,
@@ -837,7 +858,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
             option,
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.grey.shade700,
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -864,58 +885,8 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
             color: controller.selectedDatingIntention == intention
                 ? Colors.white
                 : Color(0xffFA6D8C),
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLanguageChip(String language) {
-    return GestureDetector(
-      onTap: () => controller.toggleLanguage(language),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          border: Border.all(color: Color(0xff008000)),
-          color: controller.isLanguageSelected(language)
-              ? Colors.green
-              : Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Text(
-          language,
-          style: TextStyle(
-            color: controller.isLanguageSelected(language)
-                ? Colors.white
-                : Colors.black,
-            fontSize: 12,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRedLanguageChip(String language) {
-    return GestureDetector(
-      onTap: () => controller.toggleLanguage(language),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffFF0000)),
-          color: controller.isLanguageSelected(language)
-              ? Color(0xffFF0000)
-              : Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Text(
-          language,
-          style: TextStyle(
-            color: controller.isLanguageSelected(language)
-                ? Colors.white
-                : Colors.black,
-            fontSize: 12,
           ),
         ),
       ),
@@ -940,7 +911,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
             color: controller.selectedStatus == status
                 ? Colors.white
                 : Color(0xff000000),
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -988,7 +959,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
           option,
           style: TextStyle(
             color: isSelected ? Colors.white : Colors.black,
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -1021,7 +992,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
           const SizedBox(width: 10),
           Text(
             label,
-            style: const TextStyle(fontSize: 14, color: Colors.black),
+            style: TextStyle(fontSize: 14.sp, color: Colors.black),
           ),
         ],
       ),

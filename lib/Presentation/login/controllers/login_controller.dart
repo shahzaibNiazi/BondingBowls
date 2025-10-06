@@ -1,25 +1,31 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:convo_hearts/app/utils/utils.dart';
+import 'package:convo_hearts/data/repositories/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../src/feature/Profile-Creation/profile_creation1.dart';
+import '../../../app/config/global_var.dart';
+import '../../../app/routes/app_pages.dart';
+import '../../../data/model/user_model.dart';
+import '../../../data/provider/local_storage/local_db.dart';
 import '../../../src/feature/login/utils/forgot_password.dart';
 import '../../../src/feature/login/utils/signup_screen.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
 
+  AuthenticationRepository authenticationRepository =
+      AuthenticationRepository();
+
   final count = 0.obs;
-  // Text editing controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  // Scroll controller for smooth scrolling
   final ScrollController scrollController = ScrollController();
-
-  // State variables
   bool obscurePassword = true;
   bool isLoading = false;
+
   @override
   void onInit() {
     super.onInit();
@@ -31,103 +37,173 @@ class LoginController extends GetxController {
     super.dispose();
   }
 
-  // Toggle password visibility
   void togglePasswordVisibility() {
     obscurePassword = !obscurePassword;
   }
 
-  // Show snackbar helper method
-  void showSnackbar(String title, String message, Color backgroundColor) {
-    ScaffoldMessenger.of(Get.context!).showSnackBar(
-      SnackBar(
-        content: Text('$title: $message'),
-        backgroundColor: backgroundColor.withOpacity(0.8),
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(16),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-    );
-  }
-
   // Handle login
-  Future<void> handleLogin() async {
+
+  Future<void> login() async {
+    log("SHahzaib");
+
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      showSnackbar('Error', 'Please fill in all fields', Colors.red);
+      Utils.showSnackBar('Error', 'Please fill in all fields', Colors.red);
       return;
     }
 
-    isLoading = true;
+    Map<String, dynamic> json = {
+      "email": emailController.text.toString(),
+      "password": passwordController.text.toString(),
+    };
 
     try {
-      // Firebase login logic
-      final email = emailController.text.trim();
-      final password = passwordController.text;
+      final response = await authenticationRepository.login(json);
+      log(response.toString());
+      if (response != null) {
+        if (response['success'] == true && response['user'] != null) {
+          log(response.toString());
+          UserModel user = UserModel.fromJson(response['user']);
+          if (response['token'] != null) {
+            Globals.authToken = response['token'];
+            await LocalDB.setData('auth_token', response['token']);
+            Globals.authToken = await LocalDB.getData('auth_token');
+            await LocalDB.setData('user_data', user.toJson());
+            Globals.user = UserModel.fromJson(
+              jsonDecode(await LocalDB.getData('user_data')),
+            );
+            Utils.showSnackBar(
+              'Success',
+              "Successfully Logged In",
+              Colors.green,
+            );
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      // Login successful
-      showSnackbar('Success', 'Login successful!', Colors.green);
-
-      // Navigate to profile creation screen
-      // Uncomment when you have the actual screen
-      Navigator.push(
-        Get.context!,
-        MaterialPageRoute(builder: (context) => ProfileCreation()),
-      );
-    } on FirebaseAuthException catch (e) {
-      String errorMsg = 'Login failed';
-
-      if (e.code == 'user-not-found') {
-        errorMsg = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        errorMsg = 'Incorrect password.';
+            Get.offAllNamed(Routes.PROFILE_CREATION_DECISION);
+            log('-----${Globals.user!.toJson().toString()}');
+          }
+        } else if (response != null && response['success'] == false) {
+          if (response['message'] == "User is not verified.") {
+            Get.offNamed(
+              Routes.VERIFY_OTP,
+              arguments: {
+                "email": emailController.text.trim(),
+                "fromRegister": true,
+              },
+            );
+            Utils.showToast(
+              message: "Otp sent successfully to your given email",
+            );
+          } else {
+            Utils.showToast(message: response['message']);
+          }
+        }
       } else {
-        errorMsg = e.message ?? 'Login failed. Please try again.';
+        log('Registration failed with status: ${response.statusCode}');
+        throw Exception('Failed to register: ${response.statusMessage}');
       }
-
-      showSnackbar('Error', errorMsg, Colors.red);
     } catch (e) {
-      showSnackbar('Error', 'Login failed: ${e.toString()}', Colors.red);
-    } finally {
-      isLoading = false;
+      log('-----String----${e.toString()}');
     }
   }
 
-  // Handle Google login
-  Future<void> handleGoogleLogin() async {
-    isLoading = true;
-
-    try {
-      // Add your Google login logic here
-      await Future.delayed(Duration(seconds: 1)); // Simulate API call
-
-      showSnackbar('Success', 'Google login successful!', Colors.green);
-    } catch (e) {
-      showSnackbar('Error', 'Google login failed: ${e.toString()}', Colors.red);
-    } finally {
-      isLoading = false;
-    }
-  }
-
-  // Handle Apple login
-  Future<void> handleAppleLogin() async {
-    isLoading = true;
-
-    try {
-      // Add your Apple login logic here
-      await Future.delayed(Duration(seconds: 1)); // Simulate API call
-
-      showSnackbar('Success', 'Apple login successful!', Colors.green);
-    } catch (e) {
-      showSnackbar('Error', 'Apple login failed: ${e.toString()}', Colors.red);
-    } finally {
-      isLoading = false;
-    }
-  }
+  // Future<void> googleSignIn(BuildContext context) async {
+  //   GoogleSignInAccount? currentUser;
+  //   // signOut();
+  //   try {
+  //     final googleUser = await _googleSignIn.signIn();
+  //     if(await _googleSignIn.isSignedIn()) {
+  //       _googleSignIn.signOut();
+  //     }
+  //     if (googleUser != null) {
+  //       currentUser = googleUser;
+  //       final googleAuth = await googleUser.authentication;
+  //       final credentials = GoogleAuthProvider.credential(
+  //           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+  //       log('Acess Token ------ ${googleAuth.accessToken.toString()}');
+  //       log('Id Token --------${googleAuth.idToken.toString()}');
+  //       externalLoginCallBack(idToken: googleAuth.idToken ?? "");
+  //       // await userLogin(map, context);
+  //     }
+  //   } catch (e) {
+  //     log('Error in google function $e');
+  //   }
+  // }
+  //
+  // void externalLoginCallBack({String? idToken}) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   Map<String, dynamic>? resp;
+  //   try {
+  //     resp = await profileRepository.externalLoginCallBack(idToken: idToken);
+  //     log('Response ----------- ${resp.toString()}');
+  //     if (resp != null && resp['success'] == true) {
+  //       UserData userData = UserData.fromJson(resp['data']);
+  //       Globals.authToken=resp['data']['tokens']['access'];
+  //       log('AUth token -------${Globals.authToken}');
+  //       if(userData!=null){
+  //         await LocalDB.setData('auth_token',resp['data']['tokens']['access']);
+  //         Globals.authToken = await LocalDB.getData('auth_token');
+  //         log('User Data ------ ${userData.toJson().toString()}');
+  //         await LocalDB.setData('user_data', userData.toJson());
+  //         Globals.user = UserData.fromJson(jsonDecode(await LocalDB.getData('user_data')));
+  //         Get.offAllNamed(Routes.MAIN);
+  //       }else{
+  //         Get.toNamed(Routes.PROFILE,arguments: [userData]);
+  //       }
+  //       // Get.offAllNamed(Routes.WELCOME);
+  //     }else if (resp != null && resp['success'] == false) {
+  //       Utils.showToast(message: resp['message']);
+  //     } else {
+  //       Utils.showToast(message: "Please try again later");
+  //     }
+  //   } catch (e) {
+  //     update();
+  //   }
+  // }
+  //
+  //
+  // Future<void> appleSignIn() async {
+  //   log('inside apple login');
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   Map<String, dynamic>? resp;
+  //   try {
+  //     if (await SignInWithApple.isAvailable()) {
+  //
+  //       AuthorizationCredentialAppleID credential = await SignInWithApple.getAppleIDCredential(
+  //         scopes: [
+  //           AppleIDAuthorizationScopes.email,
+  //           AppleIDAuthorizationScopes.fullName,
+  //         ],
+  //       );
+  //       log('credentials idtoken: ${credential.identityToken}');
+  //       log('credentials user identifier: ${credential.userIdentifier}');
+  //       log(' user given name: ${credential.givenName}');
+  //       log(' user family name: ${credential.familyName}');
+  //       resp = await profileRepository.appleLogin(idToken: credential.identityToken, name: credential.givenName == null ? null: '${credential.givenName} ${credential.familyName}');
+  //       if (resp != null && resp['success'] == true) {
+  //         log('apple login response: $resp');
+  //         UserData userData = UserData.fromJson(resp['data']);
+  //         Globals.authToken= resp['data']['tokens']['access'];
+  //         if(userData!=null){
+  //           await LocalDB.setData('auth_token', resp['data']['tokens']['access']);
+  //           Globals.authToken = await LocalDB.getData('auth_token');
+  //           log('User Data ------ ${userData.toJson().toString()}');
+  //           await LocalDB.setData('user_data', userData.toJson());
+  //           Globals.user = UserData.fromJson(jsonDecode(await LocalDB.getData('user_data')));
+  //           Get.offAllNamed(Routes.HOME);
+  //         }else{
+  //           Get.toNamed(Routes.PROFILE,arguments: [userData]);
+  //         }
+  //
+  //       } else {
+  //         Utils.showToast(message: "Please try again later");
+  //       }
+  //     }else{
+  //       Utils.showToast(message: "Apple login not available");
+  //     }
+  //   } catch (e) {
+  //     log('Error in apple signin function $e');
+  //   }
+  // }
+  //
 
   // Navigate to forgot password
   void navigateToForgotPassword() {
@@ -155,7 +231,7 @@ class LoginController extends GetxController {
     );
 
     // Temporary placeholder
-    showSnackbar('Info', 'Navigate to Forgot Password', Colors.blue);
+    Utils.showSnackBar('Info', 'Navigate to Forgot Password', Colors.blue);
   }
 
   // Navigate to sign up
@@ -183,16 +259,16 @@ class LoginController extends GetxController {
     );
 
     // Temporary placeholder
-    showSnackbar('Info', 'Navigate to Sign Up', Colors.blue);
+    Utils.showSnackBar('Info', 'Navigate to Sign Up', Colors.blue);
   }
 
   // Navigate to terms of service
   void navigateToTermsOfService() {
-    showSnackbar('Info', 'Navigate to Terms of Service', Colors.blue);
+    Utils.showSnackBar('Info', 'Navigate to Terms of Service', Colors.blue);
   }
 
   // Navigate to privacy policy
   void navigateToPrivacyPolicy() {
-    showSnackbar('Info', 'Navigate to Privacy Policy', Colors.blue);
+    Utils.showSnackBar('Info', 'Navigate to Privacy Policy', Colors.blue);
   }
 }

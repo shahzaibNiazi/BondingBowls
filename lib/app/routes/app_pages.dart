@@ -31,7 +31,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
@@ -53,16 +53,21 @@ class AppPages {
       name: _Paths.THIRD_SPLASH,
       page: () => const ThirdSplashView(),
       binding: ThirdSplashBinding(),
+      transition: Transition.leftToRight,
+      transitionDuration: const Duration(milliseconds: 800), // 👈 Add this
     ),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 800), // 👈 Add this
     ),
     GetPage(
       name: _Paths.SIGNUP,
       page: () => const SignupView(),
       binding: SignupBinding(),
+      transition: Transition.leftToRight,
     ),
     GetPage(
       name: _Paths.EMAIL_VERIFICATION,
@@ -88,11 +93,13 @@ class AppPages {
       name: _Paths.PROFILE_CREATION,
       page: () => ProfileCreationView(),
       binding: ProfileCreationBinding(),
+      transitionDuration: const Duration(milliseconds: 800), // 👈 Add this
     ),
     GetPage(
       name: _Paths.PROFILE_CREATION_DECISION,
       page: () => const ProfileCreationDecisionView(),
       binding: ProfileCreationBinding(),
+      transitionDuration: const Duration(milliseconds: 800), // 👈 Add this
     ),
     GetPage(
       name: _Paths.VOICE_PROMPT_ONE,

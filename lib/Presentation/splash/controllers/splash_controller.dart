@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:convo_hearts/data/model/user_model.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 
-import '../../../src/feature/splash/splash_screen3.dart';
+import '../../../app/config/global_var.dart';
+import '../../../app/routes/app_pages.dart';
+import '../../../data/provider/local_storage/local_db.dart';
 
 class SplashController extends GetxController with GetTickerProviderStateMixin {
   late AnimationController animationController;
@@ -21,12 +26,22 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
 
     animationController.forward();
 
-    Future.delayed(const Duration(seconds: 4), () {
-      Get.off(
-        () => const SplashScreen3(),
-        transition: Transition.leftToRight,
-        duration: Duration(milliseconds: 800),
-      );
+    Future.delayed(const Duration(seconds: 4), () async {
+      String? response = await LocalDB.getData('user_data');
+      String? token = await LocalDB.getData('auth_token');
+      if (response != null) {
+        Globals.user = UserModel.fromJson(
+          jsonDecode(await LocalDB.getData('user_data')),
+        );
+        Globals.authToken = token ?? '';
+        if (token != null && token.isNotEmpty) {
+          Get.offAllNamed(Routes.PROFILE_CREATION_DECISION);
+        } else {
+          Get.offAllNamed(Routes.THIRD_SPLASH);
+        }
+      } else {
+        Get.offAllNamed(Routes.THIRD_SPLASH);
+      }
     });
   }
 
