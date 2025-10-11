@@ -1,10 +1,15 @@
+import 'dart:io';
+
+import 'package:convo_hearts/app/shared_widgets/custom_button.dart';
+import 'package:convo_hearts/app/shared_widgets/my_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../widgets/Custom_TextField.dart';
+import '../../../app/config/app_colors.dart';
+import '../../../app/shared_widgets/textfield.dart';
 import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
@@ -51,30 +56,22 @@ class SignupView extends GetView<SignupController> {
                     // Email Field
                     CustomTextField(
                       controller: controller.emailController,
-                      hintText: "Email",
-                      keyboardType: TextInputType.emailAddress,
-                      validator: controller.validateEmail,
-                      prefixIcon: SizedBox(
-                        height: 25,
-                        width: 25,
-                        child: SvgPicture.asset(
-                          "assets/icon/svg/login_person.svg",
-                        ),
-                      ),
+                      hint: "Email",
+                      textInputType: TextInputType.emailAddress,
+                      validation: controller.validateEmail,
+                      isPrefixIcon: true,
+                      prefixIcon: 'mail',
                     ),
                     const SizedBox(height: 24),
 
                     // Password Field
-                    CustomTextField(
+                    PasswordTextField(
                       controller: controller.passwordController,
-                      hintText: "Type your Password",
-                      obscureText: controller.obscurePassword,
-                      validator: controller.validatePassword,
-                      prefixIcon: SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset("assets/icon/svg/lock.svg"),
-                      ),
+                      hint: "Type your Password",
+                      isObscure: controller.obscurePassword,
+                      validation: controller.validatePassword,
+                      prefixIcon: 'lock',
+                      isPrefixIcon: true,
                       suffixIcon: GestureDetector(
                         onTap: controller.togglePasswordVisibility,
                         child: Icon(
@@ -88,22 +85,19 @@ class SignupView extends GetView<SignupController> {
                     const SizedBox(height: 24),
 
                     // Confirm Password Field
-                    CustomTextField(
+                    PasswordTextField(
                       controller: controller.confirmPasswordController,
-                      hintText: "Re-Type your Password",
-                      obscureText: controller.obscureConfirmPassword,
-                      validator: controller.validateConfirmPassword,
-                      onChanged: (value) {
-                        // Trigger validation for confirm password when password changes
+                      hint: "Re-Type your Password",
+                      isPrefixIcon: true,
+                      isObscure: controller.obscureConfirmPassword,
+                      validation: controller.validateConfirmPassword,
+                      onchange: (value) {
                         if (controller.formKey.currentState != null) {
                           controller.formKey.currentState!.validate();
                         }
+                        return null;
                       },
-                      prefixIcon: SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset("assets/icon/svg/lock.svg"),
-                      ),
+                      prefixIcon: 'lock',
                       suffixIcon: GestureDetector(
                         onTap: controller.toggleConfirmPasswordVisibility,
                         child: Icon(
@@ -122,12 +116,11 @@ class SignupView extends GetView<SignupController> {
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          "Create passwords with at least 12\ncharacters, including a mix of:",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Color.fromARGB(221, 179, 179, 179),
-                          ),
+                        child: MyText(
+                          size: 14.sp,
+                          clr: Color.fromARGB(221, 179, 179, 179),
+                          title:
+                              "Create passwords with at least 12\ncharacters, including a mix of:",
                         ),
                       ),
                     ),
@@ -216,33 +209,32 @@ class SignupView extends GetView<SignupController> {
                                   width: 24,
                                   height: 24,
                                 ),
-                          onPressed: controller.isLoading
-                              ? null
-                              : controller.onGoogleSignUp,
+                          onPressed: () => controller.googleSignIn(context),
                           padding: const EdgeInsets.all(12),
                         ),
                         const SizedBox(width: 16),
                         // Apple Sign Up Button
-                        IconButton(
-                          icon: controller.isLoading
-                              ? const SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Color(0xFF6C757D),
+                        if (Platform.isIOS)
+                          IconButton(
+                            icon: controller.isLoading
+                                ? const SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Color(0xFF6C757D),
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    "assets/icon/svg/Apple.svg",
+                                    width: 24,
+                                    height: 24,
                                   ),
-                                )
-                              : SvgPicture.asset(
-                                  "assets/icon/svg/Apple.svg",
-                                  width: 24,
-                                  height: 24,
-                                ),
-                          onPressed: controller.isLoading
-                              ? null
-                              : controller.onAppleSignUp,
-                          padding: const EdgeInsets.all(12),
-                        ),
+                            onPressed: controller.isLoading
+                                ? null
+                                : controller.appleSignIn,
+                            padding: const EdgeInsets.all(12),
+                          ),
                       ],
                     ),
                     const SizedBox(height: 32),
@@ -291,47 +283,22 @@ class SignupView extends GetView<SignupController> {
                     ),
                     const SizedBox(height: 32),
 
-                    // Sign Up Button
-                    SizedBox(
-                      width: 285,
-                      height: 40,
-                      child: ElevatedButton(
-                        onPressed: controller.isLoading
-                            ? null
-                            : controller.onEmailSignUp,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffEB953A),
-                          minimumSize: Size(285, 40),
-                          foregroundColor: Colors.white,
-                          elevation: 2,
-                          shadowColor: const Color(
-                            0xFF007BFF,
-                          ).withValues(alpha: 0.3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          disabledBackgroundColor: const Color(0xFF6C757D),
-                        ),
-                        child: controller.isLoading
-                            ? const SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                      ),
+                    CustomButton(
+                      isCupertinoIndicator: controller.isLoading,
+                      text: 'Sign Up',
+                      fontSize: 22.sp,
+                      onPress: () {
+                        if (controller.formKey.currentState!.validate()) {
+                          controller.signUp(
+                            controller.emailController.text,
+                            controller.passwordController.text,
+                          );
+                        }
+                      },
+                      textColor: AppColors.white,
+                      boxColor: AppColors.primary,
                     ),
+
                     const SizedBox(height: 24),
 
                     // Already have an account? Sign In

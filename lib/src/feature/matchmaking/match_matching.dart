@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MatchmakingScreen extends StatefulWidget {
@@ -39,11 +40,9 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
     return GestureDetector(
       onTap: () => onTap(label),
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: isSmall ? 16 : 20,
-          vertical: isSmall ? 10 : 12,
-        ),
-        margin: const EdgeInsets.only(right: 8, bottom: 8),
+        width: 100.w,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: isSelected ? Colors.grey.shade700 : Colors.white,
           borderRadius: BorderRadius.circular(30),
@@ -212,8 +211,8 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
                                 double newValue = 25 + (percentage * 15);
 
                                 // Determine which thumb is closer
-                                double startDistance = (startPos - localPosition)
-                                    .abs();
+                                double startDistance =
+                                    (startPos - localPosition).abs();
                                 double endDistance = (endPos - localPosition)
                                     .abs();
 
@@ -355,7 +354,10 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
                                         double newEnd =
                                             (ageRange.end +
                                                     (delta * 15 / trackWidth))
-                                                .clamp(ageRange.start + 1, 40.0);
+                                                .clamp(
+                                                  ageRange.start + 1,
+                                                  40.0,
+                                                );
                                         setState(() {
                                           ageRange = RangeValues(
                                             ageRange.start,
@@ -397,15 +399,14 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
                         ),
                       ),
 
-                      // Gender Section
-                      Container(
-                        height: 80,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              child: Text(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // --- Gender Section ---
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
                                 "Gender",
                                 style: const TextStyle(
                                   fontFamily: "Adlam_Display",
@@ -414,88 +415,78 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
                                   color: Color(0xff000000),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Row(
+                              Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   optionButton(
                                     "Male",
                                     selectedGender,
-                                    (value) => setState(() => selectedGender = value),
+                                    (value) =>
+                                        setState(() => selectedGender = value),
                                   ),
+                                  const SizedBox(width: 8),
                                   optionButton(
                                     "Female",
                                     selectedGender,
-                                    (value) => setState(() => selectedGender = value),
+                                    (value) =>
+                                        setState(() => selectedGender = value),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
 
-                      const SizedBox(height: 20),
-
-                      // Dating Intentions Section
-                      Container(
-                        height: 100,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              child: Text(
-                                "Dating\nintentions",
-                                style: const TextStyle(
-                                  fontFamily: "Adlam_Display",
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xff000000),
+                          // --- Dating Intentions Section ---
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Dating\nintentions",
+                                  style: const TextStyle(
+                                    fontFamily: "Adlam_Display",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff000000),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      intentionButton("Any"),
-                                      intentionButton("Serious"),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      intentionButton("Friends"),
-                                      intentionButton("Casual"),
-                                    ],
-                                  ),
-                                ],
+                              const SizedBox(width: 8),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        intentionButton("Any"),
+                                        const SizedBox(width: 8),
+                                        intentionButton("Serious"),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        intentionButton("Friends"),
+                                        const SizedBox(width: 8),
+                                        intentionButton("Casual"),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
 
-                      const SizedBox(height: 20),
-
-                      // Nationality Section
-                      Container(
-                        height: 80,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              child: Text(
+                          // --- Nationality Section ---
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
                                 "Nationality",
                                 style: const TextStyle(
                                   fontFamily: "Adlam_Display",
@@ -504,327 +495,213 @@ class _MatchmakingScreenState extends State<MatchmakingScreen> {
                                   color: Color(0xff000000),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Row(
+                              Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   optionButton(
                                     "SG/PR",
                                     selectedNationality,
-                                    (value) => setState(() => selectedNationality = value),
+                                    (value) => setState(
+                                      () => selectedNationality = value,
+                                    ),
                                   ),
+                                  const SizedBox(width: 8),
                                   optionButton(
                                     "Others",
                                     selectedNationality,
-                                    (value) => setState(() => selectedNationality = value),
+                                    (value) => setState(
+                                      () => selectedNationality = value,
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+
+                          // --- Religion Section ---
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Religion",
+                                    style: const TextStyle(
+                                      fontFamily: "Adlam_Display",
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff000000),
+                                    ),
+                                  ),
+                                  if (!isReligionUnlocked) ...[
+                                    const SizedBox(height: 12),
+                                    InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              ConfirmPurchaseDialog(
+                                                onPurchaseConfirmed:
+                                                    onReligionUnlocked,
+                                              ),
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            30,
+                                          ),
+                                          border: Border.all(
+                                            color: const Color.fromARGB(
+                                              131,
+                                              63,
+                                              111,
+                                              255,
+                                            ),
+                                            width: 1.5,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            SvgPicture.asset(
+                                              "assets/icon/svg/lock1.svg",
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              "Unlock Religion filter?\n (permanent)",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Color(0xff0022FF),
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    GridView.count(
+                                      crossAxisCount: 2,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10,
+                                      childAspectRatio:
+                                          2, // adjust to control button width/height
+                                      children: [
+                                        optionButton(
+                                          "Any",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                        optionButton(
+                                          "Atheist",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                        optionButton(
+                                          "Buddhism",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                        optionButton(
+                                          "Christianity",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                        optionButton(
+                                          "Islam",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                        optionButton(
+                                          "Taoism",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                        optionButton(
+                                          "Hinduism",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                        optionButton(
+                                          "Others",
+                                          selectedReligion,
+                                          isReligionUnlocked
+                                              ? (value) => setState(
+                                                  () =>
+                                                      selectedReligion = value,
+                                                )
+                                              : (value) {},
+                                          isSmall: true,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
 
-                      // Religion Section - Fixed positioning
-                      // const SizedBox(height: 20),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: [
-                      //     // Religion label
-                      //     Text(
-                      //       "Religion",
-                      //       style: const TextStyle(
-                      //         fontFamily: "Adlam_Display",
-                      //         fontSize: 20,
-                      //         fontWeight: FontWeight.w400,
-                      //         color: Color(0xff000000),
-                      //       ),
-                      //     ),
-                      //     const Spacer(),
-                      //     // Religion options on the right
-                      //     Expanded(
-                      //       flex: 2,
-                      //       child: Column(
-                      //         crossAxisAlignment: CrossAxisAlignment.end,
-                      //         children: [
-                      //           if (!isReligionUnlocked) ...[
-                      //             // Unlock section
-                      //             InkWell(
-                      //               onTap: () {
-                      //                 showDialog(
-                      //                   context: context,
-                      //                   builder: (context) => ConfirmPurchaseDialog(
-                      //                     onPurchaseConfirmed: onReligionUnlocked,
-                      //                   ),
-                      //                 );
-                      //               },
-                      //               child: Container(
-                      //                 width: double.infinity,
-                      //                 padding: const EdgeInsets.all(16),
-                      //                 decoration: BoxDecoration(
-                      //                   borderRadius: BorderRadius.circular(40),
-                      //                   border: Border.all(
-                      //                     color: Color.fromARGB(131, 63, 111, 255),
-                      //                     width: 1.5,
-                      //                   ),
-                      //                 ),
-                      //                 child: Column(
-                      //                   children: [
-                      //                     SvgPicture.asset(
-                      //                       "assets/icon/svg/lock1.svg",
-                      //                     ),
-                      //                     const SizedBox(height: 8),
-                      //                     Text(
-                      //                       "Unlock Religion filter? (permanent)",
-                      //                       textAlign: TextAlign.center,
-                      //                       style: TextStyle(
-                      //                         fontSize: 13,
-                      //                         color: Color(0xff0022FF),
-                      //                         fontWeight: FontWeight.w700,
-                      //                       ),
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //             const SizedBox(height: 12),
-                      //           ],
-                      //           // Religion options
-                      //           Opacity(
-                      //             opacity: isReligionUnlocked ? 1.0 : 0.5,
-                      //             child: Wrap(
-                      //               alignment: WrapAlignment.end,
-                      //               spacing: 8,
-                      //               runSpacing: 8,
-                      //               children: [
-                      //                 optionButton(
-                      //                   "Any",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //                 optionButton(
-                      //                   "Atheist",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //                 optionButton(
-                      //                   "Buddhism",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //                 optionButton(
-                      //                   "Christianity",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //                 optionButton(
-                      //                   "Islam",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //                 optionButton(
-                      //                   "Taoism",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //                 optionButton(
-                      //                   "Hinduism",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //                 optionButton(
-                      //                   "Others",
-                      //                   selectedReligion,
-                      //                   isReligionUnlocked
-                      //                       ? (value) => setState(() => selectedReligion = value)
-                      //                       : (value) {},
-                      //                   isSmall: true,
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-
-                      // const SizedBox(height: 30),
-
-
-
-
-const SizedBox(height: 20),
-Row(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    // Religion label on the left
-    Text(
-      "Religion",
-      style: const TextStyle(
-        fontFamily: "Adlam_Display",
-        fontSize: 20,
-        fontWeight: FontWeight.w400,
-        color: Color(0xff000000),
-      ),
-    ),
-    const Spacer(),
-    // Right side content
-    Expanded(
-      flex: 2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          // Religion options at the top right
-          Wrap(
-            alignment: WrapAlignment.end,
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              optionButton(
-                "Any",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-              optionButton(
-                "Atheist",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-              optionButton(
-                "Buddhism",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-              optionButton(
-                "Christianity",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-              optionButton(
-                "Islam",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-              optionButton(
-                "Taoism",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-              optionButton(
-                "Hinduism",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-              optionButton(
-                "Others",
-                selectedReligion,
-                isReligionUnlocked
-                    ? (value) => setState(() => selectedReligion = value)
-                    : (value) {},
-                isSmall: true,
-              ),
-            ],
-          ),
-          if (!isReligionUnlocked) ...[
-            const SizedBox(height: 12),
-            // Unlock section below the options
-            InkWell(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => ConfirmPurchaseDialog(
-                    onPurchaseConfirmed: onReligionUnlocked,
-                  ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  border: Border.all(
-                    color: Color.fromARGB(131, 63, 111, 255),
-                    width: 1.5,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icon/svg/lock1.svg",
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "Unlock Religion filter? (permanent)",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Color(0xff0022FF),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
-    ),
-  ],
-),
-
-const SizedBox(height: 30),
-
-
-
-
-
+                      const SizedBox(height: 30),
 
                       // Save button
                       SizedBox(
@@ -916,9 +793,8 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         width: 20,
                         height: 20,
                       ),
-                      SizedBox(width: 20,),
+                      SizedBox(width: 20),
                       Expanded(
-                        
                         child: const Text(
                           "Religion filter (permanent)",
                           style: TextStyle(
@@ -1005,12 +881,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                             const SizedBox(width: 4),
                             const Text(
                               "300",
-                             style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                              fontWeight: FontWeight.w700
-                              )
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                                fontWeight: FontWeight.w700,
                               ),
+                            ),
                           ],
                         ),
                       ),
@@ -1030,8 +906,8 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
-                                 color: Color(0xffFF0000)
-                                 ),
+                                color: Color(0xffFF0000),
+                              ),
                             ),
                           ],
                         ),
@@ -1049,11 +925,11 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                             const SizedBox(width: 5),
                             const Text(
                               "-200",
-                             style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                              fontWeight: FontWeight.w700
-                              )
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ],
                         ),
@@ -1095,12 +971,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                             color: Color(0xffDA4747)
-                             ),
+                            color: Color(0xffDA4747),
                           ),
+                        ),
                       ),
                     ),
-                     const SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -1120,12 +996,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         },
                         child: const Text(
                           "Proceed",
-                           style: TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                             color: Color(0xffFFFFFF)
-                             ),
+                            color: Color(0xffFFFFFF),
                           ),
+                        ),
                       ),
                     ),
                   ],
@@ -1138,4 +1014,3 @@ class ConfirmPurchaseDialog extends StatelessWidget {
     );
   }
 }
-

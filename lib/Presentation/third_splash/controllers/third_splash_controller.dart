@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../src/feature/login/utils/signup_screen.dart';
+import '../../../app/routes/app_pages.dart';
 
 class ThirdSplashController extends GetxController {
   //TODO: Implement ThirdSplashController
@@ -12,11 +12,7 @@ class ThirdSplashController extends GetxController {
   }
 
   void navigateToSignUp() {
-    Get.to(
-      () => SignUpScreen(),
-      transition: Transition.leftToRight,
-      duration: Duration(milliseconds: 800),
-    );
+    Get.toNamed(Routes.SIGNUP);
   }
 
   void onTermsOfServiceTap() {

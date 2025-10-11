@@ -1,24 +1,21 @@
-
+import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
-import '../../settings/settings.dart';
+import '../../settings/getbowls.dart';
 import 'detail_profile.dart';
 
 class ReceivedLikesScreen extends StatefulWidget {
-   const ReceivedLikesScreen({super.key});
+  const ReceivedLikesScreen({super.key});
 
   @override
   State<ReceivedLikesScreen> createState() => _ReceivedLikesScreenState();
 }
 
-
-
-
 class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
-    bool isReligionUnlocked = false; 
- // Track if religion filter is unlocked
-
+  bool isReligionUnlocked = false;
+  // Track if religion filter is unlocked
 
   void showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -41,8 +38,6 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
     showSnackBar("Religion filter unlocked successfully!");
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,19 +51,19 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
               child: Row(
                 children: [
                   IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: SvgPicture.asset(
-                              "assets/icon/svg/back_arrow.svg",
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.black,
-                                );
-                              },
-                            ),
-                          ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: SvgPicture.asset(
+                      "assets/icon/svg/back_arrow.svg",
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                        );
+                      },
+                    ),
+                  ),
                   const Expanded(
                     child: Center(
                       child: Text(
@@ -81,35 +76,34 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                       ),
                     ),
                   ),
-                 
 
                   Column(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SettingsScreen(),
-                                    ),
-                                  );
-                                },
-                                icon: SvgPicture.asset(
-                                  "assets/icon/svg/bowl.svg",
-                                  height: 33,
-                                  width: 33,
-                                ),
-                              ),
-                              Text(
-                                "300",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GetBowlsScreen(),
+                            ),
+                          );
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/icon/svg/bowl.svg",
+                          height: 33,
+                          width: 33,
+                        ),
+                      ),
+                      Text(
+                        "300",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -121,7 +115,6 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
               decoration: BoxDecoration(
                 color: const Color(0xFFE8D5C4),
                 borderRadius: BorderRadius.circular(8),
-                
               ),
 
               child: const Center(
@@ -141,7 +134,7 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Color(0xffBCBCBC),width: 1),
+                border: Border.all(color: Color(0xffBCBCBC), width: 1),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
@@ -183,40 +176,42 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                
-
                                 Row(
-                              children: [
-                                const Text(
-                                  'Mary',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
+                                  children: [
+                                    const Text(
+                                      'Mary',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      '38',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailProfile(),
+                                      ),
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    "assets/images/match_logo.png",
+                                    height: 55,
                                   ),
                                 ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  '38',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context,
-                                MaterialPageRoute(builder: (context)=> DetailProfile()) 
-                                );
-
-                              },
-                              child: Image.asset("assets/images/match_logo.png", height: 55,))
-
-
                               ],
                             ),
                             const SizedBox(height: 4),
@@ -254,7 +249,6 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             ),
                             const SizedBox(height: 8),
 
-
                             // Click to view
                           ],
                         ),
@@ -262,338 +256,334 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                     ],
                   ),
 
-                  const Text(
-                    'Click to view!',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(Routes.MATCH_PROFILE);
+                    },
+                    child: const Text(
+                      'Click to view!',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
 
+            Stack(
+              children: [
+                // Main content - Column with profile cards
+                Column(
+                  children: [
+                    // First profile card
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 1),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              // Profile image
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                      'assets/images/AI-AVATAR.jpg',
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
 
+                              // User info
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Name and age
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Mary',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Text(
+                                          '38',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
 
+                                    // Status
+                                    const Text(
+                                      'Married Female',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
 
+                                    // Relationship type
+                                    const Text(
+                                      'Serious',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
 
-          Stack(
-  children: [
-    // Main content - Column with profile cards
-    Column(
-      children: [
-        // First profile card
-        Container(
-          margin: const EdgeInsets.only(bottom: 1),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  // Profile image
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/AI-AVATAR.jpg'),
-                        fit: BoxFit.cover,
+                                    // Tags
+                                    const Text(
+                                      'Software Engineer | Coffee Enthusiast | Yoga Lover',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFFBC0072),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Click to view!',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Second profile card
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 1),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              // Profile image
+                              Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                      'assets/images/AI-AVATAR.jpg',
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+
+                              // User info
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Name and age
+                                    Row(
+                                      children: [
+                                        const Text(
+                                          'Mary',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        const Text(
+                                          '38',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+
+                                    // Status
+                                    const Text(
+                                      'Married Female',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+
+                                    // Relationship type
+                                    const Text(
+                                      'Serious',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+
+                                    // Tags
+                                    const Text(
+                                      'Software Engineer | Coffee Enthusiast | Yoga Lover',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFFBC0072),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Click to view!',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Additional profile cards can be added here...
+                  ],
+                ),
+
+                // Overlay message positioned at the top
+                // Positioned(
+                //   top: 0,
+                //   left: 0,
+                //   right: 0,
+                //   child: Expanded(
+                //     child: Container(
+                //       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                //       decoration: BoxDecoration(
+                //         color: const Color(0xFFFFFFFF).withOpacity(0.95),
+                //         border: Border(
+                //           bottom: BorderSide(
+                //             color: const Color(0xFFBC0072).withOpacity(0.2),
+                //             width: 1,
+                //           ),
+                //         ),
+                //       ),
+                //       child: const Text(
+                //         "67 more likes to review~ Click to Unlock all received likes at one go",
+                //         textAlign: TextAlign.center,
+                //         style: TextStyle(
+                //           fontSize: 14,
+                //           fontWeight: FontWeight.w700,
+                //           color: Color(0xFFBC0072),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Positioned.fill(
+                  child: InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => ConfirmPurchaseDialog(
+                          onPurchaseConfirmed: onReligionUnlocked,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 16,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFFFFF).withOpacity(0.95),
+                        border: Border(
+                          bottom: BorderSide(
+                            color: const Color(0xFFBC0072).withOpacity(0.2),
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      child: const Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: Text(
+                            "67 more likes to review~ Click to Unlock all received likes at one go",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFFBC0072),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  
-                  // User info
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Name and age
-                        Row(
-                          children: [
-                            const Text(
-                              'Mary',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Text(
-                              '38',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        
-                        // Status
-                        const Text(
-                          'Married Female',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        
-                        // Relationship type
-                        const Text(
-                          'Serious',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        
-                        // Tags
-                        const Text(
-                          'Software Engineer | Coffee Enthusiast | Yoga Lover',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFFBC0072),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Click to view!',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
                 ),
-              ),
-            ],
-          ),
-        ),
-        
-        // Second profile card
-        Container(
-          margin: const EdgeInsets.only(bottom: 1),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  // Profile image
-                  Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/AI-AVATAR.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  
-                  // User info
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Name and age
-                        Row(
-                          children: [
-                            const Text(
-                              'Mary',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Text(
-                              '38',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        
-                        // Status
-                        const Text(
-                          'Married Female',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        
-                        // Relationship type
-                        const Text(
-                          'Serious',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        
-                        // Tags
-                        const Text(
-                          'Software Engineer | Coffee Enthusiast | Yoga Lover',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFFBC0072),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Click to view!',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-        
-        // Additional profile cards can be added here...
-      ],
-    ),
-    
-    // Overlay message positioned at the top
-    // Positioned(
-    //   top: 0,
-    //   left: 0,
-    //   right: 0,
-    //   child: Expanded(
-    //     child: Container(
-    //       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-    //       decoration: BoxDecoration(
-    //         color: const Color(0xFFFFFFFF).withOpacity(0.95),
-    //         border: Border(
-    //           bottom: BorderSide(
-    //             color: const Color(0xFFBC0072).withOpacity(0.2),
-    //             width: 1,
-    //           ),
-    //         ),
-    //       ),
-    //       child: const Text(
-    //         "67 more likes to review~ Click to Unlock all received likes at one go",
-    //         textAlign: TextAlign.center,
-    //         style: TextStyle(
-    //           fontSize: 14,
-    //           fontWeight: FontWeight.w700,
-    //           color: Color(0xFFBC0072),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // ),
-
-Positioned.fill(
-  child: InkWell(
-     onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => ConfirmPurchaseDialog(
-                    onPurchaseConfirmed: onReligionUnlocked,
-                  ),
-                );
-              },
-    child: Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF).withOpacity(0.95),
-        border: Border(
-          bottom: BorderSide(
-            color: const Color(0xFFBC0072).withOpacity(0.2),
-            width: 1,
-          ),
-        ),
-      ),
-      child: const Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40.0),
-          child: Text(
-            "67 more likes to review~ Click to Unlock all received likes at one go",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFFBC0072),
+              ],
             ),
-          ),
-        ),
-      ),
-    ),
-  ),
-)
-
-
-  ],
-)
-
-
-
-
           ],
         ),
       ),
     );
   }
-
 }
-
-
-
-
 
 class ConfirmPurchaseDialog extends StatelessWidget {
   final VoidCallback onPurchaseConfirmed;
@@ -641,9 +631,8 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         width: 20,
                         height: 20,
                       ),
-                      SizedBox(width: 20,),
+                      SizedBox(width: 20),
                       Expanded(
-                        
                         child: const Text(
                           "Received Likes Unlocker +1 Month",
                           style: TextStyle(
@@ -730,12 +719,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                             const SizedBox(width: 4),
                             const Text(
                               "300",
-                             style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                              fontWeight: FontWeight.w700
-                              )
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                                fontWeight: FontWeight.w700,
                               ),
+                            ),
                           ],
                         ),
                       ),
@@ -755,8 +744,8 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
-                                 color: Color(0xffFF0000)
-                                 ),
+                                color: Color(0xffFF0000),
+                              ),
                             ),
                           ],
                         ),
@@ -774,11 +763,11 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                             const SizedBox(width: 5),
                             const Text(
                               "100",
-                             style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff000000),
-                              fontWeight: FontWeight.w700
-                              )
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ],
                         ),
@@ -820,12 +809,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                             color: Color(0xffDA4747)
-                             ),
+                            color: Color(0xffDA4747),
                           ),
+                        ),
                       ),
                     ),
-                     const SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -845,12 +834,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         },
                         child: const Text(
                           "Proceed",
-                           style: TextStyle(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
-                             color: Color(0xffFFFFFF)
-                             ),
+                            color: Color(0xffFFFFFF),
                           ),
+                        ),
                       ),
                     ),
                   ],
@@ -862,13 +851,4 @@ class ConfirmPurchaseDialog extends StatelessWidget {
       ),
     );
   }
-
-
-
-
-
 }
-
-
-
- 

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-static const Color white = Colors.white;
-static const Color lightWhite = Color(0xffD0CFCF);
+  static const Color white = Colors.white;
+  static const Color lightWhite = Color(0xffD0CFCF);
   static const Color black = Colors.black;
   static const Color lightBlack = Color(0xff303030);
   static const Color grey6B = Color(0xFF65676B);
   static const Color lightGolden = Color(0xFFFFC76F);
   static const Color darkGolden = Color(0xFFDFA549);
   static const Color circleColor = Color(0xFF9CA3AF);
+  static const Color pinkColor = Color(0xffC672A5);
 
   static const Color trans = Colors.transparent;
-  static const Color primary = Color(0xFF0866FF);
+  static const Color primary = Color(0xffEB953A);
   static const Color primary5FF = Color(0xFFEBF5FF);
   static const Color secondary = Color(0xFF65676B);
   static const Color blue = Color(0xFF004BFE);
@@ -47,7 +48,7 @@ static const Color lightWhite = Color(0xffD0CFCF);
     begin: Alignment.topCenter, // Gradient direction
     end: Alignment.bottomCenter,
   );
-  static  LinearGradient welcomeGradient = LinearGradient(
+  static LinearGradient welcomeGradient = LinearGradient(
     colors: [
       Color(0xffDFA549).withOpacity(0.5),
       Color(0xffDFA549).withOpacity(0.0),
@@ -56,35 +57,23 @@ static const Color lightWhite = Color(0xffD0CFCF);
     end: Alignment.bottomCenter,
   );
   static const LinearGradient secondaryGradient = LinearGradient(
-    colors: [
-      secondary,
-      primary,
-    ],
+    colors: [secondary, primary],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
   static const LinearGradient greyGradient = LinearGradient(
-    colors: [
-      grey6B,
-      grey6B,
-    ],
+    colors: [grey6B, grey6B],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
 
   static const LinearGradient dealGradient = LinearGradient(
-    colors: [
-      Color(0xFF005EBD),
-      Color(0xFFFF5252),
-    ],
+    colors: [Color(0xFF005EBD), Color(0xFFFF5252)],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
   static const LinearGradient backgroundColorGradient = LinearGradient(
-    colors: [
-      Color(0xFF1F1F1F),
-      Color(0xFF303030),
-    ],
+    colors: [Color(0xFF1F1F1F), Color(0xFF303030)],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );

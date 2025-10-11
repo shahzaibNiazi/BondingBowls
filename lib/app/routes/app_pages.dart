@@ -1,16 +1,22 @@
-import 'package:convo_hearts/Presentation/profile_creation/views/profile_creation_decision.dart';
-import 'package:convo_hearts/Presentation/profile_creation/views/voice_prompt_one.dart';
-import 'package:convo_hearts/Presentation/profile_creation/views/voice_prompt_second.dart';
 import 'package:get/get.dart';
 
+import '../../Presentation/chat/bindings/chat_binding.dart';
+import '../../Presentation/chat/views/chat_view.dart';
 import '../../Presentation/email_verification/bindings/email_verification_binding.dart';
 import '../../Presentation/email_verification/views/email_verification_view.dart';
 import '../../Presentation/home/bindings/home_binding.dart';
 import '../../Presentation/home/views/home_view.dart';
 import '../../Presentation/login/bindings/login_binding.dart';
 import '../../Presentation/login/views/login_view.dart';
+import '../../Presentation/match_profile/bindings/match_profile_binding.dart';
+import '../../Presentation/match_profile/views/match_profile_view.dart';
 import '../../Presentation/profile_creation/bindings/profile_creation_binding.dart';
+import '../../Presentation/profile_creation/views/profile_creation_decision.dart';
 import '../../Presentation/profile_creation/views/profile_creation_view.dart';
+import '../../Presentation/profile_creation/views/voice_prompt_one.dart';
+import '../../Presentation/profile_creation/views/voice_prompt_second.dart';
+import '../../Presentation/redeem/bindings/redeem_binding.dart';
+import '../../Presentation/redeem/views/redeem_view.dart';
 import '../../Presentation/reset_password/bindings/reset_password_binding.dart';
 import '../../Presentation/reset_password/views/reset_password_view.dart';
 import '../../Presentation/second_splash/bindings/second_splash_binding.dart';
@@ -67,6 +73,7 @@ class AppPages {
       name: _Paths.SIGNUP,
       page: () => const SignupView(),
       binding: SignupBinding(),
+      transitionDuration: const Duration(milliseconds: 800), // 👈 Add this
       transition: Transition.leftToRight,
     ),
     GetPage(
@@ -83,6 +90,7 @@ class AppPages {
       name: _Paths.VERIFY_OTP,
       page: () => const VerifyOtpView(),
       binding: VerifyOtpBinding(),
+      transitionDuration: const Duration(milliseconds: 800), // 👈 Add this
     ),
     GetPage(
       name: _Paths.RESET_PASSWORD,
@@ -111,6 +119,21 @@ class AppPages {
       page: () => const VoicePromptSecondView(),
       binding: ProfileCreationBinding(),
       transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.CHAT,
+      page: () => const ChatView(),
+      binding: ChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.MATCH_PROFILE,
+      page: () => const MatchProfileView(),
+      binding: MatchProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.REDEEM,
+      page: () => const RedeemView(),
+      binding: RedeemBinding(),
     ),
   ];
 }

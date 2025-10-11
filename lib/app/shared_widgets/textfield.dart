@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../config/app_colors.dart';
 import '../utils/utils.dart';
 
-class InputTextField extends StatefulWidget {
+class CustomTextField extends StatefulWidget {
   final String? initial;
   final String? hint;
   final String? label;
@@ -16,7 +16,6 @@ class InputTextField extends StatefulWidget {
   final String? suffixIcon;
   final Color? suffixColor;
   final TextCapitalization? textCapitalization;
-
   final Color? backgroundColor;
   final VoidCallback? suffixOntap;
   final bool? isPrefixIcon;
@@ -37,7 +36,7 @@ class InputTextField extends StatefulWidget {
   final String? Function(String?)? onSaved;
   final void Function()? onTap;
   final List<TextInputFormatter>? inputFormatter;
-  const InputTextField({
+  const CustomTextField({
     super.key,
     this.maxLines,
     this.decoration,
@@ -70,10 +69,10 @@ class InputTextField extends StatefulWidget {
   });
 
   @override
-  State<InputTextField> createState() => _InputTextFieldState();
+  State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
-class _InputTextFieldState extends State<InputTextField> {
+class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -98,15 +97,11 @@ class _InputTextFieldState extends State<InputTextField> {
       cursorColor: AppColors.white,
       maxLines: widget.maxLines ?? 1,
       style: TextStyle(
-        color: AppColors.white,
-        fontSize: 10.sp,
+        color: AppColors.black,
+        fontSize: 15.sp,
         fontWeight: FontWeight.w400,
-        fontFamily: 'Satoshi',
       ),
       decoration: InputDecoration(
-        contentPadding: widget.padding == true
-            ? EdgeInsets.symmetric(horizontal: 10, vertical: 5)
-            : EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         labelText: widget.label,
         suffixIcon: widget.suffixIcon == null
             ? null
@@ -117,25 +112,28 @@ class _InputTextFieldState extends State<InputTextField> {
                   child: SvgPicture.asset(
                     Utils.getSvgPath(widget.suffixIcon ?? ''),
                     fit: BoxFit.scaleDown,
-                    color: widget.suffixColor,
+                    colorFilter: ColorFilter.mode(
+                      widget.suffixColor ?? Colors.transparent,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ),
         prefixIcon: widget.isPrefixIcon == true
-            ? Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15.0,
-                ), // Add horizontal padding
-                child: SvgPicture.asset(
-                  Utils.getSvgPath(widget.prefixIcon ?? ''),
-                  width: 10.0,
-                  height: 10.0,
-                ),
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    Utils.getSvgPath(widget.prefixIcon ?? ''),
+                    width: 30.w,
+                    height: 30.h,
+                  ),
+                ],
               )
             : null,
+        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
 
         labelStyle: TextStyle(
-          fontFamily: 'Satoshi',
           color: AppColors.white,
           fontSize: 10.sp,
           fontWeight: FontWeight.w500,
@@ -143,191 +141,23 @@ class _InputTextFieldState extends State<InputTextField> {
         hintText: widget.hint,
         filled: widget.isFilled,
         fillColor: widget.filledColor,
-        errorStyle: TextStyle(fontFamily: 'Satoshi', color: Colors.red),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+        errorStyle: TextStyle(fontSize: 13.sp),
+        errorBorder: UnderlineInputBorder(
           borderSide: const BorderSide(width: 1, color: AppColors.inputBorder),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+        focusedBorder: UnderlineInputBorder(
           borderSide: const BorderSide(width: 1, color: AppColors.inputBorder),
         ),
         hintStyle: TextStyle(
-          fontFamily: 'Satoshi',
-          fontSize: 10.5.sp,
+          fontSize: 15.sp,
           fontWeight: FontWeight.w400,
-          color: widget.hintColor ?? AppColors.white.withOpacity(0.4),
+          color: Colors.grey[600],
         ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(width: 1, color: AppColors.inputBorder),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: const BorderSide(width: 1, color: AppColors.pinkColor),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(width: 1, color: AppColors.inputBorder),
-        ),
-      ),
-    );
-  }
-}
-
-class CommentTextField extends StatefulWidget {
-  final String? initial;
-  final String? hint;
-  final String? label;
-  final FocusNode? focusNode;
-  final String? prefixIcon;
-  final String? suffixIcon;
-  final Color? suffixColor;
-  final Color? backgroundColor;
-  final VoidCallback? suffixOntap;
-  final bool? isPrefixIcon;
-  final bool? fromLogin;
-  final bool? isObscure;
-  final bool? padding;
-  final Decoration? decoration;
-  final bool? readOnly;
-  final int? maxLines;
-  final double? height;
-  final bool isFilled;
-  final Color? filledColor;
-  final TextInputType? textInputType;
-  final TextEditingController? controller;
-  final String? Function(String?)? validation;
-  final String? Function(String?)? onchange;
-  final String? Function(String?)? onSaved;
-  final void Function()? onTap;
-  final List<TextInputFormatter>? inputFormatter;
-  const CommentTextField({
-    super.key,
-    this.maxLines,
-    this.decoration,
-    this.height,
-    this.filledColor,
-    this.isFilled = false,
-    this.focusNode,
-    this.isPrefixIcon = false,
-    this.fromLogin = false,
-    this.isObscure = false,
-    this.padding = false,
-    this.hint,
-    this.textInputType,
-    this.onSaved,
-    this.controller,
-    this.label,
-    this.validation,
-    this.onchange,
-    this.prefixIcon,
-    this.initial,
-    this.readOnly,
-    this.suffixIcon,
-    this.suffixOntap,
-    this.suffixColor,
-    this.onTap,
-    this.inputFormatter,
-    this.backgroundColor,
-  });
-
-  @override
-  State<CommentTextField> createState() => _CommentTextFieldState();
-}
-
-class _CommentTextFieldState extends State<CommentTextField> {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 35,
-      child: TextFormField(
-        inputFormatters: widget.inputFormatter,
-        onTap: widget.onTap,
-        initialValue: widget.initial,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        onTapOutside: (val) {
-          // if( widget.focusNode!=null) {
-          //   widget.focusNode!.unfocus();
-          // }
-        },
-        readOnly: widget.readOnly ?? false,
-        keyboardType: widget.textInputType ?? TextInputType.text,
-        validator: widget.validation,
-        textCapitalization: TextCapitalization.words,
-        onSaved: widget.onSaved,
-        focusNode: widget.focusNode,
-        onChanged: widget.onchange,
-        obscureText: widget.isObscure ?? false,
-        controller: widget.controller,
-        cursorColor: AppColors.white,
-        maxLines: widget.maxLines ?? 1,
-        style: TextStyle(
-          color: AppColors.white,
-          fontSize: 10.sp,
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Satoshi',
-        ),
-        decoration: InputDecoration(
-          contentPadding: widget.padding == true
-              ? EdgeInsets.symmetric(horizontal: 10, vertical: 5)
-              : EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          labelText: widget.label,
-          suffixIcon: widget.suffixIcon == null
-              ? null
-              : GestureDetector(
-                  onTap: widget.suffixOntap,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: SvgPicture.asset(
-                      Utils.getSvgPath(widget.suffixIcon ?? ''),
-                      fit: BoxFit.scaleDown,
-                      color: AppColors.lightGolden,
-                    ),
-                  ),
-                ),
-          prefixIcon: widget.isPrefixIcon == true
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15.0,
-                  ), // Add horizontal padding
-                  child: SvgPicture.asset(
-                    Utils.getSvgPath(widget.prefixIcon ?? ''),
-                    width: 10.0,
-                    height: 10.0,
-                  ),
-                )
-              : null,
-
-          labelStyle: TextStyle(
-            fontFamily: 'Satoshi',
-            color: AppColors.white,
-            fontSize: 10.sp,
-            fontWeight: FontWeight.w500,
-          ),
-          hintText: widget.hint,
-
-          filled: widget.isFilled,
-          fillColor: widget.filledColor,
-          errorStyle: TextStyle(fontFamily: 'Satoshi', color: Colors.red),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(width: 1, color: AppColors.trans),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(width: 1, color: AppColors.trans),
-          ),
-          hintStyle: TextStyle(
-            fontFamily: 'Satoshi',
-            fontSize: 11.sp,
-            fontWeight: FontWeight.w500,
-            color: AppColors.white.withOpacity(0.7),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(width: 1, color: AppColors.trans),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(width: 1, color: AppColors.trans),
-          ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: const BorderSide(width: 1, color: AppColors.pinkColor),
         ),
       ),
     );
@@ -339,6 +169,8 @@ class PasswordTextField extends StatefulWidget {
   final String? label;
   final Widget? suffixIcon;
   final bool isObscure;
+  final String? prefixIcon;
+  final bool? isPrefixIcon;
   final TextEditingController? controller;
   final String? Function(String?)? validation;
   final String? Function(String?)? onchange;
@@ -350,6 +182,8 @@ class PasswordTextField extends StatefulWidget {
     this.isObscure = false,
     this.hint,
     this.controller,
+    this.isPrefixIcon,
+    this.prefixIcon,
     this.onSave,
     this.label,
     this.validation,
@@ -369,22 +203,38 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       controller: widget.controller,
       obscureText: widget.isObscure,
       onSaved: widget.onSave,
-      style: TextStyle(color: AppColors.white, fontSize: 10.sp),
+      style: TextStyle(color: AppColors.black, fontSize: 15.sp),
       decoration: InputDecoration(
         labelText: widget.label,
-        labelStyle: const TextStyle(color: AppColors.white),
+        labelStyle: const TextStyle(color: AppColors.black),
         hintText: widget.hint,
         suffixIcon: widget.suffixIcon,
+        prefixIcon: widget.isPrefixIcon == true
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    Utils.getSvgPath(widget.prefixIcon ?? ''),
+                    width: 30.w,
+                    height: 30.h,
+                  ),
+                ],
+              )
+            : null,
+        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColors.white),
+          borderSide: BorderSide(width: 1, color: AppColors.pinkColor),
         ),
+        errorStyle: TextStyle(fontSize: 13.sp),
+
         hintStyle: TextStyle(
-          fontSize: 10.5.sp,
+          fontSize: 15.sp,
           fontWeight: FontWeight.w400,
-          color: AppColors.white,
+          color: Colors.grey[600],
         ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(width: 1, color: AppColors.white),
+          borderSide: BorderSide(width: 1, color: AppColors.pinkColor),
         ),
       ),
     );
@@ -398,6 +248,7 @@ class SearchTextField extends StatefulWidget {
   final Widget? pre;
   final bool isEnabled;
   final String? suffixIcon;
+  final String? prefixIcon;
   final Color? fillColor;
   final TextEditingController controller;
   final String? Function(String?)? validation;
@@ -407,6 +258,7 @@ class SearchTextField extends StatefulWidget {
     super.key,
     this.isEnabled = true,
     this.fillColor,
+    this.prefixIcon,
     this.suffixOntap,
     this.suffixIcon,
     this.hint,
@@ -441,7 +293,10 @@ class _SearchTextFieldState extends State<SearchTextField> {
                   child: SvgPicture.asset(
                     Utils.getSvgPath(widget.suffixIcon ?? ''),
                     fit: BoxFit.scaleDown,
-                    color: AppColors.white.withOpacity(0.4),
+                    colorFilter: ColorFilter.mode(
+                      AppColors.white.withValues(alpha: 0.4),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ),
@@ -729,7 +584,10 @@ class _MessageInputTextFieldState extends State<MessageInputTextField> {
                     child: SvgPicture.asset(
                       Utils.getSvgPath(widget.suffixIcon ?? ''),
                       fit: BoxFit.scaleDown,
-                      color: widget.suffixColor,
+                      colorFilter: ColorFilter.mode(
+                        widget.suffixColor ?? Colors.transparent,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),
@@ -765,27 +623,27 @@ class _MessageInputTextFieldState extends State<MessageInputTextField> {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white.withOpacity(0.5),
+            color: AppColors.white.withValues(alpha: 0.5),
           ),
         ),
         hintStyle: TextStyle(
           fontFamily: 'Satoshi',
           fontSize: 10.5.sp,
           fontWeight: FontWeight.w400,
-          color: widget.hintColor ?? AppColors.white.withOpacity(0.4),
+          color: widget.hintColor ?? AppColors.white.withValues(alpha: 0.4),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white.withOpacity(0.5),
+            color: AppColors.white.withValues(alpha: 0.5),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white.withOpacity(0.5),
+            color: AppColors.white.withValues(alpha: 0.5),
           ),
         ),
       ),

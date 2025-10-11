@@ -24,6 +24,10 @@ class Utils {
     return 'assets/icons/$name.$format';
   }
 
+  static String getSvgPath(String name, {String format = 'svg'}) {
+    return 'assets/icon/svg/$name.$format';
+  }
+
   static String formatDate(DateTime date, {String? format}) {
     return DateFormat(format ?? 'd MMM , yyyy').format(date);
   }
@@ -274,10 +278,6 @@ class Utils {
     '50 minutes',
     '55 minutes',
   ];
-
-  static String getSvgPath(String name, {String format = 'svg'}) {
-    return 'assets/svgIcons/$name.$format';
-  }
 
   static bool validateEmail(String value) {
     String pattern =

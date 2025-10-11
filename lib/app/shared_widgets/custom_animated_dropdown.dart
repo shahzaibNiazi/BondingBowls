@@ -111,7 +111,7 @@ class CustomAnimatedDropdown extends StatelessWidget {
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              InputTextField(
+                              CustomTextField(
                                 controller: searchController,
                                 isPrefixIcon: true,
                                 prefixIcon: 'search',

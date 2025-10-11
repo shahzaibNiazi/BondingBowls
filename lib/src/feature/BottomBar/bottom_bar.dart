@@ -1,4 +1,3 @@
-
 import 'package:convo_hearts/src/feature/BottomBar/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -50,11 +49,11 @@ class BottomNavBar extends StatefulWidget {
   final bool showBottomBar;
 
   const BottomNavBar({
-    Key? key,
+    super.key,
     this.initialIndex = 0,
     this.showDiscountProfile = false,
     this.showBottomBar = true,
-  }) : super(key: key);
+  });
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -117,12 +116,12 @@ class CurvedBottomNavigationBar extends StatelessWidget {
   final Duration animationDuration;
 
   const CurvedBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onTap,
     this.isVisible = true,
     this.animationDuration = const Duration(milliseconds: 300),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +135,7 @@ class CurvedBottomNavigationBar extends StatelessWidget {
       child: AnimatedOpacity(
         duration: animationDuration,
         opacity: isVisible ? 1.0 : 0.0,
-        child: Container(
+        child: SizedBox(
           height: bottomNavHeight,
           child: Stack(
             clipBehavior: Clip.none,
@@ -150,7 +149,9 @@ class CurvedBottomNavigationBar extends StatelessWidget {
               // Enhanced Center elevated coffee cup with more prominent oval shape
               Positioned(
                 bottom: 35,
-                left: (screenWidth / 2) - _getResponsiveCoffeeButtonWidth(screenWidth) / 2,
+                left:
+                    (screenWidth / 2) -
+                    _getResponsiveCoffeeButtonWidth(screenWidth) / 2,
                 child: ClipOval(
                   child: Container(
                     width: _getResponsiveCoffeeButtonWidth(screenWidth),
@@ -159,13 +160,13 @@ class CurvedBottomNavigationBar extends StatelessWidget {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.12),
+                          color: Colors.black.withValues(alpha: 0.12),
                           blurRadius: 12.0,
                           offset: Offset(0, 4),
                           spreadRadius: 2,
                         ),
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: Colors.black.withValues(alpha: 0.08),
                           blurRadius: 6.0,
                           offset: Offset(0, 2),
                         ),
@@ -173,9 +174,11 @@ class CurvedBottomNavigationBar extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () => onTap(2),
-                      borderRadius: BorderRadius.all(Radius.elliptical(
-                        _getResponsiveCoffeeButtonWidth(screenWidth) / 2,
-                        _getResponsiveCoffeeButtonHeight(screenWidth) / 2,)
+                      borderRadius: BorderRadius.all(
+                        Radius.elliptical(
+                          _getResponsiveCoffeeButtonWidth(screenWidth) / 2,
+                          _getResponsiveCoffeeButtonHeight(screenWidth) / 2,
+                        ),
                       ),
                       child: Center(
                         child: Image.asset(
@@ -185,8 +188,12 @@ class CurvedBottomNavigationBar extends StatelessWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
-                              width: _getResponsiveCoffeeImageSize(screenWidth) * 0.6,
-                              height: _getResponsiveCoffeeImageSize(screenWidth) * 0.6,
+                              width:
+                                  _getResponsiveCoffeeImageSize(screenWidth) *
+                                  0.6,
+                              height:
+                                  _getResponsiveCoffeeImageSize(screenWidth) *
+                                  0.6,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
@@ -200,7 +207,9 @@ class CurvedBottomNavigationBar extends StatelessWidget {
                               ),
                               child: Icon(
                                 Icons.local_cafe,
-                                size: _getResponsiveCoffeeImageSize(screenWidth) * 0.4,
+                                size:
+                                    _getResponsiveCoffeeImageSize(screenWidth) *
+                                    0.4,
                                 color: Colors.white,
                               ),
                             );
@@ -245,7 +254,9 @@ class CurvedBottomNavigationBar extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SizedBox(height: 20), // Adjusted space for larger oval button
+                          SizedBox(
+                            height: 20,
+                          ), // Adjusted space for larger oval button
                           Text(
                             'CafeConnect',
                             style: TextStyle(
@@ -305,8 +316,14 @@ class CurvedBottomNavigationBar extends StatelessWidget {
     bool isSelected = currentIndex == index;
 
     return GestureDetector(
+      behavior: HitTestBehavior.translucent, // ✅ Makes invisible area clickable
+
       onTap: () => onTap(index),
       child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+        ), // ✅ Add vertical padding for bigger hit area
+
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -322,7 +339,7 @@ class CurvedBottomNavigationBar extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: 3),
+            SizedBox(height: 5),
             Text(
               label,
               style: TextStyle(
@@ -371,7 +388,7 @@ class CurvedBottomNavigationBar extends StatelessWidget {
   }
 
   double _getResponsiveFontSize(double screenWidth, double baseFontSize) {
-    if (screenWidth > 600) return baseFontSize - 2 ;
+    if (screenWidth > 600) return baseFontSize - 2;
     if (screenWidth > 400) return baseFontSize;
     return baseFontSize - 12;
   }
@@ -384,11 +401,11 @@ class StandaloneBottomNavBar extends StatelessWidget {
   final bool show;
 
   const StandaloneBottomNavBar({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onTap,
     this.show = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -478,8 +495,6 @@ class StandaloneBottomNavBar extends StatelessWidget {
 //   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 // }
 
-
-
 class SmoothCurvedBottomBarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -495,17 +510,17 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
     // final double ovalWidth = 150.0;  // Width of the oval cutout
     // final double ovalDepth = 25.0;   // Shallow depth for subtle curve
 
-       final double ovalWidth = size.width * .360;     // 30% of total width
-    final double ovalDepth = size.height * 0.27;    // 40% of bar height
-    
+    final double ovalWidth = size.width * .360; // 30% of total width
+    final double ovalDepth = size.height * 0.27; // 40% of bar height
+
     // Create main rectangle with rounded corners
     path.moveTo(0, size.height);
     path.lineTo(0, cornerRadius);
     path.quadraticBezierTo(0, 0, cornerRadius, 0);
-    
+
     // Left side approaching the oval cutout
     path.lineTo(centerX - ovalWidth / 2, 0);
-    
+
     // Create smooth oval cutout using a perfect elliptical curve
     // Left curve into oval
     path.quadraticBezierTo(
@@ -514,7 +529,7 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
       centerX - ovalWidth / 4,
       -ovalDepth,
     );
-    
+
     // Center curve of oval (deepest part)
     path.quadraticBezierTo(
       centerX,
@@ -522,7 +537,7 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
       centerX + ovalWidth / 4,
       -ovalDepth,
     );
-    
+
     // Right curve out of oval
     path.quadraticBezierTo(
       centerX + ovalWidth / 2,
@@ -539,14 +554,14 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
     path.close();
 
     // Draw shadow for subtle depth
-    canvas.drawShadow(path, Colors.black.withOpacity(0.06), 4.0, false);
+    canvas.drawShadow(path, Colors.black.withValues(alpha: 0.06), 4.0, false);
     canvas.drawPath(path, paint);
 
     // Very subtle border
     final borderPaint = Paint()
-      ..color = const Color(0xff05050566).withOpacity(0.4)
+      ..color = const Color(0xff05050566).withValues(alpha: 0.4)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5 ;
+      ..strokeWidth = 1.5;
     canvas.drawPath(path, borderPaint);
   }
 

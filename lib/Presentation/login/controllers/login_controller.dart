@@ -1,23 +1,32 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:convo_hearts/Presentation/signup/views/signup_view.dart';
 import 'package:convo_hearts/app/utils/utils.dart';
 import 'package:convo_hearts/data/repositories/authentication_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../app/config/global_var.dart';
 import '../../../app/routes/app_pages.dart';
 import '../../../data/model/user_model.dart';
 import '../../../data/provider/local_storage/local_db.dart';
 import '../../../src/feature/login/utils/forgot_password.dart';
-import '../../../src/feature/login/utils/signup_screen.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
 
   AuthenticationRepository authenticationRepository =
       AuthenticationRepository();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email'],
+    clientId:
+        '344604724259-4ctlqu5d4ps6q4c2p5oi7bptpedtj1v0.apps.googleusercontent.com',
+  );
 
   final count = 0.obs;
   final TextEditingController emailController = TextEditingController();
@@ -25,11 +34,6 @@ class LoginController extends GetxController {
   final ScrollController scrollController = ScrollController();
   bool obscurePassword = true;
   bool isLoading = false;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void dispose() {
@@ -44,8 +48,6 @@ class LoginController extends GetxController {
   // Handle login
 
   Future<void> login() async {
-    log("SHahzaib");
-
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       Utils.showSnackBar('Error', 'Please fill in all fields', Colors.red);
       return;
@@ -63,37 +65,34 @@ class LoginController extends GetxController {
         if (response['success'] == true && response['user'] != null) {
           log(response.toString());
           UserModel user = UserModel.fromJson(response['user']);
-          if (response['token'] != null) {
-            Globals.authToken = response['token'];
-            await LocalDB.setData('auth_token', response['token']);
-            Globals.authToken = await LocalDB.getData('auth_token');
-            await LocalDB.setData('user_data', user.toJson());
-            Globals.user = UserModel.fromJson(
-              jsonDecode(await LocalDB.getData('user_data')),
-            );
-            Utils.showSnackBar(
-              'Success',
-              "Successfully Logged In",
-              Colors.green,
-            );
+          Globals.authToken = response['token'];
+          await LocalDB.setData('auth_token', response['token']);
+          Globals.authToken = await LocalDB.getData('auth_token');
+          await LocalDB.setData('user_data', user.toJson());
+          Globals.user = UserModel.fromJson(
+            jsonDecode(await LocalDB.getData('user_data')),
+          );
+          Utils.showSnackBar('Success', "Successfully Logged In", Colors.green);
 
-            Get.offAllNamed(Routes.PROFILE_CREATION_DECISION);
-            log('-----${Globals.user!.toJson().toString()}');
-          }
+          Get.offAllNamed(Routes.PROFILE_CREATION_DECISION);
+          log('-----${Globals.user!.toJson().toString()}');
         } else if (response != null && response['success'] == false) {
-          if (response['message'] == "User is not verified.") {
-            Get.offNamed(
+          if (response['message'] ==
+              "Account is inactive. OTP has been resent. Please verify your email.") {
+            Get.toNamed(
               Routes.VERIFY_OTP,
               arguments: {
                 "email": emailController.text.trim(),
                 "fromRegister": true,
               },
             );
-            Utils.showToast(
-              message: "Otp sent successfully to your given email",
+            Utils.showSnackBar(
+              'Success',
+              "Otp sent successfully to your given email",
+              Colors.green,
             );
           } else {
-            Utils.showToast(message: response['message']);
+            Utils.showSnackBar('Error', response['message'], Colors.red);
           }
         }
       } else {
@@ -105,105 +104,113 @@ class LoginController extends GetxController {
     }
   }
 
-  // Future<void> googleSignIn(BuildContext context) async {
-  //   GoogleSignInAccount? currentUser;
-  //   // signOut();
-  //   try {
-  //     final googleUser = await _googleSignIn.signIn();
-  //     if(await _googleSignIn.isSignedIn()) {
-  //       _googleSignIn.signOut();
-  //     }
-  //     if (googleUser != null) {
-  //       currentUser = googleUser;
-  //       final googleAuth = await googleUser.authentication;
-  //       final credentials = GoogleAuthProvider.credential(
-  //           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-  //       log('Acess Token ------ ${googleAuth.accessToken.toString()}');
-  //       log('Id Token --------${googleAuth.idToken.toString()}');
-  //       externalLoginCallBack(idToken: googleAuth.idToken ?? "");
-  //       // await userLogin(map, context);
-  //     }
-  //   } catch (e) {
-  //     log('Error in google function $e');
-  //   }
-  // }
-  //
-  // void externalLoginCallBack({String? idToken}) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   Map<String, dynamic>? resp;
-  //   try {
-  //     resp = await profileRepository.externalLoginCallBack(idToken: idToken);
-  //     log('Response ----------- ${resp.toString()}');
-  //     if (resp != null && resp['success'] == true) {
-  //       UserData userData = UserData.fromJson(resp['data']);
-  //       Globals.authToken=resp['data']['tokens']['access'];
-  //       log('AUth token -------${Globals.authToken}');
-  //       if(userData!=null){
-  //         await LocalDB.setData('auth_token',resp['data']['tokens']['access']);
-  //         Globals.authToken = await LocalDB.getData('auth_token');
-  //         log('User Data ------ ${userData.toJson().toString()}');
-  //         await LocalDB.setData('user_data', userData.toJson());
-  //         Globals.user = UserData.fromJson(jsonDecode(await LocalDB.getData('user_data')));
-  //         Get.offAllNamed(Routes.MAIN);
-  //       }else{
-  //         Get.toNamed(Routes.PROFILE,arguments: [userData]);
-  //       }
-  //       // Get.offAllNamed(Routes.WELCOME);
-  //     }else if (resp != null && resp['success'] == false) {
-  //       Utils.showToast(message: resp['message']);
-  //     } else {
-  //       Utils.showToast(message: "Please try again later");
-  //     }
-  //   } catch (e) {
-  //     update();
-  //   }
-  // }
-  //
-  //
-  // Future<void> appleSignIn() async {
-  //   log('inside apple login');
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   Map<String, dynamic>? resp;
-  //   try {
-  //     if (await SignInWithApple.isAvailable()) {
-  //
-  //       AuthorizationCredentialAppleID credential = await SignInWithApple.getAppleIDCredential(
-  //         scopes: [
-  //           AppleIDAuthorizationScopes.email,
-  //           AppleIDAuthorizationScopes.fullName,
-  //         ],
-  //       );
-  //       log('credentials idtoken: ${credential.identityToken}');
-  //       log('credentials user identifier: ${credential.userIdentifier}');
-  //       log(' user given name: ${credential.givenName}');
-  //       log(' user family name: ${credential.familyName}');
-  //       resp = await profileRepository.appleLogin(idToken: credential.identityToken, name: credential.givenName == null ? null: '${credential.givenName} ${credential.familyName}');
-  //       if (resp != null && resp['success'] == true) {
-  //         log('apple login response: $resp');
-  //         UserData userData = UserData.fromJson(resp['data']);
-  //         Globals.authToken= resp['data']['tokens']['access'];
-  //         if(userData!=null){
-  //           await LocalDB.setData('auth_token', resp['data']['tokens']['access']);
-  //           Globals.authToken = await LocalDB.getData('auth_token');
-  //           log('User Data ------ ${userData.toJson().toString()}');
-  //           await LocalDB.setData('user_data', userData.toJson());
-  //           Globals.user = UserData.fromJson(jsonDecode(await LocalDB.getData('user_data')));
-  //           Get.offAllNamed(Routes.HOME);
-  //         }else{
-  //           Get.toNamed(Routes.PROFILE,arguments: [userData]);
-  //         }
-  //
-  //       } else {
-  //         Utils.showToast(message: "Please try again later");
-  //       }
-  //     }else{
-  //       Utils.showToast(message: "Apple login not available");
-  //     }
-  //   } catch (e) {
-  //     log('Error in apple signin function $e');
-  //   }
-  // }
-  //
+  Future<void> googleSignIn(BuildContext context) async {
+    GoogleSignInAccount? currentUser;
+    // signOut();
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      if (await _googleSignIn.isSignedIn()) {
+        _googleSignIn.signOut();
+      }
+      if (googleUser != null) {
+        currentUser = googleUser;
+        final googleAuth = await googleUser.authentication;
+        final credentials = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        log('Acess Token ------ ${googleAuth.accessToken.toString()}');
+        log('Id Token --------${googleAuth.idToken.toString()}');
+        externalLoginCallBack(idToken: googleAuth.idToken ?? "");
+      }
+    } catch (e) {
+      log('Error in google function $e');
+    }
+  }
+
+  void externalLoginCallBack({String? idToken}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> json = {"provider": "google", "googleToken": idToken};
+
+    Map<String, dynamic>? response;
+    try {
+      response = await authenticationRepository.socialLogin(json);
+      log('Response ----------- ${response.toString()}');
+      if (response != null) {
+        UserModel user = UserModel.fromJson(response['user']);
+        Globals.authToken = response['token'];
+        await LocalDB.setData('auth_token', response['token']);
+        Globals.authToken = await LocalDB.getData('auth_token');
+        await LocalDB.setData('user_data', user.toJson());
+        Globals.user = UserModel.fromJson(
+          jsonDecode(await LocalDB.getData('user_data')),
+        );
+        Utils.showSnackBar('Success', "Successfully Logged In", Colors.green);
+
+        Get.offAllNamed(Routes.PROFILE_CREATION_DECISION);
+        log('-----${Globals.user!.toJson().toString()}');
+      } else if (response != null && response['success'] == false) {
+        Utils.showToast(message: response['message']);
+      } else {
+        Utils.showToast(message: "Please try again later");
+      }
+    } catch (e) {
+      update();
+    }
+  }
+
+  Future<void> appleSignIn() async {
+    log('inside apple login');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic>? resp;
+    try {
+      if (await SignInWithApple.isAvailable()) {
+        AuthorizationCredentialAppleID credential =
+            await SignInWithApple.getAppleIDCredential(
+              scopes: [
+                AppleIDAuthorizationScopes.email,
+                AppleIDAuthorizationScopes.fullName,
+              ],
+            );
+        log('credentials idtoken: ${credential.identityToken}');
+        log('credentials user identifier: ${credential.userIdentifier}');
+        log(' user given name: ${credential.givenName}');
+        log(' user family name: ${credential.familyName}');
+        // resp = await profileRepository.appleLogin(
+        //   idToken: credential.identityToken,
+        //   name: credential.givenName == null
+        //       ? null
+        //       : '${credential.givenName} ${credential.familyName}',
+        // );
+        if (resp != null && resp['success'] == true) {
+          log('apple login response: $resp');
+          UserModel userData = UserModel.fromJson(resp['data']);
+          Globals.authToken = resp['data']['tokens']['access'];
+          if (userData != null) {
+            await LocalDB.setData(
+              'auth_token',
+              resp['data']['tokens']['access'],
+            );
+            Globals.authToken = await LocalDB.getData('auth_token');
+            log('User Data ------ ${userData.toJson().toString()}');
+            await LocalDB.setData('user_data', userData.toJson());
+            Globals.user = UserModel.fromJson(
+              jsonDecode(await LocalDB.getData('user_data')),
+            );
+            Get.offAllNamed(Routes.HOME);
+          } else {
+            // Get.toNamed(Routes.PROFILE, arguments: [userData]);
+          }
+        } else {
+          Utils.showToast(message: "Please try again later");
+        }
+      } else {
+        Utils.showToast(message: "Apple login not available");
+      }
+    } catch (e) {
+      log('Error in apple signin function $e');
+    }
+  }
 
   // Navigate to forgot password
   void navigateToForgotPassword() {
@@ -240,7 +247,7 @@ class LoginController extends GetxController {
     Navigator.push(
       Get.context!,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => SignUpScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => SignupView(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;

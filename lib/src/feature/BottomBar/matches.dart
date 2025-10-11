@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
+import '../settings/getbowls.dart';
 import '../settings/notification.dart';
-import '../settings/settings.dart';
 
 class MatchesPage extends StatelessWidget {
-  const MatchesPage({Key? key}) : super(key: key);
+  const MatchesPage({super.key});
 
   // TextEditingController _bioController = TextEditingController();
 
@@ -22,7 +23,7 @@ class MatchesPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 16,
+                  vertical: 8,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,55 +42,67 @@ class MatchesPage extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(
-                      height: 90,
-                      width: 200,
-                    child: Image.asset("assets/icon/logo/bonding bowl no background.png")),
-
-                   Column(
-                    children: [
-                       IconButton(
+                    IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SettingsScreen(),
+                            builder: (context) => NotificationScreen(),
                           ),
                         );
                       },
-                      icon: SvgPicture.asset("assets/icon/svg/bowl.svg"),
+                      icon: Image.asset(
+                        "assets/images/bowls_remove.png",
+                        scale: 5,
+                      ),
                     ),
-                    Text("300",style: TextStyle(
-                      fontSize: 16,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w700
-                    ))
-                    
-                    ],
-                   )
+
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GetBowlsScreen(),
+                              ),
+                            );
+                          },
+                          icon: SvgPicture.asset("assets/icon/svg/bowl.svg"),
+                        ),
+                        Text(
+                          "300",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-                // Slideshow ads space banner
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey[400]!),
-              ),
-              child: const Center(
-                child: Text(
-                  '~Slideshow Ads Space',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
+              // Slideshow ads space banner
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
+                  border: Border.all(color: Colors.grey[400]!),
+                ),
+                child: Center(
+                  child: Text(
+                    '~Slideshow Ads Space',
+                    style: TextStyle(
+                      color: Color(0xffC672A5),
+                      fontSize: 16.sp,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
-              ),
-            ),
+              ).paddingOnly(bottom: 14.h),
               // Main profile card
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -100,7 +113,7 @@ class MatchesPage extends StatelessWidget {
                   border: Border.all(color: Color(0xffC672A5)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -108,29 +121,45 @@ class MatchesPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    SizedBox(height: 10.h),
                     // User-ID and Boost Profile section
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: SvgPicture.asset("assets/icon/svg/tri_info.svg"),
-                    ),
-
-          
 
                     // Profile Avatar
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal:  8),
-                      child: Image.asset(
-                        'assets/images/female-avatar.jpg', // Replace with your avatar image
-                        fit: BoxFit.cover,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Visibility(
+                          visible: false,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: SvgPicture.asset(
+                              "assets/icon/svg/tri_info.svg",
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Image.asset(
+                            'assets/images/female-avatar.jpg', // Replace with your avatar image
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: SvgPicture.asset(
+                            "assets/icon/svg/tri_info.svg",
+                          ),
+                        ),
+                      ],
                     ),
 
                     // Name
-                    const Text(
+                    Text(
                       'Nicole',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
-                        fontSize: 32,
+                        fontSize: 32.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
@@ -149,7 +178,7 @@ class MatchesPage extends StatelessWidget {
                       child: Text(
                         "SingPass",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
                         ),
@@ -157,11 +186,11 @@ class MatchesPage extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
 
-                    const Text(
+                    Text(
                       'Software Engineer | Coffee Enthusiast | Yoga lover',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         color: Color(0xFFBC0072),
                         fontWeight: FontWeight.w700,
                       ),
@@ -222,11 +251,11 @@ class MatchesPage extends StatelessWidget {
                       },
                     ),
 
-                    const Center(
+                    Center(
                       child: Text(
                         "Nitty - Gritty",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -234,63 +263,61 @@ class MatchesPage extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // Row 1
-                    Container(
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildIconText(
-                                    "assets/icon/svg/smoke.svg",
-                                    "Non - Smoker",
-                                  ),
-                                  _buildIconText(
-                                    "assets/icon/svg/ocasstional.svg",
-                                    "Occasional Drinker",
-                                  ),
-                                  _buildIconText(
-                                    "assets/icon/svg/pet.svg",
-                                    "No Pets",
-                                  ),
-                                ],
-                              ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: Column(
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildIconText(
+                                  "assets/icon/svg/smoke.svg",
+                                  "Non - Smoker",
+                                ),
+                                _buildIconText(
+                                  "assets/icon/svg/ocasstional.svg",
+                                  "Occasional Drinker",
+                                ),
+                                _buildIconText(
+                                  "assets/icon/svg/pet.svg",
+                                  "No Pets",
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(width: 15),
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildIconText(
-                                    "assets/icon/svg/fre.svg",
-                                    "Frequent Clubber",
-                                  ),
-                                  _buildIconText(
-                                    "assets/icon/svg/serious.svg",
-                                    "Serious",
-                                  ),
-                                  _buildIconText(
-                                    "assets/icon/svg/location1.svg",
-                                    "North - East",
-                                  ),
-                                ],
-                              ),
+                        ),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildIconText(
+                                  "assets/icon/svg/fre.svg",
+                                  "Frequent Clubber",
+                                ),
+                                _buildIconText(
+                                  "assets/icon/svg/serious.svg",
+                                  "Serious",
+                                ),
+                                _buildIconText(
+                                  "assets/icon/svg/location1.svg",
+                                  "North - East",
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 14),
 
                     // Religion
-                    const Text(
+                    Text(
                       "Religion: Hinduism",
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -300,7 +327,10 @@ class MatchesPage extends StatelessWidget {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: const Color(0xfff2dede), // light pink/red
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
+                        ),
                       ),
                       padding: EdgeInsets.symmetric(
                         vertical: 8,
@@ -311,7 +341,7 @@ class MatchesPage extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),
@@ -335,7 +365,7 @@ class MatchesPage extends StatelessWidget {
                           Expanded(
                             child: Text(
                               "What do i think of first dates?",
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 14.sp),
                             ),
                           ),
                           SvgPicture.asset("assets/icon/svg/speaker_small.svg"),
@@ -364,11 +394,11 @@ class MatchesPage extends StatelessWidget {
                                 topRight: Radius.circular(10),
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               "Bio :",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 15,
+                                fontSize: 15.sp,
                               ),
                             ),
                           ),
@@ -388,9 +418,9 @@ class MatchesPage extends StatelessWidget {
                                 //     ),
                                 //     style: const TextStyle(fontSize: 14),
                                 //   ),
-                                const Text(
+                                Text(
                                   "Hi! I'm someone who loves meaningful conversations, spontaneous adventures, and the little things in life. Whether it's deep talks over coffee or laughing at silly memes, I'm all in. Looking to meet someone genuine, kind, and curious. Let's explore connections beyond just swipes.",
-                                  style: TextStyle(fontSize: 14),
+                                  style: TextStyle(fontSize: 14.sp),
                                 ),
                           ),
                         ],
@@ -404,12 +434,12 @@ class MatchesPage extends StatelessWidget {
                       children: [
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: const Text(
+                          child: Text(
                             "Green Flags",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.green,
-                              fontSize: 15,
+                              fontSize: 15.sp,
                             ),
                           ),
                         ),
@@ -440,12 +470,12 @@ class MatchesPage extends StatelessWidget {
                         // Red Flags
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: const Text(
+                          child: Text(
                             "Red Flags",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.red,
-                              fontSize: 15,
+                              fontSize: 15.sp,
                             ),
                           ),
                         ),
@@ -466,42 +496,49 @@ class MatchesPage extends StatelessWidget {
                           ],
                         ),
 
-                      SizedBox(height: 20,),
+                        SizedBox(height: 20),
 
-                      Column(
-                        children: [
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                        Column(
+                          children: [
+                            Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Bowl Crush remaining : 6",
+                                    style: TextStyle(
+                                      color: Color(0xffEB5230),
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(height: 20),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text("Bowl Crush remaining : 6",
-                                style: TextStyle(
-                                  color: Color(0xffEB5230),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700
-                                ),)
+                                Image.asset(
+                                  "assets/images/thumbs.png",
+                                  scale: 3.5,
+                                ),
+                                Image.asset(
+                                  "assets/images/match_logo.png",
+                                  scale: 3.5,
+                                ),
+                                Image.asset(
+                                  "assets/images/thumbs_down.png",
+                                  scale: 3.5,
+                                ),
                               ],
                             ),
-                          ),
+                          ],
+                        ),
 
-                          SizedBox(height: 20,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Image.asset("assets/images/thumbs.png"),
-                              Image.asset("assets/images/match_logo.png"),
-                              Image.asset("assets/images/thumbs_down.png")
-
-                            ],
-                          )
-
-
-                        ],
-                      ),
-
-                    SizedBox(height: 200,)
-
+                        SizedBox(height: 200),
                       ],
                     ),
                   ],
@@ -531,7 +568,7 @@ class _FlagChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(color: Colors.white, fontSize: 10),
+        style: TextStyle(color: Colors.white, fontSize: 10.sp),
       ),
     );
   }
@@ -543,16 +580,16 @@ Widget _buildProfileRow(String label, String value) {
     children: [
       Text(
         '$label : ',
-        style: const TextStyle(
-          fontSize: 15,
+        style: TextStyle(
+          fontSize: 15.sp,
           fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
       ),
       Text(
         value,
-        style: const TextStyle(
-          fontSize: 15,
+        style: TextStyle(
+          fontSize: 15.sp,
           fontWeight: FontWeight.w700,
           color: Colors.black,
         ),
@@ -568,16 +605,16 @@ Widget _buildProfileDetail(String label, String value) {
       children: [
         Text(
           '$label : ',
-          style: const TextStyle(
-            fontSize: 15,
+          style: TextStyle(
+            fontSize: 15.sp,
             fontWeight: FontWeight.w700,
             color: Colors.black,
           ),
         ),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 15,
+          style: TextStyle(
+            fontSize: 15.sp,
             fontWeight: FontWeight.w700,
             color: Colors.black,
           ),
@@ -597,7 +634,7 @@ Widget _buildIconText(String iconPath, String text, {bool underline = false}) {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
             decoration: underline
                 ? TextDecoration.underline
@@ -608,15 +645,6 @@ Widget _buildIconText(String iconPath, String text, {bool underline = false}) {
     ],
   );
 }
-
-
-
-
-
-
-
-
-
 
 class SmoothCurvedBottomBarPainter extends CustomPainter {
   @override
@@ -630,17 +658,17 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
 
     final double centerX = size.width / 2;
     final double cornerRadius = 20.0;
-    final double ovalWidth = 120.0;  // Width of the oval cutout
-    final double ovalDepth = 20.0;   // Shallow depth for subtle curve
-    
+    final double ovalWidth = 120.0; // Width of the oval cutout
+    final double ovalDepth = 20.0; // Shallow depth for subtle curve
+
     // Create main rectangle with rounded corners
     path.moveTo(0, size.height);
     path.lineTo(0, cornerRadius);
     path.quadraticBezierTo(0, 0, cornerRadius, 0);
-    
+
     // Left side approaching the oval cutout
     path.lineTo(centerX - ovalWidth / 2, 0);
-    
+
     // Create smooth oval cutout using a perfect elliptical curve
     // Left curve into oval
     path.quadraticBezierTo(
@@ -649,7 +677,7 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
       centerX - ovalWidth / 4,
       -ovalDepth,
     );
-    
+
     // Center curve of oval (deepest part)
     path.quadraticBezierTo(
       centerX,
@@ -657,7 +685,7 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
       centerX + ovalWidth / 4,
       -ovalDepth,
     );
-    
+
     // Right curve out of oval
     path.quadraticBezierTo(
       centerX + ovalWidth / 2,
@@ -674,14 +702,14 @@ class SmoothCurvedBottomBarPainter extends CustomPainter {
     path.close();
 
     // Draw shadow for subtle depth
-    canvas.drawShadow(path, Colors.black.withOpacity(0.06), 4.0, false);
+    canvas.drawShadow(path, Colors.black.withValues(alpha: 0.06), 4.0, false);
     canvas.drawPath(path, paint);
 
     // Very subtle border
     final borderPaint = Paint()
-      ..color = const Color(0xff05050566).withOpacity(0.4)
+      ..color = const Color(0xff05050566).withValues(alpha: 0.4)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5 ;
+      ..strokeWidth = 1.5;
     canvas.drawPath(path, borderPaint);
   }
 

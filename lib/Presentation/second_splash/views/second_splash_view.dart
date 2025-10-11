@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -30,19 +31,19 @@ class SecondSplashView extends GetView<SecondSplashController> {
                       width: 48,
                     ),
                     const SizedBox(height: 16),
-                    const Text(
+                    Text(
                       "There's a problem\nloading this page",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 22.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
+                    Text(
                       "Please check your Network Connection\nand reload this page. If that doesn't work\nplease visit our status page for updates\nand try again later",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
+                      style: TextStyle(fontSize: 14.sp, color: Colors.black54),
                     ),
                     const SizedBox(height: 24),
                     Image.asset(
@@ -61,10 +62,10 @@ class SecondSplashView extends GetView<SecondSplashController> {
                           borderRadius: BorderRadius.circular(20),
                           color: Color(0xffEB953A),
                         ),
-                        child: const Text(
+                        child: Text(
                           "Reload",
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
@@ -73,9 +74,9 @@ class SecondSplashView extends GetView<SecondSplashController> {
                     ),
                     const SizedBox(height: 24),
                     Spacer(), // This one is now safe because we used IntrinsicHeight
-                    const Text(
+                    Text(
                       "App Ver v1.0",
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                      style: TextStyle(fontSize: 12.sp, color: Colors.black54),
                     ),
                   ],
                 ),

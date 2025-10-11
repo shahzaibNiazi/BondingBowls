@@ -1,12 +1,14 @@
 import 'dart:developer';
 
+import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 import '../../settings/notification.dart';
 
 class VouchersOffersScreen extends StatefulWidget {
-  const VouchersOffersScreen({Key? key}) : super(key: key);
+  const VouchersOffersScreen({super.key});
 
   @override
   State<VouchersOffersScreen> createState() => _VouchersOffersScreenState();
@@ -50,11 +52,15 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                     left: 10,
                     top: 10,
                     child: IconButton(
-                      icon: SvgPicture.asset("assets/icon/svg/notification.svg"),
+                      icon: SvgPicture.asset(
+                        "assets/icon/svg/notification.svg",
+                      ),
                       onPressed: () => Navigator.push(
-                        context, 
-                        MaterialPageRoute(builder: (context)=>NotificationScreen())
-                         ),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NotificationScreen(),
+                        ),
+                      ),
                     ),
                   ),
                   // Title centered
@@ -75,7 +81,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                 ],
               ),
             ),
-            
+
             // Main Content Container
             Expanded(
               child: Container(
@@ -84,7 +90,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Color.fromARGB(187, 161, 5, 135)),
-                  borderRadius: BorderRadius.circular(20)
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,22 +103,33 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              Navigator.pop(context);                                
+                              Navigator.pop(context);
                             },
                             icon: SvgPicture.asset(
                               "assets/icon/svg/back_arrow.svg",
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Color(0xffD9D9D9)
+                              color: Color(0xffD9D9D9),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 4),
+                                  blurRadius: 4,
+                                  spreadRadius: 0,
+                                  color: Colors.black.withValues(alpha: 0.25),
+                                ),
+                              ],
                             ),
                             child: Column(
                               children: [
                                 Text("0"),
-                                Text("voucher used this month")
+                                Text("voucher used this month"),
                               ],
                             ),
                           ),
@@ -135,92 +152,75 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            VoucherCard(
+                              title: "20% off on all Macdonald's item",
+                              discount: "20% OFF!",
+                              badge: "10 left!",
+                              expiryText: "Expiring soon! Use by 7 Dec 2025",
+                            ),
 
+                            VoucherCard(
+                              title: "Get \$5 off your next purchase!",
+                              discount: "\$5 OFF!",
+                              badge: "10 left!",
+                              expiryText: "Use by 7 Mar 2026",
+                            ),
+                            VoucherCard(
+                              title: "Get \$5 off your next purchase!",
+                              discount: "\$5 OFF!",
+                              badge: "10 left!",
+                              expiryText: "Use by 7 Mar 2026",
+                            ),
+                            VoucherCard(
+                              title: "Get \$5 off your next purchase!",
+                              discount: "\$5 OFF!",
+                              badge: "10 left!",
+                              expiryText: "Use by 7 Mar 2026",
+                            ),
+                            VoucherCard(
+                              title: "Get \$5 off your next purchase!",
+                              discount: "\$5 OFF!",
+                              badge: "10 left!",
+                              expiryText: "Use by 7 Mar 2026",
+                            ),
 
+                            Container(
+                              height: 155,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xff000000)),
+                              ),
+                              child: Center(child: Text("Static Ads")),
+                            ),
 
+                            VoucherCard(
+                              title: "Get \$5 off your next purchase!",
+                              discount: "\$5 OFF!",
+                              badge: "10 left!",
+                              expiryText: "Use by 7 Mar 2026",
+                            ),
+                            VoucherCard(
+                              title: "Get \$5 off your next purchase!",
+                              discount: "\$5 OFF!",
+                              badge: "10 left!",
+                              expiryText: "Use by 7 Mar 2026",
+                            ),
 
-                                         VoucherCard(
-              title: "20% off on all Macdonald's item",
-              discount: "20% OFF!",
-              badge: "10 left!",
-              expiryText: "Expiring soon! Use by 7 Dec 2025",
-            ),
+                            VoucherCard(
+                              title:
+                                  "Spend \$30 in a single receipt and get 10% off!",
+                              discount: "10% OFF!",
+                              badge: "10 left!",
+                              expiryText: "Expiring soon! Use by 9 Dec 2025",
+                            ),
 
-            
-                                VoucherCard(
-                  title: "Get \$5 off your next purchase!",
-                  discount: "\$5 OFF!",
-                  badge: "10 left!",
-                  expiryText: "Use by 7 Mar 2026",
-                ),
-                                  VoucherCard(
-                  title: "Get \$5 off your next purchase!",
-                  discount: "\$5 OFF!",
-                  badge: "10 left!",
-                  expiryText: "Use by 7 Mar 2026",
-                ),
-                  VoucherCard(
-                  title: "Get \$5 off your next purchase!",
-                  discount: "\$5 OFF!",
-                  badge: "10 left!",
-                  expiryText: "Use by 7 Mar 2026",
-                ),
-                  VoucherCard(
-                  title: "Get \$5 off your next purchase!",
-                  discount: "\$5 OFF!",
-                  badge: "10 left!",
-                  expiryText: "Use by 7 Mar 2026",
-                ),
-
-
-
-                  Container(
-                    height: 155,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff000000))
-                    ),
-                    child: Center(child: Text("Static Ads")),
-                  ),
-
-
-
-                  VoucherCard(
-                  title: "Get \$5 off your next purchase!",
-                  discount: "\$5 OFF!",
-                  badge: "10 left!",
-                  expiryText: "Use by 7 Mar 2026",
-                ),
-                  VoucherCard(
-                  title: "Get \$5 off your next purchase!",
-                  discount: "\$5 OFF!",
-                  badge: "10 left!",
-                  expiryText: "Use by 7 Mar 2026",
-                ),
-
-
-                                            VoucherCard(
-                  title: "Spend \$30 in a single receipt and get 10% off!",
-                  discount: "10% OFF!",
-                  badge: "10 left!",
-                  expiryText: "Expiring soon! Use by 9 Dec 2025",
-                ),
-
-                                            VoucherCard(
-                  title: "Buy any coffee/latte and get one free drink on us!",
-                  discount: "Buy 1 get 1 Free!",
-                  badge: "10 left!",
-                  expiryText: "Expiring soon! Use by 1 Dec 2025",
-                ),
-
-                
-                            
-
-
-
-
-
-
+                            VoucherCard(
+                              title:
+                                  "Buy any coffee/latte and get one free drink on us!",
+                              discount: "Buy 1 get 1 Free!",
+                              badge: "10 left!",
+                              expiryText: "Expiring soon! Use by 1 Dec 2025",
+                            ),
                           ],
                         ),
                       ),
@@ -234,21 +234,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
       ),
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
 
 // class VoucherCard extends StatelessWidget {
 //   final String title;
@@ -304,9 +290,9 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //                       height: 20,
 //                       child: SvgPicture.asset("assets/icon/svg/voucher.svg"),
 //                     ),
-                    
+
 //                     const SizedBox(width: 12),
-                    
+
 //                     // Title and discount text
 //                     Expanded(
 //                       child: Column(
@@ -320,7 +306,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //                               color: Colors.grey[600],
 //                             ),
 //                           ),
-                          
+
 //                           Row(
 //                             children: [
 //                               Text(
@@ -331,9 +317,9 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //                                   color: Colors.black,
 //                                 ),
 //                               ),
-                              
+
 //                               const SizedBox(width: 10),
-                              
+
 //                               // Badge
 //                               Container(
 //                                 padding: const EdgeInsets.symmetric(
@@ -360,9 +346,9 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //                     ),
 //                   ],
 //                 ),
-                
+
 //                 // const SizedBox(height: 12),
-                
+
 //                 // Divider line
 //                 Container(
 //                   width: double.infinity,
@@ -371,9 +357,9 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //                     color: Colors.grey,
 //                   ),
 //                 ),
-                
+
 //                 SizedBox(height: 5,),
-                
+
 //                 // Bottom row with expiry and redeem button
 //                 Row(
 //                   children: [
@@ -393,7 +379,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //                         ),
 //                       ),
 //                     ),
-                    
+
 //                     // Redeem button
 //                     Container(
 //                       height: 30,
@@ -407,7 +393,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //                         ),
 //                         borderRadius: BorderRadius.circular(5),
 //                       ),
-//                       child: Center(  
+//                       child: Center(
 //                         child: Text(
 //                           isExpired ? 'Expired' : buttonText,
 //                           style: TextStyle(
@@ -443,7 +429,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //               ),
 //             ),
 //           ),
-          
+
 //           // Right semi-circle cutout
 //           Positioned(
 //             right: 0,
@@ -476,9 +462,6 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
 //   }
 // }
 
-
-
-
 class VoucherCard extends StatelessWidget {
   final String title;
   final String discount;
@@ -509,14 +492,27 @@ class VoucherCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 4),
+            blurRadius: 4,
+            spreadRadius: 0,
+            color: Colors.black.withValues(alpha: 0.25),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[300]!, width: 1),
+      ),
       child: Stack(
         children: [
-          // Main card container
+          // Main card containerXX
           Container(
             height: 110,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             decoration: BoxDecoration(
               color: const Color(0xFFE8E8E8),
+
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey[300]!, width: 1),
             ),
@@ -529,14 +525,14 @@ class VoucherCard extends StatelessWidget {
                   child: Row(
                     children: [
                       // Voucher icon
-                      Container(
+                      SizedBox(
                         width: 20,
                         height: 20,
                         child: SvgPicture.asset("assets/icon/svg/voucher.svg"),
                       ),
-                      
+
                       const SizedBox(width: 12),
-                      
+
                       // Title and discount text
                       Expanded(
                         child: Column(
@@ -555,9 +551,9 @@ class VoucherCard extends StatelessWidget {
                                 maxLines: 2,
                               ),
                             ),
-                            
+
                             const SizedBox(height: 2),
-                            
+
                             Row(
                               children: [
                                 Flexible(
@@ -571,9 +567,9 @@ class VoucherCard extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                
+
                                 const SizedBox(width: 10),
-                                
+
                                 // Badge
                                 Container(
                                   padding: const EdgeInsets.symmetric(
@@ -601,18 +597,16 @@ class VoucherCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 // Divider line
                 Container(
                   width: double.infinity,
                   height: 1,
-                  decoration: const BoxDecoration(
-                    color: Colors.grey,
-                  ),
+                  decoration: const BoxDecoration(color: Colors.grey),
                 ),
-                
+
                 const SizedBox(height: 5),
-                
+
                 // Bottom row with expiry and redeem button
                 Flexible(
                   flex: 1,
@@ -637,29 +631,38 @@ class VoucherCard extends StatelessWidget {
                           maxLines: 1,
                         ),
                       ),
-                      
+
                       const SizedBox(width: 8),
-                      
+
                       // Redeem button
-                      Container(
-                        height: 30,
-                        width: 92,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: isExpired ? Colors.grey[300] : Colors.white,
-                          border: Border.all(
-                            color: isExpired ? Colors.grey : buttonBorderColor,
-                            width: 2,
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.REDEEM);
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 92,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: isExpired ? Colors.grey[300] : Colors.white,
+                            border: Border.all(
+                              color: isExpired
+                                  ? Colors.grey
+                                  : buttonBorderColor,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(5),
                           ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Center(  
-                          child: Text(
-                            isExpired ? 'Expired' : buttonText,
-                            style: TextStyle(
-                              color: isExpired ? Colors.grey : buttonTextColor,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
+                          child: Center(
+                            child: Text(
+                              isExpired ? 'Expired' : buttonText,
+                              style: TextStyle(
+                                color: isExpired
+                                    ? Colors.grey
+                                    : buttonTextColor,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
@@ -690,7 +693,7 @@ class VoucherCard extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Right semi-circle cutout
           Positioned(
             right: 0,
@@ -722,12 +725,6 @@ class VoucherCard extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
 
 class SortBottomSheet extends StatefulWidget {
   const SortBottomSheet({Key? key}) : super(key: key);
@@ -863,7 +860,7 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 255, 255, 255),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Color(0xff003FFF))
+                        border: Border.all(color: Color(0xff003FFF)),
                       ),
                       child: const Center(
                         child: Text(

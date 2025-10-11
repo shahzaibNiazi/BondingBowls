@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio_log/interceptor/dio_log_interceptor.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:http_parser/src/media_type.dart' as m;
 import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
@@ -312,7 +312,7 @@ class APIProvider {
       //
       // log(e.toString());
 
-      Utils.showToast(message: 'Try again Later');
+      // Utils.showToast(message: 'Try again Later');
       // Utils.showToast(message: e.error.toString());
 
       dialog.hide();
@@ -716,10 +716,8 @@ class APIProvider {
         // print(response.data);
         return response?.data;
       case 400:
-        if (response?.data['error'] != null) {
-          Utils.showToast(message: response?.data['error']);
-        } else {
-          Utils.showToast(message: response?.data['data']['error']);
+        if (response?.data != null) {
+          Utils.showSnackBar('Error', response?.data['message'], Colors.red);
         }
         throw BadRequestException(response?.data.toString());
       case 401:

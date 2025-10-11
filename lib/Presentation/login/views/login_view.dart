@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../widgets/Custom_TextField.dart';
+import '../../../app/shared_widgets/textfield.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -51,29 +53,21 @@ class LoginView extends GetView<LoginController> {
                     // Email/Mobile TextField (no animation like signup)
                     CustomTextField(
                       controller: controller.emailController,
-                      hintText: "Email or Mobile Number",
-                      keyboardType: TextInputType.emailAddress,
-                      prefixIcon: SizedBox(
-                        height: 25,
-                        width: 25,
-                        child: SvgPicture.asset(
-                          "assets/icon/svg/login_person.svg",
-                        ),
-                      ),
+                      hint: "Email or Mobile Number",
+                      textInputType: TextInputType.emailAddress,
+                      isPrefixIcon: true,
+                      prefixIcon: 'login_person',
                     ),
 
                     const SizedBox(height: 24),
 
                     // Password TextField with visibility toggle (replacing Obx)
-                    CustomTextField(
+                    PasswordTextField(
                       controller: controller.passwordController,
-                      hintText: "Type your Password",
-                      obscureText: controller.obscurePassword,
-                      prefixIcon: SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset("assets/icon/svg/lock.svg"),
-                      ),
+                      hint: "Type your Password",
+                      isObscure: controller.obscurePassword,
+                      isPrefixIcon: true,
+                      prefixIcon: 'lock',
                       suffixIcon: GestureDetector(
                         onTap: controller.togglePasswordVisibility,
                         child: Icon(
@@ -180,58 +174,52 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 24),
 
                     // Social Login Buttons (replacing Obx)
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     // Google Login Button
-                    //     Container(
-                    //       child: IconButton(
-                    //         icon: controller.isLoading
-                    //             ? const SizedBox(
-                    //                 width: 24,
-                    //                 height: 24,
-                    //                 child: CircularProgressIndicator(
-                    //                   strokeWidth: 2,
-                    //                   color: Color(0xFF6C757D),
-                    //                 ),
-                    //               )
-                    //             : SvgPicture.asset(
-                    //                 "assets/icon/svg/Google_icon.svg",
-                    //                 width: 24,
-                    //                 height: 24,
-                    //               ),
-                    //         onPressed: controller.isLoading
-                    //             ? null
-                    //             : controller.handleGoogleLogin,
-                    //         padding: const EdgeInsets.all(12),
-                    //       ),
-                    //     ),
-                    //     const SizedBox(width: 16),
-                    //     // Apple Login Button
-                    //     Container(
-                    //       child: IconButton(
-                    //         icon: controller.isLoading
-                    //             ? const SizedBox(
-                    //                 width: 24,
-                    //                 height: 24,
-                    //                 child: CircularProgressIndicator(
-                    //                   strokeWidth: 2,
-                    //                   color: Color(0xFF6C757D),
-                    //                 ),
-                    //               )
-                    //             : SvgPicture.asset(
-                    //                 "assets/icon/svg/Apple.svg",
-                    //                 width: 24,
-                    //                 height: 24,
-                    //               ),
-                    //         onPressed: controller.isLoading
-                    //             ? null
-                    //             : controller.handleAppleLogin,
-                    //         padding: const EdgeInsets.all(12),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Google Login Button
+                        IconButton(
+                          icon: controller.isLoading
+                              ? const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Color(0xFF6C757D),
+                                  ),
+                                )
+                              : SvgPicture.asset(
+                                  "assets/icon/svg/Google_icon.svg",
+                                  width: 24,
+                                  height: 24,
+                                ),
+                          onPressed: () => controller.googleSignIn(context),
+                          padding: const EdgeInsets.all(12),
+                        ),
+                        const SizedBox(width: 16),
+
+                        // Apple Login Button
+                        if (Platform.isIOS)
+                          IconButton(
+                            icon: controller.isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Color(0xFF6C757D),
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    "assets/icon/svg/Apple.svg",
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                            onPressed: () => controller.googleSignIn(context),
+                            padding: const EdgeInsets.all(12),
+                          ),
+                      ],
+                    ),
                     const SizedBox(height: 32),
 
                     // Sign Up Prompt (simplified like signup)

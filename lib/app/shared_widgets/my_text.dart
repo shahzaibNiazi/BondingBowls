@@ -21,41 +21,45 @@ class MyText extends StatelessWidget {
   final TextOverflow? overFLow;
   final TextDirection? textDirection;
 
-  const MyText(
-      {super.key,
-      this.title,
-        this.textDecoration,
-        this.underLine,
-      this.size,
-      this.isSatoshi = true,
-      this.clr,
-      this.textDirection,
-      this.overFLow,
-      this.weight,
-      this.family,
-      this.bgColor,
-      this.lineThrough = false,
-      this.line,
-      this.letterSpacing,
-      this.wordsSpacing,
-      this.textAlign,
-      this.decorationColor, this.lineThikness});
+  const MyText({
+    super.key,
+    this.title,
+    this.textDecoration,
+    this.underLine,
+    this.size,
+    this.isSatoshi = true,
+    this.clr,
+    this.textDirection,
+    this.overFLow,
+    this.weight,
+    this.family,
+    this.bgColor,
+    this.lineThrough = false,
+    this.line,
+    this.letterSpacing,
+    this.wordsSpacing,
+    this.textAlign,
+    this.decorationColor,
+    this.lineThikness,
+  });
 
   @override
   Widget build(BuildContext context) {
     TextStyle textStyle = isSatoshi
         ? TextStyle(
-           fontFamily: 'Satoshi',
+            fontFamily: 'Satoshi',
             fontWeight: weight,
             fontSize: size,
             wordSpacing: wordsSpacing,
             letterSpacing: letterSpacing,
             color: clr,
             decorationColor: decorationColor,
-            decoration: underLine==true ? TextDecoration.underline : TextDecoration.none,
-      decorationThickness: lineThrough == true ? lineThikness : null,
+            decoration: underLine == true
+                ? TextDecoration.underline
+                : TextDecoration.none,
+            decorationThickness: lineThrough == true ? lineThikness : null,
           )
-        : GoogleFonts.roboto(
+        : GoogleFonts.inriaSans(
             fontWeight: weight,
             fontSize: size,
             wordSpacing: wordsSpacing,
@@ -64,13 +68,15 @@ class MyText extends StatelessWidget {
             decoration: TextDecoration.none,
           );
 
-    return Text(title!,
-        textDirection: textDirection ?? TextDirection.ltr,
-        maxLines: line,
-        softWrap: true,
-        overflow: overFLow,
-        style: textStyle,
+    return Text(
+      title!,
+      textDirection: textDirection ?? TextDirection.ltr,
+      maxLines: line,
+      softWrap: true,
+      overflow: overFLow,
+      style: textStyle,
 
-        textAlign: textAlign);
+      textAlign: textAlign,
+    );
   }
 }

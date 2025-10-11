@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:convo_hearts/src/feature/BottomBar/news_letter/voucher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,8 +11,7 @@ import 'hotel_details.dart';
 // Modified DetailsScreen to work with BottomNavBar
 class DetailsScreen extends StatefulWidget {
   final bool showAsFullScreen;
-  const DetailsScreen({Key? key, this.showAsFullScreen = true})
-    : super(key: key);
+  const DetailsScreen({super.key, this.showAsFullScreen = true});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -37,12 +37,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
           children: [
             // Top Section with Newsletter header
             Container(
-              decoration: BoxDecoration(
-              color: const Color(0xFFFFEEDA),
-              ),
+              decoration: BoxDecoration(color: const Color(0xFFFFEEDA)),
               child: SafeArea(
-                child: 
-                Column(
+                child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -74,8 +71,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context)=> VouchersOffersScreen()) 
-                                );
+                                MaterialPageRoute(
+                                  builder: (context) => VouchersOffersScreen(),
+                                ),
+                              );
                             },
                             icon: SvgPicture.asset(
                               "assets/icon/svg/news_letter_svg.svg",
@@ -93,13 +92,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
             // Food List Section
             Expanded(
               child: Container(
-                decoration:  BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
-                  border: Border.all(color: Color(0xffdd80b8))
+                  border: Border.all(color: Color(0xffdd80b8)),
                 ),
                 child: Column(
                   children: [
@@ -141,7 +140,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             icon: SvgPicture.asset(
                               "assets/icon/svg/filter.svg",
                               errorBuilder: (context, error, stackTrace) {
-                                return const Icon(Icons.tune, color: Colors.black);
+                                return const Icon(
+                                  Icons.tune,
+                                  color: Colors.black,
+                                );
                               },
                             ),
                           ),
@@ -171,7 +173,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             // Static ads section at bottom
                             Container(
                               margin: const EdgeInsets.all(16),
-                              padding: const EdgeInsets.symmetric(vertical: 40),
+                              padding: const EdgeInsets.symmetric(vertical: 80),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey[300]!,
@@ -283,13 +285,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   const SizedBox(height: 4),
                   Text(
                     "Best western food in the west?",
-                    style: TextStyle(fontSize: 12, color: const Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: Color(0xfff9f8f8),
                       borderRadius: BorderRadius.circular(16),
@@ -359,7 +367,7 @@ class _DetailsScreenWithBottomNavState
 
 // New wrapper for HotelDetailScreen with BottomNavBar
 class HotelDetailScreenWithBottomNav extends StatefulWidget {
-  const HotelDetailScreenWithBottomNav({Key? key}) : super(key: key);
+  const HotelDetailScreenWithBottomNav({super.key});
 
   @override
   State<HotelDetailScreenWithBottomNav> createState() =>
@@ -374,7 +382,7 @@ class _HotelDetailScreenWithBottomNavState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF7ED),
-      body:  HotelDetailScreen(),
+      body: HotelDetailScreen(),
       bottomNavigationBar: CurvedBottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (index) {
@@ -462,8 +470,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             style: TextStyle(
                               fontSize: 14,
                               color: Color.fromARGB(255, 0, 0, 0),
-                              decoration: TextDecoration.underline
-                            )
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ),
                       ),
