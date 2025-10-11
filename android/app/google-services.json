@@ -12,7 +12,20 @@
           "package_name": "com.example.convo_hearts"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "344604724259-v4b66omv5fdtb7jgdtm8f7d1bm1ftm0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.convo_hearts",
+            "certificate_hash": "1ffe34f64430e48d8ff7eadd19a0327f784d2e50"
+          }
+        },
+        {
+          "client_id": "344604724259-4ctlqu5d4ps6q4c2p5oi7bptpedtj1v0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAs6Fn32xBxPbfCLfbUliwz2oqnok7_xgc"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344604724259-4ctlqu5d4ps6q4c2p5oi7bptpedtj1v0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "344604724259-kknmgucm06c0hra0596lk98blr46c86u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.convoHearts"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:convo_hearts/widgets/Custom_TextField.dart';
 
+import '../../../../app/shared_widgets/textfield.dart';
 import '../controller/forgot_password_controller.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final ForgotPasswordController controller = Get.find<ForgotPasswordController>();
-  //   final VerifyEmailController verifyController = Get.find<VerifyEmailController>();
-
+    final ForgotPasswordController controller =
+        Get.find<ForgotPasswordController>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Form(
-          key:  controller.formKey,
+          key: controller.formKey,
           child: Center(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 16.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +42,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-          
+
                   // Title
                   const Text(
                     "Choose a New Password",
@@ -51,64 +54,61 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-          
-                  // New Password Field
 
-          
-          
-                    Obx(() => CustomTextField(
+                  // New Password Field
+                  Obx(
+                    () => PasswordTextField(
                       controller: controller.confirmPasswordController,
-                      hintText: "Re-Type your Password",
-                      obscureText: controller.obscureConfirmPassword.value,
-                      validator: controller.validateConfirmPassword,
-                      onChanged: (value) {
-                        // Trigger validation for confirm password when password changes
+                      hint: "Re-Type your Password",
+                      isObscure: controller.obscureConfirmPassword.value,
+                      validation: controller.validateConfirmPassword,
+                      onchange: (value) {
                         if (controller.formKey.currentState != null) {
                           controller.formKey.currentState!.validate();
                         }
+                        return null;
                       },
-                      prefixIcon: SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset("assets/icon/svg/lock.svg"),
-                      ),
+                      prefixIcon: 'lock',
                       suffixIcon: GestureDetector(
                         onTap: controller.toggleConfirmPasswordVisibility,
                         child: Icon(
-                          controller.obscureConfirmPassword.value ? Icons.visibility_off : Icons.visibility,
+                          controller.obscureConfirmPassword.value
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: Colors.grey,
                         ),
                       ),
-                    )),
+                    ),
+                  ),
                   const SizedBox(height: 16),
-          
+
                   // Re-type Password Field
-                  Obx(() => CustomTextField(
+                  Obx(
+                    () => PasswordTextField(
                       controller: controller.confirmPasswordController,
-                      hintText: "Re-Type your Password",
-                      obscureText: controller.obscureConfirmPassword.value,
-                      validator: controller.validateConfirmPassword,
-                      onChanged: (value) {
-                        // Trigger validation for confirm password when password changes
+                      hint: "Re-Type your Password",
+                      isObscure: controller.obscureConfirmPassword.value,
+                      validation: controller.validateConfirmPassword,
+                      onchange: (value) {
                         if (controller.formKey.currentState != null) {
                           controller.formKey.currentState!.validate();
                         }
+                        return null;
                       },
-                      prefixIcon: SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset("assets/icon/svg/lock.svg"),
-                      ),
+                      prefixIcon: 'lock',
                       suffixIcon: GestureDetector(
                         onTap: controller.toggleConfirmPasswordVisibility,
                         child: Icon(
-                          controller.obscureConfirmPassword.value ? Icons.visibility_off : Icons.visibility,
+                          controller.obscureConfirmPassword.value
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: Colors.grey,
                         ),
                       ),
-                    )),
+                    ),
+                  ),
                   const SizedBox(height: 16),
-          
+
                   // Password Requirements
                   Container(
                     padding: const EdgeInsets.all(16),
@@ -140,45 +140,57 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-          
+
                   // Change Password Button
-                  Obx(() => Container(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: controller.currentState.value == ForgotPasswordState.resettingPassword
-                          ? null
-                          : controller.resetPassword,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: controller.currentState.value == ForgotPasswordState.resettingPassword
-                            ? Colors.orange.withOpacity(0.7)
-                            : Colors.orange,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+                  Obx(
+                    () => SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed:
+                            controller.currentState.value ==
+                                ForgotPasswordState.resettingPassword
+                            ? null
+                            : controller.resetPassword,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              controller.currentState.value ==
+                                  ForgotPasswordState.resettingPassword
+                              ? Colors.orange.withValues(alpha: 0.7)
+                              : Colors.orange,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          elevation:
+                              controller.currentState.value ==
+                                  ForgotPasswordState.resettingPassword
+                              ? 0
+                              : 2,
+                          shadowColor: Colors.orange.withValues(alpha: 0.3),
                         ),
-                        elevation: controller.currentState.value == ForgotPasswordState.resettingPassword ? 0 : 2,
-                        shadowColor: Colors.orange.withOpacity(0.3),
+                        child:
+                            controller.currentState.value ==
+                                ForgotPasswordState.resettingPassword
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                "Change Password",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                       ),
-                      child: controller.currentState.value == ForgotPasswordState.resettingPassword
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : const Text(
-                              "Change Password",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
                     ),
-                  )),
-          
+                  ),
+
                   // Bottom padding
                   const SizedBox(height: 40),
                 ],

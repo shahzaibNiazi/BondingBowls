@@ -55,7 +55,7 @@ class _CustomButtonState extends State<CustomButton> {
       },
       child: Container(
         width: widget.width ?? double.infinity,
-        height: widget.height ?? Get.height / 14.5,
+        height: widget.height ?? Get.height / 20.5,
         decoration: BoxDecoration(
           color: widget.isGradient ? null : widget.boxColor,
           gradient: widget.isGradient ? widget.gradient : null,

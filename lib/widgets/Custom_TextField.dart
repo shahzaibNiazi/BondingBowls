@@ -34,12 +34,14 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       onChanged: onChanged,
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       style: const TextStyle(color: Colors.black),
+
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey[600]),
         prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon ,
+        suffixIcon: suffixIcon,
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Color(0xffC672A5), width: 1),
         ),

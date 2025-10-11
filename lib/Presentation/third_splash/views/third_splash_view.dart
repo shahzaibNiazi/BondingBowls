@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_pages.dart';
@@ -77,10 +78,10 @@ class ThirdSplashView extends GetView<ThirdSplashController> {
                 ),
 
                 const SizedBox(height: 24),
-                const Text(
+                Text(
                   "App Ver v1.0",
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: Color.fromARGB(255, 0, 0, 0),
                     fontWeight: FontWeight.w500,
                   ),
@@ -91,17 +92,17 @@ class ThirdSplashView extends GetView<ThirdSplashController> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: "I have read, understood and accepted the\n",
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Color.fromARGB(255, 0, 0, 0),
                       fontWeight: FontWeight.w400,
-                      fontSize: 15,
+                      fontSize: 15.sp,
                     ),
                     children: [
                       TextSpan(
                         text: "Terms of Service",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.blue,
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.underline,
                         ),
@@ -111,9 +112,9 @@ class ThirdSplashView extends GetView<ThirdSplashController> {
                       const TextSpan(text: " and the "),
                       TextSpan(
                         text: "Privacy Policy",
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.blue,
-                          fontSize: 15,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.underline,
                         ),

@@ -19,4 +19,37 @@ class AuthenticationRepository {
     );
     return data;
   }
+
+  Future verifyOTP(json) async {
+    Map<String, dynamic>? data = await apiClient.basePostAPI(
+      ApiEndPoints.verifyOTP,
+      json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    return data;
+  }
+
+  Future signUp(json) async {
+    Map<String, dynamic>? data = await apiClient.basePostAPI(
+      ApiEndPoints.register,
+      json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    return data;
+  }
+
+  Future socialLogin(json) async {
+    Map<String, dynamic>? data = await apiClient.basePostAPI(
+      ApiEndPoints.socialLogin,
+      json,
+      false,
+      loading: true,
+      Get.context,
+    );
+    return data;
+  }
 }

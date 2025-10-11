@@ -1,9 +1,7 @@
-
 // import 'package:convo_hearts/login/controller/verify_email_controller.dart';
 // import 'package:convo_hearts/widgets/Custom_PIn_Code.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-
 
 // class VerifyEmail extends StatelessWidget {
 //   const VerifyEmail({super.key});
@@ -28,14 +26,14 @@
 //                   width: 700,
 //                 ),
 //                 const SizedBox(height: 24),
-            
+
 //                 // Title
 //                 const Text(
 //                   "Verify your Email",
 //                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 //                 ),
 //                 const SizedBox(height: 8),
-            
+
 //                 // Subtext
 //                 Text(
 //                   "Please enter the 6 digit code sent to your\nemail : ${verifyController.getMaskedEmail()}",
@@ -43,12 +41,11 @@
 //                   style: const TextStyle(fontSize: 14, color: Colors.grey),
 //                 ),
 //                 const SizedBox(height: 32),
-            
+
 //                 // Custom PIN Code Input
 //                 // CustomPinCodeField(
 //                 //   onCompleted: controller.onPinCompleted,
 //                 // ),
-            
 
 // CustomPinCodeField(
 //   onCompleted: (pin) {
@@ -58,7 +55,7 @@
 // ),
 
 //                 const SizedBox(height: 32),
-            
+
 //                 // Verify Button
 //                 ElevatedButton(
 //                   onPressed: () {
@@ -67,7 +64,7 @@
 //                       verifyController.verifyPin(verifyController.pinCode.value);
 //                     } else {
 //                       Get.snackbar(
-//                         "Error", 
+//                         "Error",
 //                         "Please enter the verification code",
 //                         snackPosition: SnackPosition.BOTTOM,
 //                         backgroundColor: Colors.red,
@@ -85,21 +82,21 @@
 //                   ),
 //                   child: const Text(
 //                     "Verify",
-//                     style: TextStyle(fontWeight: FontWeight.w700,  
+//                     style: TextStyle(fontWeight: FontWeight.w700,
 //                   fontSize: 24),
 //                   ),
 //                 ),
-            
+
 //                 const SizedBox(height: 24),
-            
+
 //                 const Text(
 //                   "Haven't received your code?",
 //                   style: TextStyle(fontSize: 16,
 //                   fontWeight: FontWeight.w700, color: Colors.black),
 //                 ),
-            
+
 //                 const SizedBox(height: 18),
-            
+
 //                 // Timer + Resend
 //                 Column(
 //                   mainAxisAlignment: MainAxisAlignment.center,
@@ -133,16 +130,6 @@
 //     );
 //   }
 // }
-
-
-
-
-
-
-
-
-
-
 
 // import 'dart:async';
 // import 'dart:developer';
@@ -180,7 +167,7 @@
 //   bool canResend = false;
 //   String pinCode = '';
 //   VerificationState currentState = VerificationState.idle;
-  
+
 //   Timer? _timer;
 //   int _resendAttempts = 0;
 //   static const int _maxResendAttempts = 3;
@@ -210,10 +197,10 @@
 
 //   void _initializeController() {
 //     log("VerifyEmail initialized for email: ${widget.tempEmail}");
-    
+
 //     // Start the countdown timer
 //     startTimer();
-    
+
 //     // Show initial instructions
 //     _showWelcomeMessage();
 //   }
@@ -227,19 +214,19 @@
 
 //   void startTimer({int? customSeconds}) {
 //     int timerSeconds = customSeconds ?? _initialTimerSeconds;
-    
+
 //     // If max attempts reached, use penalty time
 //     if (_resendAttempts >= _maxResendAttempts) {
 //       timerSeconds = _resendPenaltySeconds;
 //     }
-    
+
 //     setState(() {
 //       start = timerSeconds;
 //       canResend = false;
 //     });
-    
+
 //     _timer?.cancel(); // Cancel any existing timer
-    
+
 //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
 //       setState(() {
 //         if (start == 0) {
@@ -251,7 +238,7 @@
 //         }
 //       });
 //     });
-    
+
 //     log("Timer started for $timerSeconds seconds");
 //   }
 
@@ -270,26 +257,26 @@
 //     }
 
 //     log("Starting PIN verification: $pin");
-    
+
 //     // Validate input format
 //     if (!_validatePinFormat(pin)) return;
-    
+
 //     try {
 //       setState(() {
 //         currentState = VerificationState.verifying;
 //       });
-      
+
 //       log("Verifying OTP - Expected: ${widget.generatedOTP}, Entered: ${pin.trim()}");
-      
+
 //       // Use the passed verifyOTP function
 //       bool isValid = widget.verifyOTP(pin);
-      
+
 //       if (isValid) {
 //         await _handleSuccessfulVerification();
 //       } else {
 //         _handleFailedVerification();
 //       }
-      
+
 //     } catch (e) {
 //       log('Error during PIN verification: $e');
 //       _handleVerificationError(e);
@@ -307,38 +294,38 @@
 //       _showErrorMessage('Please enter a valid 6-digit verification code.');
 //       return false;
 //     }
-    
+
 //     if (!RegExp(r'^\d{6}$').hasMatch(pin)) {
 //       _showErrorMessage('Verification code must contain only numbers.');
 //       return false;
 //     }
-    
+
 //     return true;
 //   }
 
 //   Future<void> _handleSuccessfulVerification() async {
 //     log("PIN verification successful for email: ${widget.tempEmail}");
-    
+
 //     // Stop the timer since verification is successful
 //     _timer?.cancel();
 //     setState(() {
 //       canResend = false;
 //     });
-    
+
 //     _showSuccessMessage('Email verified successfully! Creating your account...', seconds: 2);
-    
+
 //     // Create Firebase account
 //     await _createUserAccount();
 //   }
 
 //   void _handleFailedVerification() {
 //     log("PIN verification failed");
-    
+
 //     // Clear the entered PIN for re-entry
 //     setState(() {
 //       pinCode = '';
 //     });
-    
+
 //     _showErrorMessage('Invalid verification code. Please check and try again.');
 //   }
 
@@ -356,9 +343,9 @@
 //         currentState = VerificationState.creating;
 //       });
 //       log("Creating Firebase account for: ${widget.tempEmail}");
-      
+
 //       bool accountCreated = await widget.createFirebaseAccount();
-      
+
 //       if (accountCreated) {
 //         log("Account created successfully");
 //         _navigateToNextScreen();
@@ -372,7 +359,7 @@
 //           seconds: 4
 //         );
 //       }
-      
+
 //     } catch (e) {
 //       log('Error creating account: $e');
 //       setState(() {
@@ -415,20 +402,20 @@
 //         currentState = VerificationState.resending;
 //         _resendAttempts++;
 //       });
-      
+
 //       log("Attempting to resend code (attempt $_resendAttempts/$_maxResendAttempts) to: ${widget.tempEmail}");
-      
+
 //       // Start timer immediately to prevent spam
 //       startTimer();
-      
+
 //       // Use the passed resend method
 //       await widget.resendOTP();
-      
+
 //       _showSuccessMessage(
 //         'Verification code sent to ${getMaskedEmail()}',
 //         seconds: 3
 //       );
-      
+
 //     } catch (e) {
 //       log('Error in resendCode: $e');
 //       _handleResendError();
@@ -467,27 +454,27 @@
 //       canResend = false;
 //     });
 //     startTimer(customSeconds: 30);
-    
+
 //     _showErrorMessage('Failed to resend code. Please try again in 30 seconds.');
 //   }
 
 //   // Email masking method
 //   String getMaskedEmail() {
 //     String email = widget.tempEmail;
-    
+
 //     if (email.isEmpty) {
 //       return "****@****.com";
 //     }
-    
+
 //     try {
 //       List<String> parts = email.split('@');
 //       if (parts.length != 2) {
 //         return "****@****.com";
 //       }
-      
+
 //       String username = parts[0];
 //       String domain = parts[1];
-      
+
 //       // Mask username - show first 2 and last 2 characters
 //       String maskedUsername;
 //       if (username.length <= 4) {
@@ -497,13 +484,13 @@
 //         String last = username.substring(username.length - 2);
 //         maskedUsername = first + "***" + last;
 //       }
-      
+
 //       // Mask domain - show first character and extension
 //       List<String> domainParts = domain.split('.');
 //       String maskedDomain = domainParts[0].substring(0, 1) + "***." + domainParts.sublist(1).join('.');
-      
+
 //       return maskedUsername + "@" + maskedDomain;
-      
+
 //     } catch (e) {
 //       log('Error masking email: $e');
 //       return "****@****.com";
@@ -512,7 +499,7 @@
 
 //   // Time formatting methods
 //   String get formattedTime => _formatTime(start);
-  
+
 //   String _formatTime(int seconds) {
 //     int minutes = seconds ~/ 60;
 //     int remainingSeconds = seconds % 60;
@@ -576,14 +563,14 @@
 //                   width: 700,
 //                 ),
 //                 const SizedBox(height: 24),
-            
+
 //                 // Title
 //                 const Text(
 //                   "Verify your Email",
 //                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
 //                 ),
 //                 const SizedBox(height: 8),
-            
+
 //                 // Subtext
 //                 Text(
 //                   "Please enter the 6 digit code sent to your\nemail : ${getMaskedEmail()}",
@@ -591,7 +578,7 @@
 //                   style: const TextStyle(fontSize: 14, color: Colors.grey),
 //                 ),
 //                 const SizedBox(height: 32),
-            
+
 //                 // Custom PIN Code Input
 //                 CustomPinCodeField(
 //                   onCompleted: (pin) {
@@ -603,7 +590,7 @@
 //                 ),
 
 //                 const SizedBox(height: 32),
-            
+
 //                 // Verify Button
 //                 ElevatedButton(
 //                   onPressed: () {
@@ -624,21 +611,21 @@
 //                   ),
 //                   child: const Text(
 //                     "Verify",
-//                     style: TextStyle(fontWeight: FontWeight.w700,  
+//                     style: TextStyle(fontWeight: FontWeight.w700,
 //                   fontSize: 24),
 //                   ),
 //                 ),
-            
+
 //                 const SizedBox(height: 24),
-            
+
 //                 const Text(
 //                   "Haven't received your code?",
 //                   style: TextStyle(fontSize: 16,
 //                   fontWeight: FontWeight.w700, color: Colors.black),
 //                 ),
-            
+
 //                 const SizedBox(height: 18),
-            
+
 //                 // Timer + Resend
 //                 Column(
 //                   mainAxisAlignment: MainAxisAlignment.center,
@@ -673,15 +660,9 @@
 //   }
 // }
 
-
-
-
-
-
-
-
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:convo_hearts/widgets/Custom_PIn_Code.dart';
 import 'package:flutter/material.dart';
 
@@ -691,7 +672,6 @@ enum VerificationState { idle, verifying, creating, resending }
 
 class VerifyEmail extends StatefulWidget {
   final String tempEmail;
-  final String tempPassword;
   final String generatedOTP;
   final Function(String) verifyOTP;
   final Function() resendOTP;
@@ -700,7 +680,6 @@ class VerifyEmail extends StatefulWidget {
   const VerifyEmail({
     super.key,
     required this.tempEmail,
-    required this.tempPassword,
     required this.generatedOTP,
     required this.verifyOTP,
     required this.resendOTP,
@@ -719,7 +698,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   String _pinCode = '';
   VerificationState _currentState = VerificationState.idle;
   int _resendAttempts = 0;
-  
+
   // Constants
   static const int _maxResendAttempts = 3;
   static const int _resendCooldownSeconds = 60;
@@ -739,17 +718,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   // Getters
   bool get _isProcessing => _currentState != VerificationState.idle;
-  
-  //
-  // String get _formattedTime {
-  //   int minutes = _timeRemaining ~/ 60;
-  //   int seconds = _timeRemaining % 60;
-  //   return "${seconds.toString().padLeft(0, '0')}:${seconds.toString().padLeft(20, '0')}";
-  // }
 
-
-
-    String get _formattedTime {
+  String get _formattedTime {
     int minutes = _timeRemaining ~/ 60;
     int seconds = _timeRemaining % 60;
     return "${minutes.toString().padLeft(2, '0')} : ${seconds.toString().padLeft(2, '0')}";
@@ -758,30 +728,32 @@ class _VerifyEmailState extends State<VerifyEmail> {
   String get _maskedEmail {
     try {
       if (widget.tempEmail.isEmpty) return "****@****.com";
-      
+
       List<String> parts = widget.tempEmail.split('@');
       if (parts.length != 2) return "****@****.com";
-      
+
       String username = parts[0];
       String domain = parts[1];
-      
+
       // Mask username
       String maskedUsername;
       if (username.length <= 2) {
-        maskedUsername = username[0] + "*";
+        maskedUsername = "${username[0]}*";
       } else if (username.length <= 4) {
-        maskedUsername = username[0] + "**" + username[username.length - 1];
+        maskedUsername = "${username[0]}**${username[username.length - 1]}";
       } else {
-        maskedUsername = username.substring(0, 2) + "***" + username.substring(username.length - 2);
+        maskedUsername =
+            "${username.substring(0, 2)}***${username.substring(username.length - 2)}";
       }
-      
+
       // Mask domain
       List<String> domainParts = domain.split('.');
-      if (domainParts.isEmpty) return maskedUsername + "@***";
-      
-      String maskedDomain = domainParts[0][0] + "***." + domainParts.sublist(1).join('.');
-      
-      return maskedUsername + "@" + maskedDomain;
+      if (domainParts.isEmpty) return "$maskedUsername@***";
+
+      String maskedDomain =
+          "${domainParts[0][0]}***.${domainParts.sublist(1).join('.')}";
+
+      return "$maskedUsername@$maskedDomain";
     } catch (e) {
       log('Error masking email: $e');
       return "****@****.com";
@@ -791,18 +763,18 @@ class _VerifyEmailState extends State<VerifyEmail> {
   // Timer methods
   // void _startTimer() {
   //   _timer?.cancel();
-    
+
   //   setState(() {
   //     _timeRemaining = _initialTimerSeconds;
   //     _canResend = false;
   //   });
-    
+
   //   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
   //     if (!mounted) {
   //       timer.cancel();
   //       return;
   //     }
-      
+
   //     setState(() {
   //       if (_timeRemaining > 0) {
   //         _timeRemaining--;
@@ -813,7 +785,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
   //     });
   //   });
   // }
-
 
   void _startTimer() {
     _timeRemaining = 20;
@@ -832,7 +803,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
   void _showInitialMessage() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        _showInfoMessage('We\'ve sent a 6-digit verification code to $_maskedEmail');
+        _showInfoMessage(
+          'We\'ve sent a 6-digit verification code to $_maskedEmail',
+        );
       }
     });
   }
@@ -853,7 +826,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   Future<void> _verifyPin(String pin) async {
     if (_isProcessing) return;
-    
+
     if (!_isValidPin(pin)) {
       _showErrorMessage('Please enter a valid 6-digit code');
       return;
@@ -866,7 +839,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
       // Call the verification function passed from parent
       bool isValid = widget.verifyOTP(pin.trim());
-      
+
       if (isValid) {
         await _handleSuccessfulVerification();
       } else {
@@ -889,10 +862,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
   Future<void> _handleSuccessfulVerification() async {
     _timer?.cancel();
     _showSuccessMessage('Email verified successfully!');
-    
+
     // Wait a moment before creating account
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     await _createAccount();
   }
 
@@ -911,7 +884,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       });
 
       bool success = await widget.createFirebaseAccount();
-      
+
       if (success) {
         if (mounted) {
           _navigateToProfile();
@@ -935,14 +908,16 @@ class _VerifyEmailState extends State<VerifyEmail> {
     Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => ProfileCreation(),
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ProfileCreation(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
           const curve = Curves.ease;
-          var tween = Tween(begin: begin, end: end).chain(
-            CurveTween(curve: curve),
-          );
+          var tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
           return SlideTransition(
             position: animation.drive(tween),
             child: child,
@@ -957,9 +932,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
   // Resend functionality
   Future<void> _resendCode() async {
     if (_isProcessing || !_canResend) return;
-    
+
     if (_resendAttempts >= _maxResendAttempts) {
-      _showErrorMessage('Maximum resend attempts reached. Please restart the signup process.');
+      _showErrorMessage(
+        'Maximum resend attempts reached. Please restart the signup process.',
+      );
       return;
     }
 
@@ -970,17 +947,16 @@ class _VerifyEmailState extends State<VerifyEmail> {
       });
 
       await widget.resendOTP();
-      
+
       _showSuccessMessage('New verification code sent to $_maskedEmail');
-      
+
       // Start cooldown timer
       setState(() {
         _timeRemaining = _resendCooldownSeconds;
         _canResend = false;
       });
-      
+
       _startTimer();
-      
     } catch (e) {
       log('Resend error: $e');
       _showErrorMessage('Failed to resend code. Please try again.');
@@ -993,6 +969,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   // Verify button handler
   void _onVerifyPressed() {
+    log(_pinCode);
     if (_pinCode.length != 6) {
       _showErrorMessage('Please enter the complete 6-digit code');
       return;
@@ -1052,19 +1029,16 @@ class _VerifyEmailState extends State<VerifyEmail> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo
-                Image.asset(
-                  'assets/images/image_splash2.jpg',
-                  width: 700,
-                ),
+                Image.asset('assets/images/image_splash2.jpg', width: 700),
                 const SizedBox(height: 24),
-            
+
                 // Title
                 const Text(
                   "Verify your Email",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-            
+
                 // Subtext
                 Text(
                   "Please enter the 6 digit code sent to your\nemail : $_maskedEmail",
@@ -1072,7 +1046,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                   style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 const SizedBox(height: 32),
-            
+
                 // Custom PIN Code Input
                 CustomPinCodeField(
                   onCompleted: _onPinCompleted,
@@ -1080,7 +1054,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 ),
 
                 const SizedBox(height: 32),
-            
+
                 // Verify Button
                 SizedBox(
                   width: 284,
@@ -1105,25 +1079,25 @@ class _VerifyEmailState extends State<VerifyEmail> {
                             ),
                           )
                         : _currentState == VerificationState.creating
-                            ? const Text(
-                                "Creating Account...",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                              )
-                            : const Text(
-                                "Verify",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                ),
-                              ),
+                        ? const Text(
+                            "Creating Account...",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          )
+                        : const Text(
+                            "Verify",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 24,
+                            ),
+                          ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 24),
-            
+
                 const Text(
                   "Haven't received your code?",
                   style: TextStyle(
@@ -1132,9 +1106,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     color: Colors.black,
                   ),
                 ),
-            
+
                 const SizedBox(height: 18),
-            
+
                 // Timer + Resend
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1148,8 +1122,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     ),
                     const SizedBox(height: 16),
                     GestureDetector(
-                      onTap: (_canResend && !_isProcessing && _resendAttempts < _maxResendAttempts) 
-                          ? _resendCode 
+                      onTap:
+                          (_canResend &&
+                              !_isProcessing &&
+                              _resendAttempts < _maxResendAttempts)
+                          ? _resendCode
                           : null,
                       child: _currentState == VerificationState.resending
                           ? const SizedBox(
@@ -1166,11 +1143,15 @@ class _VerifyEmailState extends State<VerifyEmail> {
                                   : "Resend!",
                               style: TextStyle(
                                 fontSize: 15,
-                                color: (_canResend && _resendAttempts < _maxResendAttempts)
+                                color:
+                                    (_canResend &&
+                                        _resendAttempts < _maxResendAttempts)
                                     ? const Color(0xff0900FF)
                                     : Colors.grey,
                                 fontWeight: FontWeight.w700,
-                                decorationColor: (_canResend && _resendAttempts < _maxResendAttempts)
+                                decorationColor:
+                                    (_canResend &&
+                                        _resendAttempts < _maxResendAttempts)
                                     ? const Color(0xff0900FF)
                                     : Colors.grey,
                                 decoration: TextDecoration.underline,

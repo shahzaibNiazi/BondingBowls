@@ -17,6 +17,9 @@ abstract class Routes {
   static const PROFILE_CREATION_DECISION = _Paths.PROFILE_CREATION_DECISION;
   static const VOICE_PROMPT_ONE = _Paths.VOICE_PROMPT_ONE;
   static const VOICE_PROMPT_SECOND = _Paths.VOICE_PROMPT_SECOND;
+  static const CHAT = _Paths.CHAT;
+  static const MATCH_PROFILE = _Paths.MATCH_PROFILE;
+  static const REDEEM = _Paths.REDEEM;
 }
 
 abstract class _Paths {
@@ -35,4 +38,7 @@ abstract class _Paths {
   static const VOICE_PROMPT_ONE = '/voice-prompt-one';
   static const VOICE_PROMPT_SECOND = '/voice-prompt-second';
   static const PROFILE_CREATION_DECISION = '/profile-creation-decision';
+  static const CHAT = '/chat';
+  static const MATCH_PROFILE = '/match-profile';
+  static const REDEEM = '/redeem';
 }

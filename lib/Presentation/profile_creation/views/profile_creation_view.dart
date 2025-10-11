@@ -128,7 +128,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                         ),
 
                         _buildTextField(
-                          '',
+                          'Nickname',
                           controller.nickname,
                           controller.updateNickname,
                           showCharCount: true,

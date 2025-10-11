@@ -1,27 +1,41 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:math' hide log;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:convo_hearts/Presentation/login/views/login_view.dart';
+import 'package:convo_hearts/data/repositories/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../../../src/feature/login/utils/login_screen.dart';
-import '../../../src/feature/login/utils/signup_screen.dart' show SignUpState;
-import '../../../src/feature/login/utils/verfy_email.dart';
+import '../../../app/config/global_var.dart';
+import '../../../app/routes/app_pages.dart';
+import '../../../app/utils/utils.dart';
+import '../../../data/model/user_model.dart';
+import '../../../data/provider/local_storage/local_db.dart';
 
 class SignupController extends GetxController {
   // Firebase and Auth instances
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  AuthenticationRepository authenticationRepository =
+      AuthenticationRepository();
 
+  int resendAttempts = 0;
+
+  // Constants
+  int maxResendAttempts = 3;
+  int resendCooldownSeconds = 60;
+  String pinCode = '';
   // Form Controllers
+  Timer? _timer;
+  int timeRemaining = 20; // 2 minutes timer
+  bool canResend = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -31,7 +45,7 @@ class SignupController extends GetxController {
   // State variables
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
-  SignUpState currentState = SignUpState.idle;
+  // SignUpState currentState = SignUpState.idle;
   bool isLoading = false;
 
   // Temporary data storage
@@ -41,8 +55,6 @@ class SignupController extends GetxController {
   DateTime? otpGeneratedTime;
 
   // Configuration
-  static const String _senderEmail = 'ali.sachal0322@gmail.com';
-  static const String _senderPassword = 'nvoo lbqg fvdx rohj';
   static const String _appName = 'ConvoHearts';
   static const int _otpValidityMinutes = 10;
 
@@ -50,6 +62,9 @@ class SignupController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    if (Get.arguments != null) {
+      emailController.text = Get.arguments['email'];
+    }
   }
 
   @override
@@ -62,7 +77,7 @@ class SignupController extends GetxController {
   }
 
   // Computed properties
-  bool get isProcessing => currentState != SignUpState.idle;
+  // bool get isProcessing => currentState != SignUpState.idle;
   bool get canResendOTP =>
       generatedOTP != null &&
       otpGeneratedTime != null &&
@@ -76,6 +91,97 @@ class SignupController extends GetxController {
     return remaining.isNegative ? Duration.zero : remaining;
   }
 
+  // PIN handling
+  Future onPinCompleted(String pin) async {
+    pinCode = pin;
+    await verifyOtp();
+  }
+
+  Future<void> resendCode() async {
+    if (!canResend) return;
+
+    if (resendAttempts >= maxResendAttempts) {
+      _showErrorMessage(
+        'Maximum resend attempts reached. Please restart the signup process.',
+      );
+      return;
+    }
+
+    try {
+      resendAttempts++;
+
+      await resendOTP();
+
+      _showSuccessMessage('New verification code sent to $maskedEmail');
+
+      // Start cooldown timer
+      timeRemaining = resendCooldownSeconds;
+      canResend = false;
+
+      startTimer();
+    } catch (e) {
+      log('Resend error: $e');
+      _showErrorMessage('Failed to resend code. Please try again.');
+    } finally {}
+  }
+
+  void startTimer() {
+    timeRemaining = 20;
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (timeRemaining == 0) {
+        timer.cancel();
+      } else {
+        timeRemaining--;
+      }
+    });
+  }
+
+  void onPinChanged(String pin) {
+    pinCode = pin;
+  }
+
+  String get formattedTime {
+    int minutes = timeRemaining ~/ 60;
+    int seconds = timeRemaining % 60;
+    return "${minutes.toString().padLeft(2, '0')} : ${seconds.toString().padLeft(2, '0')}";
+  }
+
+  String get maskedEmail {
+    try {
+      if (emailController.text.isEmpty) return "****@****.com";
+
+      List<String> parts = emailController.text.split('@');
+      if (parts.length != 2) return "****@****.com";
+
+      String username = parts[0];
+      String domain = parts[1];
+
+      // Mask username
+      String maskedUsername;
+      if (username.length <= 2) {
+        maskedUsername = "${username[0]}*";
+      } else if (username.length <= 4) {
+        maskedUsername = "${username[0]}**${username[username.length - 1]}";
+      } else {
+        maskedUsername =
+            "${username.substring(0, 2)}***${username.substring(username.length - 2)}";
+      }
+
+      // Mask domain
+      List<String> domainParts = domain.split('.');
+      if (domainParts.isEmpty) return "$maskedUsername@***";
+
+      String maskedDomain =
+          "${domainParts[0][0]}***.${domainParts.sublist(1).join('.')}";
+
+      return "$maskedUsername@$maskedDomain";
+    } catch (e) {
+      log('Error masking email: $e');
+      return "****@****.com";
+    }
+  }
+
   // UI State Management
   void togglePasswordVisibility() {
     obscurePassword = !obscurePassword;
@@ -84,18 +190,6 @@ class SignupController extends GetxController {
 
   void toggleConfirmPasswordVisibility() {
     obscureConfirmPassword = !obscureConfirmPassword;
-    update();
-  }
-
-  // void _setLoading(bool loading) {
-  //   setState(() {
-  //     isLoading = loading;
-  //   });
-  // }
-
-  void _setState(SignUpState state) {
-    currentState = state;
-    isLoading = state != SignUpState.idle;
     update();
   }
 
@@ -135,10 +229,6 @@ class SignupController extends GetxController {
     return null;
   }
 
-  bool _validateInputs() {
-    return formKey.currentState?.validate() ?? false;
-  }
-
   // Data Management
   void clearForm() {
     emailController.clear();
@@ -154,12 +244,6 @@ class SignupController extends GetxController {
     otpGeneratedTime = null;
     userToken = null; // Add this line
     userData = null; // Add this line
-  }
-
-  void _storeTempData() {
-    tempEmail = emailController.text.trim();
-    tempPassword = passwordController.text;
-    log('Stored temporary data for email: $tempEmail');
   }
 
   // Show snackbar helper methods
@@ -204,121 +288,46 @@ class SignupController extends GetxController {
 
   // Email Registration Check
 
-  Future<Map<String, dynamic>?> SignupUser({
-    required String email,
-    required String password,
-    required BuildContext context,
-  }) async {
-    const String baseUrl = "  https://d1a4cb5f78a8.ngrok-free.app  ";
-    const String signupUrl = "$baseUrl/api/v1/users/create";
+  Future<void> signUp(String email, String password) async {
+    Map<String, dynamic> json = {
+      "email": email.trim().toString(),
+      "password": password.trim().toString(),
+    };
 
     try {
-      final response = await http.post(
-        Uri.parse(signupUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"email": email.trim(), "password": password.trim()}),
-      );
+      final response = await authenticationRepository.signUp(json);
+      log(response.toString());
+      if (response['success'] == true) {
+        // Store user data and OTP from API response
+        userData = response['user'];
+        userToken = response['token'];
+        generatedOTP = response['user']['otp']?.toString();
+        otpGeneratedTime = DateTime.now();
 
-      final data = jsonDecode(response.body);
-      log("API Response: $data");
+        ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text("Account created! Please verify your email.")),
+        );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        if (data['success'] == true) {
-          // Store user data and OTP from API response
-          userData = data['user'];
-          userToken = data['token'];
-          generatedOTP = data['user']['otp']?.toString();
-          otpGeneratedTime = DateTime.now();
-
-          ScaffoldMessenger.of(Get.context!).showSnackBar(
-            SnackBar(
-              content: Text("Account created! Please verify your email."),
-            ),
-          );
-          return data; // Return the response data
-        }
+        Get.toNamed(Routes.VERIFY_OTP);
       } else {
-        // Check if user already exists
-        String errorMessage = data['message'] ?? 'Signup failed';
-        if (errorMessage.toLowerCase().contains('already exists') ||
+        String errorMessage = response['message'] ?? 'Signup failed';
+        if (errorMessage.contains(
+              'User with this email already exists and is active',
+            ) ||
             errorMessage.toLowerCase().contains('already registered')) {
           _showInfoMessage('Email already registered. Redirecting to login...');
           await Future.delayed(Duration(seconds: 2));
           navigateToLogin();
-          return null;
+          return;
         }
-
-        log("Network Error: ${response.statusCode}");
-        log("Error Body: ${response.body}");
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(errorMessage)));
       }
     } catch (e) {
-      log("Exception: $e");
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Network error occurred")));
+      log('-----String----${e.toString()}');
     }
-    return null;
   }
 
   String? userToken;
   Map<String, dynamic>? userData;
-
-  bool verifyOTPWithAPI(String enteredOTP) {
-    if (tempEmail == null) {
-      _showErrorMessage('Session expired. Please sign up again.');
-      return false;
-    }
-
-    // Start async verification without waiting
-    _performAsyncOTPVerification(enteredOTP);
-
-    return true;
-  }
-
-  Future<void> _performAsyncOTPVerification(String enteredOTP) async {
-    try {
-      log('=== Starting API OTP Verification ===');
-      log('Entered OTP: $enteredOTP');
-
-      _setState(SignUpState.verifying);
-
-      const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
-      const String verifyUrl = "$baseUrl/api/v1/users/verify-otp";
-
-      final response = await http.post(
-        Uri.parse(verifyUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "email": tempEmail!.trim(),
-          "otp": enteredOTP.trim(),
-        }),
-      );
-
-      final data = jsonDecode(response.body);
-      log("Verify OTP API Response: $data");
-
-      if (response.statusCode == 200 && data['status'] == true) {
-        userData = data['user'] ?? data['data'];
-        userToken = data['token'];
-
-        _setState(SignUpState.idle);
-        _showSuccessMessage('Email verified successfully!', seconds: 2);
-
-        await _createAccountAfterVerification();
-      } else {
-        _setState(SignUpState.idle);
-        String errorMessage = data['message'] ?? 'Invalid OTP';
-        _showErrorMessage(errorMessage);
-      }
-    } catch (e) {
-      log("Exception in _performAsyncOTPVerification: $e");
-      _setState(SignUpState.idle);
-      _showErrorMessage("Failed to verify OTP. Please try again.");
-    }
-  }
 
   Future<bool> resendOTPWithAPI({required String email}) async {
     const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
@@ -354,368 +363,6 @@ class SignupController extends GetxController {
     return false;
   }
 
-  // Future<bool> _isEmailAlreadyRegistered(String email) async {
-  //   try {
-  //     log('Checking if email is already registered: $email');
-  //     _setState(SignUpState.checking);
-
-  //     List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(email);
-  //     bool isRegistered = signInMethods.isNotEmpty;
-
-  //     log('Email registration status: $isRegistered (methods: $signInMethods)');
-
-  //     _setState(SignUpState.idle);
-  //     return isRegistered;
-
-  //   } catch (e) {
-  //     log('Error checking email registration: $e');
-  //     _setState(SignUpState.idle);
-  //     _showErrorMessage('Failed to verify email. Please check your connection and try again.');
-  //     return false;
-  //   }
-  // }
-
-  // Generate OTP with better randomness
-  String _generateOTP() {
-    final random = Random.secure();
-    String otp = '';
-    for (int i = 0; i < 6; i++) {
-      otp += random.nextInt(10).toString();
-    }
-    log('Generated secure OTP with length: ${otp.length}');
-    return otp;
-  }
-
-  bool _isOTPExpired() {
-    if (otpGeneratedTime == null) return true;
-    return DateTime.now().difference(otpGeneratedTime!).inMinutes >
-        _otpValidityMinutes;
-  }
-
-  // Email Sending
-  Future<bool> _sendOTPEmail(String email, String otp) async {
-    try {
-      log('Configuring SMTP server for Gmail');
-      final smtpServer = gmail(_senderEmail, _senderPassword);
-
-      log('Creating email message with OTP: $otp');
-      final message = Message()
-        ..from = Address(_senderEmail, _appName)
-        ..recipients.add(email)
-        ..subject = '$_appName - Email Verification Code'
-        ..html = _getEmailTemplate(otp);
-
-      log('Attempting to send email...');
-      final sendReport = await send(message, smtpServer);
-      log('Email sent successfully: ${sendReport.toString()}');
-      return true;
-    } catch (e) {
-      log('Error sending email: $e');
-      return false;
-    }
-  }
-
-  String _getEmailTemplate(String otp) {
-    return '''
-    <html>
-      <body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5;">
-        <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-          <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: #333; margin: 0;">$_appName</h1>
-            <p style="color: #666; margin: 10px 0 0 0;">Email Verification</p>
-          </div>
-          
-          <div style="text-align: center; margin-bottom: 30px;">
-            <div style="background-color: #f8f9fa; border-radius: 50%; width: 80px; height: 80px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 40px;">📧</span>
-            </div>
-            <h2 style="color: #333; margin: 0 0 10px 0;">Verify Your Email Address</h2>
-            <p style="color: #666; margin: 0; line-height: 1.5;">
-              Please use the verification code below to complete your registration:
-            </p>
-          </div>
-          
-          <div style="text-align: center; margin: 30px 0;">
-            <div style="background-color: #007bff; color: white; font-size: 32px; font-weight: bold; letter-spacing: 8px; padding: 20px; border-radius: 8px; display: inline-block; font-family: monospace;">
-              $otp
-            </div>
-          </div>
-          
-          <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin: 20px 0;">
-            <p style="margin: 0; color: #856404; font-size: 14px;">
-              <strong>Important:</strong> This code will expire in $_otpValidityMinutes minutes for security reasons.
-            </p>
-          </div>
-          
-          <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-            <p style="color: #999; font-size: 12px; margin: 0;">
-              If you didn't request this verification code, please ignore this email.
-            </p>
-            <p style="color: #999; font-size: 12px; margin: 5px 0 0 0;">
-              © 2025 $_appName. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </body>
-    </html>
-    ''';
-  }
-
-  // Save user to Firestore
-  Future<void> _saveUserToFirestore(User user) async {
-    try {
-      final firestore = FirebaseFirestore.instance;
-
-      await firestore.collection('users').doc(user.uid).set({
-        'uid': user.uid,
-        'email': user.email,
-        'createdAt': FieldValue.serverTimestamp(),
-        'isVerified': user.emailVerified,
-      });
-
-      log('✅ User data saved to Firestore');
-    } catch (e) {
-      log('❌ Error saving user data to Firestore: $e');
-      _showErrorMessage('Failed to save user data.');
-    }
-  }
-
-  Future<void> updateOTPInAPI(String email, String otp) async {
-    try {
-      const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
-      const String updateOTPUrl =
-          "$baseUrl/api/v1/users/update-otp"; // You'll need this endpoint
-
-      final response = await http.post(
-        Uri.parse(updateOTPUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"email": email, "otp": otp}),
-      );
-
-      if (response.statusCode == 200) {
-        log('OTP updated in API successfully');
-      } else {
-        log('Failed to update OTP in API: ${response.statusCode}');
-      }
-    } catch (e) {
-      log('Error updating OTP in API: $e');
-    }
-  }
-
-  Future<void> resendOTPViaGmail() async {
-    if (tempEmail == null) {
-      _showErrorMessage('Session expired. Please sign up again.');
-      return;
-    }
-
-    if (!canResendOTP) {
-      _showInfoMessage('Please wait before requesting a new code.');
-      return;
-    }
-
-    try {
-      _setState(SignUpState.sendingOTP);
-
-      // Generate new OTP
-      generatedOTP = _generateOTP();
-      otpGeneratedTime = DateTime.now();
-
-      // Send via Gmail
-      bool emailSent = await _sendOTPEmail(tempEmail!, generatedOTP!);
-
-      if (emailSent) {
-        // Update the OTP in your API as well
-        await updateOTPInAPI(tempEmail!, generatedOTP!);
-        _setState(SignUpState.idle);
-        _showSuccessMessage('New verification code sent to $tempEmail');
-      } else {
-        _setState(SignUpState.idle);
-        _showErrorMessage('Failed to resend OTP. Please try again.');
-        generatedOTP = null;
-        otpGeneratedTime = null;
-      }
-    } catch (e) {
-      log('Error in resendOTPViaGmail: $e');
-      _setState(SignUpState.idle);
-      _showErrorMessage('Failed to resend OTP. Please try again.');
-    }
-  }
-
-  Future<void> onEmailSignUp() async {
-    if (!_validateInputs()) return;
-
-    try {
-      final email = emailController.text.trim();
-      final password = passwordController.text.trim();
-
-      _setState(SignUpState.checking);
-      _storeTempData();
-
-      // Create user with API and send OTP
-      final result = await SignupUserWithCustomOTP(
-        email: email,
-        password: password,
-        context: Get.context!,
-      );
-
-      if (result != null && result['success'] == true) {
-        clearForm();
-        _setState(SignUpState.idle);
-
-        Navigator.push(
-          Get.context!,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                VerifyEmail(
-                  tempEmail: tempEmail!,
-                  tempPassword: tempPassword!,
-                  generatedOTP: generatedOTP!,
-                  verifyOTP: verifyOTPWithAPI, // Now synchronous wrapper
-                  resendOTP: resendOTP,
-                  createFirebaseAccount: createFirebaseAccount,
-                ),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(1.0, 0.0);
-                  const end = Offset.zero;
-                  const curve = Curves.ease;
-                  var tween = Tween(
-                    begin: begin,
-                    end: end,
-                  ).chain(CurveTween(curve: curve));
-                  return SlideTransition(
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
-            transitionDuration: Duration(milliseconds: 800),
-          ),
-        );
-      } else {
-        clearTempData();
-        _setState(SignUpState.idle);
-      }
-    } catch (e) {
-      log('Error in onEmailSignUp: $e');
-      _setState(SignUpState.idle);
-      clearTempData();
-      _showErrorMessage('Something went wrong. Please try again.');
-    }
-  }
-
-  // Send OTP to stored email
-  Future<bool> sendOTPToEmail() async {
-    if (tempEmail == null) {
-      _showErrorMessage('Session expired. Please try again.');
-      return false;
-    }
-
-    try {
-      log('Starting OTP send process for: $tempEmail');
-      _setState(SignUpState.sendingOTP);
-
-      generatedOTP = _generateOTP();
-      otpGeneratedTime = DateTime.now();
-      log('Generated OTP: $generatedOTP at ${otpGeneratedTime.toString()}');
-
-      bool emailSent = await _sendOTPEmail(tempEmail!, generatedOTP!);
-
-      if (!emailSent) {
-        _showErrorMessage(
-          'Failed to send verification email. Please check your internet connection and try again.',
-          seconds: 5,
-        );
-        generatedOTP = null;
-        otpGeneratedTime = null;
-      }
-
-      return emailSent;
-    } catch (e) {
-      log('Error in _sendOTPToEmail: $e');
-      _showErrorMessage('Failed to send OTP: ${e.toString()}');
-      generatedOTP = null;
-      otpGeneratedTime = null;
-      return false;
-    }
-  }
-
-  Future<Map<String, dynamic>?> SignupUserWithCustomOTP({
-    required String email,
-    required String password,
-    required BuildContext context,
-  }) async {
-    const String baseUrl = "https://d1a4cb5f78a8.ngrok-free.app";
-    const String signupUrl = "$baseUrl/api/v1/users/create";
-
-    // Generate OTP locally
-    generatedOTP = _generateOTP();
-    otpGeneratedTime = DateTime.now();
-
-    try {
-      // First, send OTP via Gmail
-      _setState(SignUpState.sendingOTP);
-      bool emailSent = await _sendOTPEmail(email, generatedOTP!);
-
-      if (!emailSent) {
-        _showErrorMessage(
-          'Failed to send verification email. Please try again.',
-        );
-        return null;
-      }
-
-      // Then create user account with the generated OTP
-      final response = await http.post(
-        Uri.parse(signupUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "email": email.trim(),
-          "password": password.trim(),
-          "otp": generatedOTP, // Send our generated OTP to API
-        }),
-      );
-
-      final data = jsonDecode(response.body);
-      log("API Response: $data");
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        if (data['success'] == true) {
-          // Store user data from API response
-          userData = data['user'];
-          userToken = data['token'];
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Account created! Please verify your email."),
-            ),
-          );
-          return data;
-        }
-      } else {
-        // Check if user already exists
-        String errorMessage = data['message'] ?? 'Signup failed';
-        if (errorMessage.toLowerCase().contains('already exists') ||
-            errorMessage.toLowerCase().contains('already registered')) {
-          _showInfoMessage('Email already registered. Redirecting to login...');
-          await Future.delayed(Duration(seconds: 2));
-          navigateToLogin();
-          return null;
-        }
-
-        log("Network Error: ${response.statusCode}");
-        log("Error Body: ${response.body}");
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(errorMessage)));
-      }
-    } catch (e) {
-      log("Exception: $e");
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Network error occurred")));
-    }
-    return null;
-  }
-
   Future<void> resendOTP() async {
     if (tempEmail == null) {
       _showErrorMessage('Session expired. Please sign up again.');
@@ -728,7 +375,7 @@ class SignupController extends GetxController {
     }
 
     try {
-      _setState(SignUpState.sendingOTP);
+      // _setState(SignUpState.sendingOTP);
 
       // Use the API resend function
       bool success = await resendOTPWithAPI(email: tempEmail!);
@@ -737,51 +384,15 @@ class SignupController extends GetxController {
         _showSuccessMessage('New verification code sent to $tempEmail');
       }
 
-      _setState(SignUpState.idle);
+      // _setState(SignUpState.idle);
     } catch (e) {
       log('Error in resendOTP: $e');
-      _setState(SignUpState.idle);
+      // _setState(SignUpState.idle);
       _showErrorMessage('Failed to resend OTP. Please try again.');
     }
   }
 
   // Enhanced OTP verification
-  bool verifyOTP(String enteredOTP) {
-    try {
-      log('=== Starting OTP Verification ===');
-      log('Entered OTP: $enteredOTP');
-      log('Stored OTP: $generatedOTP');
-
-      if (generatedOTP == null) {
-        log('❌ No OTP found in memory');
-        _showErrorMessage('No OTP found. Please request a new one.');
-        return false;
-      }
-
-      if (_isOTPExpired()) {
-        log('❌ OTP has expired');
-        _showErrorMessage('OTP has expired. Please request a new one.');
-        generatedOTP = null;
-        otpGeneratedTime = null;
-        return false;
-      }
-
-      final cleanEnteredOTP = enteredOTP.trim();
-      bool isValid = generatedOTP == cleanEnteredOTP;
-
-      if (!isValid) {
-        _showErrorMessage('Invalid OTP. Please check and try again.');
-      } else {
-        _showSuccessMessage('OTP verified successfully!', seconds: 2);
-      }
-
-      return isValid;
-    } catch (e) {
-      log('❌ Error verifying OTP: $e');
-      _showErrorMessage('Failed to verify OTP. Please try again.');
-      return false;
-    }
-  }
 
   Future<bool> createFirebaseAccount() async {
     return await _createAccountAfterVerification();
@@ -794,7 +405,7 @@ class SignupController extends GetxController {
     }
 
     try {
-      _setState(SignUpState.creating);
+      // _setState(SignUpState.creating);
       log('Creating Firebase account for verified user');
 
       // Create Firebase account
@@ -835,7 +446,7 @@ class SignupController extends GetxController {
 
         log('✅ Firebase account created and data saved successfully');
         clearTempData();
-        _setState(SignUpState.idle);
+        // _setState(SignUpState.idle);
         _showSuccessMessage(
           'Account created successfully! Welcome to $_appName!',
         );
@@ -845,13 +456,13 @@ class SignupController extends GetxController {
       return false;
     } on FirebaseAuthException catch (e) {
       log('Firebase Auth Error: ${e.code} - ${e.message}');
-      _setState(SignUpState.idle);
+      // _setState(SignUpState.idle);
       String message = _getFirebaseErrorMessage(e.code);
       _showErrorMessage(message);
       return false;
     } catch (e) {
       log('General Error: $e');
-      _setState(SignUpState.idle);
+      // _setState(SignUpState.idle);
       _showErrorMessage('Something went wrong. Please try again.');
       return false;
     }
@@ -872,77 +483,111 @@ class SignupController extends GetxController {
     }
   }
 
-  // Social Sign Up Methods
-  Future<void> onGoogleSignUp() async {
+  Future<void> googleSignIn(BuildContext context) async {
+    GoogleSignInAccount? currentUser;
+    // signOut();
     try {
-      _setState(SignUpState.creating);
-
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) {
-        _setState(SignUpState.idle);
-        return;
+      final googleUser = await _googleSignIn.signIn();
+      if (await _googleSignIn.isSignedIn()) {
+        _googleSignIn.signOut();
       }
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      UserCredential userCredential = await _auth.signInWithCredential(
-        credential,
-      );
-
-      if (userCredential.user != null) {
-        await _saveUserToFirestore(userCredential.user!);
-        clearForm();
-        clearTempData();
-        _setState(SignUpState.idle);
-        _showSuccessMessage('Signed up with Google successfully!');
+      if (googleUser != null) {
+        currentUser = googleUser;
+        final googleAuth = await googleUser.authentication;
+        final _ = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        log('Acess Token ------ ${googleAuth.accessToken.toString()}');
+        log('Id Token --------${googleAuth.idToken.toString()}');
+        externalLoginCallBack(idToken: googleAuth.idToken ?? "");
       }
-    } on FirebaseAuthException catch (e) {
-      _setState(SignUpState.idle);
-      _showErrorMessage(e.message ?? 'Google sign up failed');
     } catch (e) {
-      _setState(SignUpState.idle);
-      _showErrorMessage('Something went wrong with Google sign up.');
+      log('Error in google function $e');
     }
   }
 
-  Future<void> onAppleSignUp() async {
+  void externalLoginCallBack({String? idToken}) async {
+    final SharedPreferences _ = await SharedPreferences.getInstance();
+    Map<String, dynamic> json = {"provider": "google", "googleToken": idToken};
+
+    Map<String, dynamic>? response;
     try {
-      _setState(SignUpState.creating);
+      response = await authenticationRepository.socialLogin(json);
+      log('Response ----------- ${response.toString()}');
+      if (response != null) {
+        UserModel user = UserModel.fromJson(response['user']);
+        Globals.authToken = response['token'];
+        await LocalDB.setData('auth_token', response['token']);
+        Globals.authToken = await LocalDB.getData('auth_token');
+        await LocalDB.setData('user_data', user.toJson());
+        Globals.user = UserModel.fromJson(
+          jsonDecode(await LocalDB.getData('user_data')),
+        );
+        Utils.showSnackBar('Success', "Successfully Logged In", Colors.green);
 
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-
-      final oauthCredential = OAuthProvider("apple.com").credential(
-        idToken: credential.identityToken,
-        accessToken: credential.authorizationCode,
-      );
-
-      UserCredential userCredential = await _auth.signInWithCredential(
-        oauthCredential,
-      );
-
-      if (userCredential.user != null) {
-        await _saveUserToFirestore(userCredential.user!);
-        clearForm();
-        clearTempData();
-        _setState(SignUpState.idle);
-        _showSuccessMessage('Signed up with Apple successfully!');
+        Get.offAllNamed(Routes.PROFILE_CREATION_DECISION);
+        log('-----${Globals.user!.toJson().toString()}');
+      } else if (response != null && response['success'] == false) {
+        Utils.showToast(message: response['message']);
+      } else {
+        Utils.showToast(message: "Please try again later");
       }
-    } on FirebaseAuthException catch (e) {
-      _setState(SignUpState.idle);
-      _showErrorMessage(e.message ?? 'Apple sign up failed');
     } catch (e) {
-      _setState(SignUpState.idle);
-      _showErrorMessage('Something went wrong with Apple sign up.');
+      update();
+    }
+  }
+
+  Future<void> appleSignIn() async {
+    log('inside apple login');
+    final SharedPreferences _ = await SharedPreferences.getInstance();
+    Map<String, dynamic>? resp;
+    try {
+      if (await SignInWithApple.isAvailable()) {
+        AuthorizationCredentialAppleID credential =
+            await SignInWithApple.getAppleIDCredential(
+              scopes: [
+                AppleIDAuthorizationScopes.email,
+                AppleIDAuthorizationScopes.fullName,
+              ],
+            );
+        log('credentials idtoken: ${credential.identityToken}');
+        log('credentials user identifier: ${credential.userIdentifier}');
+        log(' user given name: ${credential.givenName}');
+        log(' user family name: ${credential.familyName}');
+        // resp = await profileRepository.appleLogin(
+        //   idToken: credential.identityToken,
+        //   name: credential.givenName == null
+        //       ? null
+        //       : '${credential.givenName} ${credential.familyName}',
+        // );
+        if (resp != null && resp['success'] == true) {
+          log('apple login response: $resp');
+          UserModel userData = UserModel.fromJson(resp['data']);
+          Globals.authToken = resp['data']['tokens']['access'];
+          if (userData != null) {
+            await LocalDB.setData(
+              'auth_token',
+              resp['data']['tokens']['access'],
+            );
+            Globals.authToken = await LocalDB.getData('auth_token');
+            log('User Data ------ ${userData.toJson().toString()}');
+            await LocalDB.setData('user_data', userData.toJson());
+            Globals.user = UserModel.fromJson(
+              jsonDecode(await LocalDB.getData('user_data')),
+            );
+            Get.offAllNamed(Routes.HOME);
+          } else {
+            // Get.toNamed(Routes.PROFILE, arguments: [userData]);
+          }
+        } else {
+          Utils.showToast(message: "Please try again later");
+        }
+      } else {
+        Utils.showToast(message: "Apple login not available");
+      }
+    } catch (e) {
+      log('Error in apple signin function $e');
     }
   }
 
@@ -961,7 +606,7 @@ class SignupController extends GetxController {
     Navigator.pushReplacement(
       Get.context!,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => LoginScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => LoginView(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
@@ -978,5 +623,62 @@ class SignupController extends GetxController {
         transitionDuration: Duration(milliseconds: 800),
       ),
     );
+  }
+
+  Future<void> verifyOtp() async {
+    if (pinCode.length != 6) {
+      _showErrorMessage('Please enter the complete 6-digit code');
+      return;
+    }
+
+    Map<String, dynamic> json = {"email": emailController.text, "otp": pinCode};
+
+    try {
+      final response = await authenticationRepository.verifyOTP(json);
+      log(response.toString());
+      if (response != null) {
+        if (response['success'] == true && response['user'] != null) {
+          log(response.toString());
+          UserModel user = UserModel.fromJson(response['user']);
+          if (response['token'] != null) {
+            Globals.authToken = response['token'];
+            await LocalDB.setData('auth_token', response['token']);
+            Globals.authToken = await LocalDB.getData('auth_token');
+            await LocalDB.setData('user_data', user.toJson());
+            Globals.user = UserModel.fromJson(
+              jsonDecode(await LocalDB.getData('user_data')),
+            );
+            Utils.showSnackBar(
+              'Success',
+              "Successfully Logged In",
+              Colors.green,
+            );
+
+            Get.offAllNamed(Routes.PROFILE_CREATION_DECISION);
+            log('-----${Globals.user!.toJson().toString()}');
+          }
+        } else if (response != null && response['success'] == false) {
+          if (response['message'] == "User is not verified.") {
+            Get.offNamed(
+              Routes.VERIFY_OTP,
+              arguments: {
+                "email": emailController.text.trim(),
+                "fromRegister": true,
+              },
+            );
+            Utils.showToast(
+              message: "Otp sent successfully to your given email",
+            );
+          } else {
+            Utils.showToast(message: response['message']);
+          }
+        }
+      } else {
+        log('Registration failed with status: ${response.statusCode}');
+        throw Exception('Failed to register: ${response.statusMessage}');
+      }
+    } catch (e) {
+      log('-----String----${e.toString()}');
+    }
   }
 }

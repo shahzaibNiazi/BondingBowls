@@ -1,9 +1,11 @@
-
+import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:convo_hearts/src/feature/BottomBar/chat/received_likes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
-import '../../settings/settings.dart';
+import '../../settings/getbowls.dart' show GetBowlsScreen;
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -30,20 +32,12 @@ class _ChatsScreenState extends State<ChatsScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: SvgPicture.asset(
-                              "assets/icon/svg/back_arrow.svg",
-                            ),
-                          ),
                           Expanded(
                             child: Center(
                               child: Text(
                                 "CHATS",
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 24.sp,
                                   fontFamily: "Playfair",
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -57,7 +51,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SettingsScreen(),
+                                      builder: (context) => GetBowlsScreen(),
                                     ),
                                   );
                                 },
@@ -70,7 +64,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                               Text(
                                 "300",
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 14.sp,
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -92,12 +86,12 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: Colors.grey[400]!),
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           '~Slideshow Ads Space',
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -106,11 +100,13 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     Column(
                       children: [
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context)=>ReceivedLikesScreen()) 
-                              );
+                              MaterialPageRoute(
+                                builder: (context) => ReceivedLikesScreen(),
+                              ),
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.symmetric(
@@ -125,12 +121,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
                               decoration: BoxDecoration(
                                 color: Color(0xffffffff),
                                 borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  color: Color(0xffBC0072),
-                                ),
+                                border: Border.all(color: Color(0xffBC0072)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.08),
+                                    color: Colors.black.withValues(alpha: 0.08),
                                     blurRadius: 8.0,
                                     offset: Offset(0, 4),
                                   ),
@@ -140,7 +134,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                 child: Text(
                                   "Received Likes (70)",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w700,
                                     color: Color(0xff000000),
                                   ),
@@ -152,7 +146,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
                         // Card List
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 25,
+                          ),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: Color(0xffffffff),
@@ -161,12 +158,14 @@ class _ChatsScreenState extends State<ChatsScreen> {
                           child: Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
                                 child: Center(
                                   child: Text(
                                     "CaféConnect matches",
                                     style: TextStyle(
-                                      fontSize: 32,
+                                      fontSize: 32.sp,
                                       fontWeight: FontWeight.w700,
                                       color: Color(0xffFF9500),
                                     ),
@@ -176,17 +175,22 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
                               // Chat List Items
                               _buildChatItem(
+                                onTap: () {
+                                  Get.toNamed(Routes.CHAT);
+                                },
                                 name: "Alex supatra",
-                                location: "25k, Chinese",
+                                location: "25F, Chinese",
                                 isOnline: true,
                                 isMainMatch: true,
                                 assetimage: 'assets/images/AI-AVATAR.jpg',
                                 top_text: 'NRIC',
                               ),
                               SizedBox(height: 40),
-                              
+
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                ),
                                 child: Row(
                                   children: [
                                     // Left divider
@@ -199,11 +203,13 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
                                     // Text with spacing
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
                                       child: Text(
                                         "Main Matches",
-                                        style: const TextStyle(
-                                          fontSize: 24,
+                                        style: TextStyle(
+                                          fontSize: 24.sp,
                                           fontWeight: FontWeight.w700,
                                           color: Color(0xffBD5FCC),
                                         ),
@@ -224,19 +230,24 @@ class _ChatsScreenState extends State<ChatsScreen> {
                               SizedBox(height: 20),
 
                               _buildChatItem(
+                                onTap: () {
+                                  Get.toNamed(Routes.CHAT);
+                                },
                                 name: "Alex supatra",
-                                location: "25k, Chinese", 
+                                location: "25F, Chinese",
                                 isOnline: true,
                                 hasNewMessage: true,
-                                assetimage: 'assets/images/AI-AVATAR.jpg', 
+                                assetimage: 'assets/images/AI-AVATAR.jpg',
                                 top_text: 'Singpass',
-                                color1: Color(0xffFF0000)
+                                color1: Color(0xffFF0000),
                               ),
 
                               SizedBox(height: 40),
-                              
+
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15,
+                                ),
                                 child: Row(
                                   children: [
                                     // Left divider
@@ -249,11 +260,13 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
                                     // Text with spacing
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
                                       child: Text(
                                         "System message",
-                                        style: const TextStyle(
-                                          fontSize: 24,
+                                        style: TextStyle(
+                                          fontSize: 24.sp,
                                           fontWeight: FontWeight.w700,
                                           color: Color(0xff6C495E),
                                         ),
@@ -302,126 +315,136 @@ class _ChatsScreenState extends State<ChatsScreen> {
     required String location,
     required String assetimage,
     required String top_text,
+    required void Function()? onTap,
     Color color1 = const Color(0xffE39898),
     bool isOnline = false,
     bool hasNewMessage = false,
     bool isMainMatch = false,
     // bool isSystemMessage = false,
   }) {
-    return Stack(
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Color(0xffffffff),
-            border: Border.all(color: Color.fromARGB(73, 0, 0, 0)),
-            borderRadius: BorderRadius.circular(10)
-          ),
-          child: Row(
-            children: [
-              // Profile Picture with online indicator
-              Stack(
-                children: [
-                  Container(
-                    height: 97,
-                    width: 92,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(assetimage),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              
-              const SizedBox(width: 12),
-              
-              // Chat info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xffffffff),
+              border: Border.all(color: Color.fromARGB(73, 0, 0, 0)),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                // Profile Picture with online indicator
+                Stack(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      height: 97,
+                      width: 92,
                       decoration: BoxDecoration(
-                        color: color1,
-                        border: Border.all(color: Color(0xffC672A5), width: 2),
-                        borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: Text(
-                        top_text,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xffffffff),
+                        image: DecorationImage(
+                          image: AssetImage(assetimage),
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      name,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      location,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff000000),
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
                   ],
                 ),
-              ),
-            ],
+
+                const SizedBox(width: 12),
+
+                // Chat info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: color1,
+                          border: Border.all(
+                            color: Color(0xffC672A5),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          top_text,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xffffffff),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        location,
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xff000000),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-    
-        if (hasNewMessage)
-          Positioned(
-            top: -2,
-            right: 9,
-            child: Container(
-              height: 28,
-              width: 28,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-              ),
+
+          if (hasNewMessage)
+            Positioned(
+              top: -2,
+              right: 9,
               child: Container(
-                width: 24,
-                height: 24,
+                height: 28,
+                width: 28,
                 decoration: BoxDecoration(
-                  color: Colors.green,
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.white, width: 2),
                 ),
-                child: Center(
-                  child: Text(
-                    "1",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "1",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-      ] 
+        ],
+      ),
     );
   }
 }
@@ -449,7 +472,7 @@ class ChatItemTaco extends StatelessWidget {
       children: [
         // Main card
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           padding: const EdgeInsets.fromLTRB(80, 12, 16, 12),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -464,23 +487,26 @@ class ChatItemTaco extends StatelessWidget {
               children: [
                 // Badge
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Color(0xffC672A5), width: 2), 
+                    border: Border.all(color: Color(0xffC672A5), width: 2),
                   ),
                   child: Text(
                     badgeText,
-                    style: const TextStyle(
-                      fontSize: 13,
+                    style: TextStyle(
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
                   ),
                 ),
                 const SizedBox(height: 6),
-            
+
                 // Name + Verified icon
                 Row(
                   children: [
@@ -496,11 +522,11 @@ class ChatItemTaco extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    Image.asset("assets/images/verify.png")
+                    Image.asset("assets/images/verify.png", scale: 2),
                   ],
                 ),
                 const SizedBox(height: 2),
-            
+
                 // Details
                 Text(
                   details,
@@ -520,10 +546,7 @@ class ChatItemTaco extends StatelessWidget {
         Positioned(
           top: -5,
           left: 60,
-          child: Image.asset(
-            imagePath,
-            height: 110,
-          ),
+          child: Image.asset(imagePath, height: 110),
         ),
 
         // Message count badge (green circle)
@@ -544,43 +567,39 @@ class ChatItemTaco extends StatelessWidget {
         //   ),
         // ),
 
-
-
         // if (hasNewMessage)
-          Positioned(
-            top: -2,
-            right: 9,
+        Positioned(
+          top: -2,
+          right: 9,
+          child: Container(
+            height: 28,
+            width: 28,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 255, 255, 255),
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+            ),
             child: Container(
-              height: 28,
-              width: 28,
+              width: 24,
+              height: 24,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 255, 255),
+                color: Colors.green,
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
               ),
-              child: Container(
-                width: 24,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: Center(
-                  child: Text(
-                    "1",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                    ),
+              child: Center(
+                child: Text(
+                  "1",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
           ),
-
-
+        ),
       ],
     );
   }
