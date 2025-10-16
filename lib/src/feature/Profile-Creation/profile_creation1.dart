@@ -704,6 +704,7 @@ class ChipSelector extends StatefulWidget {
 
   const ChipSelector({
     Key? key,
+
     required this.options,
     required this.selectedOptions,
     required this.onSelectionChanged,
