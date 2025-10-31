@@ -402,7 +402,7 @@ import 'package:flutter/material.dart';
 import '../BottomBar/bottom_bar.dart';
 
 class ProfileCreation extends StatefulWidget {
-  const ProfileCreation({Key? key}) : super(key: key);
+  const ProfileCreation({super.key});
 
   @override
   State<ProfileCreation> createState() => _ProfileCreationState();
@@ -664,11 +664,11 @@ class FlagChip extends StatelessWidget {
   final VoidCallback? onTap;
 
   const FlagChip({
-    Key? key,
+    super.key,
     required this.label,
     this.isSelected = false,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -703,12 +703,12 @@ class ChipSelector extends StatefulWidget {
   final Function(List<String>) onSelectionChanged;
 
   const ChipSelector({
-    Key? key,
+    super.key,
 
     required this.options,
     required this.selectedOptions,
     required this.onSelectionChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<ChipSelector> createState() => _ChipSelectorState();
@@ -746,8 +746,7 @@ class _ChipSelectorState extends State<ChipSelector> {
 class FlexibleChipSelector extends StatelessWidget {
   final List<String> options;
 
-  const FlexibleChipSelector({Key? key, required this.options})
-    : super(key: key);
+  const FlexibleChipSelector({super.key, required this.options});
 
   @override
   Widget build(BuildContext context) {

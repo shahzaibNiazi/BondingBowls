@@ -32,7 +32,7 @@ class LoginController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  bool obscurePassword = true;
+  RxBool obscurePassword = true.obs;
   bool isLoading = false;
 
   @override
@@ -42,7 +42,8 @@ class LoginController extends GetxController {
   }
 
   void togglePasswordVisibility() {
-    obscurePassword = !obscurePassword;
+    obscurePassword.value = !obscurePassword.value;
+    update();
   }
 
   // Handle login

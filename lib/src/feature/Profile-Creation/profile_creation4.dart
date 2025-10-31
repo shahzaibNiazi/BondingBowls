@@ -276,12 +276,15 @@
 // }
 
 import 'dart:developer';
+
 import 'package:convo_hearts/src/feature/Profile-Creation/profile_creation2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../app/utils/utils.dart';
+
 class ProfileCreation4 extends StatefulWidget {
-  const ProfileCreation4({Key? key}) : super(key: key);
+  const ProfileCreation4({super.key});
 
   @override
   State<ProfileCreation4> createState() => _ProfileCreation4State();
@@ -368,9 +371,9 @@ class _ProfileCreation4State extends State<ProfileCreation4> {
                   [
                     'Anime Portrait',
                     'Manga Portrait',
-                    'Disney Portrait',
+                    'Enchanted Portrait',
                     'Surreal Portrait',
-                    '3d Character',
+                    '3D Character',
                   ],
                   'Art Style 1',
                 ),
@@ -386,20 +389,18 @@ class _ProfileCreation4State extends State<ProfileCreation4> {
                   children: [
                     // Image Container
                     Container(
-                      width: double.infinity,
-                      height: 480,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
+                      width: 400, // Make sure width == height
+                      height: 400,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle, // Circular shape
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
+                      child: ClipOval(
                         child: Stack(
                           fit: StackFit.expand,
                           children: [
                             // Avatar Image
                             Image.asset(
-                              'assets/images/camer_avatar.jpg',
-                              // Replace with your image
+                              Utils.getImagePath('camer_avatar', format: 'jpg'),
                               fit: BoxFit.cover,
                             ),
 
@@ -411,7 +412,7 @@ class _ProfileCreation4State extends State<ProfileCreation4> {
                                   end: Alignment.bottomCenter,
                                   colors: [
                                     Colors.transparent,
-                                    Colors.black.withOpacity(0.1),
+                                    Colors.black.withValues(alpha: 0.1),
                                   ],
                                 ),
                               ),

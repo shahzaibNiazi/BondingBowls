@@ -24,6 +24,8 @@ import '../../../verify-dating-profile/dating_verification.dart';
 
 class ProfileCreationController extends GetxController {
   //TODO: Implement ProfileCreationController
+  final ImagePicker _picker = ImagePicker();
+  final Rx<File?> capturedImage = Rx<File?>(null);
 
   final count = 0.obs;
   var question = ''.obs;
@@ -46,6 +48,7 @@ class ProfileCreationController extends GetxController {
   String? recordedFilePath;
 
   List<String> locations = [
+    'East',
     'North',
     'North-East',
     'North-West',
@@ -63,6 +66,7 @@ class ProfileCreationController extends GetxController {
     'Islam',
     'Taoism',
     'Hinduism',
+    'Other',
   ];
 
   List<String> greenFlags = [
@@ -132,8 +136,12 @@ class ProfileCreationController extends GetxController {
   }
 
   void reloadData() async {
-    updateNickname(Globals.user?.nickname ?? '');
+    if (Globals.user!.profileImages != null &&
+        Globals.user!.profileImages!.isNotEmpty) {
+      images.addAll(Globals.user!.profileImages ?? []);
+    }
 
+    updateNickname(Globals.user?.nickname ?? '');
     updateBio(Globals.user?.bio ?? '');
     updateJobInterests(Globals.user?.lifestyleInterests ?? '');
     selectDatingIntention(Globals.user?.datingIntentions ?? '');
@@ -147,8 +155,12 @@ class ProfileCreationController extends GetxController {
     selectedDrinking = Globals.user?.drinking ?? '';
     selectedClubs = Globals.user?.clubbing ?? '';
     ownsPet = Globals.user?.pets == true ? 'yes' : 'no';
-    selectedGreenFlags = Globals.user?.greenFlags ?? [];
-    selectedRedFlags = Globals.user?.redFlags ?? [];
+
+    selectedGreenFlags = List<String>.from(Globals.user?.greenFlags ?? []);
+    selectedRedFlags = List<String>.from(
+      Globals.user?.redFlags ?? [],
+    ); // ✅ FIX HERE
+
     audioUrl = Globals.user?.voicePrompt ?? '';
     log(audioUrl.toString());
   }
@@ -157,6 +169,16 @@ class ProfileCreationController extends GetxController {
   void updateNickname(String value) {
     nickname.text = value;
     update();
+  }
+
+  Future generateImage(originalImage) async {
+    final animeImage = await profileCreationRepository.convertToAnimeStyle(
+      originalImage,
+    );
+    if (animeImage != null) {
+      log('Anime Image ${animeImage.path}');
+      Image.file(animeImage);
+    }
   }
 
   void updateJobInterests(String value) {
@@ -195,7 +217,6 @@ class ProfileCreationController extends GetxController {
   void toggleRedFlag(String language) {
     if (selectedRedFlags.contains(language)) {
       selectedRedFlags.remove(language);
-      log(selectedRedFlags.toString());
     } else {
       selectedRedFlags.add(language);
     }
@@ -251,8 +272,29 @@ class ProfileCreationController extends GetxController {
 
   Future<void> pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
     if (pickedFile != null) {
-      images.add(File(pickedFile.path));
+      final file = File(pickedFile.path);
+      final fileSize = await file.length();
+      const int maxFileSize = 5 * 1024 * 1024; // 1 MB in bytes
+      final sizeInMb = (fileSize / (1024 * 1024)).toStringAsFixed(2);
+
+      if (fileSize > maxFileSize) {
+        // ⚠️ File too large — show toast and don't add to list
+        Get.snackbar(
+          'File Too Large',
+          'Image size ($sizeInMb MB) exceeds 5 MB limit',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.all(12),
+          duration: const Duration(seconds: 3),
+        );
+        return;
+      }
+
+      // ✅ Add only if under 1 MB
+      images.add(file);
     }
   }
 
@@ -260,24 +302,31 @@ class ProfileCreationController extends GetxController {
     images.removeAt(index);
   }
 
-  void ViewProfile() {
-    log('Profile View successfully!');
-    // Navigate to next page
-
-    ScaffoldMessenger.of(Get.context!).showSnackBar(
-      const SnackBar(
-        content: Text('Profile created successfully!'),
-        backgroundColor: Colors.green,
-      ),
-    );
-
-    Get.to(VerificationDatingScreen());
-  }
-
   void updateQuestion(String value) {
     if (value.length <= 40) {
       question.value = value;
     }
+  }
+
+  Future<void> captureImage() async {
+    final XFile? image = await _picker.pickImage(
+      source: ImageSource.camera,
+      preferredCameraDevice: CameraDevice.front,
+      imageQuality: 80,
+    );
+
+    if (image != null) {
+      // Copy the file to a permanent directory
+      final tempDir = await getTemporaryDirectory();
+      final savedImage = await File(image.path).copy(
+        '${tempDir.path}/captured_${DateTime.now().millisecondsSinceEpoch}.jpg',
+      );
+
+      capturedImage.value = savedImage;
+      await generateImage(savedImage);
+    }
+
+    update();
   }
 
   /// Start recording with 30s limit
@@ -516,18 +565,30 @@ class ProfileCreationController extends GetxController {
 
   /// Process all images (upload local files, keep http links as is)
   Future<void> processImages() async {
-    imagesUrl.clear();
-    for (var img in images) {
-      if (img is File) {
-        final url = await uploadFile(img);
-        if (url != null) {
-          imagesUrl.add(url);
+    try {
+      imagesUrl.clear();
+
+      for (var img in images) {
+        if (img is File) {
+          try {
+            final url = await uploadFile(img);
+            if (url != null) {
+              imagesUrl.add(url);
+            }
+          } catch (e, stackTrace) {
+            log("Error uploading file: $e");
+            log("StackTrace: $stackTrace");
+          }
+        } else if (img is String && img.startsWith("http")) {
+          imagesUrl.add(img); // already hosted, just keep it
         }
-      } else if (img is String && img.startsWith("http")) {
-        imagesUrl.add(img); // already hosted, just keep it
       }
+
+      log("✅ Final Images: $imagesUrl");
+    } catch (e, stackTrace) {
+      log("❌ Error in processImages: $e");
+      log("StackTrace: $stackTrace");
     }
-    log("Final Images: $imagesUrl");
   }
 
   Future uploadAudio(String file) async {
@@ -585,7 +646,7 @@ class ProfileCreationController extends GetxController {
     final dir = await getTemporaryDirectory();
     final filePath = '${dir.path}/temp_audio.wav';
 
-    print("🔗 Downloading from: $url");
+    log("🔗 Downloading from: $url");
 
     try {
       final dioClient = dio.Dio();

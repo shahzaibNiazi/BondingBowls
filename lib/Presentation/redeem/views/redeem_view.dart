@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../../app/config/app_colors.dart';
 import '../controllers/redeem_controller.dart';
 
 class RedeemView extends GetView<RedeemController> {
@@ -60,9 +61,11 @@ class RedeemView extends GetView<RedeemController> {
                   Text(
                     '#01-2 Bukit batok cresent (638498)',
                     style: TextStyle(
-                      fontSize: 24.sp,
+                      fontSize: 18.sp,
                       decoration: TextDecoration.underline,
                       fontWeight: FontWeight.bold,
+                      decorationColor: Colors.blueAccent, // 👈 underline color
+
                       color: Color(0xff1255FF),
                     ),
                   ),
@@ -103,27 +106,54 @@ class RedeemView extends GetView<RedeemController> {
                     style: TextStyle(fontSize: 16.sp),
                   ),
                   SizedBox(height: 16),
-                  Text(
-                    '• Applicable to all McCafé drinks',
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                  Text(
-                    '• Not claimable at VivoCity, Jewel & SunMall Outlets',
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                  Text(
-                    '• Only Available from 8am - 11am',
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                  Text(
-                    '• First 50 Users per outlet',
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                  Text(
-                    '• Available for Dine - In or Takeaway',
-                    style: TextStyle(fontSize: 14.sp),
-                  ),
-                  SizedBox(height: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '• Applicable to all McCafé drinks',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      Text(
+                        '• Not claimable at VivoCity, Jewel & SunMall Outlets',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black.withValues(alpha: 0.7),
+                        ),
+                      ),
+
+                      Text(
+                        '• Only Available from 8am - 11am',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      Text(
+                        '• First 50 Users per outlet',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black.withValues(alpha: 0.7),
+                        ),
+                      ),
+                      Text(
+                        '• Available for Dine - In or Takeaway',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ).paddingOnly(left: 12),
+
+                  Divider(color: Colors.redAccent),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -138,10 +168,24 @@ class RedeemView extends GetView<RedeemController> {
                     ],
                   ),
                   SizedBox(height: 8),
-                  Text(
-                    'Bonding Bowls and participating outlets may at any time in its sole and absolute discretion withdraw, amend and/or alter any applicable terms and conditions of the voucher, deals or promotions, exclude, void, discontinue or disqualify you from any voucher, deal or promotion without prior notice. Participating store can choose to void voucher if user did not present screen to cashier/staff before swiping to claim on the voucher. Bonding Bowls and participating outlet reserve the right to amend, update, or modify these Terms of Use at any time, at our sole discretion. Only one promotion may be applied per order. Voucher codes cannot be used in conjunction with other discounts.',
-                    style: TextStyle(fontSize: 14.sp),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildBulletPoint(
+                        'Bonding Bowls and participating outlets may at any time in its sole and absolute discretion withdraw, amend and/or alter any applicable terms and conditions of the voucher, deals or promotions, exclude, void, discontinue or disqualify you from any voucher, deal or promotion without prior notice.',
+                      ),
+                      _buildBulletPoint(
+                        'Participating store can choose to void voucher if user did not present screen to cashier/staff before swiping to claim on the voucher.',
+                      ),
+                      _buildBulletPoint(
+                        'Bonding Bowls and participating outlet reserve the right to amend, update, or modify these Terms of Use at any time, at our sole discretion.',
+                      ),
+                      _buildBulletPoint(
+                        ' Only one promotion may be applied per order. Voucher codes cannot be used in conjunction with other discounts.',
+                      ),
+                    ],
                   ),
+
                   SizedBox(height: 16),
                   Container(
                     padding: EdgeInsets.all(7),
@@ -191,6 +235,35 @@ class RedeemView extends GetView<RedeemController> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildBulletPoint(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '• ',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.red, // Bullet color
+              height: 1.5,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Colors.black.withValues(alpha: 0.7),
+                height: 1.5, // Better line spacing for long text
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

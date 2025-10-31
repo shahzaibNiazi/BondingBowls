@@ -70,7 +70,7 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
                   text: "Just food discounts!",
                   color: Colors.orange,
                   onPressed: () => Get.offAll(
-                    BottomNavBar(
+                    () => BottomNavBar(
                       initialIndex: 4, // Profile tab index
                       showDiscountProfile:
                           true, // Flag to show discount profile

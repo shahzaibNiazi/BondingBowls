@@ -20,6 +20,11 @@ abstract class Routes {
   static const CHAT = _Paths.CHAT;
   static const MATCH_PROFILE = _Paths.MATCH_PROFILE;
   static const REDEEM = _Paths.REDEEM;
+  static const BOOKING_DETAILS = _Paths.BOOKING_DETAILS;
+  static const PAYMENT_SYSTEM = _Paths.PAYMENT_SYSTEM;
+  static const MANUALLY_VERIFY = _Paths.MANUALLY_VERIFY;
+  static const MANUALLY_VERIFY_SECOND = _Paths.MANUALLY_VERIFY_SECOND;
+  static const AI_AVATAR_PICK_IMAGE = _Paths.AI_AVATAR_PICK_IMAGE;
 }
 
 abstract class _Paths {
@@ -41,4 +46,9 @@ abstract class _Paths {
   static const CHAT = '/chat';
   static const MATCH_PROFILE = '/match-profile';
   static const REDEEM = '/redeem';
+  static const BOOKING_DETAILS = '/booking-details';
+  static const PAYMENT_SYSTEM = '/payment-system';
+  static const MANUALLY_VERIFY = '/manually-verify';
+  static const MANUALLY_VERIFY_SECOND = '/manually-verify-second';
+  static const AI_AVATAR_PICK_IMAGE = '/ai-avatar-pick-image';
 }

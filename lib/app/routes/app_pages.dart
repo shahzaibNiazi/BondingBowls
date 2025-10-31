@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+import '../../Presentation/ai_avatar_pick_image/bindings/ai_avatar_pick_image_binding.dart';
+import '../../Presentation/ai_avatar_pick_image/views/ai_avatar_pick_image_view.dart';
+import '../../Presentation/booking_details/bindings/booking_details_binding.dart';
+import '../../Presentation/booking_details/views/booking_details_view.dart';
 import '../../Presentation/chat/bindings/chat_binding.dart';
 import '../../Presentation/chat/views/chat_view.dart';
 import '../../Presentation/email_verification/bindings/email_verification_binding.dart';
@@ -8,8 +12,14 @@ import '../../Presentation/home/bindings/home_binding.dart';
 import '../../Presentation/home/views/home_view.dart';
 import '../../Presentation/login/bindings/login_binding.dart';
 import '../../Presentation/login/views/login_view.dart';
+import '../../Presentation/manually_verify/bindings/manually_verify_binding.dart';
+import '../../Presentation/manually_verify/views/manually_verify_view.dart';
+import '../../Presentation/manually_verify_second/bindings/manually_verify_second_binding.dart';
+import '../../Presentation/manually_verify_second/views/manually_verify_second_view.dart';
 import '../../Presentation/match_profile/bindings/match_profile_binding.dart';
 import '../../Presentation/match_profile/views/match_profile_view.dart';
+import '../../Presentation/payment_system/bindings/payment_system_binding.dart';
+import '../../Presentation/payment_system/views/payment_system_view.dart';
 import '../../Presentation/profile_creation/bindings/profile_creation_binding.dart';
 import '../../Presentation/profile_creation/views/profile_creation_decision.dart';
 import '../../Presentation/profile_creation/views/profile_creation_view.dart';
@@ -134,6 +144,31 @@ class AppPages {
       name: _Paths.REDEEM,
       page: () => const RedeemView(),
       binding: RedeemBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOKING_DETAILS,
+      page: () => const BookingDetailsView(),
+      binding: BookingDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYMENT_SYSTEM,
+      page: () => const PaymentSystemView(),
+      binding: PaymentSystemBinding(),
+    ),
+    GetPage(
+      name: _Paths.MANUALLY_VERIFY,
+      page: () => const ManuallyVerifyView(),
+      binding: ManuallyVerifyBinding(),
+    ),
+    GetPage(
+      name: _Paths.MANUALLY_VERIFY_SECOND,
+      page: () => const ManuallyVerifySecondView(),
+      binding: ManuallyVerifySecondBinding(),
+    ),
+    GetPage(
+      name: _Paths.AI_AVATAR_PICK_IMAGE,
+      page: () => const AiAvatarPickImageView(),
+      binding: AiAvatarPickImageBinding(),
     ),
   ];
 }

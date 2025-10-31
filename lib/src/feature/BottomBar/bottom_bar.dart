@@ -1,5 +1,6 @@
 import 'package:convo_hearts/src/feature/BottomBar/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../food-discount/discount-profile.dart';
@@ -222,7 +223,7 @@ class CurvedBottomNavigationBar extends StatelessWidget {
               ),
               // Navigation items with proper alignment
               Positioned(
-                bottom: isTablet ? 25 : 20,
+                bottom: 20,
                 left: 0,
                 right: 0,
                 child: Row(
@@ -255,12 +256,12 @@ class CurvedBottomNavigationBar extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                            height: 20,
+                            height: 30,
                           ), // Adjusted space for larger oval button
                           Text(
                             'CafeConnect',
                             style: TextStyle(
-                              fontSize: _getResponsiveFontSize(screenWidth, 9),
+                              fontSize: 12.sp,
                               color: currentIndex == 2
                                   ? const Color(0xff3771C8)
                                   : const Color(0xff000000),
@@ -321,7 +322,7 @@ class CurvedBottomNavigationBar extends StatelessWidget {
       onTap: () => onTap(index),
       child: Container(
         padding: const EdgeInsets.symmetric(
-          vertical: 10,
+          vertical: 6,
         ), // ✅ Add vertical padding for bigger hit area
 
         child: Column(
@@ -343,7 +344,7 @@ class CurvedBottomNavigationBar extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: _getResponsiveFontSize(screenWidth, 9),
+                fontSize: 12.sp,
                 color: isSelected
                     ? const Color(0xff3771C8)
                     : const Color(0xff000000),
@@ -387,11 +388,11 @@ class CurvedBottomNavigationBar extends StatelessWidget {
     return 70.0;
   }
 
-  double _getResponsiveFontSize(double screenWidth, double baseFontSize) {
-    if (screenWidth > 600) return baseFontSize - 2;
-    if (screenWidth > 400) return baseFontSize;
-    return baseFontSize - 12;
-  }
+  // double _getResponsiveFontSize(double screenWidth, double baseFontSize) {
+  //   if (screenWidth > 600) return baseFontSize - 2;
+  //   if (screenWidth > 400) return baseFontSize;
+  //   return baseFontSize - 12;
+  // }
 }
 
 // Standalone BottomNavBar Widget

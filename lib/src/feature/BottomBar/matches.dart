@@ -16,536 +16,526 @@ class MatchesPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF5E6D3), // Light peachy background
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Header with title and settings
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 8,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NotificationScreen(),
-                          ),
-                        );
-                      },
-                      icon: SvgPicture.asset(
-                        "assets/icon/svg/notification.svg",
-                      ),
-                    ),
-
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NotificationScreen(),
-                          ),
-                        );
-                      },
-                      icon: Image.asset(
-                        "assets/images/bowls_remove.png",
-                        scale: 5,
-                      ),
-                    ),
-
-                    Column(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GetBowlsScreen(),
-                              ),
-                            );
-                          },
-                          icon: SvgPicture.asset("assets/icon/svg/bowl.svg"),
+        child: Column(
+          children: [
+            // Header with title and settings
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NotificationScreen(),
                         ),
-                        Text(
-                          "300",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w700,
-                          ),
+                      );
+                    },
+                    icon: SvgPicture.asset("assets/icon/svg/notification.svg"),
+                  ),
+
+                  Image.asset("assets/images/bowls_remove.png", scale: 5),
+
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => GetBowlsScreen());
+                        },
+                        child: SvgPicture.asset(
+                          "assets/icon/svg/bowl.svg",
+                          height: 30,
+                          width: 30,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+
+                      Text(
+                        "300",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ).paddingOnly(right: 12),
+                ],
               ),
-              // Slideshow ads space banner
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                  border: Border.all(color: Colors.grey[400]!),
-                ),
-                child: Center(
-                  child: Text(
-                    '~Slideshow Ads Space',
-                    style: TextStyle(
-                      color: Color(0xffC672A5),
-                      fontSize: 16.sp,
-                      fontStyle: FontStyle.italic,
-                    ),
+            ),
+            // Slideshow ads space banner
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(2),
+                border: Border.all(color: Colors.grey[400]!),
+              ),
+              child: Center(
+                child: Text(
+                  '~Slideshow Ads Space',
+                  style: TextStyle(
+                    color: Color(0xffC672A5),
+                    fontSize: 16.sp,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
-              ).paddingOnly(bottom: 14.h),
-              // Main profile card
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Color(0xffC672A5)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 10.h),
-                    // User-ID and Boost Profile section
+              ),
+            ).paddingOnly(bottom: 14.h),
+            // Main profile card
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Color(0xffC672A5)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10.h),
+                      // User-ID and Boost Profile section
 
-                    // Profile Avatar
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Visibility(
-                          visible: false,
-                          child: Align(
+                      // Profile Avatar
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Visibility(
+                            visible: false,
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            maintainState: true,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: SvgPicture.asset(
+                                "assets/icon/svg/tri_info.svg",
+                              ),
+                            ),
+                          ),
+
+                          Image.asset(
+                            'assets/images/female-avatar.jpg', // Replace with your avatar image
+                            fit: BoxFit.cover,
+                          ),
+                          Align(
                             alignment: Alignment.centerRight,
                             child: SvgPicture.asset(
                               "assets/icon/svg/tri_info.svg",
                             ),
                           ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Image.asset(
-                            'assets/images/female-avatar.jpg', // Replace with your avatar image
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: SvgPicture.asset(
-                            "assets/icon/svg/tri_info.svg",
-                          ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
 
-                    // Name
-                    Text(
-                      'Nicole',
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Color(0xffFF0000),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Color(0xffC672A5), width: 2),
-                      ),
-                      child: Text(
-                        "SingPass",
+                      // Name
+                      Text(
+                        'Nicole',
                         style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.white,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 32.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xffFF0000),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Color(0xffC672A5),
+                            width: 2,
+                          ),
+                        ),
+                        child: Text(
+                          "SingPass",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+
+                      Text(
+                        'Software Engineer | Coffee Enthusiast | Yoga lover',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          color: Color(0xFFBC0072),
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10),
 
-                    Text(
-                      'Software Engineer | Coffee Enthusiast | Yoga lover',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        color: Color(0xFFBC0072),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                      const SizedBox(height: 15),
 
-                    const SizedBox(height: 15),
-
-                    // Profile Details
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _buildProfileRow('Nationality', 'Singaporean'),
-                        const SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Expanded(child: _buildProfileDetail('Age', '22')),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: _buildProfileDetail('Gender', 'Female'),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _buildProfileDetail('Race', 'Chinese'),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: _buildProfileDetail('Status', 'Single'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        // Determine how many icons can fit horizontally
-                        double iconWidth =
-                            15; // You can adjust this based on the actual SVG size
-                        int iconCount = (constraints.maxWidth / iconWidth)
-                            .floor();
-
-                        return Wrap(
-                          spacing: 0, // no space between icons
-                          runSpacing: 0,
-                          children: List.generate(iconCount, (index) {
-                            return SvgPicture.asset(
-                              "assets/icon/svg/bowl.svg",
-                              width: iconWidth,
-                            );
-                          }),
-                        );
-                      },
-                    ),
-
-                    Center(
-                      child: Text(
-                        "Nitty - Gritty",
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Row 1
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildIconText(
-                                  "assets/icon/svg/smoke.svg",
-                                  "Non - Smoker",
-                                ),
-                                _buildIconText(
-                                  "assets/icon/svg/ocasstional.svg",
-                                  "Occasional Drinker",
-                                ),
-                                _buildIconText(
-                                  "assets/icon/svg/pet.svg",
-                                  "No Pets",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 15),
-                        Expanded(
-                          child: Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildIconText(
-                                  "assets/icon/svg/fre.svg",
-                                  "Frequent Clubber",
-                                ),
-                                _buildIconText(
-                                  "assets/icon/svg/serious.svg",
-                                  "Serious",
-                                ),
-                                _buildIconText(
-                                  "assets/icon/svg/location1.svg",
-                                  "North - East",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 14),
-
-                    // Religion
-                    Text(
-                      "Religion: Hinduism",
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: const Color(0xfff2dede), // light pink/red
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          topRight: Radius.circular(8),
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 12,
-                      ),
-                      child: Text(
-                        "Voice Prompts :",
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
-                        ),
-                        border: Border.all(color: Colors.black12),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // Profile Details
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(
-                            child: Text(
-                              "What do i think of first dates?",
-                              style: TextStyle(fontSize: 14.sp),
-                            ),
+                          _buildProfileRow('Nationality', 'Singaporean'),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(child: _buildProfileDetail('Age', '22')),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: _buildProfileDetail('Gender', 'Female'),
+                              ),
+                            ],
                           ),
-                          SvgPicture.asset("assets/icon/svg/speaker_small.svg"),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _buildProfileDetail('Race', 'Chinese'),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: _buildProfileDetail('Status', 'Single'),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black12),
+
+                      const SizedBox(height: 30),
+
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          // Determine how many icons can fit horizontally
+                          double iconWidth =
+                              15; // You can adjust this based on the actual SVG size
+                          int iconCount = (constraints.maxWidth / iconWidth)
+                              .floor();
+
+                          return Wrap(
+                            spacing: 0, // no space between icons
+                            runSpacing: 0,
+                            children: List.generate(iconCount, (index) {
+                              return SvgPicture.asset(
+                                "assets/icon/svg/bowl.svg",
+                                width: iconWidth,
+                              );
+                            }),
+                          );
+                        },
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                      Center(
+                        child: Text(
+                          "Nitty - Gritty",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Row 1
+                      Row(
                         children: [
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xfff2dede), // light pink
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildIconText(
+                                    "assets/icon/svg/smoke.svg",
+                                    "Non - Smoker",
+                                  ),
+                                  _buildIconText(
+                                    "assets/icon/svg/ocasstional.svg",
+                                    "Occasional Drinker",
+                                  ),
+                                  _buildIconText(
+                                    "assets/icon/svg/pet.svg",
+                                    "No Pets",
+                                  ),
+                                ],
                               ),
                             ),
+                          ),
+                          SizedBox(width: 15),
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildIconText(
+                                    "assets/icon/svg/fre.svg",
+                                    "Frequent Clubber",
+                                  ),
+                                  _buildIconText(
+                                    "assets/icon/svg/serious.svg",
+                                    "Serious",
+                                  ),
+                                  _buildIconText(
+                                    "assets/icon/svg/location1.svg",
+                                    "North - East",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 14),
+
+                      // Religion
+                      Text(
+                        "Religion: Hinduism",
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xfff2dede), // light pink/red
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8),
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
+                        child: Text(
+                          "Voice Prompts :",
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            bottomRight: Radius.circular(8),
+                          ),
+                          border: Border.all(color: Colors.black12),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "What do i think of first dates?",
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                            ),
+                            SvgPicture.asset(
+                              "assets/icon/svg/speaker_small.svg",
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xfff2dede), // light pink
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                "Bio :",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15.sp,
+                                ),
+                              ),
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child:
+                                  // TextFormField(
+                                  //     controller: _bioController,
+                                  //     maxLines: null, // allows multiline
+                                  //     minLines: 10, // initial height
+                                  //     keyboardType: TextInputType.multiline,
+                                  //     decoration: InputDecoration(
+                                  //       // labelText: "About You",
+                                  //       alignLabelWithHint: true,
+                                  //       // border: OutlineInputBorder(),
+                                  //     ),
+                                  //     style: const TextStyle(fontSize: 14),
+                                  //   ),
+                                  Text(
+                                    "Hi! I'm someone who loves meaningful conversations, spontaneous adventures, and the little things in life. Whether it's deep talks over coffee or laughing at silly memes, I'm all in. Looking to meet someone genuine, kind, and curious. Let's explore connections beyond just swipes.",
+                                    style: TextStyle(fontSize: 14.sp),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // Green Flags
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
                             child: Text(
-                              "Bio :",
+                              "Green Flags",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                color: Colors.green,
                                 fontSize: 15.sp,
                               ),
                             ),
                           ),
-
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child:
-                                // TextFormField(
-                                //     controller: _bioController,
-                                //     maxLines: null, // allows multiline
-                                //     minLines: 10, // initial height
-                                //     keyboardType: TextInputType.multiline,
-                                //     decoration: InputDecoration(
-                                //       // labelText: "About You",
-                                //       alignLabelWithHint: true,
-                                //       // border: OutlineInputBorder(),
-                                //     ),
-                                //     style: const TextStyle(fontSize: 14),
-                                //   ),
-                                Text(
-                                  "Hi! I'm someone who loves meaningful conversations, spontaneous adventures, and the little things in life. Whether it's deep talks over coffee or laughing at silly memes, I'm all in. Looking to meet someone genuine, kind, and curious. Let's explore connections beyond just swipes.",
-                                  style: TextStyle(fontSize: 14.sp),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Wrap(
+                                  spacing: 10,
+                                  runSpacing: 10,
+                                  children: const [
+                                    _FlagChip(
+                                      label: "Trustworthy & Honest",
+                                      backgroundColor: Colors.green,
+                                    ),
+                                    _FlagChip(
+                                      label: "Open Communication",
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  ],
                                 ),
+                              ),
+                            ],
                           ),
+
+                          const SizedBox(height: 20),
+
+                          // Red Flags
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Red Flags",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                                fontSize: 15.sp,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Wrap(
+                                  spacing: 10,
+                                  children: const [
+                                    _FlagChip(
+                                      label: "Bad Time Management",
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 20),
+
+                          Column(
+                            children: [
+                              // Center(
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       Text(
+                              //         "Bowl Crush remaining : 6",
+                              //         style: TextStyle(
+                              //           color: Color(0xffEB5230),
+                              //           fontSize: 16.sp,
+                              //           fontWeight: FontWeight.w700,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              SizedBox(height: 20),
+
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.asset(
+                                    "assets/images/thumbs.png",
+                                    scale: 3.5,
+                                  ),
+                                  // Image.asset(
+                                  //   "assets/images/match_logo.png",
+                                  //   scale: 3.5,
+                                  // ),
+                                  Image.asset(
+                                    "assets/images/thumbs_down.png",
+                                    scale: 3.5,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 200),
                         ],
                       ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Green Flags
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Green Flags",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                              fontSize: 15.sp,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Wrap(
-                                spacing: 10,
-                                runSpacing: 10,
-                                children: const [
-                                  _FlagChip(
-                                    label: "Trustworthy & Honest",
-                                    backgroundColor: Colors.green,
-                                  ),
-                                  _FlagChip(
-                                    label: "Open Communication",
-                                    backgroundColor: Colors.green,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Red Flags
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Red Flags",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red,
-                              fontSize: 15.sp,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Wrap(
-                                spacing: 10,
-                                children: const [
-                                  _FlagChip(
-                                    label: "Bad Time Management",
-                                    backgroundColor: Colors.red,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        SizedBox(height: 20),
-
-                        Column(
-                          children: [
-                            Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Bowl Crush remaining : 6",
-                                    style: TextStyle(
-                                      color: Color(0xffEB5230),
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(height: 20),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset(
-                                  "assets/images/thumbs.png",
-                                  scale: 3.5,
-                                ),
-                                Image.asset(
-                                  "assets/images/match_logo.png",
-                                  scale: 3.5,
-                                ),
-                                Image.asset(
-                                  "assets/images/thumbs_down.png",
-                                  scale: 3.5,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-
-                        SizedBox(height: 200),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/provider/network/api_endpoint.dart';
 import '../config/app_colors.dart';
 
 class ImageItemWidget extends StatelessWidget {
@@ -22,7 +23,7 @@ class ImageItemWidget extends StatelessWidget {
           child: img is File
               ? Image.file(img, width: 80, height: 80, fit: BoxFit.cover)
               : Image.network(
-                  img.toString(),
+                  '${ApiEndPoints.imageUrl}${img.toString()}',
                   width: 80,
                   height: 80,
                   fit: BoxFit.cover,
