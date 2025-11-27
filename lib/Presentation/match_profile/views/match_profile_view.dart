@@ -398,14 +398,14 @@ class MatchProfileView extends GetView<MatchProfileController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  "Bowl Crush remaining : 6",
-                                  style: TextStyle(
-                                    color: Color(0xffEB5230),
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
+                                // Text(
+                                //   "Bowl Crush remaining : 6",
+                                //   style: TextStyle(
+                                //     color: Color(0xffEB5230),
+                                //     fontSize: 16.sp,
+                                //     fontWeight: FontWeight.w700,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -413,16 +413,16 @@ class MatchProfileView extends GetView<MatchProfileController> {
                           SizedBox(height: 20),
 
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Image.asset(
                                 "assets/images/thumbs.png",
                                 scale: 3.5,
                               ),
-                              Image.asset(
-                                "assets/images/match_logo.png",
-                                scale: 3.5,
-                              ),
+                              // Image.asset(
+                              //   "assets/images/match_logo.png",
+                              //   scale: 3.5,
+                              // ),
                               Image.asset(
                                 "assets/images/thumbs_down.png",
                                 scale: 3.5,

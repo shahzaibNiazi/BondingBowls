@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../matchmaking/match_matching.dart';
-import 'Intro.dart';
+import '../../../Presentation/intro/views/intro_view.dart';
+import '../../../Presentation/match_making_setting/views/match_making_setting_view.dart';
+import '../../../app/routes/app_pages.dart';
+import '../../../data/provider/local_storage/local_db.dart';
 import 'getbowls.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -16,10 +19,10 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   List<Widget> Screens = [
     const SizedBox(),
-    MatchmakingScreen(),
-    IntroScreen(),
+    MatchMakingSettingView(),
+    IntroView(),
     const GetBowlsScreen(), // Add other screens in order here
-    Container(child: Text("Privacy")), // Add other screens in order here
+    Text("Privacy"), // Add other screens in order here
     const GetBowlsScreen(), // Add other screens in order here
   ];
 
@@ -107,7 +110,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                           const SizedBox(height: 50),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              LocalDB.clear();
+                              Get.offAllNamed(Routes.LOGIN);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xffFA6D8C),
                               minimumSize: Size(130, 27),
@@ -164,7 +170,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Column(
       children: [
         InkWell(
-          onTap: () {
+          onTap: () async {
             if (index == 0) {
               // Show dialog for "Getting Started"
               Get.defaultDialog(
@@ -178,6 +184,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   textAlign: TextAlign.left,
                 ),
               );
+            } else if (index == 4) {
+              final Uri webUri = Uri.parse(
+                'https://bonding-bowls.vercel.app/privacy-policy',
+              );
+
+              try {
+                await launchUrl(webUri, mode: LaunchMode.externalApplication);
+              } catch (e) {
+                // Utils.showErrorToast('Could not launch URL');
+              }
             } else if (index < Screens.length) {
               Get.to(
                 () => Screens[index],

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:convo_hearts/src/feature/BottomBar/cafeconnect/widgets/discount_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,256 +31,243 @@ class _CafeConnectState extends State<CafeConnect> {
     return Scaffold(
       backgroundColor: const Color(0xFFFFEEDA),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // top header
-              const SizedBox(height: 8),
-              _buildHeader(context),
-              const SizedBox(height: 8),
+        child: Column(
+          children: [
+            // ====== STATIC PART ======
+            const SizedBox(height: 8),
+            _buildHeader(context),
+            const SizedBox(height: 8),
 
-              // slideshow placeholder
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey[400]!),
-                ),
-                child: const Center(
-                  child: Text(
-                    '~Slideshow Ads Space',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                      fontStyle: FontStyle.italic,
-                    ),
+            // slideshow placeholder
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[400]!),
+              ),
+              child: const Center(
+                child: Text(
+                  '~Slideshow Ads Space',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
               ),
+            ),
 
-              // filter + tags row
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () => showFilterBottomSheet(context),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: const Color(0xffBCBCBC)),
-                        ),
-                        child: SvgPicture.asset("assets/icon/svg/filter.svg"),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: _SelectableTag(
-                        text: "Hot",
-                        isActive: selectedTag == "Hot",
-                        onTap: () => selectTag("Hot"),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Flexible(
-                      child: _SelectableTag(
-                        text: "Deals",
-                        isActive: selectedTag == "Deals",
-                        onTap: () => selectTag("Deals"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // main hero card (shared)
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: const Color(0xffffffff),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
+            // filter + tags row
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () => showFilterBottomSheet(context),
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 10,
+                        horizontal: 20,
+                        vertical: 6,
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.asset(
-                          "assets/images/cup_coffee1.jpg",
-                          height: 120,
-                          width: 120,
-                          fit: BoxFit.cover,
-                        ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: const Color(0xffBCBCBC)),
                       ),
+                      child: SvgPicture.asset("assets/icon/svg/filter.svg"),
                     ),
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              textAlign: TextAlign.center,
-                              "Find the perfect activities to enjoy with someone - feel free to explore LAST MINUTE events and spontaneous plans!",
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xff505050),
-                                height: 1.4,
-                              ),
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: _SelectableTag(
+                      text: "Hot",
+                      isActive: selectedTag == "Hot",
+                      onTap: () => selectTag("Hot"),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: _SelectableTag(
+                      text: "Deals",
+                      isActive: selectedTag == "Deals",
+                      onTap: () => selectTag("Deals"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // ====== SCROLLABLE PART ======
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  // main hero card (static)
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xffffffff),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 10,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              "assets/images/cup_coffee1.jpg",
+                              height: 120,
+                              width: 120,
+                              fit: BoxFit.cover,
                             ),
-                            const SizedBox(height: 10),
-                            Column(
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Flexible(
-                                      child: Text(
-                                        textAlign: TextAlign.center,
-                                        "Cafeconnect is available!",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xff0022FF),
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                const Text(
+                                  textAlign: TextAlign.center,
+                                  "Find the perfect activities to enjoy with someone - feel free to explore LAST MINUTE events and spontaneous plans!",
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xff505050),
+                                    height: 1.4,
+                                  ),
                                 ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                const SizedBox(height: 10),
+                                Column(
                                   children: [
-                                    SvgPicture.asset(
-                                      "assets/icon/svg/timer.svg",
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const Flexible(
-                                      child: Text(
-                                        "(7 days countdown)",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Color(0xff000000),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Flexible(
+                                          child: Text(
+                                            textAlign: TextAlign.center,
+                                            "Cafeconnect is available!",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xff0022FF),
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          "assets/icon/svg/timer.svg",
+                                        ),
+                                        const SizedBox(width: 5),
+                                        const Flexible(
+                                          child: Text(
+                                            "(7 days countdown)",
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Color(0xff000000),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              // dynamic content area
-              if (selectedTag == 'Hot') _hotContent(),
-              if (selectedTag == 'Deals') _dealsContent(),
-
-              const SizedBox(height: 20),
-
-              // horizontal restaurant scroller (kept same for both)
-              Container(
-                margin: const EdgeInsets.only(left: 15),
-                height: 230,
-                decoration: const BoxDecoration(color: Color(0xffffffff)),
-                child: Row(
-                  children: [
-                    // left static area
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      width: 160,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Image(
-                            image: AssetImage("assets/images/cup_coffee1.jpg"),
-                            height: 105,
-                            width: 100,
-                            fit: BoxFit.cover,
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Enjoy Up to 30% off deals for these restaurants!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  if (selectedTag == 'Hot') _hotContent(),
+                  if (selectedTag == 'Deals') _dealsContent(),
+                  const SizedBox(height: 20),
+                  // horizontal restaurant scroller
+                  Container(
+                    margin: const EdgeInsets.only(left: 15),
+                    height: 230,
+                    decoration: const BoxDecoration(color: Color(0xffffffff)),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          width: 160,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Image(
+                                image: AssetImage(
+                                  "assets/images/cup_coffee1.jpg",
+                                ),
+                                height: 105,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Enjoy Up to 30% off deals for these restaurants!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                buildRestaurantCard(
+                                  "assets/images/star_nbucks.png",
+                                  "StarBucks",
+                                  "assets/images/banner.png",
+                                ),
+                                buildRestaurantCard(
+                                  "assets/images/star_nbucks.png",
+                                  "StarBucks",
+                                  "assets/images/banner.png",
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-
-                    // right horizontal list
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            buildRestaurantCard(
-                              "assets/images/star_nbucks.png",
-                              "StarBucks",
-                              "assets/images/banner.png",
-                            ),
-                            buildRestaurantCard(
-                              "assets/images/star_nbucks.png",
-                              "StarBucks",
-                              "assets/images/banner.png",
-                            ),
-                            buildRestaurantCard(
-                              "assets/images/star_nbucks.png",
-                              "StarBucks",
-                              "assets/images/banner.png",
-                            ),
-                            buildRestaurantCard(
-                              "assets/images/star_nbucks.png",
-                              "StarBucks",
-                              "assets/images/banner.png",
-                            ),
-                            buildRestaurantCard(
-                              "assets/images/star_nbucks.png",
-                              "StarBucks",
-                              "assets/images/banner.png",
-                            ),
-                          ],
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 30),
+                  _repeatedCards(),
+                  const SizedBox(height: 80),
+                ],
               ),
-
-              const SizedBox(height: 30),
-
-              // repeated cards below to simulate long list
-              _repeatedCards(),
-
-              const SizedBox(height: 80),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -727,22 +715,13 @@ class CafeCardWidget extends StatelessWidget {
           ),
           // Discount badge
           Positioned(
-            top: 15,
-            left: 13,
+            top: 12,
+            left: 0,
             child: Container(
-              height: 55,
+              height: 60,
               width: 55,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(discountimageAsset),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12),
-                ),
-              ),
+              child: DiscountRibbon(),
             ),
           ),
         ],

@@ -73,15 +73,20 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                               .videoPlayerController!
                               .value
                               .isInitialized) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: AspectRatio(
-                            aspectRatio: controller
-                                .videoPlayerController!
-                                .value
-                                .aspectRatio,
-                            child: VideoPlayer(
-                              controller.videoPlayerController!,
+                        return Container(
+                          height: 400,
+                          width: double.infinity,
+                          decoration: BoxDecoration(),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: AspectRatio(
+                              aspectRatio: controller
+                                  .videoPlayerController!
+                                  .value
+                                  .aspectRatio,
+                              child: VideoPlayer(
+                                controller.videoPlayerController!,
+                              ),
                             ),
                           ),
                         );
@@ -95,7 +100,7 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.asset(
-                              "assets/images/nic.png",
+                              "assets/images/video_men.png",
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -132,35 +137,36 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                       ],
                     ).paddingOnly(left: 30, bottom: 34.h),
 
-                    // if (controller.capturedVideo.value != null)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomButton(
-                          radius: 20,
-                          width: 100.w,
-                          text: 'Retry',
-                          fontSize: 16.sp,
-                          onPress: () {
-                            controller.clear();
-                          },
-                          textColor: Colors.white,
-                          boxColor: Colors.red,
-                        ),
-                        CustomButton(
-                          radius: 20,
+                    if (controller.capturedVideo.value != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomButton(
+                            radius: 20,
+                            width: 100.w,
+                            text: 'Retry',
+                            fontSize: 16.sp,
+                            onPress: () {
+                              controller.clear();
+                            },
+                            textColor: Colors.white,
+                            boxColor: Colors.red,
+                          ),
 
-                          width: 100.w,
-                          text: 'Submit',
-                          fontSize: 16.sp,
-                          onPress: () async {
-                            // await controller.uploadFile();
-                          },
-                          textColor: Colors.white,
-                          boxColor: Color(0xffEB953A),
-                        ),
-                      ],
-                    ).paddingOnly(bottom: 12.h, right: 24, left: 24),
+                          if (controller.capturedVideo.value != null)
+                            CustomButton(
+                              radius: 20,
+                              width: 100.w,
+                              text: 'Submit',
+                              fontSize: 16.sp,
+                              onPress: () async {
+                                await controller.uploadFile();
+                              },
+                              textColor: Colors.white,
+                              boxColor: Color(0xffEB953A),
+                            ),
+                        ],
+                      ).paddingOnly(bottom: 12.h, right: 24, left: 24),
 
                     if (controller.capturedVideo.value == null)
                       Center(

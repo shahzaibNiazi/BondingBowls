@@ -25,6 +25,9 @@ abstract class Routes {
   static const MANUALLY_VERIFY = _Paths.MANUALLY_VERIFY;
   static const MANUALLY_VERIFY_SECOND = _Paths.MANUALLY_VERIFY_SECOND;
   static const AI_AVATAR_PICK_IMAGE = _Paths.AI_AVATAR_PICK_IMAGE;
+  static const MATCHES = _Paths.MATCHES;
+  static const INTRO = _Paths.INTRO;
+  static const MATCH_MAKING_SETTING = _Paths.MATCH_MAKING_SETTING;
 }
 
 abstract class _Paths {
@@ -51,4 +54,7 @@ abstract class _Paths {
   static const MANUALLY_VERIFY = '/manually-verify';
   static const MANUALLY_VERIFY_SECOND = '/manually-verify-second';
   static const AI_AVATAR_PICK_IMAGE = '/ai-avatar-pick-image';
+  static const MATCHES = '/matches';
+  static const INTRO = '/intro';
+  static const MATCH_MAKING_SETTING = '/match-making-setting';
 }

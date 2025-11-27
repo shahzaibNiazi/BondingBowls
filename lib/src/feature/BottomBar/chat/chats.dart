@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../settings/getbowls.dart' show GetBowlsScreen;
+import '../../../../Presentation/payment_system/views/payment_system_view.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -51,7 +51,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => GetBowlsScreen(),
+                                      builder: (context) => PaymentSystemView(),
                                     ),
                                   );
                                 },
@@ -80,7 +80,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         horizontal: 16,
                         vertical: 8,
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 30),
                       decoration: BoxDecoration(
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(8),

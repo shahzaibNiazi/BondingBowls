@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../settings/getbowls.dart';
+import '../../../../Presentation/payment_system/views/payment_system_view.dart';
 import 'detail_profile.dart';
 
 class ReceivedLikesScreen extends StatefulWidget {
@@ -84,7 +84,7 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GetBowlsScreen(),
+                              builder: (context) => PaymentSystemView(),
                             ),
                           );
                         },

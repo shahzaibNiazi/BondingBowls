@@ -92,7 +92,7 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                                     vertical: 8,
                                   ),
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 20,
+                                    vertical: 30,
                                   ),
                                   decoration: BoxDecoration(
                                     color: Colors.grey[300],

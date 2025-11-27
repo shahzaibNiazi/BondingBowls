@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:convo_hearts/data/provider/network/api_endpoint.dart';
 import 'package:convo_hearts/data/repositories/profile_creation_repository.dart';
 import 'package:dio/dio.dart' as dio;
@@ -26,7 +27,8 @@ class ProfileCreationController extends GetxController {
   //TODO: Implement ProfileCreationController
   final ImagePicker _picker = ImagePicker();
   final Rx<File?> capturedImage = Rx<File?>(null);
-
+  CameraController? cameraController;
+  var isCameraInitialized = false.obs;
   final count = 0.obs;
   var question = ''.obs;
   final AudioRecorder record = AudioRecorder(); // ✅ FIXED
@@ -131,8 +133,45 @@ class ProfileCreationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     reloadData();
+  }
+
+  Future<void> initCamera() async {
+    try {
+      final cameras = await availableCameras();
+      final frontCamera = cameras.firstWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.front,
+        orElse: () => cameras.first,
+      );
+
+      cameraController = CameraController(
+        frontCamera,
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
+      await cameraController!.initialize();
+      isCameraInitialized.value = true;
+    } catch (e) {
+      log('Camera init error: $e');
+    }
+  }
+
+  Future<void> captureImage() async {
+    if (cameraController == null || !cameraController!.value.isInitialized)
+      return;
+    XFile image = await cameraController!.takePicture();
+
+    // Copy the file to a permanent directory
+    final tempDir = await getTemporaryDirectory();
+    final savedImage = await File(image.path).copy(
+      '${tempDir.path}/captured_${DateTime.now().millisecondsSinceEpoch}.jpg',
+    );
+
+    capturedImage.value = savedImage;
+
+    await generateImage(savedImage);
+
+    log("Captured image: $capturedImage");
   }
 
   void reloadData() async {
@@ -169,6 +208,42 @@ class ProfileCreationController extends GetxController {
   void updateNickname(String value) {
     nickname.text = value;
     update();
+  }
+
+  File? _image;
+  String? outputImage;
+  final dio.Dio _dio = dio.Dio();
+  final String _apiKey = 'sk-WkYhugVsBSqexuJZFvWx5RdHi6aswrf2MNlIASAy0XekAbGH';
+
+  Future pickImage1() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      log(_image!.path);
+      outputImage = null;
+    }
+  }
+
+  Future<File?> generateImage1(String prompt) async {
+    try {
+      final response = await _dio.post(
+        'https://api.stability.ai/v2beta/stable-image/generate/sd3',
+        options: dio.Options(
+          headers: {'Authorization': 'Bearer $_apiKey', 'Accept': 'image/jpeg'},
+          responseType: dio.ResponseType.bytes,
+        ),
+        data: {"prompt": prompt, "output_format": "jpeg"},
+      );
+
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/generated_image.jpeg');
+      await file.writeAsBytes(response.data);
+      log('Image saved at ${file.path}');
+      return file;
+    } catch (e) {
+      log('Error: $e');
+      return null;
+    }
   }
 
   Future generateImage(originalImage) async {
@@ -308,26 +383,26 @@ class ProfileCreationController extends GetxController {
     }
   }
 
-  Future<void> captureImage() async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.camera,
-      preferredCameraDevice: CameraDevice.front,
-      imageQuality: 80,
-    );
-
-    if (image != null) {
-      // Copy the file to a permanent directory
-      final tempDir = await getTemporaryDirectory();
-      final savedImage = await File(image.path).copy(
-        '${tempDir.path}/captured_${DateTime.now().millisecondsSinceEpoch}.jpg',
-      );
-
-      capturedImage.value = savedImage;
-      await generateImage(savedImage);
-    }
-
-    update();
-  }
+  // Future<void> captureImage() async {
+  //   final XFile? image = await _picker.pickImage(
+  //     source: ImageSource.camera,
+  //     preferredCameraDevice: CameraDevice.front,
+  //     imageQuality: 80,
+  //   );
+  //
+  //   if (image != null) {
+  //     // Copy the file to a permanent directory
+  //     final tempDir = await getTemporaryDirectory();
+  //     final savedImage = await File(image.path).copy(
+  //       '${tempDir.path}/captured_${DateTime.now().millisecondsSinceEpoch}.jpg',
+  //     );
+  //
+  //     capturedImage.value = savedImage;
+  //     await generateImage(savedImage);
+  //   }
+  //
+  //   update();
+  // }
 
   /// Start recording with 30s limit
   Future<void> startRecording() async {
@@ -467,6 +542,7 @@ class ProfileCreationController extends GetxController {
         "voicePrompt": audioUrl ?? '',
         "greenFlags": selectedGreenFlags,
         "redFlags": selectedRedFlags,
+        "profileSetup": true,
       };
 
       dialog.show(
@@ -497,12 +573,11 @@ class ProfileCreationController extends GetxController {
             "User profile updated successfully",
             Colors.green,
           );
-
+          dialog.hide();
           update();
+          Get.to(() => VerificationDatingScreen());
         }
       }
-      dialog.hide();
-      Get.to(() => VerificationDatingScreen());
     } catch (e) {
       log('-----Strings----${e.toString()}');
       dialog.hide();
@@ -660,5 +735,15 @@ class ProfileCreationController extends GetxController {
     }
 
     return filePath;
+  }
+
+  void resetCapture() {
+    capturedImage.value = null;
+  }
+
+  @override
+  void onClose() {
+    cameraController?.dispose();
+    super.onClose();
   }
 }

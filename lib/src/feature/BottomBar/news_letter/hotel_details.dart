@@ -33,7 +33,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
             SizedBox(height: 10),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 30),
               decoration: BoxDecoration(
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(8),

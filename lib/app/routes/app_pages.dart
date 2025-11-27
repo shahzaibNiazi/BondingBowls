@@ -10,14 +10,20 @@ import '../../Presentation/email_verification/bindings/email_verification_bindin
 import '../../Presentation/email_verification/views/email_verification_view.dart';
 import '../../Presentation/home/bindings/home_binding.dart';
 import '../../Presentation/home/views/home_view.dart';
+import '../../Presentation/intro/bindings/intro_binding.dart';
+import '../../Presentation/intro/views/intro_view.dart';
 import '../../Presentation/login/bindings/login_binding.dart';
 import '../../Presentation/login/views/login_view.dart';
 import '../../Presentation/manually_verify/bindings/manually_verify_binding.dart';
 import '../../Presentation/manually_verify/views/manually_verify_view.dart';
 import '../../Presentation/manually_verify_second/bindings/manually_verify_second_binding.dart';
 import '../../Presentation/manually_verify_second/views/manually_verify_second_view.dart';
+import '../../Presentation/match_making_setting/bindings/match_making_setting_binding.dart';
+import '../../Presentation/match_making_setting/views/match_making_setting_view.dart';
 import '../../Presentation/match_profile/bindings/match_profile_binding.dart';
 import '../../Presentation/match_profile/views/match_profile_view.dart';
+import '../../Presentation/matches/bindings/matches_binding.dart';
+import '../../Presentation/matches/views/matches_view.dart';
 import '../../Presentation/payment_system/bindings/payment_system_binding.dart';
 import '../../Presentation/payment_system/views/payment_system_view.dart';
 import '../../Presentation/profile_creation/bindings/profile_creation_binding.dart';
@@ -169,6 +175,21 @@ class AppPages {
       name: _Paths.AI_AVATAR_PICK_IMAGE,
       page: () => const AiAvatarPickImageView(),
       binding: AiAvatarPickImageBinding(),
+    ),
+    GetPage(
+      name: _Paths.MATCHES,
+      page: () => const MatchesView(),
+      binding: MatchesBinding(),
+    ),
+    GetPage(
+      name: _Paths.INTRO,
+      page: () => const IntroView(),
+      binding: IntroBinding(),
+    ),
+    GetPage(
+      name: _Paths.MATCH_MAKING_SETTING,
+      page: () => const MatchMakingSettingView(),
+      binding: MatchMakingSettingBinding(),
     ),
   ];
 }

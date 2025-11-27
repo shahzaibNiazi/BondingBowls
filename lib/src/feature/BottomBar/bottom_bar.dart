@@ -1,3 +1,4 @@
+import 'package:convo_hearts/Presentation/matches/views/matches_view.dart';
 import 'package:convo_hearts/src/feature/BottomBar/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../food-discount/discount-profile.dart';
 import 'cafeconnect/cafe_connect.dart';
 import 'chat/chats.dart';
-import 'matches.dart';
 import 'news_letter/newsLetter.dart';
 
 // Enhanced Controller with smooth performance - no UI changes
@@ -98,7 +98,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   Widget _getSelectedPage(int index) {
     List<Widget> pages = [
-      MatchesPage(),
+      MatchesView(),
       NewsletterScreen(),
       CafeConnect(),
       ChatsScreen(),

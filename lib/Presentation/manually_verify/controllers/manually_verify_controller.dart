@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:convo_hearts/Presentation/manually_verify_second/views/manually_verify_second_view.dart';
 import 'package:convo_hearts/data/repositories/profile_creation_repository.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../../app/config/app_colors.dart';
 import '../../../app/config/global_var.dart';
+import '../../../app/routes/app_pages.dart';
 import '../../../app/utils/utils.dart';
 import '../../../data/model/user_model.dart';
 import '../../../data/provider/local_storage/local_db.dart';
@@ -117,7 +117,10 @@ class ManuallyVerifyController extends GetxController {
 
   Future<void> updateProfileCreation() async {
     try {
-      Map<String, dynamic> json = {"nic": imageUrl};
+      Map<String, dynamic> json = {
+        "verificationDocuments": [imageUrl],
+        "verificationMethod": "Manual",
+      };
 
       final response = await profileCreationRepository.profileCreation(json);
 
@@ -141,7 +144,7 @@ class ManuallyVerifyController extends GetxController {
         }
       }
       dialog.hide();
-      Get.to(() => ManuallyVerifySecondView());
+      Get.toNamed(Routes.MANUALLY_VERIFY_SECOND);
     } catch (e) {
       log('-----Strings----${e.toString()}');
       dialog.hide();
