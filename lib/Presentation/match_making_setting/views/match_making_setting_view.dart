@@ -343,33 +343,29 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                   ),
                                   SizedBox(width: 12.w),
 
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            intentionButton("Any"),
-                                            const SizedBox(width: 8),
-                                            intentionButton("Serious"),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            intentionButton("Friends"),
-                                            const SizedBox(width: 8),
-                                            intentionButton("Casual"),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          intentionButton("Any"),
+                                          const SizedBox(width: 8),
+                                          intentionButton("Serious"),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          intentionButton("Friends"),
+                                          const SizedBox(width: 8),
+                                          intentionButton("Casual"),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

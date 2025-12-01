@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -187,48 +186,24 @@ class RedeemView extends GetView<RedeemController> {
                   ),
 
                   SizedBox(height: 16),
-                  Container(
-                    padding: EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 4),
-                          blurRadius: 4,
-                          spreadRadius: 0,
-                          color: Color(0xff000000).withValues(alpha: 0.5),
-                        ),
-                      ],
-                      color: Colors.white,
-                      border: Border.all(color: Color(0xffFB4B16)),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Color(0xffE7E7E7),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.asset(
-                            'assets/images/bowls_remove.png',
-                            scale: 15,
-                          ),
-                        ),
-                        Icon(
-                          CupertinoIcons.forward,
-                          color: Colors.black.withValues(alpha: 0.5),
-                        ),
-                        Text(
-                          'ONLY SLIDE WHEN PRESENTING TO CASHIER!',
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: Colors.black.withValues(alpha: 0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+
+                  // Center(
+                  //   child: SliderButton(
+                  //     action: () async {
+                  //       ///Do something here OnSlide
+                  //       return true;
+                  //     },
+                  //     label: Text(
+                  //       "Slide to cancel Event",
+                  //       style: TextStyle(
+                  //         color: Color(0xff4a4a4a),
+                  //         fontWeight: FontWeight.w500,
+                  //         fontSize: 17,
+                  //       ),
+                  //     ),
+                  //     icon:
+                  //   ),
+                  // ),
                   SizedBox(height: 20.h),
                 ],
               ),

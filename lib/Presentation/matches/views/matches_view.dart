@@ -207,16 +207,15 @@ class ProfileCard extends StatelessWidget {
                 Image.asset('assets/images/female-avatar.jpg'),
                 GestureDetector(
                   onTap: () {
+                    log("shshzaib");
                     showTextBottomSheet(
                       context,
                       items: [
-                        'Unmatch',
                         'Report for inappropriate/offensive behaviour',
                         'Spam , Selling something (including financial product)',
                         'Others',
                       ],
                       onTap: [
-                        () => log('first tapped'),
                         () async {
                           Navigator.pop(context);
 
@@ -233,15 +232,15 @@ class ProfileCard extends StatelessWidget {
                         () async {
                           Navigator.pop(context);
 
-                          showConfirmReportBottomSheet(Get.context!, {
-                            Navigator.pop(Get.context!),
+                          showConfirmReportBottomSheet(context, () async {
+                            Navigator.pop(context);
                             await controller.reportUser(
                               id: matching.id ?? '',
                               reportReason: "Spam",
                               reasonDetail:
                                   "Spam , Selling something (including financial product)",
-                            ),
-                          }); // 👈 open confirm report sheet
+                            );
+                          });
                         },
                         () {
                           Navigator.pop(context);
@@ -488,17 +487,23 @@ class ProfileCard extends StatelessWidget {
 
             SizedBox(height: 8),
 
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: const [
-                _FlagChip(
-                  label: "Trustworthy & Honest",
-                  backgroundColor: Colors.green,
-                ),
-                _FlagChip(
-                  label: "Open Communication",
-                  backgroundColor: Colors.green,
+            Row(
+              children: [
+                Expanded(
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: const [
+                      _FlagChip(
+                        label: "Trustworthy & Honest",
+                        backgroundColor: Colors.green,
+                      ),
+                      _FlagChip(
+                        label: "Open Communication",
+                        backgroundColor: Colors.green,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -519,12 +524,18 @@ class ProfileCard extends StatelessWidget {
 
             SizedBox(height: 8),
 
-            Wrap(
-              spacing: 10,
-              children: const [
-                _FlagChip(
-                  label: "Bad Time Management",
-                  backgroundColor: Colors.red,
+            Row(
+              children: [
+                Expanded(
+                  child: Wrap(
+                    spacing: 10,
+                    children: const [
+                      _FlagChip(
+                        label: "Bad Time Management",
+                        backgroundColor: Colors.red,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -554,7 +565,7 @@ class ProfileCard extends StatelessWidget {
                 AnimatedIconButton(
                   imagePath: "assets/images/match_logo.png",
                   onTap: () => controller.likeProfile(matching.id),
-                ),
+                ).paddingSymmetric(horizontal: 5.w),
                 AnimatedIconButton(
                   imagePath: "assets/images/thumbs_down.png",
                   onTap: () => controller.disLikeProfile(matching.id),

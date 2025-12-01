@@ -1,5 +1,6 @@
 import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -64,12 +65,12 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                       },
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: Text(
                         "Received Likes",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,
                         ),
@@ -110,19 +111,19 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
 
             // Slideshow ads space
             Container(
-              height: 60,
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(vertical: 30),
               decoration: BoxDecoration(
-                color: const Color(0xFFE8D5C4),
+                color: Color(0xffD9D9D9),
                 borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[400]!),
               ),
-
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Slideshow Ads Space',
+                  '~Slideshow Ads Space',
                   style: TextStyle(
-                    color: Color(0xFF8B7355),
-                    fontSize: 14,
+                    color: Color(0xffC672A5),
+                    fontSize: 16.sp,
                     fontStyle: FontStyle.italic,
                   ),
                 ),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Show a bottom sheet with 4 vertically stacked texts.
 /// - [items] must have exactly 4 strings (the widget does not enforce but intended usage).
@@ -22,7 +23,7 @@ Future<void> showTextBottomSheet(
   Color? backgroundColor,
 }) {
   assert(
-    items.length == 4,
+    items.length == 3,
     'This helper expects 4 items (but will work with other counts too).',
   );
 
@@ -56,7 +57,6 @@ Future<void> showTextBottomSheet(
                     borderRadius: BorderRadius.circular(8),
                     child: Container(
                       width: double.infinity,
-
                       padding: const EdgeInsets.symmetric(
                         vertical: 14,
                       ), // spacing around text
@@ -398,7 +398,7 @@ class _StrokedHintTextFieldState extends State<StrokedHintTextField> {
                     // Stroke layer
                     Text(
                       widget.hint,
-                      style: TextStyle(
+                      style: GoogleFonts.inriaSans(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
                         foreground: Paint()
@@ -423,6 +423,9 @@ class _StrokedHintTextFieldState extends State<StrokedHintTextField> {
               controller: widget.controller,
               maxLines: widget.maxLines,
               maxLength: widget.maxLength,
+              cursorColor: Colors.black,
+
+              style: TextStyle(fontSize: 14.sp),
               decoration: InputDecoration(
                 hintText: "",
                 border: OutlineInputBorder(

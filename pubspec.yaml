@@ -73,6 +73,7 @@ dependencies:
   video_player:
   camera: ^0.10.5+2
   flutter_tts: ^4.2.3
+  slide_to_submit_button: ^1.0.3
   url_launcher: ^6.3.1
 
 

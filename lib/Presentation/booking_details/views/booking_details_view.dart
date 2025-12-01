@@ -33,10 +33,9 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
                   child: Text(
                     "Booking Details",
                     style: TextStyle(
-                      fontFamily: "Playfair",
-                      fontSize: 36.sp,
-                      color: Color(0xff000000),
-                      fontWeight: FontWeight.w700,
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
                     ),
                   ),
                 ),

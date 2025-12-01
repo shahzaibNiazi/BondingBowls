@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,14 +49,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       icon: SvgPicture.asset("assets/icon/svg/back_arrow.svg"),
                     ),
                   ),
-                  const Center(
+                  Center(
                     child: Text(
                       "Settings",
                       style: TextStyle(
-                        fontSize: 36,
-                        fontFamily: "Playfair",
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff000000),
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
                       ),
                     ),
                   ),

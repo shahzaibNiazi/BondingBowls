@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -68,12 +69,11 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
-                        'Vouchers  Offers',
+                        'Vouchers  Offer',
                         style: TextStyle(
-                          fontFamily: "Playfair",
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w600,
                           color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),

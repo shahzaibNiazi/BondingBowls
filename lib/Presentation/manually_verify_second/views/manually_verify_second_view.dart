@@ -91,16 +91,12 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                           ),
                         );
                       } else {
-                        return Container(
-                          height: 300,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
+                        return Center(
+                          child: ClipOval(
                             child: Image.asset(
                               "assets/images/video_men.png",
+                              height: 320, // same height & width
+                              width: 320,
                               fit: BoxFit.cover,
                             ),
                           ),

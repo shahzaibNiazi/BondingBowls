@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -39,10 +40,9 @@ class IntroView extends GetView<IntroController> {
                           child: Text(
                             'Intro',
                             style: TextStyle(
-                              fontFamily: "Playfair",
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w600,
                               color: Colors.black,
-                              fontSize: 36,
-                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),

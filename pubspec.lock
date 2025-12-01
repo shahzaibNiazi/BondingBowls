@@ -1437,6 +1437,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  slide_to_submit_button:
+    dependency: "direct main"
+    description:
+      name: slide_to_submit_button
+      sha256: d3d71ceb8545a6ae72d310684d8138d641075e54495b4613b2c14279fd1f52ac
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   smooth_page_indicator:
     dependency: "direct main"
     description:

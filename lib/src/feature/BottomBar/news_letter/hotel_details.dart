@@ -22,14 +22,6 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
         child: Column(
           children: [
             // Top Header Section
-            Text(
-              "NewsLetter",
-              style: TextStyle(
-                fontSize: 24.sp,
-                fontFamily: "Playfair",
-                fontWeight: FontWeight.w700,
-              ),
-            ),
             SizedBox(height: 10),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

@@ -1,5 +1,6 @@
 import 'package:convo_hearts/src/feature/BottomBar/news_letter/voucher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -63,9 +64,9 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                                       Text(
                                         "NewsLetter",
                                         style: TextStyle(
-                                          fontSize: 32,
-                                          fontFamily: "Playfair",
-                                          fontWeight: FontWeight.w700,
+                                          fontSize: 24.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
                                         ),
                                       ),
                                       IconButton(

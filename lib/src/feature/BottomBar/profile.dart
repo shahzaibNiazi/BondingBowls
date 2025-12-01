@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_utils/src/extensions/widget_extensions.dart';
 
 import '../../../app/config/global_var.dart';
 import '../settings/settings.dart';
@@ -17,21 +19,43 @@ class MyProfileScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/images/bowls_remove.png", scale: 5),
+                ],
+              ).paddingOnly(left: 20.w),
+
               // Header with title and settings
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 16,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Visibility(
+                      visible: false,
+                      maintainAnimation: true,
+                      maintainSize: true,
+                      maintainState: true,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SettingsScreen(),
+                            ),
+                          );
+                        },
+                        icon: SvgPicture.asset("assets/icon/svg/settings.svg"),
+                      ),
+                    ),
+
                     Expanded(
                       child: Center(
-                        child: const Text(
+                        child: Text(
                           'My Profile',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -47,7 +71,11 @@ class MyProfileScreen extends StatelessWidget {
                           ),
                         );
                       },
-                      icon: SvgPicture.asset("assets/icon/svg/settings.svg"),
+                      icon: SvgPicture.asset(
+                        "assets/icon/svg/settings.svg",
+                        height: 30,
+                        width: 30,
+                      ),
                     ),
                   ],
                 ),

@@ -31,15 +31,50 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Visibility(
+                            visible: false,
+                            maintainState: true,
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PaymentSystemView(),
+                                      ),
+                                    );
+                                  },
+                                  icon: SvgPicture.asset(
+                                    "assets/icon/svg/bowl.svg",
+                                    height: 33,
+                                    width: 33,
+                                  ),
+                                ),
+                                Text(
+                                  "300",
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           Expanded(
                             child: Center(
                               child: Text(
                                 "CHATS",
                                 style: TextStyle(
                                   fontSize: 24.sp,
-                                  fontFamily: "Playfair",
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
                                 ),
                               ),
                             ),

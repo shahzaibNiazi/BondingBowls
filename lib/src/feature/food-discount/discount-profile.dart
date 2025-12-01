@@ -31,9 +31,8 @@ class ProfileDiscount extends StatelessWidget {
                     Text(
                       'My Profile',
                       style: TextStyle(
-                        fontFamily: "Playfair",
-                        fontSize: 36.sp,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),

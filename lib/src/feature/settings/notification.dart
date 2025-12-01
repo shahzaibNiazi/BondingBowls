@@ -331,10 +331,9 @@ class NotificationScreen extends StatelessWidget {
                         child: Text(
                           'Notification',
                           style: TextStyle(
-                            fontFamily: "Playfair",
-                            color: Color(0xff000000),
-                            fontSize: 36.sp,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
                           ),
                         ),
                       ),

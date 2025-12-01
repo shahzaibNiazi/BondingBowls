@@ -285,13 +285,13 @@ class _CafeConnectState extends State<CafeConnect> {
             },
             icon: SvgPicture.asset("assets/icon/svg/calender.svg"),
           ),
-          const Flexible(
+          Flexible(
             child: Text(
               "Cafeconnect",
               style: TextStyle(
-                fontSize: 24,
-                fontFamily: "Playfair",
-                fontWeight: FontWeight.w700,
+                fontSize: 24.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
             ),
           ),
