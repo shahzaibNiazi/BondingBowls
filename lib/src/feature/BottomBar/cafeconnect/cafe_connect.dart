@@ -333,10 +333,11 @@ class _CafeConnectState extends State<CafeConnect> {
       children: [
         CafeCardWidget(
           onTap: () {
-            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+            // Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+            Get.toNamed(Routes.MAKE_A_BOOKING);
           },
 
-          discountimageAsset: "assets/images/banner.png",
+          discountimageAsset: "assets/images/ribon.png",
           imageAsset: "assets/images/food.png",
           title: "Macdonald's",
           rating: 4.8,
@@ -353,10 +354,12 @@ class _CafeConnectState extends State<CafeConnect> {
         ),
         CafeCardWidget(
           onTap: () {
-            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+            Get.toNamed(Routes.MAKE_A_BOOKING);
+
+            // Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
           },
 
-          discountimageAsset: "assets/images/banner.png",
+          discountimageAsset: "assets/images/ribon.png",
           imageAsset: "assets/images/star_nbucks.png",
           title: "StarBucks",
           rating: 4.8,
@@ -381,10 +384,10 @@ class _CafeConnectState extends State<CafeConnect> {
       children: [
         CafeCardWidget(
           onTap: () {
-            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+            Get.toNamed(Routes.MAKE_A_BOOKING);
           },
 
-          discountimageAsset: "assets/images/banner.png",
+          discountimageAsset: "assets/images/ribon.png",
           imageAsset: "assets/images/star_nbucks.png",
           title: "StarBucks (Deal)",
           rating: 4.9,
@@ -401,10 +404,10 @@ class _CafeConnectState extends State<CafeConnect> {
         ),
         CafeCardWidget(
           onTap: () {
-            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+            Get.toNamed(Routes.MAKE_A_BOOKING);
           },
 
-          discountimageAsset: "assets/images/banner.png",
+          discountimageAsset: "assets/images/ribon.png",
           imageAsset: "assets/images/food.png",
           title: "Macdonald's (Deal)",
           rating: 4.5,
@@ -428,9 +431,11 @@ class _CafeConnectState extends State<CafeConnect> {
     return Column(
       children: [
         CafeCardWidget(
-          onTap: () {},
+          onTap: () {
+            Get.toNamed(Routes.MAKE_A_BOOKING);
+          },
 
-          discountimageAsset: "assets/images/banner.png",
+          discountimageAsset: "assets/images/ribon.png",
           imageAsset: "assets/images/food.png",
           title: "Macdonald's",
           rating: 4.8,
@@ -446,8 +451,10 @@ class _CafeConnectState extends State<CafeConnect> {
           heartSvg: "assets/icon/svg/heart.svg",
         ),
         CafeCardWidget(
-          onTap: () {},
-          discountimageAsset: "assets/images/banner.png",
+          onTap: () {
+            Get.toNamed(Routes.MAKE_A_BOOKING);
+          },
+          discountimageAsset: "assets/images/ribon.png",
           imageAsset: "assets/images/star_nbucks.png",
           title: "StarBucks",
           rating: 4.8,

@@ -18,6 +18,8 @@ import '../../Presentation/intro/bindings/intro_binding.dart';
 import '../../Presentation/intro/views/intro_view.dart';
 import '../../Presentation/login/bindings/login_binding.dart';
 import '../../Presentation/login/views/login_view.dart';
+import '../../Presentation/make_a_booking/bindings/make_a_booking_binding.dart';
+import '../../Presentation/make_a_booking/views/make_a_booking_view.dart';
 import '../../Presentation/manually_verify/bindings/manually_verify_binding.dart';
 import '../../Presentation/manually_verify/views/manually_verify_view.dart';
 import '../../Presentation/manually_verify_second/bindings/manually_verify_second_binding.dart';
@@ -204,6 +206,11 @@ class AppPages {
       name: _Paths.CAFECONNECT_BOOKING_DETAILS,
       page: () => const CafeconnectBookingDetailsView(),
       binding: CafeconnectBookingDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAKE_A_BOOKING,
+      page: () => const MakeABookingView(),
+      binding: MakeABookingBinding(),
     ),
   ];
 }

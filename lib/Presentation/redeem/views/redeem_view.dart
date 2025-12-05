@@ -1,3 +1,4 @@
+import 'package:convo_hearts/Presentation/redeem/views/slide_show.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -187,23 +188,8 @@ class RedeemView extends GetView<RedeemController> {
 
                   SizedBox(height: 16),
 
-                  // Center(
-                  //   child: SliderButton(
-                  //     action: () async {
-                  //       ///Do something here OnSlide
-                  //       return true;
-                  //     },
-                  //     label: Text(
-                  //       "Slide to cancel Event",
-                  //       style: TextStyle(
-                  //         color: Color(0xff4a4a4a),
-                  //         fontWeight: FontWeight.w500,
-                  //         fontSize: 17,
-                  //       ),
-                  //     ),
-                  //     icon:
-                  //   ),
-                  // ),
+                  SlideShow(),
+
                   SizedBox(height: 20.h),
                 ],
               ),

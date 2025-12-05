@@ -1,3 +1,4 @@
+import 'package:convo_hearts/Presentation/booking_details/views/purchase_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -97,7 +98,7 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
 
                         // Robot Image
                         SizedBox(
-                          height: 350,
+                          height: 280,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -126,38 +127,45 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
                                       Text(
                                         '(6 Days  22 Hours  51 Mins)',
                                         style: TextStyle(
-                                          fontSize: 14.sp,
+                                          fontSize: 13.sp,
                                           color: Colors.black87,
                                         ),
                                       ).paddingOnly(bottom: 12.h),
 
-                                      Container(
-                                        padding: EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            30,
+                                      GestureDetector(
+                                        onTap: () {
+                                          showCafeConnectPurchaseDialog(
+                                            context,
+                                          );
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              30,
+                                            ),
+                                            border: Border.all(
+                                              width: 3,
+                                              color: AppColors.black,
+                                            ),
                                           ),
-                                          border: Border.all(
-                                            width: 3,
-                                            color: AppColors.black,
-                                          ),
-                                        ),
-                                        child: Text.rich(
-                                          TextSpan(
-                                            text: 'refresh now for',
-                                            children: [
-                                              TextSpan(
-                                                text: ' 200',
-                                                style: TextStyle(
-                                                  color: Colors.red,
+                                          child: Text.rich(
+                                            TextSpan(
+                                              text: 'refresh now for',
+                                              children: [
+                                                TextSpan(
+                                                  text: ' 200',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black87,
+                                              ],
+                                            ),
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black87,
+                                            ),
                                           ),
                                         ),
                                       ),
