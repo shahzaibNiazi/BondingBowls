@@ -80,8 +80,8 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
 
                   Column(
                     children: [
-                      IconButton(
-                        onPressed: () {
+                      GestureDetector(
+                        onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -89,7 +89,7 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             ),
                           );
                         },
-                        icon: SvgPicture.asset(
+                        child: SvgPicture.asset(
                           "assets/icon/svg/bowl.svg",
                           height: 33,
                           width: 33,
@@ -98,7 +98,7 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                       Text(
                         "300",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontStyle: FontStyle.italic,
                           fontWeight: FontWeight.w700,
                         ),
@@ -179,19 +179,19 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Mary',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.black,
                                       ),
                                     ),
                                     const SizedBox(width: 8),
-                                    const Text(
+                                    Text(
                                       '38',
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.black,
                                       ),
@@ -218,10 +218,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             const SizedBox(height: 4),
 
                             // Status
-                            const Text(
+                            Text(
                               'Married Female',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black,
                               ),
@@ -229,10 +229,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             const SizedBox(height: 2),
 
                             // Relationship type
-                            const Text(
+                            Text(
                               'Serious',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.black,
                               ),
@@ -240,10 +240,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             const SizedBox(height: 8),
 
                             // Tags
-                            const Text(
+                            Text(
                               'Software Engineer | Coffee Enthusiast | Yoga Lover',
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 color: Color(0xFFBC0072),
                                 fontWeight: FontWeight.w600,
                               ),
@@ -261,10 +261,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                     onTap: () {
                       Get.toNamed(Routes.MATCH_PROFILE);
                     },
-                    child: const Text(
+                    child: Text(
                       'Click to view!',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
                       ),
@@ -321,19 +321,19 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     // Name and age
                                     Row(
                                       children: [
-                                        const Text(
+                                        Text(
                                           'Mary',
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.black,
                                           ),
                                         ),
                                         const SizedBox(width: 8),
-                                        const Text(
+                                        Text(
                                           '38',
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.black,
                                           ),
@@ -343,10 +343,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     const SizedBox(height: 4),
 
                                     // Status
-                                    const Text(
+                                    Text(
                                       'Married Female',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
                                       ),
@@ -354,10 +354,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     const SizedBox(height: 2),
 
                                     // Relationship type
-                                    const Text(
+                                    Text(
                                       'Serious',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
                                       ),
@@ -365,10 +365,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     const SizedBox(height: 8),
 
                                     // Tags
-                                    const Text(
+                                    Text(
                                       'Software Engineer | Coffee Enthusiast | Yoga Lover',
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 12.sp,
                                         color: Color(0xFFBC0072),
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -379,10 +379,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             ],
                           ),
                           const SizedBox(height: 8),
-                          const Text(
+                          Text(
                             'Click to view!',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               color: Colors.black,
                               fontWeight: FontWeight.w400,
                             ),
@@ -433,19 +433,19 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     // Name and age
                                     Row(
                                       children: [
-                                        const Text(
+                                        Text(
                                           'Mary',
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.black,
                                           ),
                                         ),
                                         const SizedBox(width: 8),
-                                        const Text(
+                                        Text(
                                           '38',
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 16.sp,
                                             fontWeight: FontWeight.w700,
                                             color: Colors.black,
                                           ),
@@ -455,10 +455,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     const SizedBox(height: 4),
 
                                     // Status
-                                    const Text(
+                                    Text(
                                       'Married Female',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
                                       ),
@@ -466,10 +466,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     const SizedBox(height: 2),
 
                                     // Relationship type
-                                    const Text(
+                                    Text(
                                       'Serious',
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Colors.black,
                                       ),
@@ -477,10 +477,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                                     const SizedBox(height: 8),
 
                                     // Tags
-                                    const Text(
+                                    Text(
                                       'Software Engineer | Coffee Enthusiast | Yoga Lover',
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 12.sp,
                                         color: Color(0xFFBC0072),
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -491,10 +491,10 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                             ],
                           ),
                           const SizedBox(height: 8),
-                          const Text(
+                          Text(
                             'Click to view!',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               color: Colors.black,
                               fontWeight: FontWeight.w400,
                             ),
@@ -560,14 +560,14 @@ class _ReceivedLikesScreenState extends State<ReceivedLikesScreen> {
                           ),
                         ),
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 40.0),
                           child: Text(
                             "67 more likes to review~ Click to Unlock all received likes at one go",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFFBC0072),
                             ),
@@ -614,9 +614,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Title Section
-                const Text(
+                Text(
                   "Confirm Purchase of",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
@@ -634,10 +637,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                       ),
                       SizedBox(width: 20),
                       Expanded(
-                        child: const Text(
+                        child: Text(
                           "Received Likes Unlocker +1 Month",
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 15.sp,
                             color: Color(0xff000000),
                             fontWeight: FontWeight.w700,
                           ),
@@ -645,10 +648,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          const Text(
+                          Text(
                             "= ",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                               color: Color(0xffBC0072),
                             ),
@@ -659,10 +662,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                             height: 16,
                           ),
                           const SizedBox(width: 4),
-                          const Text(
+                          Text(
                             " 200",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                               color: Color(0xffBC0072),
                             ),
@@ -676,9 +679,9 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                 const SizedBox(height: 8),
 
                 // Description
-                const Text(
+                Text(
                   "This will unlock all your received likes Immediately",
-                  style: TextStyle(fontSize: 13, color: Colors.black54),
+                  style: TextStyle(fontSize: 13.sp, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
@@ -687,9 +690,9 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text("Available", style: TextStyle(fontSize: 10)),
-                    const Text("Deductibles", style: TextStyle(fontSize: 10)),
-                    const Text("Balance", style: TextStyle(fontSize: 10)),
+                    Text("Available", style: TextStyle(fontSize: 10.sp)),
+                    Text("Deductibles", style: TextStyle(fontSize: 10.sp)),
+                    Text("Balance", style: TextStyle(fontSize: 10.sp)),
                   ],
                 ),
                 Container(
@@ -718,10 +721,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                               height: 16,
                             ),
                             const SizedBox(width: 4),
-                            const Text(
+                            Text(
                               "300",
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 color: Color(0xff000000),
                                 fontWeight: FontWeight.w700,
                               ),
@@ -729,7 +732,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Text("-", style: TextStyle(fontSize: 16)),
+                      Text("-", style: TextStyle(fontSize: 16.sp)),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -740,10 +743,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                               height: 16,
                             ),
                             const SizedBox(width: 4),
-                            const Text(
+                            Text(
                               "200",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 15.sp,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xffFF0000),
                               ),
@@ -751,7 +754,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Text("=", style: TextStyle(fontSize: 16)),
+                      Text("=", style: TextStyle(fontSize: 16.sp)),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -762,10 +765,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                               height: 16,
                             ),
                             const SizedBox(width: 5),
-                            const Text(
+                            Text(
                               "100",
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 color: Color(0xff000000),
                                 fontWeight: FontWeight.w700,
                               ),
@@ -779,9 +782,9 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 // Terms Text
-                const Text(
+                Text(
                   "Purchase made are non refundable as per TOS",
-                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                  style: TextStyle(fontSize: 12.sp, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
@@ -805,10 +808,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text(
+                        child: Text(
                           "Cancel",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
                             color: Color(0xffDA4747),
                           ),
@@ -833,10 +836,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                           Navigator.pop(context);
                           onPurchaseConfirmed(); // Call the callback to unlock religion filter
                         },
-                        child: const Text(
+                        child: Text(
                           "Proceed",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
                             color: Color(0xffFFFFFF),
                           ),

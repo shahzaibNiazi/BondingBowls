@@ -7,8 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 // Replace these imports with your actual routes / screens if different
+import '../../../../Presentation/payment_system/views/payment_system_view.dart';
 import '../../../../app/routes/app_pages.dart';
-import '../../settings/getbowls.dart';
 
 class CafeConnect extends StatefulWidget {
   const CafeConnect({super.key});
@@ -297,16 +297,16 @@ class _CafeConnectState extends State<CafeConnect> {
           ),
           Column(
             children: [
-              IconButton(
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const GetBowlsScreen(),
+                      builder: (context) => PaymentSystemView(),
                     ),
                   );
                 },
-                icon: SvgPicture.asset(
+                child: SvgPicture.asset(
                   "assets/icon/svg/bowl.svg",
                   height: 33,
                   width: 33,
@@ -332,6 +332,10 @@ class _CafeConnectState extends State<CafeConnect> {
     return Column(
       children: [
         CafeCardWidget(
+          onTap: () {
+            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+          },
+
           discountimageAsset: "assets/images/banner.png",
           imageAsset: "assets/images/food.png",
           title: "Macdonald's",
@@ -348,6 +352,10 @@ class _CafeConnectState extends State<CafeConnect> {
           heartSvg: "assets/icon/svg/heart.svg",
         ),
         CafeCardWidget(
+          onTap: () {
+            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+          },
+
           discountimageAsset: "assets/images/banner.png",
           imageAsset: "assets/images/star_nbucks.png",
           title: "StarBucks",
@@ -372,6 +380,10 @@ class _CafeConnectState extends State<CafeConnect> {
     return Column(
       children: [
         CafeCardWidget(
+          onTap: () {
+            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+          },
+
           discountimageAsset: "assets/images/banner.png",
           imageAsset: "assets/images/star_nbucks.png",
           title: "StarBucks (Deal)",
@@ -388,6 +400,10 @@ class _CafeConnectState extends State<CafeConnect> {
           heartSvg: "assets/icon/svg/heart.svg",
         ),
         CafeCardWidget(
+          onTap: () {
+            Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+          },
+
           discountimageAsset: "assets/images/banner.png",
           imageAsset: "assets/images/food.png",
           title: "Macdonald's (Deal)",
@@ -412,6 +428,8 @@ class _CafeConnectState extends State<CafeConnect> {
     return Column(
       children: [
         CafeCardWidget(
+          onTap: () {},
+
           discountimageAsset: "assets/images/banner.png",
           imageAsset: "assets/images/food.png",
           title: "Macdonald's",
@@ -428,6 +446,7 @@ class _CafeConnectState extends State<CafeConnect> {
           heartSvg: "assets/icon/svg/heart.svg",
         ),
         CafeCardWidget(
+          onTap: () {},
           discountimageAsset: "assets/images/banner.png",
           imageAsset: "assets/images/star_nbucks.png",
           title: "StarBucks",
@@ -538,6 +557,7 @@ class CafeCardWidget extends StatelessWidget {
   final String femaleCount;
   final String heartCount;
   final String maleSvg;
+  final void Function()? onTap;
   final String femaleSvg;
   final String heartSvg;
 
@@ -546,6 +566,7 @@ class CafeCardWidget extends StatelessWidget {
     required this.discountimageAsset,
     required this.imageAsset,
     required this.title,
+    required this.onTap,
     required this.rating,
     required this.location,
     required this.priceLevel,
@@ -561,170 +582,175 @@ class CafeCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: const Color(0xffBCBCBC), width: 2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                // Image container - Fixed width for consistency
-                Container(
-                  width: 165,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(imageAsset),
-                      fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: const Color(0xffBCBCBC), width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withValues(alpha: 0.2),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  // Image container - Fixed width for consistency
+                  Container(
+                    width: 165,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(imageAsset),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                // Content - Flexible to adapt to remaining space
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title + category
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              title,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(categoryBgImage),
-                                fit: BoxFit.cover,
+                  const SizedBox(width: 16),
+                  // Content - Flexible to adapt to remaining space
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Title + category
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                title,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            child: Text(
-                              categoryText,
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(categoryBgImage),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Text(
+                                categoryText,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        // Rating row
+                        Row(
+                          children: [
+                            Text(
+                              rating.toString(),
                               style: const TextStyle(
-                                color: Colors.white,
-                                fontFamily: "Poppins",
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      // Rating row
-                      Row(
-                        children: [
-                          Text(
-                            rating.toString(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Flexible(
-                            child: Row(
-                              children: List.generate(5, (index) {
-                                // show filled star if index < floor(rating)
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 2.0),
-                                  child: SvgPicture.asset(
-                                    index < rating.floor()
-                                        ? "assets/icon/svg/fav_fill.svg"
-                                        : "assets/icon/svg/fav_.svg",
-                                    width: 16,
-                                    height: 16,
-                                  ),
-                                );
-                              }),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          SvgPicture.asset("assets/icon/svg/location2.svg"),
-                          const SizedBox(width: 4),
-                          Flexible(
-                            child: Text(
-                              location,
-                              style: const TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 14,
-                                color: Colors.grey,
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Row(
+                                children: List.generate(5, (index) {
+                                  // show filled star if index < floor(rating)
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 2.0),
+                                    child: SvgPicture.asset(
+                                      index < rating.floor()
+                                          ? "assets/icon/svg/fav_fill.svg"
+                                          : "assets/icon/svg/fav_.svg",
+                                      width: 16,
+                                      height: 16,
+                                    ),
+                                  );
+                                }),
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          const SizedBox(width: 20),
-                          Text(
-                            priceLevel,
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            SvgPicture.asset("assets/icon/svg/location2.svg"),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                location,
+                                style: const TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Flexible(child: _buildStatItem(maleSvg, maleCount)),
-                          const SizedBox(width: 16),
-                          Flexible(
-                            child: _buildStatItem(femaleSvg, femaleCount),
-                          ),
-                          const SizedBox(width: 16),
-                          Flexible(child: _buildStatItem(heartSvg, heartCount)),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(width: 20),
+                            Text(
+                              priceLevel,
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Flexible(child: _buildStatItem(maleSvg, maleCount)),
+                            const SizedBox(width: 16),
+                            Flexible(
+                              child: _buildStatItem(femaleSvg, femaleCount),
+                            ),
+                            const SizedBox(width: 16),
+                            Flexible(
+                              child: _buildStatItem(heartSvg, heartCount),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          // Discount badge
-          Positioned(
-            top: 12,
-            left: 0,
-            child: Container(
-              height: 60,
-              width: 55,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: DiscountRibbon(),
+            // Discount badge
+            Positioned(
+              top: 12,
+              left: 0,
+              child: Container(
+                height: 60,
+                width: 55,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: DiscountRibbon(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

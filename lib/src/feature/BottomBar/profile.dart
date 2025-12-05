@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_utils/src/extensions/widget_extensions.dart';
+import 'package:get/get.dart';
 
 import '../../../app/config/global_var.dart';
+import '../../../app/utils/utils.dart';
 import '../settings/settings.dart';
 
 class MyProfileScreen extends StatelessWidget {
@@ -20,23 +21,15 @@ class MyProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset("assets/images/bowls_remove.png", scale: 5),
-                ],
-              ).paddingOnly(left: 20.w),
-
-              // Header with title and settings
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Visibility(
-                      visible: false,
-                      maintainAnimation: true,
-                      maintainSize: true,
-                      maintainState: true,
+                  Visibility(
+                    visible: false,
+                    maintainState: true,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    child: Align(
+                      alignment: Alignment.centerRight,
                       child: IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -46,23 +39,14 @@ class MyProfileScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        icon: SvgPicture.asset("assets/icon/svg/settings.svg"),
+                        icon: SvgPicture.asset("assets/icon/svg/setting1.svg"),
                       ),
                     ),
-
-                    Expanded(
-                      child: Center(
-                        child: Text(
-                          'My Profile',
-                          style: TextStyle(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
+                  ),
+                  Image.asset(Utils.getImagePath('bowls_remove'), scale: 5),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -72,15 +56,14 @@ class MyProfileScreen extends StatelessWidget {
                         );
                       },
                       icon: SvgPicture.asset(
-                        "assets/icon/svg/settings.svg",
-                        height: 30,
-                        width: 30,
+                        "assets/icon/svg/setting1.svg",
+                        height: 40,
+                        width: 40,
                       ),
                     ),
-                  ],
-                ),
-              ),
-
+                  ),
+                ],
+              ).paddingOnly(bottom: 16.h, top: 12.h),
               // Main profile card
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),

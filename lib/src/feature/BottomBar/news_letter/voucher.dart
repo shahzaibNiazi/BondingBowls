@@ -69,7 +69,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
-                        'Vouchers  Offer',
+                        'Vouchers',
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w600,

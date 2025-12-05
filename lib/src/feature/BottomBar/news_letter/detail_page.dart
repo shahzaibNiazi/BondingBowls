@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:convo_hearts/src/feature/BottomBar/news_letter/voucher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../settings/notification.dart';
@@ -59,12 +60,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               "assets/icon/svg/notification.svg",
                             ),
                           ),
-                          const Text(
+                          Text(
                             "NewsLetter",
                             style: TextStyle(
-                              fontFamily: "Playfair",
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
                             ),
                           ),
                           IconButton(

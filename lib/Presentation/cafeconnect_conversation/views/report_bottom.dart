@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 /// - [onTap] optional callbacks per item; if provided it should be same length as items.
 /// - Example call:
 ///   showTextBottomSheet(context, items: ['One','Two','Three','Four']);
-Future<void> showTextBottomSheet(
+Future<void> showReportBottom(
   BuildContext context, {
   required List<String> items,
   List<VoidCallback?>? onTap,
@@ -23,7 +23,7 @@ Future<void> showTextBottomSheet(
   Color? backgroundColor,
 }) {
   assert(
-    items.length == 3,
+    items.length == 4,
     'This helper expects 4 items (but will work with other counts too).',
   );
 

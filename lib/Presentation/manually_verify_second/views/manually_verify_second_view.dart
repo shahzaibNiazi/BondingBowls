@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,11 +6,11 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../app/shared_widgets/custom_button.dart';
-import '../../../app/utils/utils.dart';
 import '../controllers/manually_verify_second_controller.dart';
 
 class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
   const ManuallyVerifySecondView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ManuallyVerifySecondController>(
@@ -24,6 +25,7 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // AppBar
                     Row(
                       children: [
                         IconButton(
@@ -32,7 +34,6 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                           ),
                           onPressed: () => Navigator.pop(context),
                         ),
-
                         Expanded(
                           child: Text(
                             'Selfie Verification',
@@ -52,7 +53,7 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                       child: Container(
                         margin: EdgeInsets.only(bottom: 24),
                         child: Text(
-                          'Your Video will be deleted after Verification \n Please remain in frame throughout the duration',
+                          'Your Video will be deleted after Verification \nPlease remain in frame throughout the duration',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 14.sp,
@@ -65,44 +66,65 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
 
                     SizedBox(height: 20),
 
-                    // Camera/Document Area
-                    Obx(() {
-                      if (controller.capturedVideo.value != null &&
-                          controller.videoPlayerController != null &&
-                          controller
-                              .videoPlayerController!
-                              .value
-                              .isInitialized) {
-                        return Container(
-                          height: 400,
-                          width: double.infinity,
-                          decoration: BoxDecoration(),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: AspectRatio(
-                              aspectRatio: controller
+                    // Circular Camera / Video Preview
+                    Center(
+                      child: Obx(() {
+                        if (controller.capturedVideo.value != null &&
+                            controller.videoPlayerController != null &&
+                            controller
+                                .videoPlayerController!
+                                .value
+                                .isInitialized) {
+                          // Play recorded video in circle
+                          return GestureDetector(
+                            onTap: () {
+                              if (controller
                                   .videoPlayerController!
                                   .value
-                                  .aspectRatio,
-                              child: VideoPlayer(
-                                controller.videoPlayerController!,
+                                  .isPlaying) {
+                                controller.videoPlayerController!.pause();
+                              } else {
+                                controller.videoPlayerController!.play();
+                              }
+                            },
+                            child: ClipOval(
+                              child: SizedBox(
+                                height: 320,
+                                width: 320,
+                                child: VideoPlayer(
+                                  controller.videoPlayerController!,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      } else {
-                        return Center(
-                          child: ClipOval(
-                            child: Image.asset(
-                              "assets/images/video_men.png",
-                              height: 320, // same height & width
+                          );
+                        } else if (controller.cameraController != null &&
+                            controller.cameraController!.value.isInitialized) {
+                          // Show live camera preview in circle
+                          return ClipOval(
+                            child: SizedBox(
+                              height: 320,
                               width: 320,
-                              fit: BoxFit.cover,
+                              child: CameraPreview(
+                                controller.cameraController!,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    }),
+                          );
+                        } else {
+                          return ClipOval(
+                            child: Container(
+                              height: 320,
+                              width: 320,
+                              color: Colors.grey[300],
+                              child: Icon(
+                                Icons.videocam,
+                                size: 50,
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
+                        }
+                      }),
+                    ),
 
                     SizedBox(height: 20.h),
 
@@ -118,6 +140,7 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                       ),
                     ).paddingOnly(bottom: 12.h),
 
+                    // Info list
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -133,71 +156,80 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                       ],
                     ).paddingOnly(left: 30, bottom: 34.h),
 
-                    if (controller.capturedVideo.value != null)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomButton(
-                            radius: 20,
-                            width: 100.w,
-                            text: 'Retry',
-                            fontSize: 16.sp,
-                            onPress: () {
-                              controller.clear();
-                            },
-                            textColor: Colors.white,
-                            boxColor: Colors.red,
-                          ),
-
-                          if (controller.capturedVideo.value != null)
+                    // Buttons
+                    Obx(() {
+                      if (controller.capturedVideo.value != null) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomButton(
+                              radius: 20,
+                              width: 100.w,
+                              text: 'Retry',
+                              fontSize: 16.sp,
+                              onPress: controller.clear,
+                              textColor: Colors.white,
+                              boxColor: Colors.red,
+                            ),
                             CustomButton(
                               radius: 20,
                               width: 100.w,
                               text: 'Submit',
                               fontSize: 16.sp,
-                              onPress: () async {
-                                await controller.uploadFile();
-                              },
+                              onPress: controller.uploadFile,
                               textColor: Colors.white,
                               boxColor: Color(0xffEB953A),
                             ),
-                        ],
-                      ).paddingOnly(bottom: 12.h, right: 24, left: 24),
-
-                    if (controller.capturedVideo.value == null)
-                      Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                await controller.captureVideo();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color(0xff1D73BC),
-                                ),
-                                child: Image.asset(
-                                  Utils.getImagePath('video'),
-                                  scale: 5,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              'Video',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
                           ],
-                        ),
-                      ),
+                        ).paddingOnly(bottom: 12.h, right: 24, left: 24);
+                      } else {
+                        return Center(
+                          child: Obx(
+                            () => Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if (controller.isRecording.value) {
+                                      controller.stopRecording();
+                                    } else {
+                                      controller.startRecording();
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: controller.isRecording.value
+                                          ? Colors.red
+                                          : Color(0xff1D73BC),
+                                    ),
+                                    child: Icon(
+                                      controller.isRecording.value
+                                          ? Icons.stop
+                                          : Icons.videocam,
+                                      color: Colors.white,
+                                      size: 40,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  controller.isRecording.value
+                                      ? 'Recording...'
+                                      : 'Video',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    }),
                   ],
                 ),
               ),
@@ -231,131 +263,6 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                 style: TextStyle(color: Colors.grey[500], fontSize: 12),
               ),
             ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSampleIdCard() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          // Header
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.red[600]!, Colors.red[700]!],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-            ),
-            child: Text(
-              'REPUBLIC OF SINGAPORE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-
-          // ID Card Content
-          Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
-              border: Border.all(color: Colors.grey[300]!),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-            ),
-            child: Row(
-              children: [
-                // Photo placeholder
-                Container(
-                  width: 50,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                SizedBox(width: 12),
-
-                // Details
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildIdRow('NAME:', '████████'),
-                      _buildIdRow('CHINESE:', '██'),
-                      _buildIdRow('DOB:', '██/██/████'),
-                      _buildIdRow('RACE:', 'CHINESE'),
-                      _buildIdRow('SEX:', 'F'),
-                    ],
-                  ),
-                ),
-
-                // Chip placeholder
-                Container(
-                  width: 24,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Footer
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-            child: Text(
-              'MALAYSIA',
-              style: TextStyle(color: Colors.grey[500], fontSize: 10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildIdRow(String label, String value) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 1),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 60,
-            child: Text(
-              label,
-              style: TextStyle(fontSize: 10, color: Colors.grey[600]),
-            ),
-          ),
-          Text(value, style: TextStyle(fontSize: 10, color: Colors.grey[600])),
         ],
       ),
     );

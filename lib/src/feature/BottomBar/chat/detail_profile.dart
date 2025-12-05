@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -16,7 +15,7 @@ class DetailProfile extends StatelessWidget {
           child: Column(
             children: [
               // Header with title and settings
-              
+
               // Main profile card
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -41,11 +40,9 @@ class DetailProfile extends StatelessWidget {
                       child: SvgPicture.asset("assets/icon/svg/tri_info.svg"),
                     ),
 
-          
-
                     // Profile Avatar
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal:  8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Image.asset(
                         'assets/images/female-avatar.jpg', // Replace with your avatar image
                         fit: BoxFit.cover,
@@ -393,32 +390,31 @@ class DetailProfile extends StatelessWidget {
                           ],
                         ),
 
-                      SizedBox(height: 20,),
+                        SizedBox(height: 20),
 
-                      Column(
-                        children: [
-                          //  
-                          SizedBox(height: 20,),
+                        Column(
+                          children: [
+                            //
+                            SizedBox(height: 20),
 
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image.asset("assets/images/thumbs.png"),
-                                // Image.asset("assets/images/match_logo.png"),
-                                Image.asset("assets/images/thumbs_down.png")
-                            
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.asset("assets/images/thumbs.png"),
+                                  // Image.asset("assets/images/match_logo.png"),
+                                  Image.asset("assets/images/thumbs_down.png"),
+                                ],
+                              ),
                             ),
-                          )
+                          ],
+                        ),
 
-
-                        ],
-                      ),
-
-                    SizedBox(height: 200,)
-
+                        SizedBox(height: 200),
                       ],
                     ),
                   ],

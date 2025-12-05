@@ -28,6 +28,8 @@ abstract class Routes {
   static const MATCHES = _Paths.MATCHES;
   static const INTRO = _Paths.INTRO;
   static const MATCH_MAKING_SETTING = _Paths.MATCH_MAKING_SETTING;
+  static const CAFECONNECT_CONVERSATION = _Paths.CAFECONNECT_CONVERSATION;
+  static const CAFECONNECT_BOOKING_DETAILS = _Paths.CAFECONNECT_BOOKING_DETAILS;
 }
 
 abstract class _Paths {
@@ -57,4 +59,6 @@ abstract class _Paths {
   static const MATCHES = '/matches';
   static const INTRO = '/intro';
   static const MATCH_MAKING_SETTING = '/match-making-setting';
+  static const CAFECONNECT_CONVERSATION = '/cafeconnect-conversation';
+  static const CAFECONNECT_BOOKING_DETAILS = '/cafeconnect-booking-details';
 }

@@ -20,23 +20,14 @@ class ProfileDiscount extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
 
-              Image.asset(Utils.getImagePath('bowls_remove'), scale: 5),
-
-              // Title + Settings
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Text(
-                      'My Profile',
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Align(
+              Row(
+                children: [
+                  Visibility(
+                    visible: false,
+                    maintainState: true,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    child: Align(
                       alignment: Alignment.centerRight,
                       child: IconButton(
                         onPressed: () {
@@ -50,8 +41,23 @@ class ProfileDiscount extends StatelessWidget {
                         icon: SvgPicture.asset("assets/icon/svg/setting1.svg"),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Image.asset(Utils.getImagePath('bowls_remove'), scale: 5),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SettingsScreen(),
+                          ),
+                        );
+                      },
+                      icon: SvgPicture.asset("assets/icon/svg/setting1.svg"),
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 20),

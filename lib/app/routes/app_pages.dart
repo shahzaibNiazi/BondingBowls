@@ -4,6 +4,10 @@ import '../../Presentation/ai_avatar_pick_image/bindings/ai_avatar_pick_image_bi
 import '../../Presentation/ai_avatar_pick_image/views/ai_avatar_pick_image_view.dart';
 import '../../Presentation/booking_details/bindings/booking_details_binding.dart';
 import '../../Presentation/booking_details/views/booking_details_view.dart';
+import '../../Presentation/cafeconnect_booking_details/bindings/cafeconnect_booking_details_binding.dart';
+import '../../Presentation/cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
+import '../../Presentation/cafeconnect_conversation/bindings/cafeconnect_conversation_binding.dart';
+import '../../Presentation/cafeconnect_conversation/views/cafeconnect_conversation_view.dart';
 import '../../Presentation/chat/bindings/chat_binding.dart';
 import '../../Presentation/chat/views/chat_view.dart';
 import '../../Presentation/email_verification/bindings/email_verification_binding.dart';
@@ -190,6 +194,16 @@ class AppPages {
       name: _Paths.MATCH_MAKING_SETTING,
       page: () => const MatchMakingSettingView(),
       binding: MatchMakingSettingBinding(),
+    ),
+    GetPage(
+      name: _Paths.CAFECONNECT_CONVERSATION,
+      page: () => const CafeconnectConversationView(),
+      binding: CafeconnectConversationBinding(),
+    ),
+    GetPage(
+      name: _Paths.CAFECONNECT_BOOKING_DETAILS,
+      page: () => const CafeconnectBookingDetailsView(),
+      binding: CafeconnectBookingDetailsBinding(),
     ),
   ];
 }

@@ -18,37 +18,43 @@ class IntroView extends GetView<IntroController> {
             child: Column(
               children: [
                 // Header with proper height constraint
-                SizedBox(
-                  height: 80,
-                  child: Stack(
-                    children: [
-                      // Back button positioned on the left
-                      Positioned(
-                        left: 10,
-                        top: 0,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            "assets/icon/svg/back_arrow.svg",
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ),
-                      // Title centered
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: Text(
-                            'Intro',
-                            style: TextStyle(
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black,
-                            ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Back button positioned on the left
+                    IconButton(
+                      icon: SvgPicture.asset("assets/icon/svg/back_arrow.svg"),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    // Title centered
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text(
+                          'Intro',
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+
+                    Visibility(
+                      visible: false,
+                      maintainAnimation: true,
+                      maintainSize: true,
+                      maintainState: true,
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          "assets/icon/svg/back_arrow.svg",
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ),
+                    //
+                  ],
                 ),
 
                 // Main content area

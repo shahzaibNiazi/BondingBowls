@@ -40,8 +40,8 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
                   ),
                 ),
               ],
-            ),
-            const SizedBox(height: 24),
+            ).paddingOnly(top: 12.h),
+            SizedBox(height: 10.h),
             // Slideshow Ad Space
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
