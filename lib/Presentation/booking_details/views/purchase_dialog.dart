@@ -145,34 +145,22 @@ class CafeConnectPurchaseDialogContent extends StatelessWidget {
             children: [
               /// Cancel Button
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 12,
-                        spreadRadius: 1,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shadowColor: Colors.transparent, // disable default shadow
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+                child: ElevatedButton(
+                  onPressed: () => Navigator.pop(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 4,
+                    shadowColor: Colors.black26,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
