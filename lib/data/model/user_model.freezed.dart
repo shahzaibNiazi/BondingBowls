@@ -40,11 +40,20 @@ mixin _$UserModel {
   String? get datingIntentions => throw _privateConstructorUsedError;
   bool? get pets => throw _privateConstructorUsedError;
   String? get voicePrompt => throw _privateConstructorUsedError;
+  String? get favoriteQuotes => throw _privateConstructorUsedError;
+  String? get beforeAnything => throw _privateConstructorUsedError;
+  String? get preferredGender => throw _privateConstructorUsedError;
+  int? get maxAge => throw _privateConstructorUsedError;
+  int? get minAge => throw _privateConstructorUsedError;
   List<String>? get greenFlags => throw _privateConstructorUsedError;
   List<String>? get redFlags => throw _privateConstructorUsedError;
   String? get verificationStatus => throw _privateConstructorUsedError;
   String? get verificationMethod => throw _privateConstructorUsedError;
   List<String>? get verificationDocuments => throw _privateConstructorUsedError;
+  List<String>? get preferredDatingIntentions =>
+      throw _privateConstructorUsedError;
+  List<String>? get preferredNationality => throw _privateConstructorUsedError;
+  List<String>? get preferredReligion => throw _privateConstructorUsedError;
   bool? get profileCompleted => throw _privateConstructorUsedError;
   String? get profileCompletionStep => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
@@ -60,6 +69,7 @@ mixin _$UserModel {
   String? get nickname => throw _privateConstructorUsedError;
   String? get religion => throw _privateConstructorUsedError;
   String? get smoking => throw _privateConstructorUsedError;
+  bool? get profileSetup => throw _privateConstructorUsedError;
   String? get userStatus => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
@@ -96,11 +106,19 @@ abstract class $UserModelCopyWith<$Res> {
     String? datingIntentions,
     bool? pets,
     String? voicePrompt,
+    String? favoriteQuotes,
+    String? beforeAnything,
+    String? preferredGender,
+    int? maxAge,
+    int? minAge,
     List<String>? greenFlags,
     List<String>? redFlags,
     String? verificationStatus,
     String? verificationMethod,
     List<String>? verificationDocuments,
+    List<String>? preferredDatingIntentions,
+    List<String>? preferredNationality,
+    List<String>? preferredReligion,
     bool? profileCompleted,
     String? profileCompletionStep,
     String? createdAt,
@@ -115,6 +133,7 @@ abstract class $UserModelCopyWith<$Res> {
     String? nickname,
     String? religion,
     String? smoking,
+    bool? profileSetup,
     String? userStatus,
   });
 }
@@ -152,11 +171,19 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? datingIntentions = freezed,
     Object? pets = freezed,
     Object? voicePrompt = freezed,
+    Object? favoriteQuotes = freezed,
+    Object? beforeAnything = freezed,
+    Object? preferredGender = freezed,
+    Object? maxAge = freezed,
+    Object? minAge = freezed,
     Object? greenFlags = freezed,
     Object? redFlags = freezed,
     Object? verificationStatus = freezed,
     Object? verificationMethod = freezed,
     Object? verificationDocuments = freezed,
+    Object? preferredDatingIntentions = freezed,
+    Object? preferredNationality = freezed,
+    Object? preferredReligion = freezed,
     Object? profileCompleted = freezed,
     Object? profileCompletionStep = freezed,
     Object? createdAt = freezed,
@@ -171,6 +198,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? nickname = freezed,
     Object? religion = freezed,
     Object? smoking = freezed,
+    Object? profileSetup = freezed,
     Object? userStatus = freezed,
   }) {
     return _then(
@@ -247,6 +275,26 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 ? _value.voicePrompt
                 : voicePrompt // ignore: cast_nullable_to_non_nullable
                       as String?,
+            favoriteQuotes: freezed == favoriteQuotes
+                ? _value.favoriteQuotes
+                : favoriteQuotes // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            beforeAnything: freezed == beforeAnything
+                ? _value.beforeAnything
+                : beforeAnything // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            preferredGender: freezed == preferredGender
+                ? _value.preferredGender
+                : preferredGender // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            maxAge: freezed == maxAge
+                ? _value.maxAge
+                : maxAge // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            minAge: freezed == minAge
+                ? _value.minAge
+                : minAge // ignore: cast_nullable_to_non_nullable
+                      as int?,
             greenFlags: freezed == greenFlags
                 ? _value.greenFlags
                 : greenFlags // ignore: cast_nullable_to_non_nullable
@@ -266,6 +314,18 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
             verificationDocuments: freezed == verificationDocuments
                 ? _value.verificationDocuments
                 : verificationDocuments // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            preferredDatingIntentions: freezed == preferredDatingIntentions
+                ? _value.preferredDatingIntentions
+                : preferredDatingIntentions // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            preferredNationality: freezed == preferredNationality
+                ? _value.preferredNationality
+                : preferredNationality // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            preferredReligion: freezed == preferredReligion
+                ? _value.preferredReligion
+                : preferredReligion // ignore: cast_nullable_to_non_nullable
                       as List<String>?,
             profileCompleted: freezed == profileCompleted
                 ? _value.profileCompleted
@@ -323,6 +383,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 ? _value.smoking
                 : smoking // ignore: cast_nullable_to_non_nullable
                       as String?,
+            profileSetup: freezed == profileSetup
+                ? _value.profileSetup
+                : profileSetup // ignore: cast_nullable_to_non_nullable
+                      as bool?,
             userStatus: freezed == userStatus
                 ? _value.userStatus
                 : userStatus // ignore: cast_nullable_to_non_nullable
@@ -361,11 +425,19 @@ abstract class _$$UserModelImplCopyWith<$Res>
     String? datingIntentions,
     bool? pets,
     String? voicePrompt,
+    String? favoriteQuotes,
+    String? beforeAnything,
+    String? preferredGender,
+    int? maxAge,
+    int? minAge,
     List<String>? greenFlags,
     List<String>? redFlags,
     String? verificationStatus,
     String? verificationMethod,
     List<String>? verificationDocuments,
+    List<String>? preferredDatingIntentions,
+    List<String>? preferredNationality,
+    List<String>? preferredReligion,
     bool? profileCompleted,
     String? profileCompletionStep,
     String? createdAt,
@@ -380,6 +452,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
     String? nickname,
     String? religion,
     String? smoking,
+    bool? profileSetup,
     String? userStatus,
   });
 }
@@ -416,11 +489,19 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? datingIntentions = freezed,
     Object? pets = freezed,
     Object? voicePrompt = freezed,
+    Object? favoriteQuotes = freezed,
+    Object? beforeAnything = freezed,
+    Object? preferredGender = freezed,
+    Object? maxAge = freezed,
+    Object? minAge = freezed,
     Object? greenFlags = freezed,
     Object? redFlags = freezed,
     Object? verificationStatus = freezed,
     Object? verificationMethod = freezed,
     Object? verificationDocuments = freezed,
+    Object? preferredDatingIntentions = freezed,
+    Object? preferredNationality = freezed,
+    Object? preferredReligion = freezed,
     Object? profileCompleted = freezed,
     Object? profileCompletionStep = freezed,
     Object? createdAt = freezed,
@@ -435,6 +516,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? nickname = freezed,
     Object? religion = freezed,
     Object? smoking = freezed,
+    Object? profileSetup = freezed,
     Object? userStatus = freezed,
   }) {
     return _then(
@@ -511,6 +593,26 @@ class __$$UserModelImplCopyWithImpl<$Res>
             ? _value.voicePrompt
             : voicePrompt // ignore: cast_nullable_to_non_nullable
                   as String?,
+        favoriteQuotes: freezed == favoriteQuotes
+            ? _value.favoriteQuotes
+            : favoriteQuotes // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        beforeAnything: freezed == beforeAnything
+            ? _value.beforeAnything
+            : beforeAnything // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        preferredGender: freezed == preferredGender
+            ? _value.preferredGender
+            : preferredGender // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        maxAge: freezed == maxAge
+            ? _value.maxAge
+            : maxAge // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        minAge: freezed == minAge
+            ? _value.minAge
+            : minAge // ignore: cast_nullable_to_non_nullable
+                  as int?,
         greenFlags: freezed == greenFlags
             ? _value._greenFlags
             : greenFlags // ignore: cast_nullable_to_non_nullable
@@ -530,6 +632,18 @@ class __$$UserModelImplCopyWithImpl<$Res>
         verificationDocuments: freezed == verificationDocuments
             ? _value._verificationDocuments
             : verificationDocuments // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        preferredDatingIntentions: freezed == preferredDatingIntentions
+            ? _value._preferredDatingIntentions
+            : preferredDatingIntentions // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        preferredNationality: freezed == preferredNationality
+            ? _value._preferredNationality
+            : preferredNationality // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        preferredReligion: freezed == preferredReligion
+            ? _value._preferredReligion
+            : preferredReligion // ignore: cast_nullable_to_non_nullable
                   as List<String>?,
         profileCompleted: freezed == profileCompleted
             ? _value.profileCompleted
@@ -587,6 +701,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
             ? _value.smoking
             : smoking // ignore: cast_nullable_to_non_nullable
                   as String?,
+        profileSetup: freezed == profileSetup
+            ? _value.profileSetup
+            : profileSetup // ignore: cast_nullable_to_non_nullable
+                  as bool?,
         userStatus: freezed == userStatus
             ? _value.userStatus
             : userStatus // ignore: cast_nullable_to_non_nullable
@@ -618,11 +736,19 @@ class _$UserModelImpl implements _UserModel {
     this.datingIntentions,
     this.pets,
     this.voicePrompt,
+    this.favoriteQuotes,
+    this.beforeAnything,
+    this.preferredGender,
+    this.maxAge,
+    this.minAge,
     final List<String>? greenFlags,
     final List<String>? redFlags,
     this.verificationStatus,
     this.verificationMethod,
     final List<String>? verificationDocuments,
+    final List<String>? preferredDatingIntentions,
+    final List<String>? preferredNationality,
+    final List<String>? preferredReligion,
     this.profileCompleted,
     this.profileCompletionStep,
     this.createdAt,
@@ -637,11 +763,15 @@ class _$UserModelImpl implements _UserModel {
     this.nickname,
     this.religion,
     this.smoking,
+    this.profileSetup,
     this.userStatus,
   }) : _profileImages = profileImages,
        _greenFlags = greenFlags,
        _redFlags = redFlags,
-       _verificationDocuments = verificationDocuments;
+       _verificationDocuments = verificationDocuments,
+       _preferredDatingIntentions = preferredDatingIntentions,
+       _preferredNationality = preferredNationality,
+       _preferredReligion = preferredReligion;
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -691,6 +821,16 @@ class _$UserModelImpl implements _UserModel {
   final bool? pets;
   @override
   final String? voicePrompt;
+  @override
+  final String? favoriteQuotes;
+  @override
+  final String? beforeAnything;
+  @override
+  final String? preferredGender;
+  @override
+  final int? maxAge;
+  @override
+  final int? minAge;
   final List<String>? _greenFlags;
   @override
   List<String>? get greenFlags {
@@ -726,6 +866,39 @@ class _$UserModelImpl implements _UserModel {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String>? _preferredDatingIntentions;
+  @override
+  List<String>? get preferredDatingIntentions {
+    final value = _preferredDatingIntentions;
+    if (value == null) return null;
+    if (_preferredDatingIntentions is EqualUnmodifiableListView)
+      return _preferredDatingIntentions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _preferredNationality;
+  @override
+  List<String>? get preferredNationality {
+    final value = _preferredNationality;
+    if (value == null) return null;
+    if (_preferredNationality is EqualUnmodifiableListView)
+      return _preferredNationality;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _preferredReligion;
+  @override
+  List<String>? get preferredReligion {
+    final value = _preferredReligion;
+    if (value == null) return null;
+    if (_preferredReligion is EqualUnmodifiableListView)
+      return _preferredReligion;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final bool? profileCompleted;
   @override
@@ -757,11 +930,13 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String? smoking;
   @override
+  final bool? profileSetup;
+  @override
   final String? userStatus;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, profilePhoto: $profilePhoto, email: $email, password: $password, role: $role, occupation: $occupation, status: $status, otp: $otp, otpCreatedAt: $otpCreatedAt, loginType: $loginType, appUsageType: $appUsageType, aiAvatar: $aiAvatar, aiAvatarStyle: $aiAvatarStyle, profileImages: $profileImages, datingIntentions: $datingIntentions, pets: $pets, voicePrompt: $voicePrompt, greenFlags: $greenFlags, redFlags: $redFlags, verificationStatus: $verificationStatus, verificationMethod: $verificationMethod, verificationDocuments: $verificationDocuments, profileCompleted: $profileCompleted, profileCompletionStep: $profileCompletionStep, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, bio: $bio, clubbing: $clubbing, drinking: $drinking, hobbies: $hobbies, lifestyleInterests: $lifestyleInterests, location: $location, nickname: $nickname, religion: $religion, smoking: $smoking, userStatus: $userStatus)';
+    return 'UserModel(id: $id, fullName: $fullName, profilePhoto: $profilePhoto, email: $email, password: $password, role: $role, occupation: $occupation, status: $status, otp: $otp, otpCreatedAt: $otpCreatedAt, loginType: $loginType, appUsageType: $appUsageType, aiAvatar: $aiAvatar, aiAvatarStyle: $aiAvatarStyle, profileImages: $profileImages, datingIntentions: $datingIntentions, pets: $pets, voicePrompt: $voicePrompt, favoriteQuotes: $favoriteQuotes, beforeAnything: $beforeAnything, preferredGender: $preferredGender, maxAge: $maxAge, minAge: $minAge, greenFlags: $greenFlags, redFlags: $redFlags, verificationStatus: $verificationStatus, verificationMethod: $verificationMethod, verificationDocuments: $verificationDocuments, preferredDatingIntentions: $preferredDatingIntentions, preferredNationality: $preferredNationality, preferredReligion: $preferredReligion, profileCompleted: $profileCompleted, profileCompletionStep: $profileCompletionStep, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, bio: $bio, clubbing: $clubbing, drinking: $drinking, hobbies: $hobbies, lifestyleInterests: $lifestyleInterests, location: $location, nickname: $nickname, religion: $religion, smoking: $smoking, profileSetup: $profileSetup, userStatus: $userStatus)';
   }
 
   @override
@@ -801,6 +976,14 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.pets, pets) || other.pets == pets) &&
             (identical(other.voicePrompt, voicePrompt) ||
                 other.voicePrompt == voicePrompt) &&
+            (identical(other.favoriteQuotes, favoriteQuotes) ||
+                other.favoriteQuotes == favoriteQuotes) &&
+            (identical(other.beforeAnything, beforeAnything) ||
+                other.beforeAnything == beforeAnything) &&
+            (identical(other.preferredGender, preferredGender) ||
+                other.preferredGender == preferredGender) &&
+            (identical(other.maxAge, maxAge) || other.maxAge == maxAge) &&
+            (identical(other.minAge, minAge) || other.minAge == minAge) &&
             const DeepCollectionEquality().equals(
               other._greenFlags,
               _greenFlags,
@@ -813,6 +996,18 @@ class _$UserModelImpl implements _UserModel {
             const DeepCollectionEquality().equals(
               other._verificationDocuments,
               _verificationDocuments,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._preferredDatingIntentions,
+              _preferredDatingIntentions,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._preferredNationality,
+              _preferredNationality,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._preferredReligion,
+              _preferredReligion,
             ) &&
             (identical(other.profileCompleted, profileCompleted) ||
                 other.profileCompleted == profileCompleted) &&
@@ -838,6 +1033,8 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.religion, religion) ||
                 other.religion == religion) &&
             (identical(other.smoking, smoking) || other.smoking == smoking) &&
+            (identical(other.profileSetup, profileSetup) ||
+                other.profileSetup == profileSetup) &&
             (identical(other.userStatus, userStatus) ||
                 other.userStatus == userStatus));
   }
@@ -864,11 +1061,19 @@ class _$UserModelImpl implements _UserModel {
     datingIntentions,
     pets,
     voicePrompt,
+    favoriteQuotes,
+    beforeAnything,
+    preferredGender,
+    maxAge,
+    minAge,
     const DeepCollectionEquality().hash(_greenFlags),
     const DeepCollectionEquality().hash(_redFlags),
     verificationStatus,
     verificationMethod,
     const DeepCollectionEquality().hash(_verificationDocuments),
+    const DeepCollectionEquality().hash(_preferredDatingIntentions),
+    const DeepCollectionEquality().hash(_preferredNationality),
+    const DeepCollectionEquality().hash(_preferredReligion),
     profileCompleted,
     profileCompletionStep,
     createdAt,
@@ -883,6 +1088,7 @@ class _$UserModelImpl implements _UserModel {
     nickname,
     religion,
     smoking,
+    profileSetup,
     userStatus,
   ]);
 
@@ -920,11 +1126,19 @@ abstract class _UserModel implements UserModel {
     final String? datingIntentions,
     final bool? pets,
     final String? voicePrompt,
+    final String? favoriteQuotes,
+    final String? beforeAnything,
+    final String? preferredGender,
+    final int? maxAge,
+    final int? minAge,
     final List<String>? greenFlags,
     final List<String>? redFlags,
     final String? verificationStatus,
     final String? verificationMethod,
     final List<String>? verificationDocuments,
+    final List<String>? preferredDatingIntentions,
+    final List<String>? preferredNationality,
+    final List<String>? preferredReligion,
     final bool? profileCompleted,
     final String? profileCompletionStep,
     final String? createdAt,
@@ -939,6 +1153,7 @@ abstract class _UserModel implements UserModel {
     final String? nickname,
     final String? religion,
     final String? smoking,
+    final bool? profileSetup,
     final String? userStatus,
   }) = _$UserModelImpl;
 
@@ -983,6 +1198,16 @@ abstract class _UserModel implements UserModel {
   @override
   String? get voicePrompt;
   @override
+  String? get favoriteQuotes;
+  @override
+  String? get beforeAnything;
+  @override
+  String? get preferredGender;
+  @override
+  int? get maxAge;
+  @override
+  int? get minAge;
+  @override
   List<String>? get greenFlags;
   @override
   List<String>? get redFlags;
@@ -992,6 +1217,12 @@ abstract class _UserModel implements UserModel {
   String? get verificationMethod;
   @override
   List<String>? get verificationDocuments;
+  @override
+  List<String>? get preferredDatingIntentions;
+  @override
+  List<String>? get preferredNationality;
+  @override
+  List<String>? get preferredReligion;
   @override
   bool? get profileCompleted;
   @override
@@ -1021,6 +1252,8 @@ abstract class _UserModel implements UserModel {
   String? get religion;
   @override
   String? get smoking;
+  @override
+  bool? get profileSetup;
   @override
   String? get userStatus;
 

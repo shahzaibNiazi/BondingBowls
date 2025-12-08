@@ -94,7 +94,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       onChanged: widget.onchange,
       obscureText: widget.isObscure ?? false,
       controller: widget.controller,
-      cursorColor: AppColors.white,
+      cursorColor: AppColors.black,
       maxLines: widget.maxLines ?? 1,
       style: TextStyle(
         color: AppColors.black,
@@ -203,6 +203,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       controller: widget.controller,
       obscureText: widget.isObscure,
       onSaved: widget.onSave,
+      cursorColor: AppColors.black,
       style: TextStyle(color: AppColors.black, fontSize: 15.sp),
       decoration: InputDecoration(
         labelText: widget.label,

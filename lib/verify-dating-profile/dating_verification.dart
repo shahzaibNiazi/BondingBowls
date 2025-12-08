@@ -1,7 +1,8 @@
-import 'package:convo_hearts/verify-dating-profile/verify_manullay.dart';
+import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 import '../src/feature/BottomBar/bottom_bar.dart';
 
@@ -230,12 +231,7 @@ class _VerificationDatingScreenState extends State<VerificationDatingScreen> {
                       SizedBox(height: 30),
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VerifyManullayScreen(),
-                            ),
-                          );
+                          Get.toNamed(Routes.MANUALLY_VERIFY);
                         },
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
@@ -270,12 +266,7 @@ class _VerificationDatingScreenState extends State<VerificationDatingScreen> {
                       // I'll do it later button
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BottomNavBar(),
-                            ),
-                          );
+                          Get.to(() => BottomNavBar(initialIndex: 4));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xffC672A5),

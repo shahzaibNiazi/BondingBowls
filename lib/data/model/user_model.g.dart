@@ -28,6 +28,11 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       datingIntentions: json['datingIntentions'] as String?,
       pets: json['pets'] as bool?,
       voicePrompt: json['voicePrompt'] as String?,
+      favoriteQuotes: json['favoriteQuotes'] as String?,
+      beforeAnything: json['beforeAnything'] as String?,
+      preferredGender: json['preferredGender'] as String?,
+      maxAge: (json['maxAge'] as num?)?.toInt(),
+      minAge: (json['minAge'] as num?)?.toInt(),
       greenFlags: (json['greenFlags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -37,6 +42,16 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       verificationStatus: json['verificationStatus'] as String?,
       verificationMethod: json['verificationMethod'] as String?,
       verificationDocuments: (json['verificationDocuments'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      preferredDatingIntentions:
+          (json['preferredDatingIntentions'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
+      preferredNationality: (json['preferredNationality'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      preferredReligion: (json['preferredReligion'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       profileCompleted: json['profileCompleted'] as bool?,
@@ -53,6 +68,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       nickname: json['nickname'] as String?,
       religion: json['religion'] as String?,
       smoking: json['smoking'] as String?,
+      profileSetup: json['profileSetup'] as bool?,
       userStatus: json['userStatus'] as String?,
     );
 
@@ -76,11 +92,19 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'datingIntentions': instance.datingIntentions,
       'pets': instance.pets,
       'voicePrompt': instance.voicePrompt,
+      'favoriteQuotes': instance.favoriteQuotes,
+      'beforeAnything': instance.beforeAnything,
+      'preferredGender': instance.preferredGender,
+      'maxAge': instance.maxAge,
+      'minAge': instance.minAge,
       'greenFlags': instance.greenFlags,
       'redFlags': instance.redFlags,
       'verificationStatus': instance.verificationStatus,
       'verificationMethod': instance.verificationMethod,
       'verificationDocuments': instance.verificationDocuments,
+      'preferredDatingIntentions': instance.preferredDatingIntentions,
+      'preferredNationality': instance.preferredNationality,
+      'preferredReligion': instance.preferredReligion,
       'profileCompleted': instance.profileCompleted,
       'profileCompletionStep': instance.profileCompletionStep,
       'createdAt': instance.createdAt,
@@ -95,5 +119,6 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'nickname': instance.nickname,
       'religion': instance.religion,
       'smoking': instance.smoking,
+      'profileSetup': instance.profileSetup,
       'userStatus': instance.userStatus,
     };

@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../app/config/global_var.dart';
 import '../../../app/routes/app_pages.dart';
 import '../../../src/feature/BottomBar/bottom_bar.dart';
 import '../controllers/profile_creation_controller.dart';
@@ -10,6 +13,7 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
   const ProfileCreationDecisionView({super.key});
   @override
   Widget build(BuildContext context) {
+    log(Globals.authToken);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -70,10 +74,13 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
                   text: "Just food discounts!",
                   color: Colors.orange,
                   onPressed: () => Get.offAll(
-                    BottomNavBar(
+                    () => BottomNavBar(
                       initialIndex: 4, // Profile tab index
                       showDiscountProfile:
-                          true, // Flag to show discount profile
+                          (Globals.user != null &&
+                              Globals.user!.profileSetup == true)
+                          ? false
+                          : true, // Flag to show discount profile
                     ),
                   ),
                   borderRadius: 20,

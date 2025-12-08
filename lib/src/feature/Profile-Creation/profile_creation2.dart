@@ -1,10 +1,12 @@
 import 'dart:developer';
 
-import 'package:convo_hearts/src/feature/Profile-Creation/profile_creation3.dart';
 import 'package:convo_hearts/verify-dating-profile/dating_verification.dart';
 import 'package:convo_hearts/voice_prompt/voice_prompt1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+
+import '../../../app/routes/app_pages.dart';
 
 class ProfileCreation2 extends StatefulWidget {
   const ProfileCreation2({Key? key}) : super(key: key);
@@ -193,12 +195,7 @@ class _ProfileCreation2State extends State<ProfileCreation2> {
                     onTap: () {
                       log("PP2 ");
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileCreation3(),
-                        ),
-                      );
+                      Get.toNamed(Routes.AI_AVATAR_PICK_IMAGE);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -421,6 +418,7 @@ class _ProfileCreation2State extends State<ProfileCreation2> {
                             "Location",
                             selectedLocation,
                             [
+                              'East',
                               'North',
                               'North-East',
                               'North-West',
@@ -447,6 +445,7 @@ class _ProfileCreation2State extends State<ProfileCreation2> {
                               'Islam',
                               'Taoism',
                               'Hinduism',
+                              'Other',
                             ],
                             'religion',
                           ),

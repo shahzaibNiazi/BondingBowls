@@ -6,11 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../app/config/global_var.dart';
 import '../../../app/routes/app_pages.dart';
 import '../../../app/utils/image_picker_widget.dart';
 import '../../../app/utils/utils.dart';
-import '../../../src/feature/Profile-Creation/profile_creation3.dart';
 import '../controllers/profile_creation_controller.dart';
 import '../widgets/audio_file.dart';
 import '../widgets/green_flag_chip.dart';
@@ -19,10 +17,9 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
   ProfileCreationView({super.key});
   @override
   Widget build(BuildContext context) {
-    log(Globals.user!.voicePrompt.toString());
     return GetBuilder<ProfileCreationController>(
       init: ProfileCreationController(),
-      builder: (context) {
+      builder: (controller) {
         return GestureDetector(
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
@@ -87,8 +84,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                           children: [
                             InkWell(
                               onTap: () {
-                                log("PP2 ");
-                                Get.to(ProfileCreation3());
+                                Get.toNamed(Routes.AI_AVATAR_PICK_IMAGE);
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -627,6 +623,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                         onTap: () {
                           isLocationDropdownOpen = false;
                           isReligionDropdownOpen = false;
+                          controller.update();
                         },
                         child: Container(
                           color: Colors.black.withValues(alpha: 0.1),

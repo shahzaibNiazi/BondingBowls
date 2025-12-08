@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -23,24 +24,25 @@ class GetBowlsScreen extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: IconButton(
                         onPressed: () => Get.back(),
-                        icon: SvgPicture.asset("assets/icon/svg/back_arrow.svg"),
+                        icon: SvgPicture.asset(
+                          "assets/icon/svg/back_arrow.svg",
+                        ),
                       ),
                     ),
-                    const Center(
+                    Center(
                       child: Text(
                         "Get more Bowls",
                         style: TextStyle(
-                          fontFamily: "Playfair",
-                          fontSize: 36,
-                          color: Color(0xff000000),
-                          fontWeight: FontWeight.w700,
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
                         ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
-          
+
                 // Bowl options
                 _bowlCard(price: "25", bowls: "250"),
                 const SizedBox(height: 12),
@@ -51,14 +53,17 @@ class GetBowlsScreen extends StatelessWidget {
                   bowls: "1000",
                   extra: "+1 PERMANENT\nincrement chat",
                 ),
-          
+
                 const SizedBox(height: 24),
-          
+
                 // Mystery Bowl Section
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    border: Border.all(color: const Color.fromARGB(255, 0, 0, 0), width: 2),
+                    border: Border.all(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      width: 2,
+                    ),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -68,35 +73,41 @@ class GetBowlsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                        "Claim daily free mystery bowls ;-)",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SvgPicture.asset("assets/icon/svg/clock_timer.svg"),
-                          SizedBox(width: 10,),
-                          Text("Available", style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),)
+                            "Claim daily free mystery bowls ;-)",
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/icon/svg/clock_timer.svg",
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                "Available",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
-                      )],
-                      ),// const Icon(Icons.help_outline, color: Colors.black54),
+                      ), // const Icon(Icons.help_outline, color: Colors.black54),
                       const SizedBox(width: 12),
                       Row(
                         // crossAxisAlignment: CrossAxisAlignment.end,
-                        children:  [
+                        children: [
                           SvgPicture.asset("assets/icon/svg/bowl.svg"),
-                          SvgPicture.asset("assets/icon/svg/question.svg") 
+                          SvgPicture.asset("assets/icon/svg/question.svg"),
                         ],
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -126,11 +137,19 @@ class GetBowlsScreen extends StatelessWidget {
               Text(
                 "S\$$price",
                 style: const TextStyle(
-                    fontSize: 32, fontWeight: FontWeight.w700),
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 2),
-              const Text("One-time charge",
-                  style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 0, 0, 0),                      fontWeight: FontWeight.w700)),
+              const Text(
+                "One-time charge",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ],
           ),
 
@@ -147,25 +166,33 @@ class GetBowlsScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                SvgPicture.asset("assets/icon/svg/bowl.svg"),
+                  SvgPicture.asset("assets/icon/svg/bowl.svg"),
                   const SizedBox(width: 4),
                   Text(
                     bowls,
                     style: const TextStyle(
-                        fontSize: 32, fontWeight: FontWeight.w700),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 4),
               Row(
                 children: [
-                  SvgPicture.asset("assets/icon/svg/clock.svg", width: 24, height: 24,),
+                  SvgPicture.asset(
+                    "assets/icon/svg/clock.svg",
+                    width: 24,
+                    height: 24,
+                  ),
                   const SizedBox(width: 4),
                   const Text(
                     "Instant Delivery",
                     style: TextStyle(
-                      fontWeight: FontWeight.w700
-                      ,fontSize: 12, color: Color.fromARGB(255, 0, 0, 0)),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
                   ),
                 ],
               ),

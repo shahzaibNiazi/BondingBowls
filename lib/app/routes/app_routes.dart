@@ -20,6 +20,17 @@ abstract class Routes {
   static const CHAT = _Paths.CHAT;
   static const MATCH_PROFILE = _Paths.MATCH_PROFILE;
   static const REDEEM = _Paths.REDEEM;
+  static const BOOKING_DETAILS = _Paths.BOOKING_DETAILS;
+  static const PAYMENT_SYSTEM = _Paths.PAYMENT_SYSTEM;
+  static const MANUALLY_VERIFY = _Paths.MANUALLY_VERIFY;
+  static const MANUALLY_VERIFY_SECOND = _Paths.MANUALLY_VERIFY_SECOND;
+  static const AI_AVATAR_PICK_IMAGE = _Paths.AI_AVATAR_PICK_IMAGE;
+  static const MATCHES = _Paths.MATCHES;
+  static const INTRO = _Paths.INTRO;
+  static const MATCH_MAKING_SETTING = _Paths.MATCH_MAKING_SETTING;
+  static const CAFECONNECT_CONVERSATION = _Paths.CAFECONNECT_CONVERSATION;
+  static const CAFECONNECT_BOOKING_DETAILS = _Paths.CAFECONNECT_BOOKING_DETAILS;
+  static const MAKE_A_BOOKING = _Paths.MAKE_A_BOOKING;
 }
 
 abstract class _Paths {
@@ -41,4 +52,15 @@ abstract class _Paths {
   static const CHAT = '/chat';
   static const MATCH_PROFILE = '/match-profile';
   static const REDEEM = '/redeem';
+  static const BOOKING_DETAILS = '/booking-details';
+  static const PAYMENT_SYSTEM = '/payment-system';
+  static const MANUALLY_VERIFY = '/manually-verify';
+  static const MANUALLY_VERIFY_SECOND = '/manually-verify-second';
+  static const AI_AVATAR_PICK_IMAGE = '/ai-avatar-pick-image';
+  static const MATCHES = '/matches';
+  static const INTRO = '/intro';
+  static const MATCH_MAKING_SETTING = '/match-making-setting';
+  static const CAFECONNECT_CONVERSATION = '/cafeconnect-conversation';
+  static const CAFECONNECT_BOOKING_DETAILS = '/cafeconnect-booking-details';
+  static const MAKE_A_BOOKING = '/make-a-booking';
 }

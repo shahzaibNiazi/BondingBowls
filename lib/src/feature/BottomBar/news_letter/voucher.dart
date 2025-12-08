@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -68,12 +69,11 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
-                        'Vouchers  Offers',
+                        'Vouchers',
                         style: TextStyle(
-                          fontFamily: "Playfair",
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w600,
                           color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -475,7 +475,7 @@ class VoucherCard extends StatelessWidget {
   final bool isExpired;
 
   const VoucherCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.discount,
     required this.badge,
@@ -486,7 +486,7 @@ class VoucherCard extends StatelessWidget {
     this.buttonTextColor = Colors.red,
     this.expiryTextColor = const Color(0xff003366),
     this.isExpired = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -494,15 +494,23 @@ class VoucherCard extends StatelessWidget {
       margin: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         boxShadow: [
+          // Bottom shadow
           BoxShadow(
-            offset: Offset(0, 4),
-            blurRadius: 4,
+            offset: Offset(0, 4), // 4px down
+            blurRadius: 0,
             spreadRadius: 0,
-            color: Colors.black.withValues(alpha: 0.25),
+            color: Colors.black.withValues(alpha: 0.2),
+          ),
+          // Top shadow
+          BoxShadow(
+            offset: Offset(0, -4), // 4px up
+            blurRadius: 0,
+            spreadRadius: 0,
+            color: Colors.black.withValues(alpha: 0.2),
           ),
         ],
+
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!, width: 1),
       ),
       child: Stack(
         children: [

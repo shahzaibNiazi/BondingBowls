@@ -62,20 +62,22 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 24),
 
                     // Password TextField with visibility toggle (replacing Obx)
-                    PasswordTextField(
-                      controller: controller.passwordController,
-                      hint: "Type your Password",
-                      isObscure: controller.obscurePassword,
-                      isPrefixIcon: true,
-                      prefixIcon: 'lock',
-                      suffixIcon: GestureDetector(
-                        onTap: controller.togglePasswordVisibility,
-                        child: Icon(
-                          controller.obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.grey,
-                          size: 20,
+                    Obx(
+                      () => PasswordTextField(
+                        controller: controller.passwordController,
+                        hint: "Type your Password",
+                        isObscure: controller.obscurePassword.value,
+                        isPrefixIcon: true,
+                        prefixIcon: 'lock',
+                        suffixIcon: GestureDetector(
+                          onTap: controller.togglePasswordVisibility,
+                          child: Icon(
+                            controller.obscurePassword.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
                         ),
                       ),
                     ),

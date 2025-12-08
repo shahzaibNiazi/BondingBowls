@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:convo_hearts/data/provider/network/api_endpoint.dart';
 import 'package:convo_hearts/data/repositories/profile_creation_repository.dart';
 import 'package:dio/dio.dart' as dio;
@@ -24,7 +25,10 @@ import '../../../verify-dating-profile/dating_verification.dart';
 
 class ProfileCreationController extends GetxController {
   //TODO: Implement ProfileCreationController
-
+  final ImagePicker _picker = ImagePicker();
+  final Rx<File?> capturedImage = Rx<File?>(null);
+  CameraController? cameraController;
+  var isCameraInitialized = false.obs;
   final count = 0.obs;
   var question = ''.obs;
   final AudioRecorder record = AudioRecorder(); // ✅ FIXED
@@ -46,6 +50,7 @@ class ProfileCreationController extends GetxController {
   String? recordedFilePath;
 
   List<String> locations = [
+    'East',
     'North',
     'North-East',
     'North-West',
@@ -63,6 +68,7 @@ class ProfileCreationController extends GetxController {
     'Islam',
     'Taoism',
     'Hinduism',
+    'Other',
   ];
 
   List<String> greenFlags = [
@@ -127,13 +133,54 @@ class ProfileCreationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     reloadData();
   }
 
-  void reloadData() async {
-    updateNickname(Globals.user?.nickname ?? '');
+  Future<void> initCamera() async {
+    try {
+      final cameras = await availableCameras();
+      final frontCamera = cameras.firstWhere(
+        (camera) => camera.lensDirection == CameraLensDirection.front,
+        orElse: () => cameras.first,
+      );
 
+      cameraController = CameraController(
+        frontCamera,
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
+      await cameraController!.initialize();
+      isCameraInitialized.value = true;
+    } catch (e) {
+      log('Camera init error: $e');
+    }
+  }
+
+  Future<void> captureImage() async {
+    if (cameraController == null || !cameraController!.value.isInitialized)
+      return;
+    XFile image = await cameraController!.takePicture();
+
+    // Copy the file to a permanent directory
+    final tempDir = await getTemporaryDirectory();
+    final savedImage = await File(image.path).copy(
+      '${tempDir.path}/captured_${DateTime.now().millisecondsSinceEpoch}.jpg',
+    );
+
+    capturedImage.value = savedImage;
+
+    await generateImage(savedImage);
+
+    log("Captured image: $capturedImage");
+  }
+
+  void reloadData() async {
+    if (Globals.user!.profileImages != null &&
+        Globals.user!.profileImages!.isNotEmpty) {
+      images.addAll(Globals.user!.profileImages ?? []);
+    }
+
+    updateNickname(Globals.user?.nickname ?? '');
     updateBio(Globals.user?.bio ?? '');
     updateJobInterests(Globals.user?.lifestyleInterests ?? '');
     selectDatingIntention(Globals.user?.datingIntentions ?? '');
@@ -147,8 +194,12 @@ class ProfileCreationController extends GetxController {
     selectedDrinking = Globals.user?.drinking ?? '';
     selectedClubs = Globals.user?.clubbing ?? '';
     ownsPet = Globals.user?.pets == true ? 'yes' : 'no';
-    selectedGreenFlags = Globals.user?.greenFlags ?? [];
-    selectedRedFlags = Globals.user?.redFlags ?? [];
+
+    selectedGreenFlags = List<String>.from(Globals.user?.greenFlags ?? []);
+    selectedRedFlags = List<String>.from(
+      Globals.user?.redFlags ?? [],
+    ); // ✅ FIX HERE
+
     audioUrl = Globals.user?.voicePrompt ?? '';
     log(audioUrl.toString());
   }
@@ -157,6 +208,52 @@ class ProfileCreationController extends GetxController {
   void updateNickname(String value) {
     nickname.text = value;
     update();
+  }
+
+  File? _image;
+  String? outputImage;
+  final dio.Dio _dio = dio.Dio();
+  final String _apiKey = 'sk-WkYhugVsBSqexuJZFvWx5RdHi6aswrf2MNlIASAy0XekAbGH';
+
+  Future pickImage1() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+      log(_image!.path);
+      outputImage = null;
+    }
+  }
+
+  Future<File?> generateImage1(String prompt) async {
+    try {
+      final response = await _dio.post(
+        'https://api.stability.ai/v2beta/stable-image/generate/sd3',
+        options: dio.Options(
+          headers: {'Authorization': 'Bearer $_apiKey', 'Accept': 'image/jpeg'},
+          responseType: dio.ResponseType.bytes,
+        ),
+        data: {"prompt": prompt, "output_format": "jpeg"},
+      );
+
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/generated_image.jpeg');
+      await file.writeAsBytes(response.data);
+      log('Image saved at ${file.path}');
+      return file;
+    } catch (e) {
+      log('Error: $e');
+      return null;
+    }
+  }
+
+  Future generateImage(originalImage) async {
+    final animeImage = await profileCreationRepository.convertToAnimeStyle(
+      originalImage,
+    );
+    if (animeImage != null) {
+      log('Anime Image ${animeImage.path}');
+      Image.file(animeImage);
+    }
   }
 
   void updateJobInterests(String value) {
@@ -195,7 +292,6 @@ class ProfileCreationController extends GetxController {
   void toggleRedFlag(String language) {
     if (selectedRedFlags.contains(language)) {
       selectedRedFlags.remove(language);
-      log(selectedRedFlags.toString());
     } else {
       selectedRedFlags.add(language);
     }
@@ -251,8 +347,29 @@ class ProfileCreationController extends GetxController {
 
   Future<void> pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
     if (pickedFile != null) {
-      images.add(File(pickedFile.path));
+      final file = File(pickedFile.path);
+      final fileSize = await file.length();
+      const int maxFileSize = 5 * 1024 * 1024; // 1 MB in bytes
+      final sizeInMb = (fileSize / (1024 * 1024)).toStringAsFixed(2);
+
+      if (fileSize > maxFileSize) {
+        // ⚠️ File too large — show toast and don't add to list
+        Get.snackbar(
+          'File Too Large',
+          'Image size ($sizeInMb MB) exceeds 5 MB limit',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          margin: const EdgeInsets.all(12),
+          duration: const Duration(seconds: 3),
+        );
+        return;
+      }
+
+      // ✅ Add only if under 1 MB
+      images.add(file);
     }
   }
 
@@ -260,25 +377,32 @@ class ProfileCreationController extends GetxController {
     images.removeAt(index);
   }
 
-  void ViewProfile() {
-    log('Profile View successfully!');
-    // Navigate to next page
-
-    ScaffoldMessenger.of(Get.context!).showSnackBar(
-      const SnackBar(
-        content: Text('Profile created successfully!'),
-        backgroundColor: Colors.green,
-      ),
-    );
-
-    Get.to(VerificationDatingScreen());
-  }
-
   void updateQuestion(String value) {
     if (value.length <= 40) {
       question.value = value;
     }
   }
+
+  // Future<void> captureImage() async {
+  //   final XFile? image = await _picker.pickImage(
+  //     source: ImageSource.camera,
+  //     preferredCameraDevice: CameraDevice.front,
+  //     imageQuality: 80,
+  //   );
+  //
+  //   if (image != null) {
+  //     // Copy the file to a permanent directory
+  //     final tempDir = await getTemporaryDirectory();
+  //     final savedImage = await File(image.path).copy(
+  //       '${tempDir.path}/captured_${DateTime.now().millisecondsSinceEpoch}.jpg',
+  //     );
+  //
+  //     capturedImage.value = savedImage;
+  //     await generateImage(savedImage);
+  //   }
+  //
+  //   update();
+  // }
 
   /// Start recording with 30s limit
   Future<void> startRecording() async {
@@ -418,6 +542,7 @@ class ProfileCreationController extends GetxController {
         "voicePrompt": audioUrl ?? '',
         "greenFlags": selectedGreenFlags,
         "redFlags": selectedRedFlags,
+        "profileSetup": true,
       };
 
       dialog.show(
@@ -448,12 +573,11 @@ class ProfileCreationController extends GetxController {
             "User profile updated successfully",
             Colors.green,
           );
-
+          dialog.hide();
           update();
+          Get.to(() => VerificationDatingScreen());
         }
       }
-      dialog.hide();
-      Get.to(() => VerificationDatingScreen());
     } catch (e) {
       log('-----Strings----${e.toString()}');
       dialog.hide();
@@ -516,18 +640,30 @@ class ProfileCreationController extends GetxController {
 
   /// Process all images (upload local files, keep http links as is)
   Future<void> processImages() async {
-    imagesUrl.clear();
-    for (var img in images) {
-      if (img is File) {
-        final url = await uploadFile(img);
-        if (url != null) {
-          imagesUrl.add(url);
+    try {
+      imagesUrl.clear();
+
+      for (var img in images) {
+        if (img is File) {
+          try {
+            final url = await uploadFile(img);
+            if (url != null) {
+              imagesUrl.add(url);
+            }
+          } catch (e, stackTrace) {
+            log("Error uploading file: $e");
+            log("StackTrace: $stackTrace");
+          }
+        } else if (img is String && img.startsWith("http")) {
+          imagesUrl.add(img); // already hosted, just keep it
         }
-      } else if (img is String && img.startsWith("http")) {
-        imagesUrl.add(img); // already hosted, just keep it
       }
+
+      log("✅ Final Images: $imagesUrl");
+    } catch (e, stackTrace) {
+      log("❌ Error in processImages: $e");
+      log("StackTrace: $stackTrace");
     }
-    log("Final Images: $imagesUrl");
   }
 
   Future uploadAudio(String file) async {
@@ -585,7 +721,7 @@ class ProfileCreationController extends GetxController {
     final dir = await getTemporaryDirectory();
     final filePath = '${dir.path}/temp_audio.wav';
 
-    print("🔗 Downloading from: $url");
+    log("🔗 Downloading from: $url");
 
     try {
       final dioClient = dio.Dio();
@@ -599,5 +735,15 @@ class ProfileCreationController extends GetxController {
     }
 
     return filePath;
+  }
+
+  void resetCapture() {
+    capturedImage.value = null;
+  }
+
+  @override
+  void onClose() {
+    cameraController?.dispose();
+    super.onClose();
   }
 }

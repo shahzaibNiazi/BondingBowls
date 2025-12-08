@@ -206,7 +206,7 @@ class NotificationScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   message,
-                  maxLines: 1,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20.sp,
@@ -272,7 +272,7 @@ class NotificationScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   message,
-                  maxLines: 1,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 20.sp,
@@ -331,10 +331,9 @@ class NotificationScreen extends StatelessWidget {
                         child: Text(
                           'Notification',
                           style: TextStyle(
-                            fontFamily: "Playfair",
-                            color: Color(0xff000000),
-                            fontSize: 36.sp,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -404,13 +403,13 @@ class NotificationScreen extends StatelessWidget {
                       svgAssetPath: "assets/images/cup_coffee1.jpg",
                       time: '7 min ago',
                       extra: 'T&C applies',
-                      message: '50% OFF at Coffee Haven at Cafeco..',
+                      message: '50% OFF at Coffee Haven at Cafeco',
                     ),
                     offerCard(
                       svgAssetPath: "assets/icon/svg/bold_newsletter.svg",
                       time: '2 min ago',
                       extra: 'T&C applies',
-                      message: 'Buy 1 Get 1 free at Bread Walk at Ne..',
+                      message: 'Buy 1 Get 1 free at Bread Walk at Nea',
                     ),
                   ],
                 ),
