@@ -69,7 +69,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
-                        'Vouchers',
+                        'Vouchers & Offers',
                         style: TextStyle(
                           fontSize: 24.sp,
                           fontWeight: FontWeight.w600,
@@ -85,7 +85,7 @@ class _VouchersOffersScreenState extends State<VouchersOffersScreen> {
             // Main Content Container
             Expanded(
               child: Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(8),
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -491,20 +491,13 @@ class VoucherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         boxShadow: [
-          // Bottom shadow
+          // Only bottom shadow
           BoxShadow(
-            offset: Offset(0, 4), // 4px down
-            blurRadius: 0,
-            spreadRadius: 0,
-            color: Colors.black.withValues(alpha: 0.2),
-          ),
-          // Top shadow
-          BoxShadow(
-            offset: Offset(0, -4), // 4px up
-            blurRadius: 0,
+            offset: const Offset(0, 4), // pushes shadow downward
+            blurRadius: 6,
             spreadRadius: 0,
             color: Colors.black.withValues(alpha: 0.2),
           ),

@@ -18,7 +18,7 @@ class MakeABookingController extends GetxController {
   }
 
   // Available For Options
-  List<String> availableFor = ['Male', 'Female', 'Both'];
+  List<String> availableFor = ['Breakfast', 'Lunch', 'Dinner', "Supper"];
   // controller
   var selectedAvailableFor = <String>[].obs; // <-- RxList<String>
 

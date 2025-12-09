@@ -732,18 +732,21 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                     borderSide: const BorderSide(color: Colors.pink),
                   ),
                   contentPadding: const EdgeInsets.all(12),
-                  counterText: '',
+                  counter: const SizedBox.shrink(), // ✅ Correct usage
                 ),
               ),
             ),
             if (!showLabelAbove && showCharCount && maxLength != null) ...[
               const SizedBox(width: 10),
-              Text(
-                '${controller.getCurrentLength(label)}/$maxLength',
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Color.fromARGB(178, 0, 0, 0),
+              SizedBox(
+                width: 40.w,
+                child: Text(
+                  '${controller.getCurrentLength(label)}/$maxLength',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromARGB(178, 0, 0, 0),
+                  ),
                 ),
               ),
             ],

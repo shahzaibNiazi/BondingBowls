@@ -17,7 +17,6 @@ import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../../app/config/app_colors.dart';
 import '../../../app/config/global_var.dart';
-import '../../../app/routes/app_pages.dart';
 import '../../../app/utils/utils.dart';
 import '../../../data/model/user_model.dart';
 import '../../../data/provider/local_storage/local_db.dart';
@@ -169,7 +168,7 @@ class ProfileCreationController extends GetxController {
 
     capturedImage.value = savedImage;
 
-    await generateImage(savedImage);
+    // await generateImage(savedImage);
 
     log("Captured image: $capturedImage");
   }
@@ -445,9 +444,10 @@ class ProfileCreationController extends GetxController {
 
     log(recordedFilePath.toString());
 
-    if (recordedFilePath != null) {
-      Get.toNamed(Routes.VOICE_PROMPT_SECOND); // navigate to 2nd screen
-    }
+    update();
+    // if (recordedFilePath != null) {
+    //   Get.toNamed(Routes.VOICE_PROMPT_SECOND); // navigate to 2nd screen
+    // }
   }
 
   /// Redo recording
@@ -457,7 +457,8 @@ class ProfileCreationController extends GetxController {
     }
     recordedFilePath = null;
     seconds.value = 0;
-    Get.back();
+    update();
+    // Get.back();
   }
 
   Future<void> updateProfileCreation() async {

@@ -1,4 +1,6 @@
+import 'package:convo_hearts/src/feature/settings/getbowls.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../controllers/payment_system_controller.dart';
@@ -17,11 +19,11 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
         backgroundColor: const Color(0xFFFDEEE2),
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "Payments",
           style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
+            fontSize: 24.sp,
+            fontWeight: FontWeight.w600,
             color: Colors.black,
           ),
         ),
@@ -39,7 +41,10 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
             const SizedBox(height: 16),
             _currentTimerSection(),
             const SizedBox(height: 16),
-            _sectionTitle("Profile Boosts (Immediate +24 Hours)"),
+            _sectionTitle(
+              image: 'booster',
+              "Profile Boosts (Immediate +24 Hours)",
+            ),
             _subtitle("Rise to the top of everyone’s matching page"),
             _singlePriceCard(60),
             const Divider(height: 32),
@@ -71,58 +76,73 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Available Bowls :",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(Icons.ramen_dining, size: 40),
+              Image.asset("assets/images/cup.png", scale: 4),
               const SizedBox(width: 8),
-              const Text(
+              Text(
                 "144",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-              ),
+                style: TextStyle(fontSize: 36.sp, fontWeight: FontWeight.bold),
+              ).paddingOnly(left: 10),
               const Spacer(),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
+              Column(
+                children: [
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffFB4B16),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.card_giftcard, color: Colors.white),
+                    label: Text(
+                      "Add a Voucher",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      showVoucherBottomSheet(Get.context!);
+                    },
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      side: const BorderSide(color: Colors.black, width: 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        Get.context!,
+                        MaterialPageRoute(
+                          builder: (context) => GetBowlsScreen(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Get more bowls",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontSize: 15.sp,
+                      ),
+                    ),
                   ),
-                ),
-                icon: const Icon(Icons.card_giftcard, color: Colors.white),
-                label: const Text(
-                  "Add a Voucher",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {},
+                ],
               ),
             ],
           ),
           const SizedBox(height: 12),
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
-              side: const BorderSide(color: Colors.black, width: 1),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            onPressed: () {},
-            child: const Text(
-              "Get more bowls",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -135,7 +155,7 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
       decoration: _cardDecoration(borderColor: Colors.pinkAccent),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Row(
             children: [
               Icon(Icons.timer_outlined, color: Colors.pink, size: 20),
@@ -143,7 +163,7 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
               Text(
                 "Current Timer :",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.pink,
                 ),
@@ -166,9 +186,9 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _sectionTitle("Increment Chat +1"),
-        const Text(
+        Text(
           "1 month and 2 months chats are stackable but not time stackable",
-          style: TextStyle(color: Colors.black54, fontSize: 13),
+          style: TextStyle(color: Colors.black54, fontSize: 13.sp),
         ),
         const SizedBox(height: 12),
         _doubleOptionCard("+1 month", 200),
@@ -178,11 +198,18 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
     );
   }
 
-  Widget _sectionTitle(String title) => Padding(
+  Widget _sectionTitle(String title, {String? image}) => Padding(
     padding: const EdgeInsets.only(bottom: 4),
-    child: Text(
-      title,
-      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+    child: Row(
+      children: [
+        if (image != null) Image.asset("assets/images/$image.png", scale: 4),
+
+        Text(
+          title,
+
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+        ),
+      ],
     ),
   );
 
@@ -190,7 +217,7 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
     padding: const EdgeInsets.only(bottom: 8),
     child: Text(
       text,
-      style: const TextStyle(color: Colors.black54, fontSize: 13),
+      style: TextStyle(color: Colors.black54, fontSize: 13.sp),
     ),
   );
 
@@ -276,13 +303,96 @@ class _TimerRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: const TextStyle(fontSize: 13)),
+          Text(title, style: TextStyle(fontSize: 13.sp)),
           Text(
             time,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
           ),
         ],
       ),
     );
   }
+}
+
+void showVoucherBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return DraggableScrollableSheet(
+        initialChildSize: 0.35,
+        maxChildSize: 0.6,
+        minChildSize: 0.3,
+        builder: (_, controller) {
+          return Container(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+            ),
+            child: ListView(
+              controller: controller,
+              children: [
+                // Title
+                const Text(
+                  "Confirm your voucher",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Text label
+                const Text(
+                  "voucher code",
+                  style: TextStyle(fontSize: 13, color: Colors.black87),
+                ),
+
+                const SizedBox(height: 8),
+
+                // TextField
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "voucher code",
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 14,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Colors.black26),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Colors.black),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Disabled Redeem button
+                Container(
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD6DFFC), // light blue disabled
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "Redeem",
+                    style: TextStyle(
+                      color: Color(0xFFB7C2F1),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }

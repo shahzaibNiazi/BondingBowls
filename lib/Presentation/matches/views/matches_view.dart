@@ -565,7 +565,7 @@ class ProfileCard extends StatelessWidget {
                 AnimatedIconButton(
                   imagePath: "assets/images/match_logo.png",
                   onTap: () => controller.likeProfile(matching.id),
-                ).paddingSymmetric(horizontal: 5.w),
+                ).paddingSymmetric(horizontal: 3.w),
                 AnimatedIconButton(
                   imagePath: "assets/images/thumbs_down.png",
                   onTap: () => controller.disLikeProfile(matching.id),

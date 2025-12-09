@@ -51,6 +51,8 @@ import '../../Presentation/splash/bindings/splash_binding.dart';
 import '../../Presentation/splash/views/splash_view.dart';
 import '../../Presentation/third_splash/bindings/third_splash_binding.dart';
 import '../../Presentation/third_splash/views/third_splash_view.dart';
+import '../../Presentation/user_booking_details/bindings/user_booking_details_binding.dart';
+import '../../Presentation/user_booking_details/views/user_booking_details_view.dart';
 import '../../Presentation/verify_otp/bindings/verify_otp_binding.dart';
 import '../../Presentation/verify_otp/views/verify_otp_view.dart';
 
@@ -211,6 +213,11 @@ class AppPages {
       name: _Paths.MAKE_A_BOOKING,
       page: () => const MakeABookingView(),
       binding: MakeABookingBinding(),
+    ),
+    GetPage(
+      name: _Paths.USER_BOOKING_DETAILS,
+      page: () => const UserBookingDetailsView(),
+      binding: UserBookingDetailsBinding(),
     ),
   ];
 }

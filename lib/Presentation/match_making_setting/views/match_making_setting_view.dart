@@ -35,9 +35,8 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                           "Matchmaking",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: "Playfair",
-                            fontSize: 36.sp,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black,
                           ),
                         ),
@@ -322,7 +321,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: 40.h),
 
                               // --- Dating Intentions Section ---
                               Row(
@@ -355,7 +354,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                           intentionButton("Serious"),
                                         ],
                                       ),
-                                      const SizedBox(height: 8),
+                                      SizedBox(height: 20.h),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
@@ -369,7 +368,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: 40.h),
 
                               // --- Nationality Section ---
                               Row(
@@ -411,7 +410,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: 40.h),
 
                               // --- Religion Section ---
                               Row(
@@ -470,7 +469,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                                   "Unlock Religion filter?\n (permanent)",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
-                                                    fontSize: 12.sp,
+                                                    fontSize: 11.sp,
                                                     color: Color(0xff0022FF),
                                                     fontWeight: FontWeight.w700,
                                                   ),
@@ -735,7 +734,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: isSelected ? Colors.white : Colors.black,
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w700,
           ),
         ),

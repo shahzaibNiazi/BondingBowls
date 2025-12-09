@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,11 +26,13 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// Back button and title
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => Get.back(),
+                          onTap: () {
+                            controller.redoRecording();
+                            Get.back();
+                          },
                           child: SvgPicture.asset(
                             "assets/icon/svg/back_arrow.svg",
                           ),
@@ -109,15 +113,69 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                     ),
 
                     const SizedBox(height: 40),
+                    if (controller.recordedFilePath == null ||
+                        controller.recordedFilePath!.isEmpty)
+                      /// Record mic
+                      Center(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onLongPress: controller.startRecording,
+                                onLongPressEnd: (_) =>
+                                    controller.stopRecording(),
+                                child: Container(
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    border: Border.all(
+                                      color: Color(0xff505050),
+                                      width: 2,
+                                    ),
+                                    color: Color(0xffEEBCBC),
+                                  ),
+                                  child: Image.asset("assets/images/mic.png"),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Obx(
+                                () => Text(
+                                  controller.seconds.value > 0
+                                      ? "Recording: ${controller.seconds.value}s"
+                                      : 'Hold Record button (Max 30s)',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
 
-                    /// Record mic
-                    Center(
-                      child: Center(
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onLongPress: controller.startRecording,
-                              onLongPressEnd: (_) => controller.stopRecording(),
+                    if (controller.recordedFilePath != null &&
+                        controller.recordedFilePath!.isNotEmpty)
+                      Column(
+                        children: [
+                          Center(
+                            child: GestureDetector(
+                              onTap: () async {
+                                log("Shah");
+                                if (controller.recordedFilePath != null) {
+                                  log("Shah");
+                                  await controller.player.setFilePath(
+                                    controller.recordedFilePath!,
+                                  );
+                                  log("Shah");
+                                  controller.player.play();
+                                  log("Shah");
+                                }
+                              },
                               child: Container(
                                 height: 80,
                                 width: 80,
@@ -129,28 +187,74 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                                   ),
                                   color: Color(0xffEEBCBC),
                                 ),
-                                child: Image.asset("assets/images/mic.png"),
+                                child: Image.asset("assets/images/speaker.png"),
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Obx(
-                              () => Text(
-                                controller.seconds.value > 0
-                                    ? "Recording: ${controller.seconds.value}s"
-                                    : 'Hold Record button (Max 30s)',
-                                textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 30),
+                          Center(
+                            child: const Text(
+                              'Tap the speaker to hear your voice!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: controller.redoRecording,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                minimumSize: Size(285, 50),
+                              ),
+                              child: Text(
+                                "Redo",
                                 style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black54,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xff505050),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 30),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (controller.recordedFilePath != null &&
+                                    controller.recordedFilePath!.isNotEmpty) {
+                                  controller.uploadAudio(
+                                    controller.recordedFilePath ?? '',
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xffC672A5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                minimumSize: Size(285, 50),
+                              ),
+                              child: Text(
+                                "Save",
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
                   ],
                 ),
               ),

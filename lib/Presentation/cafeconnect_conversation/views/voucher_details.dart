@@ -232,9 +232,7 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                       _bullet(
                         "Each voucher is subject to limited availability as determined by the participating café or restaurant.",
                       ),
-                      _bullet(
-                        "Vouchers are issued on a first-come, first-served basis and may be redeemed by up to the stated maximum number of users (e.g. 50) No further redemptions will be accepted. ",
-                      ),
+                      _bulletText().paddingOnly(bottom: 4.h),
                       _bullet(
                         "To redeem the voucher, you must physically visit the participating outlet. Upon arrival, open the app and swipe right on the “logo” below in the presence of the café/restaurant staff.",
                       ),
@@ -246,6 +244,15 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                       ),
 
                       Divider(color: Colors.black),
+                      Text(
+                        "We and our partner merchants reserve the right to modify or cancel vouchers at any time without prior notice due to unforeseen circumstances, including over-redemption or operational limitations.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Color(0xff563636),
+                          height: 1.4,
+                        ),
+                      ).paddingSymmetric(horizontal: 6),
 
                       SizedBox(height: 28),
 
@@ -302,5 +309,40 @@ Widget _bullet(String text) {
         Expanded(child: Text(text)),
       ],
     ),
+  );
+}
+
+Widget _bulletText() {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text("• ", style: TextStyle(fontSize: 16, height: 1.4)), // bullet
+      Expanded(
+        child: Text.rich(
+          TextSpan(
+            children: [
+              const TextSpan(
+                text:
+                    "Vouchers are issued on a first-come, first-served basis and may be redeemed by up to the stated maximum number of users (e.g. 50). ",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black,
+                  height: 1.4,
+                ),
+              ),
+              TextSpan(
+                text: "No further redemptions will be accepted.",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.red, // 🔴 Your required red color
+                  fontWeight: FontWeight.w600,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
   );
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:convo_hearts/Presentation/cafeconnect_conversation/views/report_bottom.dart'
     hide showConfirmReportBottomSheet, showOtherBottomSheet;
 import 'package:convo_hearts/Presentation/cafeconnect_conversation/views/voucher_details.dart';
+import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -38,25 +39,30 @@ class CafeconnectConversationView
                         child: const Icon(Icons.arrow_back_ios_new, size: 26),
                       ),
                       const SizedBox(width: 12),
-                      Container(
-                        width: 68,
-                        height: 68,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(6),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.03),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.USER_BOOKING_DETAILS);
+                        },
+                        child: Container(
+                          width: 68,
+                          height: 68,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(6),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.03),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image.asset(
+                              'assets/images/AI-AVATAR.jpg',
+                              fit: BoxFit.cover,
                             ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Image.asset(
-                            'assets/images/AI-AVATAR.jpg',
-                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

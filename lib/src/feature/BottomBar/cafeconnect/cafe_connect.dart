@@ -643,27 +643,6 @@ class CafeCardWidget extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(categoryBgImage),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              child: Text(
-                                categoryText,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: "Poppins",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                         const SizedBox(height: 4),
@@ -688,11 +667,20 @@ class CafeCardWidget extends StatelessWidget {
                                       index < rating.floor()
                                           ? "assets/icon/svg/fav_fill.svg"
                                           : "assets/icon/svg/fav_.svg",
-                                      width: 16,
-                                      height: 16,
+                                      width: 12,
+                                      height: 12,
                                     ),
                                   );
                                 }),
+                              ),
+                            ),
+                            Text(
+                              priceLevel,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -714,13 +702,25 @@ class CafeCardWidget extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 20),
-                            Text(
-                              priceLevel,
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(categoryBgImage),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Text(
+                                categoryText,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins",
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ],

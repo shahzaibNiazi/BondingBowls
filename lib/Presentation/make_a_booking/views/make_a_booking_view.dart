@@ -1,78 +1,98 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../app/routes/app_pages.dart';
+import '../../cafeconnect_conversation/views/report_bottom.dart';
 import '../controllers/make_a_booking_controller.dart';
 
 class MakeABookingView extends GetView<MakeABookingController> {
   const MakeABookingView({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFAEEDC),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFAEEDC),
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Booking details',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 16.h),
-        child: Column(
-          children: [
-            // Slideshow Ads Placeholder
-            Container(
-              height: 80.h,
-              width: double.infinity,
-              color: Colors.grey[300],
-              alignment: Alignment.center,
-              child: Text(
-                '*Slideshow Ads Space',
-                style: TextStyle(
-                  color: Colors.purple[200],
-                  fontWeight: FontWeight.bold,
+    return GetBuilder(
+      init: MakeABookingController(),
+      builder: (controller) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFFAEEDC),
+          appBar: AppBar(
+            backgroundColor: const Color(0xFFFAEEDC),
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.pop(context),
+            ),
+            title: const Text(
+              'Make a Booking',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            centerTitle: true,
+          ),
+          body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 16.h),
+            child: Column(
+              children: [
+                // Slideshow Ads Placeholder
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey[400]!),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      '~Slideshow Ads Space',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(height: 16.h),
+                SizedBox(height: 16.h),
 
-            // Tabs Row
-            Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  tabItem('Bookings', controller),
-                  tabItem('Available', controller),
-                  tabItem('Likes you', controller),
-                ],
-              ),
-            ),
-            SizedBox(height: 16.h),
+                // Tabs Row
+                Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      tabItem('Bookings', controller),
+                      tabItem('Available', controller),
+                      tabItem('Likes you', controller),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 16.h),
 
-            // Cards based on selected tab
-            Obx(() {
-              switch (controller.selectedTab.value) {
-                case 'Bookings':
-                  return bookingCard();
-                case 'Available':
-                  return availableCard();
-                case 'Likes you':
-                  return likesYouCard();
-                default:
-                  return bookingCard();
-              }
-            }),
-          ],
-        ),
-      ),
+                // Cards based on selected tab
+                Obx(() {
+                  switch (controller.selectedTab.value) {
+                    case 'Bookings':
+                      return bookingCard(controller);
+                    case 'Available':
+                      return availableCard(controller);
+                    case 'Likes you':
+                      return likesYouCard(controller);
+                    default:
+                      return bookingCard(controller);
+                  }
+                }),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -97,8 +117,9 @@ class MakeABookingView extends GetView<MakeABookingController> {
   }
 
   // Booking Card
-  Widget bookingCard() {
+  Widget bookingCard(controller) {
     return contentCard(
+      controller: controller,
       icon: Icons.check_circle,
       iconColor: Colors.green,
       title: 'Booking Confirmed',
@@ -106,7 +127,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
   }
 
   // Available Card
-  Widget availableCard() {
+  Widget availableCard(controller) {
     // Sample data
     final profiles = [
       {
@@ -163,7 +184,16 @@ class MakeABookingView extends GetView<MakeABookingController> {
                       fontSize: 16.sp,
                     ),
                   ).paddingOnly(left: 30.w),
-                  Icon(Icons.warning, color: Color(0xffBC0072), size: 30.sp),
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(Get.context!);
+                    },
+                    child: Icon(
+                      Icons.warning,
+                      color: Color(0xffBC0072),
+                      size: 30.sp,
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -183,7 +213,28 @@ class MakeABookingView extends GetView<MakeABookingController> {
                       ),
 
                       SizedBox(height: 4.h),
-                      Text("Looking for: ${profile['lookingFor']}"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Looking for: ${profile['lookingFor']}",
+                          ).paddingOnly(right: 70.w),
+
+                          Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.black.withValues(alpha: 0.4),
+                              ),
+                            ),
+                            child: Text(
+                              "Serious",
+                              style: TextStyle(fontSize: 14.sp),
+                            ),
+                          ),
+                        ],
+                      ),
                       Text(
                         "Available for: ${profile['availableFor'].toString()}",
                       ),
@@ -228,7 +279,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
   }
 
   // Available Card
-  Widget likesYouCard() {
+  Widget likesYouCard(controller) {
     // Sample data
     final profiles = [
       {
@@ -354,6 +405,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
     required IconData icon,
     required Color iconColor,
     required String title,
+    required controller,
   }) {
     return Container(
       width: double.infinity,
@@ -495,7 +547,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
                           child: Container(
                             margin: EdgeInsets.only(right: 8.w),
                             padding: EdgeInsets.symmetric(
-                              horizontal: 16.w,
+                              horizontal: 30.w,
                               vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
@@ -532,51 +584,293 @@ class MakeABookingView extends GetView<MakeABookingController> {
           ),
           SizedBox(height: 20.h),
 
-          Obx(
-            () => Wrap(
-              spacing: 8.w,
-              runSpacing: 4.h,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                const Text(
-                  'Available For:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                ...controller.availableFor.map((option) {
-                  return GestureDetector(
-                    onTap: () => controller.toggleAvailableFor(option),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 4.h,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Available For:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 12.w),
+
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 120.w,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'Breakfast',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Container(
+                            width: 120.w,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'Lunch',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
-                      decoration: BoxDecoration(
-                        color: controller.selectedAvailableFor.contains(option)
-                            ? const Color(0xff3F6EFF)
-                            : Colors.white,
-                        border: Border.all(
-                          color:
-                              controller.selectedAvailableFor.contains(option)
-                              ? const Color(0xff3F6EFF)
-                              : Colors.blue,
-                        ),
-                        borderRadius: BorderRadius.circular(20.r),
+                      SizedBox(height: 12.h),
+                      Row(
+                        children: [
+                          Container(
+                            width: 120.w,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'Dinner',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Container(
+                            width: 120.w,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'Supper',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        option,
-                        style: TextStyle(
-                          color:
-                              controller.selectedAvailableFor.contains(option)
-                              ? Colors.white
-                              : Colors.blue,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ],
-            ),
+                    ],
+                  ),
+
+                  // Expanded(
+                  //   child: Wrap(
+                  //     spacing: 12.w,
+                  //     runSpacing: 4.h,
+                  //     children: options.map((option) {
+                  //       final isSelected = controller.selectedAvailableFor
+                  //           .contains(option);
+                  //       return GestureDetector(
+                  //         onTap: () => controller.toggleAvailableFor(option),
+                  //         child: Container(
+                  //           padding: EdgeInsets.symmetric(
+                  //             horizontal: 30.w,
+                  //             vertical: 4.h,
+                  //           ),
+                  //           decoration: BoxDecoration(
+                  //             color: isSelected
+                  //                 ? const Color(0xff3F6EFF)
+                  //                 : Colors.white,
+                  //             border: Border.all(
+                  //               color: isSelected
+                  //                   ? const Color(0xff3F6EFF)
+                  //                   : Colors.black,
+                  //             ),
+                  //             borderRadius: BorderRadius.circular(20.r),
+                  //           ),
+                  //           child: Text(
+                  //             option,
+                  //             style: TextStyle(
+                  //               color: isSelected
+                  //                   ? Colors.white
+                  //                   : Colors.black,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       );
+                  //     }).toList(),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ],
           ),
+
+          // Obx(() {
+          //   List<String> options = controller.availableFor;
+          //
+          //   return Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Row(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           const Text(
+          //             'Available For:',
+          //             style: TextStyle(fontWeight: FontWeight.bold),
+          //           ),
+          //           SizedBox(width: 12.w),
+          //
+          //           Column(
+          //             children: [
+          //               Row(
+          //                 children: [
+          //                   Container(
+          //                     width: 120.w,
+          //                     alignment: Alignment.center,
+          //                     padding: EdgeInsets.symmetric(
+          //                       horizontal: 20.w,
+          //                       vertical: 4.h,
+          //                     ),
+          //                     decoration: BoxDecoration(
+          //                       color: Colors.white,
+          //                       border: Border.all(color: Colors.black),
+          //                       borderRadius: BorderRadius.circular(20.r),
+          //                     ),
+          //                     child: Text(
+          //                       'Breakfast',
+          //                       style: TextStyle(
+          //                         color: Colors.black,
+          //                         fontSize: 14.sp,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                   SizedBox(width: 4),
+          //                   Container(
+          //                     width: 120.w,
+          //                     alignment: Alignment.center,
+          //                     padding: EdgeInsets.symmetric(
+          //                       horizontal: 20.w,
+          //                       vertical: 4.h,
+          //                     ),
+          //                     decoration: BoxDecoration(
+          //                       color: Colors.white,
+          //                       border: Border.all(color: Colors.black),
+          //                       borderRadius: BorderRadius.circular(20.r),
+          //                     ),
+          //                     child: Text(
+          //                       'Lunch',
+          //                       style: TextStyle(color: Colors.black),
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //               SizedBox(height: 12.h),
+          //               Row(
+          //                 children: [
+          //                   Container(
+          //                     width: 120.w,
+          //                     alignment: Alignment.center,
+          //                     padding: EdgeInsets.symmetric(
+          //                       horizontal: 20.w,
+          //                       vertical: 4.h,
+          //                     ),
+          //                     decoration: BoxDecoration(
+          //                       color: Colors.white,
+          //                       border: Border.all(color: Colors.black),
+          //                       borderRadius: BorderRadius.circular(20.r),
+          //                     ),
+          //                     child: Text(
+          //                       'Dinner',
+          //                       style: TextStyle(color: Colors.black),
+          //                     ),
+          //                   ),
+          //                   SizedBox(width: 12),
+          //                   Container(
+          //                     width: 120.w,
+          //                     alignment: Alignment.center,
+          //                     padding: EdgeInsets.symmetric(
+          //                       horizontal: 20.w,
+          //                       vertical: 4.h,
+          //                     ),
+          //                     decoration: BoxDecoration(
+          //                       color: Colors.white,
+          //                       border: Border.all(color: Colors.black),
+          //                       borderRadius: BorderRadius.circular(20.r),
+          //                     ),
+          //                     child: Text(
+          //                       'Supper',
+          //                       style: TextStyle(color: Colors.black),
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ],
+          //           ),
+          //
+          //           // Expanded(
+          //           //   child: Wrap(
+          //           //     spacing: 12.w,
+          //           //     runSpacing: 4.h,
+          //           //     children: options.map((option) {
+          //           //       final isSelected = controller.selectedAvailableFor
+          //           //           .contains(option);
+          //           //       return GestureDetector(
+          //           //         onTap: () => controller.toggleAvailableFor(option),
+          //           //         child: Container(
+          //           //           padding: EdgeInsets.symmetric(
+          //           //             horizontal: 30.w,
+          //           //             vertical: 4.h,
+          //           //           ),
+          //           //           decoration: BoxDecoration(
+          //           //             color: isSelected
+          //           //                 ? const Color(0xff3F6EFF)
+          //           //                 : Colors.white,
+          //           //             border: Border.all(
+          //           //               color: isSelected
+          //           //                   ? const Color(0xff3F6EFF)
+          //           //                   : Colors.black,
+          //           //             ),
+          //           //             borderRadius: BorderRadius.circular(20.r),
+          //           //           ),
+          //           //           child: Text(
+          //           //             option,
+          //           //             style: TextStyle(
+          //           //               color: isSelected
+          //           //                   ? Colors.white
+          //           //                   : Colors.black,
+          //           //             ),
+          //           //           ),
+          //           //         ),
+          //           //       );
+          //           //     }).toList(),
+          //           //   ),
+          //           // ),
+          //         ],
+          //       ),
+          //     ],
+          //   );
+          // }),
 
           // Additional Notes and T&C
           SizedBox(height: 8.h),
@@ -692,4 +986,317 @@ class MakeABookingView extends GetView<MakeABookingController> {
       ),
     );
   }
+}
+
+void showCustomBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                alignment: Alignment.centerLeft,
+              ),
+              onPressed: () {
+                // Handle block action
+                Navigator.pop(context);
+                showBlockReportBottomSheet(context, () {
+                  Navigator.pop(Get.context!);
+                  showReportUserBlocked(Get.context!);
+                });
+              },
+              child: const Text(
+                'Block (hides from your pool)',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Divider(color: Colors.grey.shade300),
+            TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                alignment: Alignment.centerLeft,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+
+                showConfirmReportBottomSheet(context, () {
+                  Navigator.pop(Get.context!);
+
+                  showReportSuccessDialog(Get.context!);
+                });
+                // Handle report action
+              },
+              child: const Text(
+                'Report for inappropriate/ offensive behavior',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Future<void> showConfirmReportBottomSheet(BuildContext context, onTap) {
+  return showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      side: BorderSide(color: Colors.black, width: 2),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (ctx) {
+      return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Main Heading
+            Text(
+              "Confirm report for\nInappropriate / offensive behavior?",
+              style: TextStyle(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+
+            SizedBox(height: 60.h),
+
+            // Timer icon + warning text
+            Row(
+              children: [
+                const Icon(Icons.timer, size: 20, color: Colors.red),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    "ACTION WILL BE TAKEN AGAINST FALSE REPORTS",
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 60.h),
+
+            // Confirm button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff3F6EFF),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    onPressed: onTap,
+                    child: Text(
+                      "Confirm",
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Future<void> showBlockReportBottomSheet(BuildContext context, onTap) {
+  return showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      side: BorderSide(color: Colors.black, width: 2),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (ctx) {
+      return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Main Heading
+            Text(
+              "Confirm blocking on Mary?",
+              style: GoogleFonts.inriaSans(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+
+            SizedBox(height: 30.h),
+
+            Text(
+              "(removes from your dating pool too)",
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 60.h),
+
+            // Confirm button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff3F6EFF),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    onPressed: onTap,
+                    child: Text(
+                      "Confirm",
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+Future<void> showReportUserBlocked(BuildContext context) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false, // user must press close
+
+    builder: (ctx) {
+      return Dialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.black, width: 2),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Person icon
+              Icon(
+                CupertinoIcons.person_solid,
+                size: 55,
+                color: Color(0xffBC0072),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Main success text
+              Text(
+                "User has been blocked.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              // Close button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Close",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
