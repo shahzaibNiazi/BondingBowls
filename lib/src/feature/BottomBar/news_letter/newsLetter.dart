@@ -118,7 +118,9 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                     _buildSectionHeader("Food", () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => DetailsScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => DetailsScreen(title: "Food"),
+                        ),
                       );
                     }),
                     _buildHorizontalList(),
@@ -126,13 +128,27 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                     _buildHorizontalList(),
 
                     // BEVERAGES
-                    _buildSectionHeader("Beverages", null),
+                    _buildSectionHeader("Beverages", () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailsScreen(title: "Beverages"),
+                        ),
+                      );
+                    }),
                     _buildHorizontalList(),
                     const SizedBox(height: 20),
                     _buildHorizontalList(),
 
                     // EVENTS
-                    _buildSectionHeader("Events", null),
+                    _buildSectionHeader("Events", () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailsScreen(title: "Event"),
+                        ),
+                      );
+                    }),
                     _buildHorizontalList(),
                     const SizedBox(height: 20),
                     _buildHorizontalList(),

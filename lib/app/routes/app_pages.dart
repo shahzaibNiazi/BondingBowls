@@ -49,6 +49,8 @@ import '../../Presentation/signup/bindings/signup_binding.dart';
 import '../../Presentation/signup/views/signup_view.dart';
 import '../../Presentation/splash/bindings/splash_binding.dart';
 import '../../Presentation/splash/views/splash_view.dart';
+import '../../Presentation/system_chat/bindings/system_chat_binding.dart';
+import '../../Presentation/system_chat/views/system_chat_view.dart';
 import '../../Presentation/third_splash/bindings/third_splash_binding.dart';
 import '../../Presentation/third_splash/views/third_splash_view.dart';
 import '../../Presentation/user_booking_details/bindings/user_booking_details_binding.dart';
@@ -218,6 +220,11 @@ class AppPages {
       name: _Paths.USER_BOOKING_DETAILS,
       page: () => const UserBookingDetailsView(),
       binding: UserBookingDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SYSTEM_CHAT,
+      page: () => const SystemChatView(),
+      binding: SystemChatBinding(),
     ),
   ];
 }

@@ -336,7 +336,16 @@ class MakeABookingView extends GetView<MakeABookingController> {
                       fontSize: 16.sp,
                     ),
                   ).paddingOnly(left: 30.w),
-                  Icon(Icons.warning, color: Color(0xffBC0072), size: 30.sp),
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(Get.context!);
+                    },
+                    child: Icon(
+                      Icons.warning,
+                      color: Color(0xffBC0072),
+                      size: 30.sp,
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -527,84 +536,108 @@ class MakeABookingView extends GetView<MakeABookingController> {
               ),
             ],
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 20.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '(Can select multiple options for all)',
+                style: TextStyle(fontSize: 16.sp),
+              ),
+            ],
+          ),
+          SizedBox(height: 12.h),
 
           // Looking For Section
-          Obx(
-            () => Row(
-              children: [
-                const Text(
-                  'Looking For:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ).paddingOnly(right: 12.w),
-                Row(
-                  children: ['Male', 'Female']
-                      .map(
-                        (option) => GestureDetector(
-                          onTap: () {
-                            controller.selectLookingFor(option);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 8.w),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 30.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color:
-                                  controller.selectedLookingFor.value == option
-                                  ? const Color(0xff3F6EFF)
-                                  : Colors.white,
-                              border: Border.all(
-                                color:
-                                    controller.selectedLookingFor.value ==
-                                        option
-                                    ? const Color(0xff3F6EFF)
-                                    : Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(30.r),
-                            ),
-                            child: Text(
-                              option,
-                              style: TextStyle(
-                                color:
-                                    controller.selectedLookingFor.value ==
-                                        option
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20.h),
-
-          Column(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Text(
+                    'Looking For:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 20.h),
+
                   const Text(
                     'Available For:',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 12.w),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Obx(
+                    () => Row(
+                      children: [
+                        Row(
+                          children: ['Male', 'Female']
+                              .map(
+                                (option) => GestureDetector(
+                                  onTap: () {
+                                    controller.selectLookingFor(option);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 8.w),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 30.w,
+                                      vertical: 4.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          controller.selectedLookingFor.value ==
+                                              option
+                                          ? const Color(0xff3F6EFF)
+                                          : Colors.white,
+                                      border: Border.all(
+                                        color:
+                                            controller
+                                                    .selectedLookingFor
+                                                    .value ==
+                                                option
+                                            ? const Color(0xff3F6EFF)
+                                            : Colors.black,
+                                      ),
+                                      borderRadius: BorderRadius.circular(30.r),
+                                    ),
+                                    child: Text(
+                                      option,
+                                      style: TextStyle(
+                                        color:
+                                            controller
+                                                    .selectedLookingFor
+                                                    .value ==
+                                                option
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 12.h),
 
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
                     children: [
                       Row(
                         children: [
                           Container(
-                            width: 120.w,
                             alignment: Alignment.center,
+                            margin: EdgeInsets.only(right: 8.w),
                             padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
+                              horizontal: 30.w,
                               vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
@@ -620,7 +653,6 @@ class MakeABookingView extends GetView<MakeABookingController> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 4),
                           Container(
                             width: 120.w,
                             alignment: Alignment.center,
@@ -646,8 +678,9 @@ class MakeABookingView extends GetView<MakeABookingController> {
                           Container(
                             width: 120.w,
                             alignment: Alignment.center,
+                            margin: EdgeInsets.only(right: 8.w),
                             padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
+                              horizontal: 30.w,
                               vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
@@ -660,7 +693,6 @@ class MakeABookingView extends GetView<MakeABookingController> {
                               style: TextStyle(color: Colors.black),
                             ),
                           ),
-                          SizedBox(width: 12),
                           Container(
                             width: 120.w,
                             alignment: Alignment.center,
@@ -682,47 +714,8 @@ class MakeABookingView extends GetView<MakeABookingController> {
                       ),
                     ],
                   ),
-
-                  // Expanded(
-                  //   child: Wrap(
-                  //     spacing: 12.w,
-                  //     runSpacing: 4.h,
-                  //     children: options.map((option) {
-                  //       final isSelected = controller.selectedAvailableFor
-                  //           .contains(option);
-                  //       return GestureDetector(
-                  //         onTap: () => controller.toggleAvailableFor(option),
-                  //         child: Container(
-                  //           padding: EdgeInsets.symmetric(
-                  //             horizontal: 30.w,
-                  //             vertical: 4.h,
-                  //           ),
-                  //           decoration: BoxDecoration(
-                  //             color: isSelected
-                  //                 ? const Color(0xff3F6EFF)
-                  //                 : Colors.white,
-                  //             border: Border.all(
-                  //               color: isSelected
-                  //                   ? const Color(0xff3F6EFF)
-                  //                   : Colors.black,
-                  //             ),
-                  //             borderRadius: BorderRadius.circular(20.r),
-                  //           ),
-                  //           child: Text(
-                  //             option,
-                  //             style: TextStyle(
-                  //               color: isSelected
-                  //                   ? Colors.white
-                  //                   : Colors.black,
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       );
-                  //     }).toList(),
-                  //   ),
-                  // ),
                 ],
-              ),
+              ).paddingOnly(right: 18.w),
             ],
           ),
 
@@ -873,7 +866,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
           // }),
 
           // Additional Notes and T&C
-          SizedBox(height: 8.h),
+          SizedBox(height: 12.h),
           Row(
             children: [
               const Text(

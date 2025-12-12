@@ -12,7 +12,8 @@ import 'hotel_details.dart';
 // Modified DetailsScreen to work with BottomNavBar
 class DetailsScreen extends StatefulWidget {
   final bool showAsFullScreen;
-  const DetailsScreen({super.key, this.showAsFullScreen = true});
+  final String? title;
+  const DetailsScreen({super.key, this.showAsFullScreen = true, this.title});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -126,8 +127,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               },
                             ),
                           ),
-                          const Text(
-                            "Food",
+                          Text(
+                            widget.title ?? "Food",
                             style: TextStyle(
                               fontSize: 24,
                               color: Color(0xffEE706B),

@@ -615,6 +615,7 @@ class CafeCardWidget extends StatelessWidget {
                     width: 165,
                     height: 120,
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
                         image: AssetImage(imageAsset),
                         fit: BoxFit.cover,

@@ -1,7 +1,9 @@
 import 'package:convo_hearts/src/feature/settings/getbowls.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../controllers/payment_system_controller.dart';
 
@@ -48,7 +50,12 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
             _subtitle("Rise to the top of everyone’s matching page"),
             _singlePriceCard(60),
             const Divider(height: 32),
-            _sectionTitle("Bowl Crush (No Expiry)"),
+            _sectionTitle(
+              scale: 11,
+              image: 'match_logo',
+              "Bowl Crush (No Expiry)",
+            ),
+
             _subtitle("Stand out with a priority LIKE amongst others"),
             _doubleOptionCard("+5 Bowl Crush", 80),
             const SizedBox(height: 8),
@@ -56,11 +63,14 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
             const Divider(height: 32),
             _incrementChatSection(),
             const Divider(height: 32),
-            _sectionTitle("CafeConnect Timer Refresh"),
+            _sectionTitle(image: 'increment_chat', "CafeConnect Timer Refresh"),
             _subtitle("This will refresh your CafeConnect Timer Immediately"),
             _singlePriceCard(200),
             const Divider(height: 32),
-            _sectionTitle("Received Likes Unlocker +1 Month"),
+            _sectionTitle(
+              image: 'increment_chat',
+              "Received Likes Unlocker +1 Month",
+            ),
             _subtitle("This will unlock your received likes immediately"),
             _singlePriceCard(200),
           ],
@@ -185,7 +195,41 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle("Increment Chat +1"),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/increment_chat.png",
+                scale: 5,
+              ).paddingOnly(right: 12),
+
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Increment chat ",
+                      style: GoogleFonts.inriaSans(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.sp,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "      +1",
+                      style: GoogleFonts.inriaSans(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.sp,
+                        color: Colors.red, // Change color if needed
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+
         Text(
           "1 month and 2 months chats are stackable but not time stackable",
           style: TextStyle(color: Colors.black54, fontSize: 13.sp),
@@ -198,20 +242,29 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
     );
   }
 
-  Widget _sectionTitle(String title, {String? image}) => Padding(
-    padding: const EdgeInsets.only(bottom: 4),
-    child: Row(
-      children: [
-        if (image != null) Image.asset("assets/images/$image.png", scale: 4),
+  Widget _sectionTitle(String title, {String? image, double scale = 5}) =>
+      Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (image != null)
+              Image.asset(
+                "assets/images/$image.png",
+                scale: scale,
+              ).paddingOnly(right: 12),
 
-        Text(
-          title,
+            Text(
+              title,
 
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: GoogleFonts.inriaSans(
+                fontWeight: FontWeight.bold,
+                fontSize: 15.sp,
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   Widget _subtitle(String text) => Padding(
     padding: const EdgeInsets.only(bottom: 8),
@@ -335,17 +388,35 @@ void showVoucherBottomSheet(BuildContext context) {
               controller: controller,
               children: [
                 // Title
-                const Text(
-                  "Confirm your voucher",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Confirm your voucher",
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: Icon(CupertinoIcons.multiply_circle),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 20),
 
                 // Text label
-                const Text(
+                Text(
                   "voucher code",
-                  style: TextStyle(fontSize: 13, color: Colors.black87),
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
                 const SizedBox(height: 8),
@@ -372,19 +443,28 @@ void showVoucherBottomSheet(BuildContext context) {
                 const SizedBox(height: 20),
 
                 // Disabled Redeem button
-                Container(
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFD6DFFC), // light blue disabled
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  alignment: Alignment.center,
-                  child: const Text(
-                    "Redeem",
-                    style: TextStyle(
-                      color: Color(0xFFB7C2F1),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                GestureDetector(
+                  onTap: () {
+                    showVoucherDialog(
+                      context: context,
+                      title: "Valid Voucher Code!",
+                      message: "200 bowls have been added to your wallet.",
+                    );
+                  },
+                  child: Container(
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3F6EFF), // light blue disabled
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Redeem",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -392,6 +472,118 @@ void showVoucherBottomSheet(BuildContext context) {
             ),
           );
         },
+      );
+    },
+  );
+}
+
+void showVoucherDialog({
+  required BuildContext context,
+  required String title,
+  required String message,
+  FontWeight? fontWeight,
+  double? fontSize,
+}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.symmetric(horizontal: 24),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFF7ED),
+            border: Border.all(color: Color(0xffFED7AA), width: 6),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                offset: Offset(0, 4),
+                blurRadius: 12,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // ✔ Icon
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Color(0xFFD92B85),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.check, color: Colors.white, size: 28),
+              ),
+
+              SizedBox(height: 16),
+
+              // ✔ Title (Dynamic)
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inriaSans(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+
+              SizedBox(height: 8),
+
+              // ✔ Message (Dynamic)
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inriaSans(
+                  fontSize: fontSize ?? 14.sp,
+                  fontWeight: fontWeight ?? FontWeight.w400,
+                  color: Colors.black87,
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              // ✔ Close Button
+              SizedBox(
+                width: 140,
+                height: 40,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 10,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                    child: Text(
+                      "Close",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       );
     },
   );

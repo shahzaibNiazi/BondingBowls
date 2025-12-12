@@ -320,15 +320,18 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  // Align with text field content
-                                  child: Text(
-                                    '${controller.bio.text.length}/200',
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xff000000),
+                                SizedBox(
+                                  width: 40.w,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 12),
+                                    // Align with text field content
+                                    child: Text(
+                                      '${controller.bio.text.length}/200',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xff000000),
+                                      ),
                                     ),
                                   ),
                                 ),

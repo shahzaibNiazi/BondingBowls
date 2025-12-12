@@ -32,6 +32,7 @@ abstract class Routes {
   static const CAFECONNECT_BOOKING_DETAILS = _Paths.CAFECONNECT_BOOKING_DETAILS;
   static const MAKE_A_BOOKING = _Paths.MAKE_A_BOOKING;
   static const USER_BOOKING_DETAILS = _Paths.USER_BOOKING_DETAILS;
+  static const SYSTEM_CHAT = _Paths.SYSTEM_CHAT;
 }
 
 abstract class _Paths {
@@ -65,4 +66,5 @@ abstract class _Paths {
   static const CAFECONNECT_BOOKING_DETAILS = '/cafeconnect-booking-details';
   static const MAKE_A_BOOKING = '/make-a-booking';
   static const USER_BOOKING_DETAILS = '/user-booking-details';
+  static const SYSTEM_CHAT = '/system-chat';
 }

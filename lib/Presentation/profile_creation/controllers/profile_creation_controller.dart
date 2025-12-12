@@ -20,6 +20,7 @@ import '../../../app/config/global_var.dart';
 import '../../../app/utils/utils.dart';
 import '../../../data/model/user_model.dart';
 import '../../../data/provider/local_storage/local_db.dart';
+import '../../../src/feature/Profile-Creation/profile_creation4.dart';
 import '../../../verify-dating-profile/dating_verification.dart';
 
 class ProfileCreationController extends GetxController {
@@ -132,6 +133,9 @@ class ProfileCreationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    initCamera();
+
     reloadData();
   }
 
@@ -168,6 +172,12 @@ class ProfileCreationController extends GetxController {
 
     capturedImage.value = savedImage;
 
+    if (capturedImage.value != null) {
+      Navigator.push(
+        Get.context!,
+        MaterialPageRoute(builder: (context) => ProfileCreation4()),
+      );
+    }
     // await generateImage(savedImage);
 
     log("Captured image: $capturedImage");
@@ -402,46 +412,89 @@ class ProfileCreationController extends GetxController {
   //
   //   update();
   // }
+  RxBool isRecording = false.obs; // 🔥 Instant UI feedback
 
-  /// Start recording with 30s limit
+  /// Called instantly from UI
   Future<void> startRecording() async {
-    if (await record.hasPermission()) {
-      final dir = await getTemporaryDirectory();
-      recordedFilePath =
-          '${dir.path}/voice_${DateTime.now().millisecondsSinceEpoch}.wav';
-
-      log("🎙️ Recording to: $recordedFilePath");
-
-      await record.start(
-        const RecordConfig(
-          encoder: AudioEncoder.wav, // ✅ WAV (PCM 16-bit under the hood)
-          sampleRate: 44100, // ✅ Standard rate, iOS-safe
-          numChannels: 1, // ✅ Mono - widely supported
-          bitRate: 128000, // Optional - ignored for PCM but okay to include
-        ),
-        path: recordedFilePath!,
-      );
-
-      // Start timer (max 30 sec)
-      seconds.value = 0;
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (seconds.value >= 30) {
-          stopRecording();
-        } else {
-          seconds.value++;
-        }
-      });
-    } else {
-      log("🚫 Recording permission denied");
-    }
+    isRecording.value = true; // 🔥 UI changes immediately
+    _startMic(); // Mic starts in background (no delay felt)
   }
+
+  /// Real mic start (takes ~0.5–1 sec)
+  Future<void> _startMic() async {
+    if (!await record.hasPermission()) {
+      log("🚫 Recording permission denied");
+      isRecording.value = false;
+      return;
+    }
+
+    final dir = await getTemporaryDirectory();
+    recordedFilePath =
+        '${dir.path}/voice_${DateTime.now().millisecondsSinceEpoch}.wav';
+
+    log("🎙️ Recording to: $recordedFilePath");
+
+    // Mic start → MAY TAKE TIME
+    await record.start(
+      const RecordConfig(
+        encoder: AudioEncoder.wav,
+        sampleRate: 44100,
+        numChannels: 1,
+        bitRate: 128000,
+      ),
+      path: recordedFilePath!,
+    );
+
+    // Timer start (after recording actually starts)
+    seconds.value = 0;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (seconds.value >= 30) {
+        stopRecording();
+      } else {
+        seconds.value++;
+      }
+    });
+  }
+
+  // /// Start recording with 30s limit
+  // Future<void> startRecording() async {
+  //   if (await record.hasPermission()) {
+  //     final dir = await getTemporaryDirectory();
+  //     recordedFilePath =
+  //         '${dir.path}/voice_${DateTime.now().millisecondsSinceEpoch}.wav';
+  //
+  //     log("🎙️ Recording to: $recordedFilePath");
+  //
+  //     await record.start(
+  //       const RecordConfig(
+  //         encoder: AudioEncoder.wav, // ✅ WAV (PCM 16-bit under the hood)
+  //         sampleRate: 44100, // ✅ Standard rate, iOS-safe
+  //         numChannels: 1, // ✅ Mono - widely supported
+  //         bitRate: 128000, // Optional - ignored for PCM but okay to include
+  //       ),
+  //       path: recordedFilePath!,
+  //     );
+  //
+  //     // Start timer (max 30 sec)
+  //     seconds.value = 0;
+  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //       if (seconds.value >= 30) {
+  //         stopRecording();
+  //       } else {
+  //         seconds.value++;
+  //       }
+  //     });
+  //   } else {
+  //     log("🚫 Recording permission denied");
+  //   }
+  // }
 
   /// Stop recording
   Future<void> stopRecording() async {
     await record.stop();
     _timer?.cancel();
     _timer = null;
-
+    isRecording.value = false;
     log(recordedFilePath.toString());
 
     update();
@@ -452,11 +505,14 @@ class ProfileCreationController extends GetxController {
 
   /// Redo recording
   void redoRecording() {
+    log("Shahzaib");
     if (recordedFilePath != null) {
       File(recordedFilePath!).delete();
     }
     recordedFilePath = null;
     seconds.value = 0;
+    isRecording.value = false;
+    log("Shahzaib");
     update();
     // Get.back();
   }
@@ -738,8 +794,10 @@ class ProfileCreationController extends GetxController {
     return filePath;
   }
 
-  void resetCapture() {
+  void resetCapture() async {
     capturedImage.value = null;
+    cameraController?.dispose();
+    await initCamera();
   }
 
   @override

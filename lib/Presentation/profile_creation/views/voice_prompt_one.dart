@@ -120,24 +120,55 @@ class VoicePromptOneView extends GetView<ProfileCreationController> {
                         child: Center(
                           child: Column(
                             children: [
-                              GestureDetector(
-                                onLongPress: controller.startRecording,
-                                onLongPressEnd: (_) =>
-                                    controller.stopRecording(),
-                                child: Container(
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    border: Border.all(
-                                      color: Color(0xff505050),
-                                      width: 2,
+                              Obx(() {
+                                return GestureDetector(
+                                  onPanDown: (_) => controller.startRecording(),
+                                  onPanEnd: (_) => controller.stopRecording(),
+
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 150),
+                                    height: controller.isRecording.value
+                                        ? 90
+                                        : 80,
+                                    width: controller.isRecording.value
+                                        ? 90
+                                        : 80,
+
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: controller.isRecording.value
+                                            ? Colors.red
+                                            : const Color(0xff505050),
+                                        width: 3,
+                                      ),
+                                      color: controller.isRecording.value
+                                          ? Colors.redAccent.withOpacity(0.7)
+                                          : const Color(0xffEEBCBC),
+                                      boxShadow: controller.isRecording.value
+                                          ? [
+                                              BoxShadow(
+                                                color: Colors.redAccent
+                                                    .withOpacity(0.5),
+                                                blurRadius: 20,
+                                                spreadRadius: 5,
+                                              ),
+                                            ]
+                                          : [],
                                     ),
-                                    color: Color(0xffEEBCBC),
+
+                                    child: Center(
+                                      child: Image.asset(
+                                        "assets/images/mic.png",
+                                        height: controller.isRecording.value
+                                            ? 40
+                                            : 30,
+                                      ),
+                                    ),
                                   ),
-                                  child: Image.asset("assets/images/mic.png"),
-                                ),
-                              ),
+                                );
+                              }),
+
                               const SizedBox(height: 10),
                               Obx(
                                 () => Text(

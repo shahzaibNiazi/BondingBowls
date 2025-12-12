@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../../src/feature/BottomBar/speakable_prompt.dart';
+import '../../matches/views/bottom_sheet.dart';
 import '../controllers/match_profile_controller.dart';
 
 class MatchProfileView extends GetView<MatchProfileController> {
@@ -47,9 +51,59 @@ class MatchProfileView extends GetView<MatchProfileController> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: SvgPicture.asset("assets/icon/svg/tri_info.svg"),
+                      GestureDetector(
+                        onTap: () {
+                          log("shshzaib");
+                          showTextBottomSheet(
+                            context,
+                            items: [
+                              'Report for inappropriate/offensive behaviour',
+                              'Spam , Selling something (including financial product)',
+                              'Others',
+                            ],
+                            onTap: [
+                              () async {
+                                Navigator.pop(context);
+
+                                showConfirmReportBottomSheet(context, () async {
+                                  Navigator.pop(context);
+                                  await controller.reportUser(
+                                    id: '',
+                                    reportReason: "Inappropriate Behaviour",
+                                    reasonDetail:
+                                        "Report for inappropriate/offensive behaviour",
+                                  );
+                                }); // 👈 open confirm report sheet
+                              },
+                              () async {
+                                Navigator.pop(context);
+
+                                showConfirmReportBottomSheet(context, () async {
+                                  Navigator.pop(context);
+                                  await controller.reportUser(
+                                    id: '',
+                                    reportReason: "Spam",
+                                    reasonDetail:
+                                        "Spam , Selling something (including financial product)",
+                                  );
+                                });
+                              },
+                              () {
+                                Navigator.pop(context);
+
+                                showOtherBottomSheet(
+                                  context,
+                                ); // 👈 open second bottom sheet
+                              },
+                            ],
+                          );
+                        },
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: SvgPicture.asset(
+                            "assets/icon/svg/tri_info.svg",
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -239,33 +293,8 @@ class MatchProfileView extends GetView<MatchProfileController> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(8),
-                        bottomRight: Radius.circular(8),
-                      ),
-                      border: Border.all(color: Colors.black12),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "What do i think of first dates?",
-                            style: TextStyle(fontSize: 14.sp),
-                          ),
-                        ),
-                        SvgPicture.asset("assets/icon/svg/speaker_small.svg"),
-                      ],
-                    ),
-                  ),
+                  SpeakablePrompt(text: "What do I think of first dates?"),
+
                   SizedBox(height: 20),
                   Container(
                     decoration: BoxDecoration(

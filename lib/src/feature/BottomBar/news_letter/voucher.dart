@@ -509,7 +509,7 @@ class VoucherCard extends StatelessWidget {
         children: [
           // Main card containerXX
           Container(
-            height: 110,
+            height: 130.h,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             decoration: BoxDecoration(
               color: const Color(0xFFE8E8E8),
