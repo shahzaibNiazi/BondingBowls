@@ -1,12 +1,10 @@
 import 'dart:developer';
 
-import 'package:convo_hearts/src/feature/BottomBar/cafeconnect/widgets/discount_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-// Replace these imports with your actual routes / screens if different
 import '../../../../Presentation/payment_system/views/payment_system_view.dart';
 import '../../../../app/routes/app_pages.dart';
 
@@ -605,6 +603,8 @@ class CafeCardWidget extends StatelessWidget {
           ],
         ),
         child: Stack(
+          clipBehavior: Clip.none, // 🔥 VERY IMPORTANT
+
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -747,16 +747,7 @@ class CafeCardWidget extends StatelessWidget {
               ),
             ),
             // Discount badge
-            Positioned(
-              top: 12,
-              left: 0,
-              child: Container(
-                height: 60,
-                width: 55,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: DiscountRibbon(),
-              ),
-            ),
+            // Positioned(top: -8, left: -22, child: DiscountRibbon(text: '-10%')),
           ],
         ),
       ),

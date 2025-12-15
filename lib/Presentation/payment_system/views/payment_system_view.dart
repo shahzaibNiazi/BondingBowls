@@ -49,7 +49,34 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
             ),
             _subtitle("Rise to the top of everyone’s matching page"),
             _singlePriceCard(60),
-            const Divider(height: 32),
+
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final int itemCount = (constraints.maxWidth / 13).floor();
+
+                return Row(
+                  children: List.generate(
+                    itemCount,
+                    (_) => Expanded(
+                      child: Center(
+                        child: SizedBox(
+                          width: 10,
+                          height: 8,
+                          child: Image.asset(
+                            'assets/images/cup.png',
+                            fit: BoxFit.contain,
+                            color: const Color(
+                              0xffBC0072,
+                            ).withValues(alpha: 0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ).paddingSymmetric(vertical: 22.h),
+
             _sectionTitle(
               scale: 11,
               image: 'match_logo',
@@ -60,13 +87,88 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
             _doubleOptionCard("+5 Bowl Crush", 80),
             const SizedBox(height: 8),
             _doubleOptionCard("+10 Bowl Crush", 150),
-            const Divider(height: 32),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final int itemCount = (constraints.maxWidth / 13).floor();
+
+                return Row(
+                  children: List.generate(
+                    itemCount,
+                    (_) => Expanded(
+                      child: Center(
+                        child: SizedBox(
+                          width: 10,
+                          height: 8,
+                          child: Image.asset(
+                            'assets/images/cup.png',
+                            fit: BoxFit.contain,
+                            color: const Color(
+                              0xffBC0072,
+                            ).withValues(alpha: 0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ).paddingSymmetric(vertical: 22.h),
             _incrementChatSection(),
-            const Divider(height: 32),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final int itemCount = (constraints.maxWidth / 13).floor();
+
+                return Row(
+                  children: List.generate(
+                    itemCount,
+                    (_) => Expanded(
+                      child: Center(
+                        child: SizedBox(
+                          width: 10,
+                          height: 8,
+                          child: Image.asset(
+                            'assets/images/cup.png',
+                            fit: BoxFit.contain,
+                            color: const Color(
+                              0xffBC0072,
+                            ).withValues(alpha: 0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ).paddingSymmetric(vertical: 22.h),
             _sectionTitle(image: 'increment_chat', "CafeConnect Timer Refresh"),
             _subtitle("This will refresh your CafeConnect Timer Immediately"),
             _singlePriceCard(200),
-            const Divider(height: 32),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final int itemCount = (constraints.maxWidth / 13).floor();
+
+                return Row(
+                  children: List.generate(
+                    itemCount,
+                    (_) => Expanded(
+                      child: Center(
+                        child: SizedBox(
+                          width: 10,
+                          height: 8,
+                          child: Image.asset(
+                            'assets/images/cup.png',
+                            fit: BoxFit.contain,
+                            color: const Color(
+                              0xffBC0072,
+                            ).withValues(alpha: 0.3),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ).paddingSymmetric(vertical: 22.h),
             _sectionTitle(
               image: 'increment_chat',
               "Received Likes Unlocker +1 Month",
@@ -276,19 +378,24 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
 
   Widget _doubleOptionCard(String label, int price) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 45.w),
       decoration: _innerCardDecoration(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+          Text("=", style: TextStyle(fontSize: 20.sp)),
+
           Row(
             children: [
-              const Icon(Icons.ramen_dining, size: 18),
-              const SizedBox(width: 4),
+              Image.asset('assets/images/cup.png', scale: 17),
+              SizedBox(width: 20.w),
               Text(
                 "$price",
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
               ),
             ],
           ),
@@ -306,8 +413,8 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.ramen_dining, size: 18),
-          const SizedBox(width: 4),
+          Image.asset('assets/images/cup.png', scale: 17),
+          SizedBox(width: 15.w),
           Text(
             "$price",
             style: const TextStyle(

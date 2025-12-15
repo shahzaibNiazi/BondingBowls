@@ -756,7 +756,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: const Color(0xffFFF7ED),
@@ -815,10 +815,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                               color: Color(0xffBC0072),
                             ),
                           ),
-                          SvgPicture.asset(
-                            "assets/icon/svg/color_bowl.svg",
-                            width: 16,
-                            height: 16,
+                          Image.asset(
+                            "assets/images/cup.png",
+                            scale: 18,
+                            color: Color(0xffBC0072),
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -874,12 +874,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              "assets/icon/svg/color_bowl.svg",
-                              width: 16,
-                              height: 16,
+                            Image.asset(
+                              "assets/images/cup.png",
+                              scale: 18,
+                              color: Color(0xffBC0072),
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 6),
                             Text(
                               "300",
                               style: TextStyle(
@@ -896,12 +896,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              "assets/icon/svg/color_bowl.svg",
-                              width: 16,
-                              height: 16,
+                            Image.asset(
+                              "assets/images/cup.png",
+                              scale: 18,
+                              color: Color(0xffBC0072),
                             ),
-                            const SizedBox(width: 4),
+                            const SizedBox(width: 6),
                             Text(
                               "500",
                               style: TextStyle(
@@ -918,14 +918,14 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              "assets/icon/svg/color_bowl.svg",
-                              width: 16,
-                              height: 16,
+                            Image.asset(
+                              "assets/images/cup.png",
+                              scale: 18,
+                              color: Color(0xffBC0072),
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              "-200",
+                              "200",
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: Color(0xff000000),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class SlideShow extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class _SlideShowState extends State<SlideShow> {
   double sliderX = 0; // drag position of handle
   bool redeemed = false; // if redeemed or not
 
-  final double containerHeight = 85.h;
+  final double containerHeight = 80;
   final double handleSize = 70.w; // width & height of the sliding handle
 
   @override
@@ -23,7 +24,7 @@ class _SlideShowState extends State<SlideShow> {
         return AnimatedContainer(
           height: containerHeight,
           duration: Duration(milliseconds: 300),
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(40),
@@ -33,7 +34,7 @@ class _SlideShowState extends State<SlideShow> {
             boxShadow: [
               (!redeemed)
                   ? BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
+                      color: Colors.black.withValues(alpha: 0.15),
                       spreadRadius: 2,
                       blurRadius: 10,
                       offset: Offset(0, 5),
@@ -69,23 +70,26 @@ class _SlideShowState extends State<SlideShow> {
                             key: ValueKey("normal"),
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              SizedBox(width: 12.w),
                               Image.asset(
                                 "assets/images/forward.png",
                                 width: 15.w,
                                 height: 15.w,
-                              ),
-                              SizedBox(width: 12.w),
+                              ).paddingOnly(left: 50.w, right: 3.w),
                               Flexible(
                                 child: Text(
                                   "ONLY SLIDE WHEN PRESENTING TO CASHIER!",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                    color: Color(
+                                      0xff000000,
+                                    ).withValues(alpha: 0.5),
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 11.sp,
+                                    fontSize: 12.sp,
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 12.w),
+                              SizedBox(width: 3.w),
                             ],
                           ),
                         ),
