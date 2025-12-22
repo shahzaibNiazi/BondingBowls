@@ -592,7 +592,7 @@ class CafeconnectBookingDetailsView
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),

@@ -4,10 +4,6 @@ class SystemChatController extends GetxController {
   //TODO: Implement SystemChatController
 
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   var messages = <Map<String, String>>[
     {"sender": "SysTaco", "text": "What is my purpose?"},

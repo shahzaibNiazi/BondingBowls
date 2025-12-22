@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DetailProfile extends StatelessWidget {
-  const DetailProfile({Key? key}) : super(key: key);
+  const DetailProfile({super.key});
 
   // TextEditingController _bioController = TextEditingController();
 

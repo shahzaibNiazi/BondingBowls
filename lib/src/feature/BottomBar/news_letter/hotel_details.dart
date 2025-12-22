@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HotelDetailScreen extends StatefulWidget {
-  const HotelDetailScreen({Key? key}) : super(key: key);
+  const HotelDetailScreen({super.key});
 
   @override
   State<HotelDetailScreen> createState() => _HotelDetailScreenState();

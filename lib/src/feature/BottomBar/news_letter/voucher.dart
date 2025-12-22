@@ -728,7 +728,7 @@ class VoucherCard extends StatelessWidget {
 }
 
 class SortBottomSheet extends StatefulWidget {
-  const SortBottomSheet({Key? key}) : super(key: key);
+  const SortBottomSheet({super.key});
 
   @override
   State<SortBottomSheet> createState() => _SortBottomSheetState();
@@ -796,56 +796,54 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
                 const SizedBox(height: 24),
 
                 // Sort options
-                ...sortOptions
-                    .map(
-                      (option) => Container(
-                        margin: const EdgeInsets.only(bottom: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              option,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedOption = option;
-                                });
-                              },
-                              child: Container(
-                                width: 24,
-                                height: 24,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: selectedOption == option
-                                        ? const Color.fromARGB(255, 0, 0, 0)
-                                        : Colors.grey[400]!,
-                                    width: 2,
-                                  ),
-                                  color: Colors.transparent,
-                                ),
-                                child: selectedOption == option
-                                    ? Container(
-                                        margin: const EdgeInsets.all(4),
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Color.fromARGB(255, 0, 0, 0),
-                                        ),
-                                      )
-                                    : null,
-                              ),
-                            ),
-                          ],
+                ...sortOptions.map(
+                  (option) => Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          option,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedOption = option;
+                            });
+                          },
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: selectedOption == option
+                                    ? const Color.fromARGB(255, 0, 0, 0)
+                                    : Colors.grey[400]!,
+                                width: 2,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: selectedOption == option
+                                ? Container(
+                                    margin: const EdgeInsets.all(4),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
 
                 const SizedBox(height: 24),
 

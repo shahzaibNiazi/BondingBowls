@@ -8,7 +8,7 @@ import '../../../app/utils/utils.dart';
 import '../settings/settings.dart';
 
 class MyProfileScreen extends StatelessWidget {
-  const MyProfileScreen({Key? key}) : super(key: key);
+  const MyProfileScreen({super.key});
 
   // TextEditingController _bioController = TextEditingController();
 

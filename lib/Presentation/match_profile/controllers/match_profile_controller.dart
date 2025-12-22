@@ -13,10 +13,6 @@ class MatchProfileController extends GetxController {
       ProfileCreationRepository();
 
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   Future<bool> reportUser({
     required String id,

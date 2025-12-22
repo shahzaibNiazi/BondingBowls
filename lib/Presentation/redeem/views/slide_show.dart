@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SlideShow extends StatefulWidget {
+  const SlideShow({super.key});
+
   @override
   _SlideShowState createState() => _SlideShowState();
 }

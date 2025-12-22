@@ -160,8 +160,9 @@ class ProfileCreationController extends GetxController {
   }
 
   Future<void> captureImage() async {
-    if (cameraController == null || !cameraController!.value.isInitialized)
+    if (cameraController == null || !cameraController!.value.isInitialized) {
       return;
+    }
     XFile image = await cameraController!.takePicture();
 
     // Copy the file to a permanent directory

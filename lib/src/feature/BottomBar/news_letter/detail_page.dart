@@ -326,7 +326,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
 // Wrapper class that shows DetailsScreen with BottomNavBar
 class DetailsScreenWithBottomNav extends StatefulWidget {
-  const DetailsScreenWithBottomNav({Key? key}) : super(key: key);
+  const DetailsScreenWithBottomNav({super.key});
 
   @override
   State<DetailsScreenWithBottomNav> createState() =>
@@ -412,7 +412,7 @@ class _HotelDetailScreenWithBottomNavState
 }
 
 class FilterBottomSheet extends StatefulWidget {
-  const FilterBottomSheet({Key? key}) : super(key: key);
+  const FilterBottomSheet({super.key});
 
   @override
   State<FilterBottomSheet> createState() => _FilterBottomSheetState();
@@ -527,58 +527,56 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 const SizedBox(height: 16),
 
                 // Location options
-                ...locations
-                    .map(
-                      (location) => Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              location,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (selectedLocations.contains(location)) {
-                                    selectedLocations.remove(location);
-                                  } else {
-                                    selectedLocations.add(location);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                width: 22,
-                                height: 22,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: const Color.fromARGB(255, 0, 0, 0),
-                                    width: 2,
-                                  ),
-                                  color: Colors.transparent,
-                                ),
-                                child: selectedLocations.contains(location)
-                                    ? Container(
-                                        margin: const EdgeInsets.all(3),
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.blue,
-                                        ),
-                                      )
-                                    : null,
-                              ),
-                            ),
-                          ],
+                ...locations.map(
+                  (location) => Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          location,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (selectedLocations.contains(location)) {
+                                selectedLocations.remove(location);
+                              } else {
+                                selectedLocations.add(location);
+                              }
+                            });
+                          },
+                          child: Container(
+                            width: 22,
+                            height: 22,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                width: 2,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            child: selectedLocations.contains(location)
+                                ? Container(
+                                    margin: const EdgeInsets.all(3),
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.blue,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
 
                 const SizedBox(height: 24),
 
