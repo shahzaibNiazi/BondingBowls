@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../app/routes/app_pages.dart';
+import '../../cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
+import '../../cafeconnect_booking_details/views/filter.dart';
 import '../../cafeconnect_conversation/views/report_bottom.dart';
 import '../controllers/make_a_booking_controller.dart';
 
@@ -20,6 +21,22 @@ class MakeABookingView extends GetView<MakeABookingController> {
           appBar: AppBar(
             backgroundColor: const Color(0xFFFAEEDC),
             elevation: 0,
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const FilterBottomSheet(),
+                  );
+                },
+                child: Image.asset(
+                  'assets/images/filter.png',
+                  scale: 4,
+                ).paddingOnly(right: 12),
+              ),
+            ],
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => Navigator.pop(context),
@@ -33,63 +50,63 @@ class MakeABookingView extends GetView<MakeABookingController> {
             ),
             centerTitle: true,
           ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(vertical: 16.h),
-            child: Column(
-              children: [
-                // Slideshow Ads Placeholder
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 30),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey[400]!),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      '~Slideshow Ads Space',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
-                      ),
+          body: Column(
+            children: [
+              // Slideshow Ads Placeholder
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 30),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.grey[400]!),
+                ),
+                child: const Center(
+                  child: Text(
+                    '~Slideshow Ads Space',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
                     ),
                   ),
                 ),
-                SizedBox(height: 16.h),
+              ),
+              SizedBox(height: 16.h),
 
-                // Tabs Row
-                Obx(
-                  () => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      tabItem('Bookings', controller),
-                      tabItem('Available', controller),
-                      tabItem('Likes you', controller),
-                    ],
-                  ),
+              // Tabs Row
+              Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    tabItem('Bookings', controller),
+                    tabItem('Available', controller),
+                    tabItem('Likes you', controller),
+                  ],
                 ),
-                SizedBox(height: 16.h),
+              ),
+              SizedBox(height: 16.h),
 
-                // Cards based on selected tab
-                Obx(() {
-                  switch (controller.selectedTab.value) {
-                    case 'Bookings':
-                      return bookingCard(controller);
-                    case 'Available':
-                      return availableCard(controller);
-                    case 'Likes you':
-                      return likesYouCard(controller);
-                    default:
-                      return bookingCard(controller);
-                  }
-                }),
-              ],
-            ),
+              // Cards based on selected tab
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(bottom: 16.h),
+
+                  child: Obx(() {
+                    switch (controller.selectedTab.value) {
+                      case 'Bookings':
+                        return bookingCard(controller);
+                      case 'Available':
+                        return availableCard(controller);
+                      case 'Likes you':
+                        return likesYouCard(controller);
+                      default:
+                        return bookingCard(controller);
+                    }
+                  }),
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -138,7 +155,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "Married Female, Singaporean",
+        "status": "Married Female",
       },
       {
         "name": "Mary",
@@ -148,7 +165,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Singapore PR",
+        "status": "- Female",
       },
       {
         "name": "Mary",
@@ -158,7 +175,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Foreigner / WP",
+        "status": "- Female",
       },
     ];
 
@@ -219,24 +236,10 @@ class MakeABookingView extends GetView<MakeABookingController> {
                           Text(
                             "Looking for: ${profile['lookingFor']}",
                           ).paddingOnly(right: 70.w),
-
-                          Container(
-                            padding: EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Colors.black.withValues(alpha: 0.4),
-                              ),
-                            ),
-                            child: Text(
-                              "Serious",
-                              style: TextStyle(fontSize: 14.sp),
-                            ),
-                          ),
                         ],
                       ),
                       Text(
-                        "Available for: ${profile['availableFor'].toString()}",
+                        "Available for: ${(profile['availableFor'] as List).join(', ')}",
                       ),
                       Text("Note: ${profile['note']}"),
                     ],
@@ -247,27 +250,56 @@ class MakeABookingView extends GetView<MakeABookingController> {
               SizedBox(height: 4.h),
 
               SizedBox(height: 4.h),
-              Text(profile['status'].toString()),
-              SizedBox(height: 8.h),
-
-              // Accept / Reject buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(),
-                      child: Image.asset('assets/images/done.png', scale: 4),
-                    ),
-                  ),
-                  SizedBox(width: 16.w),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(),
-                      child: Image.asset('assets/images/cross.png', scale: 4),
-                    ),
+                  Text(profile['status'].toString()),
+                  Text('Singaporean'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Text(
+                          "Serious",
+                          style: TextStyle(fontSize: 14.sp),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              showMatchDialog(Get.context!);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(),
+                              child: Image.asset(
+                                'assets/images/done.png',
+                                scale: 4,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              decoration: BoxDecoration(),
+                              child: Image.asset(
+                                'assets/images/cross.png',
+                                scale: 4,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -290,7 +322,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "Married Female, Singaporean",
+        "status": "Married Female",
       },
       {
         "name": "Mary",
@@ -300,7 +332,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Singapore PR",
+        "status": "- Female",
       },
       {
         "name": "Mary",
@@ -310,7 +342,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Foreigner / WP",
+        "status": "- Female",
       },
     ];
 
@@ -367,7 +399,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
                       SizedBox(height: 4.h),
                       Text("Looking for: ${profile['lookingFor']}"),
                       Text(
-                        "Available for: ${profile['availableFor'].toString()}",
+                        "Available for: ${(profile['availableFor'] as List).join(', ')}",
                       ),
                       Text("Note: ${profile['note']}"),
                     ],
@@ -376,17 +408,21 @@ class MakeABookingView extends GetView<MakeABookingController> {
               ),
 
               SizedBox(height: 4.h),
-
-              SizedBox(height: 4.h),
-              Text(profile['status'].toString()),
-              SizedBox(height: 8.h),
+              Column(
+                children: [
+                  Text(profile['status'].toString()),
+                  Text('Singaporean'),
+                ],
+              ),
 
               // Accept / Reject buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showMatchDialog(Get.context!);
+                    },
                     child: Container(
                       decoration: BoxDecoration(),
                       child: Image.asset('assets/images/done.png', scale: 4),
@@ -414,7 +450,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
     required IconData icon,
     required Color iconColor,
     required String title,
-    required controller,
+    required MakeABookingController controller,
   }) {
     return Container(
       width: double.infinity,
@@ -433,13 +469,55 @@ class MakeABookingView extends GetView<MakeABookingController> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.r),
-                child: Image.asset(
-                  'assets/images/food_1.png',
-                  width: 100.w,
-                  height: 100.w,
-                  fit: BoxFit.cover,
+              Container(
+                width: 100.w,
+                height: 100.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    controller.cafeModel.image ?? '',
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Container(
+                        color: Colors.grey[100],
+                        child: const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        ),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey.shade400),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.image_not_supported,
+                            size: 36,
+                            color: Colors.grey[500],
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'No Image',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(width: 16.w),
@@ -448,7 +526,7 @@ class MakeABookingView extends GetView<MakeABookingController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Macdonald',
+                      controller.cafeModel.name ?? '',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20.sp,
@@ -456,13 +534,13 @@ class MakeABookingView extends GetView<MakeABookingController> {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      'Average price : \$10-15',
+                      'Average price : \$${controller.cafeModel.averagePrice}',
                       style: TextStyle(fontSize: 16.sp),
                     ),
                     SizedBox(height: 4.h),
                     Row(
                       children: [
-                        Text('4.8'),
+                        Text(controller.cafeModel.reviews!.rating.toString()),
                         SizedBox(width: 4.w),
                         Row(
                           children: List.generate(
@@ -495,7 +573,10 @@ class MakeABookingView extends GetView<MakeABookingController> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('North', style: TextStyle(fontSize: 12.sp)),
+                            Text(
+                              controller.cafeModel.location?.region ?? '',
+                              style: TextStyle(fontSize: 12.sp),
+                            ),
                             Text(
                               '#01-2 Bukit Batok Crescent (638498)',
                               style: TextStyle(
@@ -530,9 +611,12 @@ class MakeABookingView extends GetView<MakeABookingController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Best Western Food in the West?',
-                style: TextStyle(fontSize: 16.sp),
+              Expanded(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  controller.cafeModel.description ?? '',
+                  style: TextStyle(fontSize: 16.sp),
+                ),
               ),
             ],
           ),
@@ -549,6 +633,11 @@ class MakeABookingView extends GetView<MakeABookingController> {
           SizedBox(height: 12.h),
 
           // Looking For Section
+          // Updated sections for MakeABookingView - replace the "Looking For" and "Available For" sections
+
+          // Replace the Looking For and Available For section (starting from line ~685) with this:
+
+          // Looking For Section
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -561,7 +650,6 @@ class MakeABookingView extends GetView<MakeABookingController> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 20.h),
-
                   const Text(
                     'Available For:',
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -570,149 +658,222 @@ class MakeABookingView extends GetView<MakeABookingController> {
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
-                  Obx(
-                    () => Row(
-                      children: [
-                        Row(
-                          children: ['Male', 'Female']
-                              .map(
-                                (option) => GestureDetector(
-                                  onTap: () {
-                                    controller.selectLookingFor(option);
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 8.w),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 30.w,
-                                      vertical: 4.h,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          controller.selectedLookingFor.value ==
-                                              option
-                                          ? const Color(0xff3F6EFF)
-                                          : Colors.white,
-                                      border: Border.all(
-                                        color:
-                                            controller
-                                                    .selectedLookingFor
-                                                    .value ==
-                                                option
-                                            ? const Color(0xff3F6EFF)
-                                            : Colors.black,
-                                      ),
-                                      borderRadius: BorderRadius.circular(30.r),
-                                    ),
-                                    child: Text(
+                  // Looking For - Multiple Selection
+                  Row(
+                    children: ['Male', 'Female']
+                        .map(
+                          (option) => GestureDetector(
+                            onTap: () {
+                              controller.toggleLookingFor(option);
+                            },
+                            child: Container(
+                              width: 100.w,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(right: 8.w),
+                              padding: EdgeInsets.symmetric(vertical: 4.h),
+                              decoration: BoxDecoration(
+                                color:
+                                    controller.selectedLookingFor.contains(
                                       option,
-                                      style: TextStyle(
-                                        color:
-                                            controller
-                                                    .selectedLookingFor
-                                                    .value ==
-                                                option
-                                            ? Colors.white
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  ),
+                                    )
+                                    ? const Color(0xff3F6EFF)
+                                    : Colors.white,
+                                border: Border.all(
+                                  color:
+                                      controller.selectedLookingFor.contains(
+                                        option,
+                                      )
+                                      ? const Color(0xff3F6EFF)
+                                      : Colors.black,
                                 ),
-                              )
-                              .toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(right: 8.w),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 30.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Text(
-                              'Breakfast',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14.sp,
+                                borderRadius: BorderRadius.circular(30.r),
+                              ),
+                              child: Text(
+                                option,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color:
+                                      controller.selectedLookingFor.contains(
+                                        option,
+                                      )
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            width: 120.w,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
-                              vertical: 4.h,
+                        )
+                        .toList(),
+                  ),
+                  SizedBox(height: 12.h),
+
+                  // Available For - Multiple Selection
+                  Obx(
+                    () => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                controller.toggleAvailableFor('Breakfast');
+                              },
+                              child: Container(
+                                width: 100.w,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(right: 8.w),
+                                padding: EdgeInsets.symmetric(vertical: 4.h),
+                                decoration: BoxDecoration(
+                                  color:
+                                      controller.selectedAvailableFor.contains(
+                                        'Breakfast',
+                                      )
+                                      ? const Color(0xff3F6EFF)
+                                      : Colors.white,
+                                  border: Border.all(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Breakfast')
+                                        ? const Color(0xff3F6EFF)
+                                        : Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Text(
+                                  'Breakfast',
+                                  style: TextStyle(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Breakfast')
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 13.sp,
+                                  ),
+                                ),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(20.r),
+                            GestureDetector(
+                              onTap: () {
+                                controller.toggleAvailableFor('Lunch');
+                              },
+                              child: Container(
+                                width: 100.w,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(vertical: 4.h),
+                                decoration: BoxDecoration(
+                                  color:
+                                      controller.selectedAvailableFor.contains(
+                                        'Lunch',
+                                      )
+                                      ? const Color(0xff3F6EFF)
+                                      : Colors.white,
+                                  border: Border.all(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Lunch')
+                                        ? const Color(0xff3F6EFF)
+                                        : Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Text(
+                                  'Lunch',
+                                  style: TextStyle(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Lunch')
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 13.sp,
+                                  ),
+                                ),
+                              ),
                             ),
-                            child: Text(
-                              'Lunch',
-                              style: TextStyle(color: Colors.black),
+                          ],
+                        ),
+                        SizedBox(height: 12.h),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                controller.toggleAvailableFor('Dinner');
+                              },
+                              child: Container(
+                                width: 100.w,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(right: 8.w),
+                                padding: EdgeInsets.symmetric(vertical: 4.h),
+                                decoration: BoxDecoration(
+                                  color:
+                                      controller.selectedAvailableFor.contains(
+                                        'Dinner',
+                                      )
+                                      ? const Color(0xff3F6EFF)
+                                      : Colors.white,
+                                  border: Border.all(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Dinner')
+                                        ? const Color(0xff3F6EFF)
+                                        : Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Text(
+                                  'Dinner',
+                                  style: TextStyle(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Dinner')
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 13.sp,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 12.h),
-                      Row(
-                        children: [
-                          Container(
-                            width: 120.w,
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(right: 8.w),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 30.w,
-                              vertical: 4.h,
+                            GestureDetector(
+                              onTap: () {
+                                controller.toggleAvailableFor('Supper');
+                              },
+                              child: Container(
+                                width: 100.w,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(vertical: 4.h),
+                                decoration: BoxDecoration(
+                                  color:
+                                      controller.selectedAvailableFor.contains(
+                                        'Supper',
+                                      )
+                                      ? const Color(0xff3F6EFF)
+                                      : Colors.white,
+                                  border: Border.all(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Supper')
+                                        ? const Color(0xff3F6EFF)
+                                        : Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Text(
+                                  'Supper',
+                                  style: TextStyle(
+                                    color:
+                                        controller.selectedAvailableFor
+                                            .contains('Supper')
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 13.sp,
+                                  ),
+                                ),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Text(
-                              'Dinner',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          Container(
-                            width: 120.w,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
-                              vertical: 4.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.black),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Text(
-                              'Supper',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ).paddingOnly(right: 18.w),
@@ -952,8 +1113,15 @@ class MakeABookingView extends GetView<MakeABookingController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () {
-                  Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+                onPressed: () async {
+                  showBookingDialog(
+                    Get.context!,
+                    'Confirm booking for Macdonalds\nto find other matches?',
+                    () async {
+                      Navigator.of(Get.context!).pop();
+                      await controller.makeABooking();
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff3F6EFF),
@@ -1280,6 +1448,131 @@ Future<void> showReportUserBlocked(BuildContext context) {
                           color: Colors.black,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showBookingDialog(BuildContext context, String title, onTap) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          decoration: BoxDecoration(
+            color: Color(0xFFF5E6D3),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 24),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Booking Date: 13 march 2025',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.purple,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Available for: Lunch/ Dinner',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.purple,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Note: Please be punctual',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.purple,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 24),
+              Text(
+                'By proceeding, you accept the terms of use',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: Colors.red),
+              ),
+              SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: OutlinedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        side: BorderSide(color: Colors.grey[300]!),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        backgroundColor: Colors.white,
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: onTap,
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        backgroundColor: Color(0xff3F6EFF),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      child: Text(
+                        'Proceed',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                         ),
                       ),
                     ),

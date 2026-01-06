@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../Presentation/cafeconnect/views/cafeconnect_view.dart';
+import '../../../Presentation/newsletter/views/newsletter_view.dart';
 import '../food-discount/discount-profile.dart';
-import 'cafeconnect/cafe_connect.dart';
 import 'chat/chats.dart';
-import 'news_letter/newsLetter.dart';
 
 // Enhanced Controller with smooth performance - no UI changes
 class BottomNavController extends ChangeNotifier {
@@ -99,8 +99,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget _getSelectedPage(int index) {
     List<Widget> pages = [
       MatchesView(),
-      NewsletterScreen(),
-      CafeConnect(),
+      NewsletterView(),
+      CafeConnectView(),
       ChatsScreen(),
       widget.showDiscountProfile ? ProfileDiscount() : MyProfileScreen(),
     ];

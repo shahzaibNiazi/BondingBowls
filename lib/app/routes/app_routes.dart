@@ -33,6 +33,10 @@ abstract class Routes {
   static const MAKE_A_BOOKING = _Paths.MAKE_A_BOOKING;
   static const USER_BOOKING_DETAILS = _Paths.USER_BOOKING_DETAILS;
   static const SYSTEM_CHAT = _Paths.SYSTEM_CHAT;
+  static const NEWSLETTER = _Paths.NEWSLETTER;
+  static const VOUCHERS = _Paths.VOUCHERS;
+  static const NEWSLETTER_DETAIL = _Paths.NEWSLETTER_DETAIL;
+  static const CAFECONNECT = _Paths.CAFECONNECT;
 }
 
 abstract class _Paths {
@@ -67,4 +71,8 @@ abstract class _Paths {
   static const MAKE_A_BOOKING = '/make-a-booking';
   static const USER_BOOKING_DETAILS = '/user-booking-details';
   static const SYSTEM_CHAT = '/system-chat';
+  static const NEWSLETTER = '/newsletter';
+  static const VOUCHERS = '/vouchers';
+  static const NEWSLETTER_DETAIL = '/newsletter-detail';
+  static const CAFECONNECT = '/cafeconnect';
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:convo_hearts/Presentation/chat/views/user_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,19 +21,23 @@ class ChatView extends GetView<ChatController> {
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 30),
                   decoration: BoxDecoration(
                     color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey[400]!),
                   ),
                   child: Center(
                     child: Text(
-                      '*Slideshow Ads Space',
+                      '~Slideshow Ads Space',
                       style: TextStyle(
-                        color: Colors.pink[300],
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        color: Colors.grey,
+                        fontSize: 16.sp,
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
                   ),
@@ -53,13 +58,18 @@ class ChatView extends GetView<ChatController> {
                         onTap: () => Get.back(),
                         child: const Icon(Icons.arrow_back_ios_new, size: 26),
                       ),
-                      Center(
-                        child: Text(
-                          'Alex Supra',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(UserView());
+                        },
+                        child: Center(
+                          child: Text(
+                            'Alex Supra',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

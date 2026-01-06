@@ -12,6 +12,7 @@ import '../../../src/feature/BottomBar/speakable_prompt.dart';
 import '../../../src/feature/settings/notification.dart';
 import '../../payment_system/views/payment_system_view.dart';
 import '../controllers/matches_controller.dart';
+import '../no_matches.dart';
 import 'animated_buttom.dart';
 import 'bottom_sheet.dart';
 
@@ -105,7 +106,7 @@ class MatchesView extends GetView<MatchesController> {
                   }
 
                   if (controller.matchingProfileModel.isEmpty) {
-                    return Center(child: Text("No profiles found"));
+                    return Expanded(child: NoMatchesWidget());
                   }
 
                   return Expanded(

@@ -90,6 +90,103 @@ class ProfileCreationRepository {
     return data;
   }
 
+  Future getNewsLetter() async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getNewsLetter}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getCafe(String type, String location, String category) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getCafe}?$type=true&location=$location&category=$category',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future makeABooking(json) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.bookings}',
+      "ApiEndPoints.getUser",
+      json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getVouchers(String filter) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getVouchers}?sortBy=$filter',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getVoucherDetails(id) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getVouchers}/$id/detailed',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
   Future getUser() async {
     Map<String, dynamic> query = {};
     Map<String, dynamic> data = {};
@@ -118,6 +215,26 @@ class ProfileCreationRepository {
       {},
       true,
       loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future redeemVoucher(json) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl:
+          'https://bonding-bowls.projectco.space/api/v1/${ApiEndPoints.redeemVouchers}',
+      "ApiEndPoints.getUser",
+      json,
+      true,
+      loading: true,
       Get.context,
     );
     if (response is String) {

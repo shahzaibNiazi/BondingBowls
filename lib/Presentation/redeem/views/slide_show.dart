@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SlideShow extends StatefulWidget {
-  const SlideShow({super.key});
+  final VoidCallback onRedeem; // callback
+  final bool redeemed; // callback
+
+  const SlideShow({super.key, required this.onRedeem, required this.redeemed});
 
   @override
   _SlideShowState createState() => _SlideShowState();
@@ -11,7 +14,6 @@ class SlideShow extends StatefulWidget {
 
 class _SlideShowState extends State<SlideShow> {
   double sliderX = 0; // drag position of handle
-  bool redeemed = false; // if redeemed or not
 
   final double containerHeight = 80;
   final double handleSize = 70.w; // width & height of the sliding handle
@@ -31,10 +33,12 @@ class _SlideShowState extends State<SlideShow> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(40),
             border: Border.all(
-              color: (!redeemed) ? Color(0xffFB4B16) : Colors.transparent,
+              color: (!widget.redeemed)
+                  ? Color(0xffFB4B16)
+                  : Colors.transparent,
             ),
             boxShadow: [
-              (!redeemed)
+              (!widget.redeemed)
                   ? BoxShadow(
                       color: Colors.black.withValues(alpha: 0.15),
                       spreadRadius: 2,
@@ -51,7 +55,7 @@ class _SlideShowState extends State<SlideShow> {
               Center(
                 child: AnimatedSwitcher(
                   duration: Duration(milliseconds: 250),
-                  child: redeemed
+                  child: widget.redeemed
                       ? Row(
                           key: ValueKey("redeemed"),
                           mainAxisSize: MainAxisSize.min,
@@ -99,7 +103,7 @@ class _SlideShowState extends State<SlideShow> {
               ),
 
               /// SLIDING IMAGE HANDLE
-              if (!redeemed)
+              if (!widget.redeemed)
                 Positioned(
                   left: sliderX,
                   top: (containerHeight - handleSize) / 2,
@@ -115,7 +119,11 @@ class _SlideShowState extends State<SlideShow> {
                     onHorizontalDragEnd: (_) {
                       if (sliderX >= maxSlide) {
                         // Only redeem when fully slid
-                        setState(() => redeemed = true);
+                        // setState(() => widget.redeemed = true);
+                        widget.onRedeem();
+                        if (!widget.redeemed) {
+                          sliderX = 0;
+                        }
                       } else {
                         // return handle back smoothly
                         setState(() => sliderX = 0);

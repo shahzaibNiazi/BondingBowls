@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:convo_hearts/Presentation/cafeconnect_conversation/views/report_bottom.dart'
-    hide showConfirmReportBottomSheet, showOtherBottomSheet;
 import 'package:convo_hearts/Presentation/cafeconnect_conversation/views/voucher_details.dart';
 import 'package:convo_hearts/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../matches/views/bottom_sheet.dart';
+import '../../chat/views/report.dart';
 import '../controllers/cafeconnect_conversation_controller.dart';
 
 class CafeconnectConversationView
@@ -66,27 +64,34 @@ class CafeconnectConversationView
                           ),
                         ),
                       ),
-                      Text(
-                        'Alex Supra',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ).paddingOnly(left: 12),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.USER_BOOKING_DETAILS);
+                        },
+                        child: Text(
+                          'Alex Supra',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ).paddingOnly(left: 12),
+                      ),
 
                       Spacer(),
                       GestureDetector(
                         onTap: () {
-                          showReportBottom(
+                          showChatReportBottom(
                             context,
                             items: [
                               "Unmatch",
+                              "User did not turn up/Inactive reply",
                               'Report for inappropriate/offensive behaviour',
                               'Spam , Selling something (including financial product)',
                               'Others',
                             ],
                             onTap: [
+                              () {},
                               () {},
 
                               () async {

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../make_a_booking/views/make_a_booking_view.dart';
 import '../controllers/cafeconnect_booking_details_controller.dart';
+import 'filter.dart';
 
 class CafeconnectBookingDetailsView
     extends GetView<CafeconnectBookingDetailsController> {
@@ -15,6 +17,22 @@ class CafeconnectBookingDetailsView
       appBar: AppBar(
         backgroundColor: const Color(0xFFFAEEDC),
         elevation: 0,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => const FilterBottomSheet(),
+              );
+            },
+            child: Image.asset(
+              'assets/images/filter.png',
+              scale: 4,
+            ).paddingOnly(right: 12),
+          ),
+        ],
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
@@ -118,7 +136,7 @@ class CafeconnectBookingDetailsView
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "Married Female, Singaporean",
+        "status": "Married Female",
       },
       {
         "name": "Mary",
@@ -128,7 +146,7 @@ class CafeconnectBookingDetailsView
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Singapore PR",
+        "status": "- Female",
       },
       {
         "name": "Mary",
@@ -138,7 +156,7 @@ class CafeconnectBookingDetailsView
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Foreigner / WP",
+        "status": "- Female",
       },
     ];
 
@@ -161,10 +179,19 @@ class CafeconnectBookingDetailsView
                     "${profile['name']} ${profile['age']}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
+                      fontSize: 15.sp,
                     ),
                   ).paddingOnly(left: 30.w),
-                  Icon(Icons.warning, color: Color(0xffBC0072), size: 30.sp),
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(Get.context!);
+                    },
+                    child: Icon(
+                      Icons.warning,
+                      color: Color(0xffBC0072),
+                      size: 30.sp,
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -197,7 +224,12 @@ class CafeconnectBookingDetailsView
               SizedBox(height: 4.h),
 
               SizedBox(height: 4.h),
-              Text(profile['status'].toString()),
+              Column(
+                children: [
+                  Text(profile['status'].toString()),
+                  Text('Singaporean'),
+                ],
+              ),
               SizedBox(height: 8.h),
 
               // Accept / Reject buttons
@@ -205,7 +237,9 @@ class CafeconnectBookingDetailsView
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showMatchDialog(Get.context!);
+                    },
                     child: Container(
                       decoration: BoxDecoration(),
                       child: Image.asset('assets/images/done.png', scale: 4),
@@ -240,7 +274,7 @@ class CafeconnectBookingDetailsView
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "Married Female, Singaporean",
+        "status": "Married Female",
       },
       {
         "name": "Mary",
@@ -250,7 +284,7 @@ class CafeconnectBookingDetailsView
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Singapore PR",
+        "status": "- Female",
       },
       {
         "name": "Mary",
@@ -260,7 +294,7 @@ class CafeconnectBookingDetailsView
         "lookingFor": "Male",
         "availableFor": ["Lunch", "Dinner"],
         "note": "please be punctual",
-        "status": "- Female, Foreigner / WP",
+        "status": "- Female",
       },
     ];
 
@@ -286,7 +320,16 @@ class CafeconnectBookingDetailsView
                       fontSize: 16.sp,
                     ),
                   ).paddingOnly(left: 30.w),
-                  Icon(Icons.warning, color: Color(0xffBC0072), size: 30.sp),
+                  GestureDetector(
+                    onTap: () {
+                      showCustomBottomSheet(Get.context!);
+                    },
+                    child: Icon(
+                      Icons.warning,
+                      color: Color(0xffBC0072),
+                      size: 30.sp,
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -319,7 +362,12 @@ class CafeconnectBookingDetailsView
               SizedBox(height: 4.h),
 
               SizedBox(height: 4.h),
-              Text(profile['status'].toString()),
+              Column(
+                children: [
+                  Text(profile['status'].toString()),
+                  Text('Singaporean'),
+                ],
+              ),
               SizedBox(height: 8.h),
 
               // Accept / Reject buttons
@@ -327,7 +375,9 @@ class CafeconnectBookingDetailsView
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showMatchDialog(Get.context!);
+                    },
                     child: Container(
                       decoration: BoxDecoration(),
                       child: Image.asset('assets/images/done.png', scale: 4),
@@ -496,107 +546,175 @@ class CafeconnectBookingDetailsView
           ),
           SizedBox(height: 8.h),
 
-          // Looking For Section
-          Obx(
-            () => Row(
-              children: [
-                const Text(
-                  'Looking For:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ).paddingOnly(right: 12.w),
-                Row(
-                  children: ['Male', 'Female']
-                      .map(
-                        (option) => GestureDetector(
-                          onTap: () {
-                            controller.selectLookingFor(option);
-                          },
-                          child: Container(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Looking For:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 20.h),
+
+                  const Text(
+                    'Available For:',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Obx(
+                    () => Row(
+                      children: [
+                        Row(
+                          children: ['Male', 'Female']
+                              .map(
+                                (option) => GestureDetector(
+                                  onTap: () {
+                                    controller.selectLookingFor(option);
+                                  },
+                                  child: Container(
+                                    width: 100.w,
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(right: 8.w),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 4.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          controller.selectedLookingFor.value ==
+                                              option
+                                          ? const Color(0xff3F6EFF)
+                                          : Colors.white,
+                                      border: Border.all(
+                                        color:
+                                            controller
+                                                    .selectedLookingFor
+                                                    .value ==
+                                                option
+                                            ? const Color(0xff3F6EFF)
+                                            : Colors.black,
+                                      ),
+                                      borderRadius: BorderRadius.circular(30.r),
+                                    ),
+                                    child: Text(
+                                      option,
+                                      style: TextStyle(
+                                        fontSize: 13.sp,
+                                        color:
+                                            controller
+                                                    .selectedLookingFor
+                                                    .value ==
+                                                option
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 12.h),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 100.w,
+                            alignment: Alignment.center,
                             margin: EdgeInsets.only(right: 8.w),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.w,
-                              vertical: 4.h,
-                            ),
+                            padding: EdgeInsets.symmetric(vertical: 4.h),
                             decoration: BoxDecoration(
-                              color:
-                                  controller.selectedLookingFor.value == option
-                                  ? const Color(0xff3F6EFF)
-                                  : Colors.white,
-                              border: Border.all(
-                                color:
-                                    controller.selectedLookingFor.value ==
-                                        option
-                                    ? const Color(0xff3F6EFF)
-                                    : Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(30.r),
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
                             child: Text(
-                              option,
+                              'Breakfast',
                               style: TextStyle(
-                                color:
-                                    controller.selectedLookingFor.value ==
-                                        option
-                                    ? Colors.white
-                                    : Colors.black,
+                                color: Colors.black,
+                                fontSize: 13.sp,
                               ),
                             ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ],
-            ),
+                          Container(
+                            width: 100.w,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(vertical: 4.h),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'Lunch',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 12.h),
+                      Row(
+                        children: [
+                          Container(
+                            width: 100.w,
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(right: 8.w),
+                            padding: EdgeInsets.symmetric(vertical: 4.h),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'Dinner',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 100.w,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(vertical: 4.h),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              'Supper',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ).paddingOnly(right: 18.w),
+            ],
           ),
-          SizedBox(height: 20.h),
-
-          Obx(
-            () => Wrap(
-              spacing: 8.w,
-              runSpacing: 4.h,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                const Text(
-                  'Available For:',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                ...controller.availableFor.map((option) {
-                  return GestureDetector(
-                    onTap: () => controller.toggleAvailableFor(option),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: controller.selectedAvailableFor.contains(option)
-                            ? const Color(0xff3F6EFF)
-                            : Colors.white,
-                        border: Border.all(
-                          color:
-                              controller.selectedAvailableFor.contains(option)
-                              ? const Color(0xff3F6EFF)
-                              : Colors.blue,
-                        ),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Text(
-                        option,
-                        style: TextStyle(
-                          color:
-                              controller.selectedAvailableFor.contains(option)
-                              ? Colors.white
-                              : Colors.blue,
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ),
-
           // Additional Notes and T&C
           SizedBox(height: 8.h),
           Row(
@@ -655,4 +773,101 @@ class CafeconnectBookingDetailsView
       ),
     );
   }
+}
+
+class MatchDialog extends StatelessWidget {
+  const MatchDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(color: Color(0xFFD2691E), width: 3),
+      ),
+      backgroundColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFFFE4CC), Color(0xFFFFDAB9)],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFD2691E), width: 3),
+        ),
+        padding: const EdgeInsets.all(40),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Checkmark icon
+            Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: const Color(0xFFC2185B),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.check, color: Colors.white, size: 40),
+            ),
+            const SizedBox(height: 20),
+
+            // Title
+            const Text(
+              'You have been matched!',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Message
+            const Text(
+              'Proceed to Chat section to continue your\narrangements',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.black87,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Close button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  elevation: 2,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'Close',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void showMatchDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return const MatchDialog();
+    },
+  );
 }

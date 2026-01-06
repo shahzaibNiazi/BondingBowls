@@ -13,30 +13,32 @@ class SystemChatView extends GetView<SystemChatController> {
       builder: (controller) {
         return Scaffold(
           backgroundColor: Colors.white, // background color as per Figma
-          appBar: AppBar(
-            backgroundColor: Color(0xFFFFF3E6),
-            elevation: 0,
-            leading: GestureDetector(
-              onTap: () => Get.back(),
-              child: const Icon(Icons.arrow_back_ios_new, size: 26),
-            ),
-            centerTitle: true,
-            title: Row(
-              children: [
-                Image.asset(
-                  'assets/images/system.png', // replace with your SysTaco image
-                ),
-                SizedBox(width: 30.w),
-                Text(
-                  "SysTaco",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(70), // 👈 change height here
+            child: AppBar(
+              backgroundColor: const Color(0xFFFFF3E6),
+              elevation: 0,
+              leading: GestureDetector(
+                onTap: () => Get.back(),
+                child: const Icon(Icons.arrow_back_ios_new, size: 26),
+              ),
+              centerTitle: true,
+              title: Row(
+                children: [
+                  Image.asset('assets/images/system.png', scale: 1.3),
+                  SizedBox(width: 50.w),
+                  const Text(
+                    "SysTaco",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+
           body: Padding(
             padding: EdgeInsets.all(16.0),
             child: Stack(
@@ -75,7 +77,12 @@ class SystemChatView extends GetView<SystemChatController> {
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black45),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(8),
+                        ),
                       ),
                       child: Obx(
                         () => ListView.builder(
@@ -124,7 +131,12 @@ class SystemChatView extends GetView<SystemChatController> {
                         padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black45),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            topRight: Radius.circular(12),
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(12),
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,

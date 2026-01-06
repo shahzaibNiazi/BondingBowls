@@ -52,7 +52,11 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
                   "Profile Boosts (Immediate +24 Hours)",
                   () {},
                 ),
-                _subtitle("Rise to the top of everyone’s matching page"),
+                Center(
+                  child: _subtitle(
+                    "Rise to the top of everyone’s matching page",
+                  ),
+                ),
                 _singlePriceCard(60, () {
                   showDialog(
                     context: Get.context!,
@@ -96,10 +100,28 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
                   () {},
                 ),
 
-                _subtitle("Stand out with a priority LIKE amongst others"),
-                _doubleOptionCard("+5 Bowl Crush", 80, () {}),
+                Center(
+                  child: _subtitle(
+                    "Stand out with a priority LIKE amongst others",
+                  ),
+                ),
+                _doubleOptionCard("+5 Bowl Crush", 80, () {
+                  showDialog(
+                    context: Get.context!,
+                    builder: (context) => CafeBowlRefreshDialog(
+                      onPurchaseConfirmed: controller.onReligionUnlocked,
+                    ),
+                  );
+                }),
                 const SizedBox(height: 8),
-                _doubleOptionCard("+10 Bowl Crush", 150, () {}),
+                _doubleOptionCard("+10 Bowl Crush", 150, () {
+                  showDialog(
+                    context: Get.context!,
+                    builder: (context) => CafeBowlRefreshDialog(
+                      onPurchaseConfirmed: controller.onReligionUnlocked,
+                    ),
+                  );
+                }),
                 LayoutBuilder(
                   builder: (context, constraints) {
                     final int itemCount = (constraints.maxWidth / 13).floor();
@@ -158,8 +180,10 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
                   "CafeConnect Timer Refresh",
                   () {},
                 ),
-                _subtitle(
-                  "This will refresh your CafeConnect Timer Immediately",
+                Center(
+                  child: _subtitle(
+                    "This will refresh your CafeConnect Timer Immediately",
+                  ),
                 ),
                 _singlePriceCard(200, () {
                   showDialog(
@@ -209,7 +233,11 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
                   "Received Likes Unlocker +1 Month",
                   () {},
                 ),
-                _subtitle("This will unlock your received likes immediately"),
+                Center(
+                  child: _subtitle(
+                    "This will unlock your received likes immediately",
+                  ),
+                ),
                 _singlePriceCard(200, () {
                   showDialog(
                     context: Get.context!,
@@ -416,11 +444,12 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
 
         Center(
           child: Text(
+            textAlign: TextAlign.center,
             "1 month and 2 months chats are stackable but not time stackable",
             style: TextStyle(
               color: Colors.black54,
               fontSize: 13.sp,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w300,
             ),
           ),
         ).paddingOnly(bottom: 15.h),
@@ -460,6 +489,8 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
           showDialog(
             context: Get.context!,
             builder: (context) => ExtraChatDialog(
+              count: 1,
+              bowl: 200,
               onPurchaseConfirmed: controller.onReligionUnlocked,
             ),
           );
@@ -469,6 +500,8 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
           showDialog(
             context: Get.context!,
             builder: (context) => ExtraChatDialog(
+              count: 2,
+              bowl: 280,
               onPurchaseConfirmed: controller.onReligionUnlocked,
             ),
           );
@@ -840,6 +873,269 @@ void showVoucherDialog({
       );
     },
   );
+}
+
+class CafeBowlRefreshDialog extends StatelessWidget {
+  final VoidCallback onPurchaseConfirmed;
+
+  const CafeBowlRefreshDialog({super.key, required this.onPurchaseConfirmed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: const Color(0xffFFEEDA),
+            border: Border.all(color: Color(0xffBC0072), width: 2),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: const Color.fromARGB(255, 255, 255, 255),
+              border: Border.all(color: Color(0xffBC0072), width: 1),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title Section
+                Text(
+                  "Confirm Purchase of",
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+
+                // Product Info Section
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icon/svg/icon_message.svg",
+                        width: 20,
+                        height: 20,
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: Text(
+                          "Bowl Crush (No Expiry) \n5",
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            color: Color(0xff000000),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "= ",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xffBC0072),
+                            ),
+                          ),
+                          SvgPicture.asset(
+                            "assets/icon/svg/color_bowl.svg",
+                            width: 16,
+                            height: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            " 200",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xffBC0072),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                // Calculation Section
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text("Available", style: TextStyle(fontSize: 10.sp)),
+                    Text("Deductibles", style: TextStyle(fontSize: 10.sp)),
+                    Text("Balance", style: TextStyle(fontSize: 10.sp)),
+                  ],
+                ),
+                Container(
+                  height: 50,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: const Color(0xffC672A5),
+                      width: 2,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icon/svg/color_bowl.svg",
+                              width: 16,
+                              height: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              "300",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Color(0xff000000),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text("-", style: TextStyle(fontSize: 16.sp)),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icon/svg/color_bowl.svg",
+                              width: 16,
+                              height: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              "200",
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xffFF0000),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text("=", style: TextStyle(fontSize: 16.sp)),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icon/svg/color_bowl.svg",
+                              width: 16,
+                              height: 16,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "100",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Color(0xff000000),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Terms Text
+                Text(
+                  "Purchase made are non refundable as per TOS",
+                  style: TextStyle(fontSize: 12.sp, color: Colors.black54),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 2,
+                            vertical: 5,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xffDA4747),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 5,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          onPurchaseConfirmed(); // Call the callback to unlock religion filter
+                        },
+                        child: Text(
+                          "Proceed",
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xffFFFFFF),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class CafeConnectTimerRefreshDialog extends StatelessWidget {
@@ -1401,8 +1697,15 @@ class ProfileBoostDialog extends StatelessWidget {
 
 class ExtraChatDialog extends StatelessWidget {
   final VoidCallback onPurchaseConfirmed;
+  final int count;
+  final int bowl;
 
-  const ExtraChatDialog({super.key, required this.onPurchaseConfirmed});
+  const ExtraChatDialog({
+    super.key,
+    required this.onPurchaseConfirmed,
+    required this.count,
+    required this.bowl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1451,7 +1754,7 @@ class ExtraChatDialog extends StatelessWidget {
                       SizedBox(width: 20),
                       Expanded(
                         child: Text(
-                          "+ 1 Extra chat \nfor 1 month",
+                          "+ ${count} Extra chat \nfor 1 month",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 15.sp,
@@ -1478,7 +1781,7 @@ class ExtraChatDialog extends StatelessWidget {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            " 200",
+                            " ${bowl}",
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
@@ -1569,7 +1872,7 @@ class ExtraChatDialog extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              "200",
+                              bowl.toString(),
                               style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w700,

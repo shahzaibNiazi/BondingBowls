@@ -4,6 +4,8 @@ import '../../Presentation/ai_avatar_pick_image/bindings/ai_avatar_pick_image_bi
 import '../../Presentation/ai_avatar_pick_image/views/ai_avatar_pick_image_view.dart';
 import '../../Presentation/booking_details/bindings/booking_details_binding.dart';
 import '../../Presentation/booking_details/views/booking_details_view.dart';
+import '../../Presentation/cafeconnect/bindings/cafeconnect_binding.dart';
+import '../../Presentation/cafeconnect/views/cafeconnect_view.dart';
 import '../../Presentation/cafeconnect_booking_details/bindings/cafeconnect_booking_details_binding.dart';
 import '../../Presentation/cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
 import '../../Presentation/cafeconnect_conversation/bindings/cafeconnect_conversation_binding.dart';
@@ -30,6 +32,10 @@ import '../../Presentation/match_profile/bindings/match_profile_binding.dart';
 import '../../Presentation/match_profile/views/match_profile_view.dart';
 import '../../Presentation/matches/bindings/matches_binding.dart';
 import '../../Presentation/matches/views/matches_view.dart';
+import '../../Presentation/newsletter/bindings/newsletter_binding.dart';
+import '../../Presentation/newsletter/views/newsletter_view.dart';
+import '../../Presentation/newsletter_detail/bindings/newsletter_detail_binding.dart';
+import '../../Presentation/newsletter_detail/views/newsletter_detail_view.dart';
 import '../../Presentation/payment_system/bindings/payment_system_binding.dart';
 import '../../Presentation/payment_system/views/payment_system_view.dart';
 import '../../Presentation/profile_creation/bindings/profile_creation_binding.dart';
@@ -57,6 +63,8 @@ import '../../Presentation/user_booking_details/bindings/user_booking_details_bi
 import '../../Presentation/user_booking_details/views/user_booking_details_view.dart';
 import '../../Presentation/verify_otp/bindings/verify_otp_binding.dart';
 import '../../Presentation/verify_otp/views/verify_otp_view.dart';
+import '../../Presentation/vouchers/bindings/vouchers_binding.dart';
+import '../../Presentation/vouchers/views/vouchers_view.dart';
 
 part 'app_routes.dart';
 
@@ -225,6 +233,26 @@ class AppPages {
       name: _Paths.SYSTEM_CHAT,
       page: () => const SystemChatView(),
       binding: SystemChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.NEWSLETTER,
+      page: () => const NewsletterView(),
+      binding: NewsletterBinding(),
+    ),
+    GetPage(
+      name: _Paths.VOUCHERS,
+      page: () => const VouchersView(),
+      binding: VouchersBinding(),
+    ),
+    GetPage(
+      name: _Paths.NEWSLETTER_DETAIL,
+      page: () => const NewsletterDetailView(),
+      binding: NewsletterDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.CAFECONNECT,
+      page: () => const CafeConnectView(),
+      binding: CafeconnectBinding(),
     ),
   ];
 }

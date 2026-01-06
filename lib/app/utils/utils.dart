@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:convo_hearts/app/shared_widgets/my_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -26,10 +27,6 @@ class Utils {
 
   static String getSvgPath(String name, {String format = 'svg'}) {
     return 'assets/icon/svg/$name.$format';
-  }
-
-  static String formatDate(DateTime date, {String? format}) {
-    return DateFormat(format ?? 'd MMM , yyyy').format(date);
   }
 
   DateTime convertStringToDateTime(String dateString) {
@@ -686,6 +683,19 @@ class Utils {
   //   return "${directory.path}/$fileName";
   // }
 
+  static String formatTime(String? time) {
+    if (time == null || time.isEmpty) return '';
+
+    final parts = time.split(':');
+    int hour = int.parse(parts[0]);
+    final minute = parts[1];
+
+    final period = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 == 0 ? 12 : hour % 12;
+
+    return '$hour:$minute $period';
+  }
+
   static int convertToMinutes(String interval) {
     // Split the input into parts (e.g., "2 h 10 min" -> ["2", "h", "10", "min"])
     final parts = interval.split(' ');
@@ -703,6 +713,17 @@ class Utils {
     }
     // Convert hours and minutes to total minutes
     return (hours * 60) + minutes;
+  }
+
+  static String formatDate(String isoDate) {
+    final date = DateTime.parse(isoDate).toLocal();
+    return DateFormat('d MMM yyyy').format(date);
+  }
+
+  static int daysDifference(String startDate, String expiryDate) {
+    final start = DateTime.parse(startDate).toUtc();
+    final end = DateTime.parse(expiryDate).toUtc();
+    return end.difference(start).inDays;
   }
 
   static String convertToFormattedInterval(int totalMinutes) {
@@ -738,6 +759,29 @@ class Utils {
         margin: EdgeInsets.all(16),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    );
+  }
+
+  static Widget networkImage({required String? url, double height = 100}) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+      child: Image.network(
+        url ?? '',
+        height: height,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => Center(
+          child: Icon(
+            Icons.image_not_supported,
+            size: 60.sp,
+            color: Colors.grey,
+          ),
+        ),
+        loadingBuilder: (context, child, progress) {
+          if (progress == null) return child;
+          return const Center(child: CircularProgressIndicator.adaptive());
+        },
       ),
     );
   }
