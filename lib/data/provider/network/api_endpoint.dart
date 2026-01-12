@@ -15,6 +15,9 @@ class ApiEndPoints {
   static String get getNewsLetter => "newsletters/mobile/feed";
   static String get getCafe => "cafe-connects";
   static String get bookings => "bookings";
+  static String get getBooking => "bookings/cafe";
+  static String get likeYou => "cafe-connects/my-booked-and-liked";
+  static String get available => "bookings/available";
   static String get getVouchers => "vouchers";
   static String get redeemVouchers => "vouchers/redeem";
   static String get likeProfile => "matching/like";

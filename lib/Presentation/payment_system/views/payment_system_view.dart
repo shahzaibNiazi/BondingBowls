@@ -109,6 +109,8 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
                   showDialog(
                     context: Get.context!,
                     builder: (context) => CafeBowlRefreshDialog(
+                      bowl: '80',
+                      expiry: '5',
                       onPurchaseConfirmed: controller.onReligionUnlocked,
                     ),
                   );
@@ -118,6 +120,8 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
                   showDialog(
                     context: Get.context!,
                     builder: (context) => CafeBowlRefreshDialog(
+                      bowl: '150',
+                      expiry: "10",
                       onPurchaseConfirmed: controller.onReligionUnlocked,
                     ),
                   );
@@ -876,9 +880,16 @@ void showVoucherDialog({
 }
 
 class CafeBowlRefreshDialog extends StatelessWidget {
+  final String expiry;
+  final String bowl;
   final VoidCallback onPurchaseConfirmed;
 
-  const CafeBowlRefreshDialog({super.key, required this.onPurchaseConfirmed});
+  const CafeBowlRefreshDialog({
+    super.key,
+    required this.onPurchaseConfirmed,
+    required this.expiry,
+    required this.bowl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -927,7 +938,7 @@ class CafeBowlRefreshDialog extends StatelessWidget {
                       SizedBox(width: 20),
                       Expanded(
                         child: Text(
-                          "Bowl Crush (No Expiry) \n5",
+                          "Bowl Crush (No Expiry) \n +$expiry",
                           style: TextStyle(
                             fontSize: 15.sp,
                             color: Color(0xff000000),
@@ -1025,7 +1036,7 @@ class CafeBowlRefreshDialog extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              "200",
+                              bowl,
                               style: TextStyle(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w700,

@@ -131,10 +131,65 @@ class ProfileCreationRepository {
 
   Future makeABooking(json) async {
     Map<String, dynamic> data = {};
-    final response = await apiClient.baseGetAPI(
+    final response = await apiClient.basePostAPI(
       fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.bookings}',
       "ApiEndPoints.getUser",
       json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getBooking(cafeId) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getBooking}/$cafeId',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future likeYou() async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.likeYou}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future available(cafeId) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.available}?cafeId=$cafeId',
+      "ApiEndPoints.getUser",
+      {},
       true,
       loading: true,
       Get.context,

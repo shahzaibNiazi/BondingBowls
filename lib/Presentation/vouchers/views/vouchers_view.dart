@@ -133,62 +133,71 @@ class VouchersView extends GetView<VouchersController> {
                         SizedBox(height: 16.h),
 
                         // Scrollable content
-                        Obx(
-                          () => controller.isLoading.value
-                              ? Center(
-                                  child: CircularProgressIndicator.adaptive(),
-                                )
-                              : controller.vouchers.isNotEmpty
-                              ? Expanded(
-                                  child: ListView.builder(
-                                    itemCount:
-                                        controller.vouchers.length +
-                                        1, // +1 for static ads
-                                    itemBuilder: (context, index) {
-                                      // Show static ads AFTER index 3
-                                      if (index == 3) {
-                                        return Container(
-                                          height: 155.h,
-                                          margin: EdgeInsets.symmetric(
-                                            vertical: 12.h,
-                                          ),
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: const Color(0xff000000),
-                                            ),
-                                          ),
-                                          child: const Center(
-                                            child: Text("Static Ads"),
-                                          ),
-                                        );
-                                      }
+                        Obx(() {
+                          if (controller.isLoading.value) {
+                            return const Center(
+                              child: CircularProgressIndicator.adaptive(),
+                            );
+                          }
 
-                                      // Adjust index after ads insertion
-                                      final voucherIndex = index > 3
-                                          ? index - 1
-                                          : index;
-                                      final voucher =
-                                          controller.vouchers[voucherIndex];
+                          if (controller.vouchers.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
 
-                                      return VoucherCard(
-                                        id: voucher.id ?? "",
-                                        title: voucher.title ?? '',
-                                        discount: voucher.discountValue
-                                            .toString(),
-                                        badge: Utils.daysDifference(
-                                          voucher.startDate ?? '',
-                                          voucher.expiryDate ?? '',
-                                        ).toString(),
-                                        expiryText: Utils.formatDate(
-                                          voucher.expiryDate ?? '',
-                                        ),
-                                      );
-                                    },
+                          final vouchers = controller.vouchers;
+
+                          // Decide ad position
+                          final bool showAd = vouchers.isNotEmpty;
+                          final int adIndex = vouchers.length > 3
+                              ? 3
+                              : vouchers.length;
+
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: vouchers.length + (showAd ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                // Static Ad
+                                if (showAd && index == adIndex) {
+                                  return Container(
+                                    height: 155.h,
+                                    margin: EdgeInsets.symmetric(
+                                      vertical: 12.h,
+                                    ),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: const Color(0xff000000),
+                                      ),
+                                    ),
+                                    child: const Center(
+                                      child: Text("Static Ads"),
+                                    ),
+                                  );
+                                }
+
+                                // Adjust voucher index after ad
+                                final int voucherIndex = index > adIndex
+                                    ? index - 1
+                                    : index;
+
+                                final voucher = vouchers[voucherIndex];
+
+                                return VoucherCard(
+                                  id: voucher.id ?? "",
+                                  title: voucher.title ?? '',
+                                  discount: voucher.discountValue.toString(),
+                                  badge: Utils.daysDifference(
+                                    voucher.startDate ?? '',
+                                    voucher.expiryDate ?? '',
+                                  ).toString(),
+                                  expiryText: Utils.formatDate(
+                                    voucher.expiryDate ?? '',
                                   ),
-                                )
-                              : SizedBox.shrink(),
-                        ),
+                                );
+                              },
+                            ),
+                          );
+                        }),
                       ],
                     ),
                   ),

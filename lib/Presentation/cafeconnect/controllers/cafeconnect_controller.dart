@@ -57,33 +57,33 @@ class CafeconnectController extends GetxController {
 
   Future<void> getCafeConnect() async {
     isLoading.value = true;
-    try {
-      final response = await profileCreationRepository.getCafe(
-        selectedTag.toLowerCase(),
-        selectedLocation ?? '',
-        selectedCategory ?? '',
-      );
+    // try {
+    final response = await profileCreationRepository.getCafe(
+      selectedTag.toLowerCase(),
+      selectedLocation ?? '',
+      selectedCategory ?? '',
+    );
 
-      if (response != null && response['success'] == true) {
-        var data = response['data']
-            .map<CafeModel>((e) => CafeModel.fromJson(e))
-            .toList();
+    if (response != null && response['success'] == true) {
+      var data = response['data']
+          .map<CafeModel>((e) => CafeModel.fromJson(e))
+          .toList();
 
-        cafeList = data;
+      cafeList = data;
 
-        log('Length ------ ${cafeList.length}');
-        update();
-
-        // Parse JSON → Immutable Model
-        // Access data (immutable!)
-      }
-      isLoading.value = false;
+      log('Length ------ ${cafeList.length}');
       update();
-      log(response.toString());
-    } catch (e) {
-      isLoading.value = false;
 
-      log(e.toString());
+      // Parse JSON → Immutable Model
+      // Access data (immutable!)
     }
+    isLoading.value = false;
+    update();
+    log(response.toString());
+    // } catch (e) {
+    //   isLoading.value = false;
+    //
+    //   log(e.toString());
+    // }
   }
 }

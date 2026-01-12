@@ -746,6 +746,10 @@ class Utils {
     return formattedInterval;
   }
 
+  static String formattedDate() {
+    return DateFormat('d MMMM yyyy').format(DateTime.now());
+  }
+
   static void showSnackBar(
     String title,
     String message,
@@ -784,5 +788,19 @@ class Utils {
         },
       ),
     );
+  }
+
+  static String formatTo12Hour(String? time) {
+    if (time == null || time.isEmpty) return '';
+
+    final parts = time.split(':');
+    int hour = int.parse(parts[0]);
+    final minute = parts[1];
+
+    final period = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    if (hour == 0) hour = 12;
+
+    return '$hour:$minute $period';
   }
 }

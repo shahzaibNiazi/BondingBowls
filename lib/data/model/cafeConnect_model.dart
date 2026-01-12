@@ -1,14 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'newsletter_model.dart';
-
 part 'cafeConnect_model.freezed.dart';
 part 'cafeConnect_model.g.dart';
 
 @freezed
 class CafeModel with _$CafeModel {
   const factory CafeModel({
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
     String? email,
     String? category,
@@ -24,13 +22,22 @@ class CafeModel with _$CafeModel {
     Reviews? reviews,
     List<OperatingHour>? openingHours,
     String? status,
+    String? locationLink,
     int? viewCount,
     bool? isDeleted,
     String? dateAdded,
     String? createdAt,
     String? updatedAt,
     String? cafeId,
-    int? v,
+    @JsonKey(name: '__v') int? v,
+    int? popularityScore,
+    int? activeBookings,
+    BookingStats? bookingStats,
+    UserBooking? userBooking,
+    List<dynamic>? likedUsersAtCafe,
+    bool? hasBooking,
+    bool? isAlreadyBooked,
+    bool? hasLikedUsersAtCafe,
   }) = _CafeModel;
 
   factory CafeModel.fromJson(Map<String, dynamic> json) =>
@@ -47,8 +54,54 @@ class Location with _$Location {
 
 @freezed
 class Reviews with _$Reviews {
-  const factory Reviews({int? rating, int? reviewCount}) = _Reviews;
+  const factory Reviews({
+    double? rating,
+    int? reviewCount,
+    String? reviewText,
+  }) = _Reviews;
 
   factory Reviews.fromJson(Map<String, dynamic> json) =>
       _$ReviewsFromJson(json);
+}
+
+@freezed
+class BookingStats with _$BookingStats {
+  const factory BookingStats({
+    int? maleBookings,
+    int? femaleBookings,
+    int? totalBookings,
+    int? mutualLikes,
+  }) = _BookingStats;
+
+  factory BookingStats.fromJson(Map<String, dynamic> json) =>
+      _$BookingStatsFromJson(json);
+}
+
+@freezed
+class UserBooking with _$UserBooking {
+  const factory UserBooking({
+    @JsonKey(name: '_id') String? id,
+    List<String>? lookingFor,
+    List<String>? availableFor,
+    String? bookingDate,
+    String? additionalNotes,
+    String? status,
+    bool? isExpired,
+  }) = _UserBooking;
+
+  factory UserBooking.fromJson(Map<String, dynamic> json) =>
+      _$UserBookingFromJson(json);
+}
+
+@freezed
+class OperatingHour with _$OperatingHour {
+  const factory OperatingHour({
+    String? day,
+    String? openingTime,
+    String? closingTime,
+    @Default(false) bool isClosed,
+  }) = _OperatingHour;
+
+  factory OperatingHour.fromJson(Map<String, dynamic> json) =>
+      _$OperatingHourFromJson(json);
 }

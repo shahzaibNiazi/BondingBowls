@@ -543,7 +543,7 @@ class NewsletterDetailView extends GetView<NewsletterDetailController> {
                                                 color: Colors.black,
                                               ),
                                             ),
-                                            const SizedBox(height: 8),
+                                            SizedBox(height: 8.h),
                                             buildOpeningHoursTable(
                                               context,
                                               controller.item?.operatingHours,
@@ -602,7 +602,7 @@ Widget buildOpeningHoursTable(
   final textPainter = TextPainter(
     text: TextSpan(
       text: longestTime,
-      style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w400),
+      style: TextStyle(fontSize: 16.r, fontWeight: FontWeight.w400),
     ),
     textDirection: TextDirection.ltr,
   )..layout();
@@ -637,7 +637,7 @@ Widget buildOpeningHoursTable(
                 child: Text(
                   hours,
                   style: TextStyle(
-                    fontSize: 13.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
                     color: isClosed
                         ? Colors.redAccent

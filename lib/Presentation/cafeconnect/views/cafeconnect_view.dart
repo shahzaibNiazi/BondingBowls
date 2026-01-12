@@ -237,87 +237,94 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                     child: Row(
                                       children: [
                                         // Image container - Fixed width for consistency
-                                        Container(
-                                          width: 165,
-                                          height: 120,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                            child: Image.network(
-                                              cafe.image ?? '',
-                                              fit: BoxFit.cover,
-                                              loadingBuilder:
-                                                  (
-                                                    context,
-                                                    child,
-                                                    loadingProgress,
-                                                  ) {
-                                                    if (loadingProgress ==
-                                                        null) {
-                                                      return child;
-                                                    }
-                                                    return Container(
-                                                      color: Colors.grey[100],
-                                                      child: const Center(
-                                                        child:
-                                                            CircularProgressIndicator.adaptive(),
-                                                      ),
-                                                    );
-                                                  },
-                                              errorBuilder:
-                                                  (
-                                                    context,
-                                                    error,
-                                                    stackTrace,
-                                                  ) => Container(
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.grey[200],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            12,
-                                                          ),
-                                                      border: Border.all(
-                                                        color: Colors
-                                                            .grey
-                                                            .shade400,
-                                                      ),
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .image_not_supported,
-                                                          size: 36,
-                                                          color:
-                                                              Colors.grey[500],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 6,
-                                                        ),
-                                                        Text(
+                                        Stack(
+                                          clipBehavior:
+                                              Clip.hardEdge, // IMPORTANT
+                                          children: [
+                                            // IMAGE
+                                            Container(
+                                              width: 165,
+                                              height: 120,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                child: Image.network(
+                                                  cafe.image ?? '',
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (_, __, ___) =>
+                                                      Container(
+                                                        color: Colors.grey[200],
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: const Text(
                                                           'No Image',
-                                                          style: TextStyle(
-                                                            color: Colors
-                                                                .grey[600],
-                                                            fontSize: 13.sp,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
                                                         ),
-                                                      ],
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+
+                                            // 🔴 CLEAN RIBBON (FIGMA MATCH)
+                                            Positioned(
+                                              top: 4,
+                                              left: -25,
+                                              child: Transform.rotate(
+                                                angle:
+                                                    -0.75, // correct Figma angle
+                                                child: Container(
+                                                  width:
+                                                      90, // SHORT – important
+                                                  height: 26,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(
+                                                      0xFFE50914,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          4,
+                                                        ),
+                                                    border: Border.all(
+                                                      color: const Color(
+                                                        0xFFFFC107,
+                                                      ),
+                                                      width: 2,
+                                                    ),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black
+                                                            .withValues(
+                                                              alpha: 0.25,
+                                                            ),
+                                                        blurRadius: 6,
+                                                        offset: const Offset(
+                                                          2,
+                                                          3,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                  child: Text(
+                                                    '-${cafe.discountPercentage}%',
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13.sp,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
                                                   ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
 
                                         const SizedBox(width: 16),
@@ -352,72 +359,72 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                               const SizedBox(height: 4),
                                               // Rating row
                                               Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    cafe.reviews!.rating
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
+                                                  Row(
+                                                    children: [
+                                                      Text(
+                                                        cafe.reviews!.rating
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontSize: 14.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 4),
+
+                                                      Row(
+                                                        children: List.generate(5, (
+                                                          index,
+                                                        ) {
+                                                          return Padding(
+                                                            padding:
+                                                                const EdgeInsets.only(
+                                                                  right: 2.0,
+                                                                ),
+                                                            child: SvgPicture.asset(
+                                                              index < 4.8.floor()
+                                                                  ? "assets/icon/svg/fav_fill.svg"
+                                                                  : "assets/icon/svg/fav_.svg",
+                                                              width: 8,
+                                                              height: 8,
+                                                            ),
+                                                          );
+                                                        }),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  const SizedBox(width: 4),
-                                                  Flexible(
-                                                    child: Row(
-                                                      children: List.generate(5, (
-                                                        index,
-                                                      ) {
-                                                        // show filled star if index < floor(rating)
-                                                        return Padding(
-                                                          padding:
-                                                              const EdgeInsets.only(
-                                                                right: 2.0,
-                                                              ),
-                                                          child: SvgPicture.asset(
-                                                            index < 4.8.floor()
-                                                                ? "assets/icon/svg/fav_fill.svg"
-                                                                : "assets/icon/svg/fav_.svg",
-                                                            width: 12,
-                                                            height: 12,
-                                                          ),
-                                                        );
-                                                      }),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    '\$${cafe.averagePrice}',
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontFamily: "Poppins",
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.black,
-                                                    ),
+
+                                                  Row(
+                                                    children: [
+                                                      SvgPicture.asset(
+                                                        "assets/icon/svg/location2.svg",
+                                                      ),
+                                                      const SizedBox(width: 4),
+                                                      Text(
+                                                        cafe.location?.region ??
+                                                            '',
+                                                        style: TextStyle(
+                                                          fontFamily: "Poppins",
+                                                          fontSize: 13.sp,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
                                               const SizedBox(height: 8),
                                               Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  SvgPicture.asset(
-                                                    "assets/icon/svg/location2.svg",
-                                                  ),
-                                                  const SizedBox(width: 4),
-                                                  Flexible(
-                                                    child: Text(
-                                                      cafe.location?.region ??
-                                                          '',
-                                                      style: TextStyle(
-                                                        fontFamily: "Poppins",
-                                                        fontSize: 14.sp,
-                                                        color: Colors.grey,
-                                                      ),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(width: 20),
                                                   Container(
                                                     padding:
                                                         const EdgeInsets.symmetric(
@@ -437,12 +444,26 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                         fontFamily: "Poppins",
-                                                        fontSize: 12.sp,
+                                                        fontSize: 10.sp,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                       ),
                                                     ),
                                                   ),
+
+                                                  Image.asset(
+                                                    "assets/images/dollar.png",
+                                                  ),
+                                                  // Text(
+                                                  //   '\$${cafe.averagePrice}',
+                                                  //   style: TextStyle(
+                                                  //     fontSize: 14.sp,
+                                                  //     fontFamily: "Poppins",
+                                                  //     fontWeight:
+                                                  //         FontWeight.w400,
+                                                  //     color: Colors.black,
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               ),
                                               const SizedBox(height: 12),

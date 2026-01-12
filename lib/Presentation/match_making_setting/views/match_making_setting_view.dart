@@ -193,20 +193,9 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey.shade700,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          15,
-                                                        ),
-                                                  ),
-                                                ),
                                                 Positioned(
-                                                  child: SvgPicture.asset(
-                                                    "assets/icon/svg/bowl.svg",
+                                                  child: Image.asset(
+                                                    "assets/images/match.png",
                                                     height: 40,
                                                     width: 40,
                                                   ),
@@ -248,20 +237,9 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey.shade700,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          15,
-                                                        ),
-                                                  ),
-                                                ),
                                                 Positioned(
-                                                  child: SvgPicture.asset(
-                                                    "assets/icon/svg/bowl.svg",
+                                                  child: Image.asset(
+                                                    "assets/images/match.png",
                                                     height: 40,
                                                     width: 40,
                                                   ),
@@ -293,7 +271,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                       "Gender",
                                       style: TextStyle(
                                         fontFamily: "Adlam_Display",
-                                        fontSize: 20.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xff000000),
                                       ),
@@ -347,7 +325,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                       "Dating\nintentions",
                                       style: TextStyle(
                                         fontFamily: "Adlam_Display",
-                                        fontSize: 20.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xff000000),
                                       ),
@@ -401,7 +379,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                       "Nationality",
                                       style: TextStyle(
                                         fontFamily: "Adlam_Display",
-                                        fontSize: 20.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xff000000),
                                       ),
@@ -458,7 +436,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                           "Religion",
                                           style: TextStyle(
                                             fontFamily: "Adlam_Display",
-                                            fontSize: 20.sp,
+                                            fontSize: 18.sp,
                                             fontWeight: FontWeight.w400,
                                             color: Color(0xff000000),
                                           ),
