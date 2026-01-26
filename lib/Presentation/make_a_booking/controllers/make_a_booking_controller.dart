@@ -276,7 +276,7 @@ class MakeABookingController extends GetxController {
 
   Future<void> createConversation(userId) async {
     /// ---- API CALL ----
-    Map<String, dynamic> json = {'otherUserId': userId};
+    Map<String, dynamic> json = {'type': 'cafe', 'otherUserId': userId};
 
     try {
       final response = await profileCreationRepository.createConversation(json);

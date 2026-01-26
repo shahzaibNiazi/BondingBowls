@@ -12,7 +12,8 @@ class CafeconnectChatController extends GetxController {
   final isReligionUnlocked = false.obs;
   RxBool isLoading = false.obs;
 
-  List<ConversationModel> conversations = [];
+  List<ConversationModel> cafeConnectConversations = [];
+  List<ConversationModel> mainMatches = [];
 
   ProfileCreationRepository profileCreationRepository =
       ProfileCreationRepository();
@@ -36,12 +37,13 @@ class CafeconnectChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getConversations();
+    });
   }
 
-  Future<void> getConversations(userId) async {
+  Future<void> getConversations() async {
     isLoading.value = true;
-
-    Map<String, dynamic> json = {"targetUserId": userId};
 
     try {
       final response = await profileCreationRepository.getConversation();
@@ -49,9 +51,15 @@ class CafeconnectChatController extends GetxController {
       log('Reject response: $response');
 
       if (response != null && response['success'] == true) {
-        conversations = response['data'].map(
-          (e) => ConversationModel.fromJson(e),
-        );
+        for (var item in response['data']) {
+          ConversationModel conversation = ConversationModel.fromJson(item);
+
+          if (conversation.type == 'cafe') {
+            cafeConnectConversations.add(conversation);
+          } else {
+            mainMatches.add(conversation);
+          }
+        }
 
         update();
       } else {

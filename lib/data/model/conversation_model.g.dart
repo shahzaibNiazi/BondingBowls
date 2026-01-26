@@ -16,7 +16,9 @@ _$ConversationModelImpl _$$ConversationModelImplFromJson(
       : OtherUserModel.fromJson(json['otherUser'] as Map<String, dynamic>),
   lastMessage: json['lastMessage'] as String?,
   lastMessageAt: json['lastMessageAt'] as String?,
-  lastMessageBy: json['lastMessageBy'] as String?,
+  lastMessageBy: json['lastMessageBy'] == null
+      ? null
+      : OtherUserModel.fromJson(json['lastMessageBy'] as Map<String, dynamic>),
   unreadCount: (json['unreadCount'] as num?)?.toInt(),
   createdAt: json['createdAt'] as String?,
   updatedAt: json['updatedAt'] as String?,

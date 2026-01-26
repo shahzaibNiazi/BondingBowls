@@ -1,11 +1,11 @@
 import 'package:convo_hearts/app/routes/app_pages.dart';
-import 'package:convo_hearts/src/feature/BottomBar/chat/received_likes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../Presentation/payment_system/views/payment_system_view.dart';
+import '../../received_likes/views/received_likes_view.dart';
 import '../controllers/cafeconnect_chat_controller.dart';
 
 class CafeconnectChatView extends GetView<CafeconnectChatController> {
@@ -134,7 +134,7 @@ class CafeconnectChatView extends GetView<CafeconnectChatController> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ReceivedLikesScreen(),
+                            builder: (context) => ReceivedLikesView(),
                           ),
                         );
                       },
@@ -209,23 +209,53 @@ class CafeconnectChatView extends GetView<CafeconnectChatController> {
                               ),
                             ),
 
-                            _buildChatItem(
-                              context: context,
-                              onTap: () {
-                                showDialog(
+                            ListView.builder(
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount:
+                                  controller.cafeConnectConversations.length,
+                              itemBuilder: (context, index) {
+                                final chat =
+                                    controller.cafeConnectConversations[index];
+
+                                final profilePhoto =
+                                    chat.otherUser?.profilePhoto;
+                                final imagePath =
+                                    (profilePhoto != null &&
+                                        profilePhoto.isNotEmpty &&
+                                        profilePhoto != 'default-profile.png')
+                                    ? profilePhoto // must be full URL if backend provides
+                                    : 'assets/images/AI-AVATAR.jpg';
+
+                                return _buildChatItem(
                                   context: context,
-                                  builder: (context) => ConfirmPurchaseDialog(
-                                    onPurchaseConfirmed:
-                                        controller.onReligionUnlocked,
-                                  ),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          ConfirmPurchaseDialog(
+                                            receiverId:
+                                                chat.otherUser?.id ?? '',
+                                            conversationId: chat.id ?? '',
+                                            onPurchaseConfirmed:
+                                                controller.onReligionUnlocked,
+                                          ),
+                                    );
+                                  },
+                                  name:
+                                      chat
+                                          .otherUser
+                                          ?.nickname
+                                          ?.capitalizeFirst ??
+                                      '',
+                                  location: '25F, Chinese', // map later
+                                  isOnline: true,
+                                  isMainMatch: chat.type == 'match',
+                                  assetimage: imagePath,
+                                  top_text: chat.type?.toUpperCase() ?? '',
                                 );
                               },
-                              name: "Alex supatra",
-                              location: "25F, Chinese",
-                              isOnline: true,
-                              isMainMatch: true,
-                              assetimage: 'assets/images/AI-AVATAR.jpg',
-                              top_text: 'NRIC',
                             ),
 
                             SizedBox(height: 40),
@@ -234,20 +264,64 @@ class CafeconnectChatView extends GetView<CafeconnectChatController> {
 
                             SizedBox(height: 20),
 
-                            _buildChatItem(
-                              context: context,
-                              onTap: () {
-                                Get.toNamed(Routes.CHAT);
+                            ListView.builder(
+                              padding: EdgeInsets.zero,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: controller.mainMatches.length,
+                              itemBuilder: (context, index) {
+                                final chat = controller.mainMatches[index];
+
+                                final profilePhoto =
+                                    chat.otherUser?.profilePhoto;
+                                final imagePath =
+                                    (profilePhoto != null &&
+                                        profilePhoto.isNotEmpty &&
+                                        profilePhoto != 'default-profile.png')
+                                    ? profilePhoto // must be full URL if backend provides
+                                    : 'assets/images/AI-AVATAR.jpg';
+
+                                return _buildChatItem(
+                                  context: context,
+                                  onTap: () {
+                                    Get.toNamed(
+                                      Routes.CHAT,
+                                      arguments: {
+                                        'conversationId': chat.id ?? '',
+                                        'receiverId': chat.otherUser?.id ?? '',
+                                      },
+                                    );
+                                  },
+                                  name:
+                                      chat
+                                          .otherUser
+                                          ?.nickname
+                                          ?.capitalizeFirst ??
+                                      '',
+                                  location: '25F, Chinese', // map later
+                                  isOnline: true,
+                                  isMainMatch: chat.type == 'match',
+                                  assetimage: imagePath,
+                                  hasNewMessage: true,
+                                  color1: Color(0xffFF0000),
+                                  top_text: chat.type?.toUpperCase() ?? '',
+                                );
                               },
-                              name: "Alex supatra",
-                              location: "25F, Chinese",
-                              isOnline: true,
-                              hasNewMessage: true,
-                              assetimage: 'assets/images/AI-AVATAR.jpg',
-                              top_text: 'Singpass',
-                              color1: Color(0xffFF0000),
                             ),
 
+                            // _buildChatItem(
+                            //   context: context,
+                            //   onTap: () {
+                            //     Get.toNamed(Routes.CHAT);
+                            //   },
+                            //   name: "Alex supatra",
+                            //   location: "25F, Chinese",
+                            //   isOnline: true,
+                            //   hasNewMessage: true,
+                            //   assetimage: 'assets/images/AI-AVATAR.jpg',
+                            //   top_text: 'Singpass',
+                            //   color1: Color(0xffFF0000),
+                            // ),
                             SizedBox(height: 40),
 
                             _divider("System message", Color(0xff6C495E)),
@@ -336,12 +410,30 @@ class CafeconnectChatView extends GetView<CafeconnectChatController> {
                   height: 97,
                   width: 92,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(assetimage),
-                      fit: BoxFit.cover,
-                    ),
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.grey.shade200,
                   ),
+                  clipBehavior: Clip.antiAlias,
+                  child: assetimage.startsWith('http')
+                      ? Image.network(
+                          assetimage,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/AI-AVATAR.jpg',
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : Image.asset(assetimage, fit: BoxFit.cover),
                 ),
+
                 const SizedBox(width: 12),
 
                 Expanded(
@@ -558,8 +650,15 @@ class ChatItemTaco extends StatelessWidget {
 
 class ConfirmPurchaseDialog extends StatelessWidget {
   final VoidCallback onPurchaseConfirmed;
+  final String conversationId;
+  final String receiverId;
 
-  const ConfirmPurchaseDialog({super.key, required this.onPurchaseConfirmed});
+  const ConfirmPurchaseDialog({
+    super.key,
+    required this.onPurchaseConfirmed,
+    required this.conversationId,
+    required this.receiverId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -626,7 +725,13 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        Get.toNamed(Routes.CAFECONNECT_CONVERSATION);
+                        Get.toNamed(
+                          Routes.CAFECONNECT_CONVERSATION,
+                          arguments: {
+                            'conversationId': conversationId,
+                            'receiverId': receiverId,
+                          },
+                        );
                       },
                       child: Text(
                         "Close",

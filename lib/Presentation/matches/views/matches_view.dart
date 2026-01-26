@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:convo_hearts/data/model/matching_profile_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -205,10 +203,39 @@ class ProfileCard extends StatelessWidget {
                     child: SvgPicture.asset("assets/icon/svg/tri_info.svg"),
                   ),
                 ),
-                Image.asset('assets/images/female-avatar.jpg'),
+                // Replace your avatar widget with this:
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50), // circular avatar
+                  child: Image.network(
+                    matching.profilePhoto ?? '', // network image URL
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.person,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
+                ).paddingOnly(top: 30.h),
                 GestureDetector(
                   onTap: () {
-                    log("shshzaib");
                     showTextBottomSheet(
                       context,
                       items: [
@@ -263,7 +290,7 @@ class ProfileCard extends StatelessWidget {
 
             // Name
             Text(
-              matching.fullName ?? '',
+              matching.nickname ?? '',
               style: TextStyle(
                 color: AppColors.black,
                 fontStyle: FontStyle.italic,
@@ -310,9 +337,19 @@ class ProfileCard extends StatelessWidget {
                 SizedBox(height: 12),
                 Row(
                   children: [
-                    Expanded(child: _buildProfileDetail('Age', '22')),
+                    Expanded(
+                      child: _buildProfileDetail(
+                        'Age',
+                        '${matching.age ?? ''}',
+                      ),
+                    ),
                     SizedBox(width: 20),
-                    Expanded(child: _buildProfileDetail('Gender', 'Female')),
+                    Expanded(
+                      child: _buildProfileDetail(
+                        'Gender',
+                        matching.preferredGender ?? '',
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 12),
@@ -320,7 +357,12 @@ class ProfileCard extends StatelessWidget {
                   children: [
                     Expanded(child: _buildProfileDetail('Race', 'Chinese')),
                     SizedBox(width: 20),
-                    Expanded(child: _buildProfileDetail('Status', 'Single')),
+                    Expanded(
+                      child: _buildProfileDetail(
+                        'Status',
+                        matching.maritalStatus ?? '',
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -463,7 +505,7 @@ class ProfileCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
-                      "Hi! I'm someone who loves meaningful conversations, spontaneous adventures, and the little things in life.",
+                      matching.bio ?? '',
                       style: TextStyle(fontSize: 14.sp),
                     ),
                   ),
@@ -474,74 +516,81 @@ class ProfileCard extends StatelessWidget {
             SizedBox(height: 20),
 
             // Green Flags
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Green Flags",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                  fontSize: 15.sp,
-                ),
-              ),
-            ),
-
-            SizedBox(height: 8),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: const [
-                      _FlagChip(
-                        label: "Trustworthy & Honest",
-                        backgroundColor: Colors.green,
-                      ),
-                      _FlagChip(
-                        label: "Open Communication",
-                        backgroundColor: Colors.green,
-                      ),
-                    ],
+            if (matching.greenFlags != null &&
+                matching.greenFlags!.isNotEmpty) ...[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Green Flags",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                    fontSize: 15.sp,
                   ),
                 ),
-              ],
-            ),
+              ),
+
+              SizedBox(height: 8),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: matching.greenFlags!
+                          .map(
+                            (flag) => _FlagChip(
+                              label: flag,
+                              backgroundColor: Colors.green,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 20),
+            ],
 
             SizedBox(height: 20),
 
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Red Flags",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                  fontSize: 15.sp,
-                ),
-              ),
-            ),
-
-            SizedBox(height: 8),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Wrap(
-                    spacing: 10,
-                    children: const [
-                      _FlagChip(
-                        label: "Bad Time Management",
-                        backgroundColor: Colors.red,
-                      ),
-                    ],
+            if (matching.redFlags != null && matching.redFlags!.isNotEmpty) ...[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Red Flags",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                    fontSize: 15.sp,
                   ),
                 ),
-              ],
-            ),
+              ),
 
-            SizedBox(height: 20),
+              SizedBox(height: 8),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Wrap(
+                      spacing: 10,
+                      children: matching.redFlags!
+                          .map(
+                            (flag) => _FlagChip(
+                              label: flag,
+                              backgroundColor: Colors.red,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 20),
+            ],
 
             Text(
               "Bowl Crush remaining : 6",

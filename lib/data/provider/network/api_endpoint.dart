@@ -23,6 +23,9 @@ class ApiEndPoints {
   static String get rejectRequest => "reject-join";
   static String get rejectRequestForAvailable => "matching/dislike";
   static String get getConversations => "conversations";
+  static String get sendMessage => "send-message";
+  static String get getMessage => "messages";
+  static String get receivingLikes => "receiving-likes";
   static String get getVouchers => "vouchers";
   static String get redeemVouchers => "vouchers/redeem";
   static String get likeProfile => "matching/like";

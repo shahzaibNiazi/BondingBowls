@@ -45,6 +45,8 @@ import '../../Presentation/profile_creation/views/profile_creation_decision.dart
 import '../../Presentation/profile_creation/views/profile_creation_view.dart';
 import '../../Presentation/profile_creation/views/voice_prompt_one.dart';
 import '../../Presentation/profile_creation/views/voice_prompt_second.dart';
+import '../../Presentation/received_likes/bindings/received_likes_binding.dart';
+import '../../Presentation/received_likes/views/received_likes_view.dart';
 import '../../Presentation/redeem/bindings/redeem_binding.dart';
 import '../../Presentation/redeem/views/redeem_view.dart';
 import '../../Presentation/reset_password/bindings/reset_password_binding.dart';
@@ -260,6 +262,11 @@ class AppPages {
       name: _Paths.CAFECONNECT_CHAT,
       page: () => const CafeconnectChatView(),
       binding: CafeconnectChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.RECEIVED_LIKES,
+      page: () => const ReceivedLikesView(),
+      binding: ReceivedLikesBinding(),
     ),
   ];
 }

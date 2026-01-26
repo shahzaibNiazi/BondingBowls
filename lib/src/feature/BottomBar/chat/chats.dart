@@ -1,11 +1,11 @@
 import 'package:convo_hearts/app/routes/app_pages.dart';
-import 'package:convo_hearts/src/feature/BottomBar/chat/received_likes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../Presentation/payment_system/views/payment_system_view.dart';
+import '../../../../Presentation/received_likes/views/received_likes_view.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -157,7 +157,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReceivedLikesScreen(),
+                        builder: (context) => ReceivedLikesView(),
                       ),
                     );
                   },

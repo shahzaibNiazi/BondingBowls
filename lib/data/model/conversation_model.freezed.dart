@@ -27,7 +27,8 @@ mixin _$ConversationModel {
   OtherUserModel? get otherUser => throw _privateConstructorUsedError;
   String? get lastMessage => throw _privateConstructorUsedError;
   String? get lastMessageAt => throw _privateConstructorUsedError;
-  String? get lastMessageBy => throw _privateConstructorUsedError;
+  OtherUserModel? get lastMessageBy =>
+      throw _privateConstructorUsedError; // <-- Updated type
   int? get unreadCount => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
   String? get updatedAt => throw _privateConstructorUsedError;
@@ -55,13 +56,14 @@ abstract class $ConversationModelCopyWith<$Res> {
     OtherUserModel? otherUser,
     String? lastMessage,
     String? lastMessageAt,
-    String? lastMessageBy,
+    OtherUserModel? lastMessageBy,
     int? unreadCount,
     String? createdAt,
     String? updatedAt,
   });
 
   $OtherUserModelCopyWith<$Res>? get otherUser;
+  $OtherUserModelCopyWith<$Res>? get lastMessageBy;
 }
 
 /// @nodoc
@@ -114,7 +116,7 @@ class _$ConversationModelCopyWithImpl<$Res, $Val extends ConversationModel>
             lastMessageBy: freezed == lastMessageBy
                 ? _value.lastMessageBy
                 : lastMessageBy // ignore: cast_nullable_to_non_nullable
-                      as String?,
+                      as OtherUserModel?,
             unreadCount: freezed == unreadCount
                 ? _value.unreadCount
                 : unreadCount // ignore: cast_nullable_to_non_nullable
@@ -145,6 +147,20 @@ class _$ConversationModelCopyWithImpl<$Res, $Val extends ConversationModel>
       return _then(_value.copyWith(otherUser: value) as $Val);
     });
   }
+
+  /// Create a copy of ConversationModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $OtherUserModelCopyWith<$Res>? get lastMessageBy {
+    if (_value.lastMessageBy == null) {
+      return null;
+    }
+
+    return $OtherUserModelCopyWith<$Res>(_value.lastMessageBy!, (value) {
+      return _then(_value.copyWith(lastMessageBy: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -162,7 +178,7 @@ abstract class _$$ConversationModelImplCopyWith<$Res>
     OtherUserModel? otherUser,
     String? lastMessage,
     String? lastMessageAt,
-    String? lastMessageBy,
+    OtherUserModel? lastMessageBy,
     int? unreadCount,
     String? createdAt,
     String? updatedAt,
@@ -170,6 +186,8 @@ abstract class _$$ConversationModelImplCopyWith<$Res>
 
   @override
   $OtherUserModelCopyWith<$Res>? get otherUser;
+  @override
+  $OtherUserModelCopyWith<$Res>? get lastMessageBy;
 }
 
 /// @nodoc
@@ -221,7 +239,7 @@ class __$$ConversationModelImplCopyWithImpl<$Res>
         lastMessageBy: freezed == lastMessageBy
             ? _value.lastMessageBy
             : lastMessageBy // ignore: cast_nullable_to_non_nullable
-                  as String?,
+                  as OtherUserModel?,
         unreadCount: freezed == unreadCount
             ? _value.unreadCount
             : unreadCount // ignore: cast_nullable_to_non_nullable
@@ -269,7 +287,8 @@ class _$ConversationModelImpl implements _ConversationModel {
   @override
   final String? lastMessageAt;
   @override
-  final String? lastMessageBy;
+  final OtherUserModel? lastMessageBy;
+  // <-- Updated type
   @override
   final int? unreadCount;
   @override
@@ -344,7 +363,7 @@ abstract class _ConversationModel implements ConversationModel {
     final OtherUserModel? otherUser,
     final String? lastMessage,
     final String? lastMessageAt,
-    final String? lastMessageBy,
+    final OtherUserModel? lastMessageBy,
     final int? unreadCount,
     final String? createdAt,
     final String? updatedAt,
@@ -365,7 +384,7 @@ abstract class _ConversationModel implements ConversationModel {
   @override
   String? get lastMessageAt;
   @override
-  String? get lastMessageBy;
+  OtherUserModel? get lastMessageBy; // <-- Updated type
   @override
   int? get unreadCount;
   @override

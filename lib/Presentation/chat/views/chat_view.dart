@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../app/config/global_var.dart';
 import '../../cafeconnect_conversation/views/report_bottom.dart';
 import '../controllers/chat_controller.dart';
 
@@ -292,19 +293,19 @@ class ChatView extends GetView<ChatController> {
                                   ),
                                   const SizedBox(height: 2),
                                   // small timestamp
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: m.isMe ? 0 : 8,
-                                      right: m.isMe ? 8 : 0,
-                                    ),
-                                    child: Text(
-                                      _formatTime(m.createdAt),
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     left: m.isMe ? 0 : 8,
+                                  //     right: m.isMe ? 8 : 0,
+                                  //   ),
+                                  //   child: Text(
+                                  //     _formatTime(m.createdAt),
+                                  //     style: TextStyle(
+                                  //       fontSize: 11,
+                                  //       color: Colors.black54,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               );
                             },
@@ -375,7 +376,9 @@ class ChatView extends GetView<ChatController> {
                                     hintStyle: TextStyle(fontSize: 15),
                                     border: InputBorder.none,
                                   ),
-                                  onSubmitted: (_) => controller..sendMessage(),
+                                  onSubmitted: (_) => controller.sendMessage(
+                                    myUserId: Globals.user!.id ?? '',
+                                  ),
                                 ),
                               ),
                               GestureDetector(
@@ -405,7 +408,11 @@ class ChatView extends GetView<ChatController> {
                       // send button (only enabled visually when text present)
                       GestureDetector(
                         onTap: controller.enabled
-                            ? controller.sendMessage
+                            ? () {
+                                controller.sendMessage(
+                                  myUserId: "myUserId_here",
+                                );
+                              }
                             : null,
                         child: Container(
                           width: 42,

@@ -38,6 +38,7 @@ abstract class Routes {
   static const NEWSLETTER_DETAIL = _Paths.NEWSLETTER_DETAIL;
   static const CAFECONNECT = _Paths.CAFECONNECT;
   static const CAFECONNECT_CHAT = _Paths.CAFECONNECT_CHAT;
+  static const RECEIVED_LIKES = _Paths.RECEIVED_LIKES;
 }
 
 abstract class _Paths {
@@ -77,4 +78,5 @@ abstract class _Paths {
   static const NEWSLETTER_DETAIL = '/newsletter-detail';
   static const CAFECONNECT = '/cafeconnect';
   static const CAFECONNECT_CHAT = '/cafeconnect-chat';
+  static const RECEIVED_LIKES = '/received-likes';
 }

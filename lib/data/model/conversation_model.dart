@@ -11,7 +11,7 @@ class ConversationModel with _$ConversationModel {
     OtherUserModel? otherUser,
     String? lastMessage,
     String? lastMessageAt,
-    String? lastMessageBy,
+    OtherUserModel? lastMessageBy, // <-- Updated type
     int? unreadCount,
     String? createdAt,
     String? updatedAt,

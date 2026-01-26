@@ -298,6 +298,62 @@ class ProfileCreationRepository {
     return data;
   }
 
+  Future sendMessage(Json) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}chat/${ApiEndPoints.sendMessage}',
+      "ApiEndPoints.getUser",
+      Json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getMessages(id) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}chat/${ApiEndPoints.getMessage}/$id',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future fetchReceiveLikes() async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}matching/${ApiEndPoints.receivingLikes}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
   Future getVouchers(String filter) async {
     Map<String, dynamic> query = {};
     Map<String, dynamic> data = {};
