@@ -339,6 +339,93 @@ class APIProvider {
     }
   }
 
+  Future baseDeleteAPI(
+    url,
+    body,
+    auth,
+    context, {
+    successMsg,
+    loading,
+    bool direct = false,
+    fullUrl,
+  }) async {
+    SimpleFontelicoProgressDialog dialog = SimpleFontelicoProgressDialog(
+      context: context,
+    );
+    if (loading == true && loading != null) {
+      dialog.show(
+        indicatorColor: AppColors.lightBlack,
+        message: 'Loading...',
+        textStyle: TextStyle(color: AppColors.lightBlack),
+        type: SimpleFontelicoProgressDialogType.normal,
+      );
+    }
+    try {
+      Response response;
+      if (auth == null || auth == true) {
+        log(fullUrl ?? (ApiEndPoints.baseUrl + url));
+        log(jsonEncode(body));
+        log("auth true");
+        log("auth token...${Globals.authToken}");
+        response = await _client.delete(
+          fullUrl ?? (ApiEndPoints.baseUrl + url),
+          data: body,
+          options: Options(
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'authorization': "Bearer ${Globals.authToken}",
+            },
+          ),
+        );
+      } else {
+        log(fullUrl ?? (ApiEndPoints.baseUrl + url));
+        log("auth false");
+        log(jsonEncode(body));
+        response = await _client.post(
+          fullUrl ?? (ApiEndPoints.baseUrl + url),
+          data: body,
+          options: Options(
+            headers: <String, String>{'Content-Type': 'application/json'},
+          ),
+        );
+      }
+      dialog.hide();
+      log(response.toString());
+      return _returnResponse(response);
+    } on TimeoutException catch (_) {
+      throw TimeOutException(null);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    } on DioException catch (e) {
+      // log(e.toString());
+      // // return _returnResponse(e.response);
+      //
+      // log(e.toString());
+
+      // Utils.showToast(message: 'Try again Later');
+      // Utils.showToast(message: e.error.toString());
+
+      dialog.hide();
+      if (e.response?.data.runtimeType == String) {
+        dialog.hide();
+        if (e.response?.data.contains("limit")) {
+          return null;
+        } else {
+          dialog.hide();
+          // pr.close();
+          // Utils().showBottomSheetWidget();
+          return {"statusCode": 401};
+        }
+      } else {
+        dialog.hide();
+
+        // pr.close();
+        // return e.response?.data;
+        return _returnResponse(e.response);
+      }
+    }
+  }
+
   Future tokenPostApi(body, context, {successMsg, loading}) async {
     SimpleFontelicoProgressDialog dialog = SimpleFontelicoProgressDialog(
       context: context,
@@ -455,80 +542,6 @@ class APIProvider {
           return {"statusCode": 401};
         }
       } else {
-        return e.response?.data;
-      }
-    }
-  }
-
-  Future baseDeleteAPI(
-    url,
-    body,
-    auth,
-    context, {
-    successMsg,
-    loading,
-    bool direct = false,
-  }) async {
-    SimpleFontelicoProgressDialog dialog = SimpleFontelicoProgressDialog(
-      context: context,
-    );
-
-    if (loading == true && loading != null) {
-      dialog.show(
-        message: 'Loading...',
-        type: SimpleFontelicoProgressDialogType.normal,
-      );
-    }
-
-    try {
-      Response response;
-      if (auth == null || auth == true) {
-        log(ApiEndPoints.baseUrl + url);
-        log(jsonEncode(body));
-        log("auth true");
-        response = await _client.delete(
-          ApiEndPoints.baseUrl + url,
-          data: body,
-          options: Options(
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-              'authorization': "Bearer ${Globals.authToken}",
-            },
-          ),
-        );
-      } else {
-        log(ApiEndPoints.baseUrl + url);
-        log("auth false");
-        log(jsonEncode(body));
-        response = await _client.delete(
-          ApiEndPoints.baseUrl + url,
-          data: body,
-          options: Options(
-            headers: <String, String>{'Content-Type': 'application/json'},
-          ),
-        );
-      }
-      dialog.hide();
-      return _returnResponse(response);
-    } on TimeoutException catch (_) {
-      dialog.hide();
-      throw TimeOutException(null);
-    } on SocketException {
-      dialog.hide();
-      throw FetchDataException('No Internet connection');
-    } on DioException catch (e) {
-      dialog.hide();
-      log(e.response?.data);
-      if (e.response?.data.runtimeType == String) {
-        if (e.response?.data.contains("limit")) {
-          return null;
-        } else {
-          dialog.hide();
-          // Utils.showBottomSheetWidget();
-          return {"statusCode": 401};
-        }
-      } else {
-        dialog.hide();
         return e.response?.data;
       }
     }
@@ -745,6 +758,7 @@ class APIProvider {
         }
         throw UnauthorisedException(response?.data.toString());
       case 404:
+        return response?.data;
         if (response?.data['error'] != null) {
           log("Error --------{response?.data['error']}");
           Utils.showToast(message: response?.data['error']);

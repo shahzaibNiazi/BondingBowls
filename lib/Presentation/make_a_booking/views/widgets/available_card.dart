@@ -3,46 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
+import '../../controllers/make_a_booking_controller.dart';
 import '../make_a_booking_view.dart';
 
-Widget availableCard(controller) {
+Widget availableCard(MakeABookingController controller) {
   // Sample data
-  final profiles = [
-    {
-      "name": "Mary",
-      "age": 38,
-      "nationality": "Chinese",
-      "occupation": "Software Engineer | Coffee Enthusiast | Yoga Lover",
-      "lookingFor": "Male",
-      "availableFor": ["Lunch", "Dinner"],
-      "note": "please be punctual",
-      "status": "Married Female",
-    },
-    {
-      "name": "Mary",
-      "age": 38,
-      "nationality": "Malay",
-      "occupation": "Software Engineer | Coffee Enthusiast | Yoga Lover",
-      "lookingFor": "Male",
-      "availableFor": ["Lunch", "Dinner"],
-      "note": "please be punctual",
-      "status": "- Female",
-    },
-    {
-      "name": "Mary",
-      "age": 38,
-      "nationality": "Russian",
-      "occupation": "Software Engineer | Coffee Enthusiast | Yoga Lover",
-      "lookingFor": "Male",
-      "availableFor": ["Lunch", "Dinner"],
-      "note": "please be punctual",
-      "status": "- Female",
-    },
-  ];
 
   return Column(
-    children: profiles.map((profile) {
+    children: controller.availableModel.map((profile) {
       return Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
@@ -57,7 +25,7 @@ Widget availableCard(controller) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${profile['name']} ${profile['age']}",
+                  "${profile.userId?.fullName} ${profile.userId?.age ?? ''}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.sp,
@@ -77,46 +45,73 @@ Widget availableCard(controller) {
             ),
             Row(
               children: [
-                Image.asset("assets/images/girl.png", scale: 3.5),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      profile['nationality'].toString(),
-                      style: TextStyle(fontSize: 14.sp),
+                ClipOval(
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Image.network(
+                      profile.userId?.profilePhoto?.isNotEmpty == true
+                          ? profile.userId!.profilePhoto!
+                          : 'https://via.placeholder.com/150',
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(
+                            Icons.person,
+                            size: 28,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
                     ),
+                  ),
+                ).paddingOnly(right: 12),
 
-                    Text(
-                      profile['occupation'].toString(),
-                      style: TextStyle(fontSize: 11.sp, color: Colors.pink),
-                    ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile.userId!.location.toString(),
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
 
-                    SizedBox(height: 4.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Looking for: ${profile['lookingFor']}",
-                        ).paddingOnly(right: 70.w),
-                      ],
-                    ),
-                    Text(
-                      "Available for: ${(profile['availableFor'] as List).join(', ')}",
-                    ),
-                    Text("Note: ${profile['note']}"),
-                  ],
+                      Text(
+                        profile.userId?.occupation ?? ''.toString(),
+                        style: TextStyle(fontSize: 11.sp, color: Colors.pink),
+                      ),
+
+                      SizedBox(height: 4.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Looking for: ${(profile.lookingFor as List).join(', ')}",
+                          ).paddingOnly(right: 70.w),
+                        ],
+                      ),
+                      Text(
+                        "Available for: ${(profile.availableFor as List).join(', ')}",
+                      ),
+                      Text("Note: ${profile.additionalNotes}"),
+                    ],
+                  ),
                 ),
               ],
             ),
 
             SizedBox(height: 4.h),
-
-            SizedBox(height: 4.h),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(profile['status'].toString()),
-                Text('Singaporean'),
+                Text(profile.userId!.maritalStatus.toString()),
+                Text(profile.cafeId!.location!.region.toString()),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -128,14 +123,18 @@ Widget availableCard(controller) {
                           color: Colors.black.withValues(alpha: 0.4),
                         ),
                       ),
-                      child: Text("Serious", style: TextStyle(fontSize: 14.sp)),
+                      child: Text(
+                        profile.userId?.datingIntentions ?? '',
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
                           onTap: () {
-                            showMatchDialog(Get.context!);
+                            controller.joinRequest(profile.id);
+                            // showMatchDialog(Get.context!);
                           },
                           child: Container(
                             decoration: BoxDecoration(),
@@ -147,7 +146,11 @@ Widget availableCard(controller) {
                         ),
                         SizedBox(width: 16.w),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            controller.rejectRequestForAvailable(
+                              profile.userId?.id!,
+                            );
+                          },
                           child: Container(
                             decoration: BoxDecoration(),
                             child: Image.asset(

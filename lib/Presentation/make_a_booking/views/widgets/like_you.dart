@@ -3,46 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
+import '../../controllers/make_a_booking_controller.dart';
 import '../make_a_booking_view.dart';
 
-Widget likesYouCard(controller) {
+Widget likesYouCard(MakeABookingController controller) {
   // Sample data
-  final profiles = [
-    {
-      "name": "Mary",
-      "age": 38,
-      "nationality": "Chinese",
-      "occupation": "Software Engineer | Coffee Enthusiast | Yoga Lover",
-      "lookingFor": "Male",
-      "availableFor": ["Lunch", "Dinner"],
-      "note": "please be punctual",
-      "status": "Married Female",
-    },
-    {
-      "name": "Mary",
-      "age": 38,
-      "nationality": "Malay",
-      "occupation": "Software Engineer | Coffee Enthusiast | Yoga Lover",
-      "lookingFor": "Male",
-      "availableFor": ["Lunch", "Dinner"],
-      "note": "please be punctual",
-      "status": "- Female",
-    },
-    {
-      "name": "Mary",
-      "age": 38,
-      "nationality": "Russian",
-      "occupation": "Software Engineer | Coffee Enthusiast | Yoga Lover",
-      "lookingFor": "Male",
-      "availableFor": ["Lunch", "Dinner"],
-      "note": "please be punctual",
-      "status": "- Female",
-    },
-  ];
 
   return Column(
-    children: profiles.map((profile) {
+    children: controller.likeYouModel.map((profile) {
       return Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
@@ -57,7 +25,7 @@ Widget likesYouCard(controller) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${profile['name']} ${profile['age']}",
+                  "${profile.requestedBy?.fullName} ${profile.requestedBy?.age ?? ''}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.sp,
@@ -77,59 +45,122 @@ Widget likesYouCard(controller) {
             ),
             Row(
               children: [
-                Image.asset("assets/images/girl.png", scale: 3.5),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      profile['nationality'].toString(),
-                      style: TextStyle(fontSize: 14.sp),
+                ClipOval(
+                  child: SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: Image.network(
+                      profile.requestedBy?.profilePhoto?.isNotEmpty == true
+                          ? profile.requestedBy!.profilePhoto!
+                          : 'https://via.placeholder.com/150',
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(
+                            Icons.person,
+                            size: 28,
+                            color: Colors.grey,
+                          ),
+                        );
+                      },
                     ),
+                  ),
+                ).paddingOnly(right: 12),
 
-                    Text(
-                      profile['occupation'].toString(),
-                      style: TextStyle(fontSize: 11.sp, color: Colors.pink),
-                    ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        profile.requestedBy?.location ?? '',
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
 
-                    SizedBox(height: 4.h),
-                    Text("Looking for: ${profile['lookingFor']}"),
-                    Text(
-                      "Available for: ${(profile['availableFor'] as List).join(', ')}",
-                    ),
-                    Text("Note: ${profile['note']}"),
-                  ],
+                      Text(
+                        profile.requestedBy?.occupation ?? ''.toString(),
+                        style: TextStyle(fontSize: 11.sp, color: Colors.pink),
+                      ),
+
+                      SizedBox(height: 4.h),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text(
+                      //       "Looking for: ${(profile.requestedBy.lookingFor as List).join(', ')}",
+                      //     ).paddingOnly(right: 70.w),
+                      //   ],
+                      // ),
+                      Text("Available"),
+                      // Text("Note: ${profile.requestedBy.additionalNotes}"),
+                    ],
+                  ),
                 ),
               ],
             ),
 
             SizedBox(height: 4.h),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(profile['status'].toString()),
-                Text('Singaporean'),
-              ],
-            ),
-
-            // Accept / Reject buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    showMatchDialog(Get.context!);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(),
-                    child: Image.asset('assets/images/done.png', scale: 4),
-                  ),
-                ),
-                SizedBox(width: 16.w),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(),
-                    child: Image.asset('assets/images/cross.png', scale: 4),
-                  ),
+                Text(profile.requestedBy!.maritalStatus.toString()),
+                Text(profile.requestedBy!.location!.toString()),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.black.withValues(alpha: 0.4),
+                        ),
+                      ),
+                      child: Text(
+                        profile.requestedBy?.datingIntentions ?? '',
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await controller.createConversation(
+                              profile.requestedBy!.id,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(),
+                            child: Image.asset(
+                              'assets/images/done.png',
+                              scale: 4,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        GestureDetector(
+                          onTap: () {
+                            controller.rejectRequestForAvailable(
+                              profile.requestedBy!.id!,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(),
+                            child: Image.asset(
+                              'assets/images/cross.png',
+                              scale: 4,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),

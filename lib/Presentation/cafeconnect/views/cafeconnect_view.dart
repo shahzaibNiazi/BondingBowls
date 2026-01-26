@@ -288,12 +288,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                         BorderRadius.circular(
                                                           4,
                                                         ),
-                                                    border: Border.all(
-                                                      color: const Color(
-                                                        0xFFFFC107,
-                                                      ),
-                                                      width: 2,
-                                                    ),
+
                                                     boxShadow: [
                                                       BoxShadow(
                                                         color: Colors.black

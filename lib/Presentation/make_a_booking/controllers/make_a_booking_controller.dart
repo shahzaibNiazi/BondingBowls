@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:convo_hearts/Presentation/cafeconnect/controllers/cafeconnect_controller.dart';
+import 'package:convo_hearts/data/model/available_model.dart';
 import 'package:convo_hearts/data/model/booking_model.dart';
 import 'package:convo_hearts/data/model/cafeConnect_model.dart';
 import 'package:convo_hearts/data/repositories/profile_creation_repository.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../app/utils/utils.dart';
+import '../../../data/model/like_you_model.dart';
+import '../../cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
 
 class MakeABookingController extends GetxController {
   // Track selected tab
@@ -24,6 +27,8 @@ class MakeABookingController extends GetxController {
 
   CafeModel cafeModel = CafeModel();
   BookingModel bookingModel = BookingModel();
+  List<AvailableModel> availableModel = [];
+  List<LikeYouModel> likeYouModel = [];
 
   @override
   void onInit() {
@@ -185,15 +190,55 @@ class MakeABookingController extends GetxController {
   Future<void> likeYou() async {
     /// ---- API CALL ----
     isLoading.value = true;
-    try {
-      final response = await profileCreationRepository.likeYou();
+    // try {
+    final response = await profileCreationRepository.likeYou(cafeModel.id);
+    log('response ----- ${response.toString()}');
 
-      log(response.toString());
-      if (response != null && response['success'] == true) {
+    likeYouModel.clear();
+    if (response != null &&
+        response['success'] == true &&
+        response['data'] != null &&
+        response['data'].isNotEmpty) {
+      likeYouModel.clear();
+      var data = response['data']
+          .map<LikeYouModel>((e) => LikeYouModel.fromJson(e))
+          .toList();
+      likeYouModel = data;
+      log('Length ----- ${likeYouModel.length.toString()}');
+      log('Length ----- ${likeYouModel.length.toString()}');
+
+      update();
+
+      // Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+    } else {}
+    // } catch (e) {
+    //   log(e.toString());
+    // } finally {
+    //   isLoading.value = false;
+    //   update();
+    // }
+  }
+
+  Future<void> available() async {
+    /// ---- API CALL ----
+    try {
+      final response = await profileCreationRepository.available(cafeModel.id);
+      availableModel.clear();
+      if (response != null &&
+          response['success'] == true &&
+          response['data'] != null &&
+          response['data'].isNotEmpty) {
+        availableModel.clear();
+        var data = response['data']
+            .map<AvailableModel>((e) => AvailableModel.fromJson(e))
+            .toList();
+        availableModel = data;
+        log('Length ----- ${availableModel.length.toString()}');
+
         update();
 
         // Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
-      } else {}
+      }
     } catch (e) {
       log(e.toString());
     } finally {
@@ -202,15 +247,15 @@ class MakeABookingController extends GetxController {
     }
   }
 
-  Future<void> available() async {
+  Future<void> joinRequest(bookingId) async {
     /// ---- API CALL ----
-    isLoading.value = true;
     try {
-      final response = await profileCreationRepository.available(cafeModel.id);
+      final response = await profileCreationRepository.joinRequest(bookingId);
 
       log(response.toString());
       if (response != null && response['success'] == true) {
-        isAlreadyBooked.value = true;
+        await getBookingDetails(cafeModel.id.toString());
+
         update();
 
         // Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
@@ -223,6 +268,101 @@ class MakeABookingController extends GetxController {
       }
     } catch (e) {
       log(e.toString());
+    } finally {
+      isLoading.value = false;
+      update();
+    }
+  }
+
+  Future<void> createConversation(userId) async {
+    /// ---- API CALL ----
+    Map<String, dynamic> json = {'otherUserId': userId};
+
+    try {
+      final response = await profileCreationRepository.createConversation(json);
+
+      log(response.toString());
+      if (response != null && response['success'] == true) {
+        showMatchDialog(Get.context!);
+        await likeYou();
+
+        update();
+
+        // Get.toNamed(Routes.CAFECONNECT_BOOKING_DETAILS);
+      } else {
+        Utils.showSnackBar(
+          'Error',
+          'Booking Failed Please Try again ',
+          Colors.red,
+        );
+      }
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      isLoading.value = false;
+      update();
+    }
+  }
+
+  Future<void> rejectRequestForAvailable(userId) async {
+    isLoading.value = true;
+
+    Map<String, dynamic> json = {"targetUserId": userId};
+
+    try {
+      final response = await profileCreationRepository
+          .rejectRequestForAvailable(json);
+
+      log('Reject response: $response');
+
+      if (response != null && response['success'] == true) {
+        await getBookingDetails(cafeModel.id.toString());
+        update();
+      } else {
+        Utils.showSnackBar(
+          'Error',
+          response?['message']?.toString() ??
+              'Booking failed. Please try again.',
+          Colors.red,
+        );
+      }
+    } catch (e, s) {
+      log('Reject error: $e');
+      log(s.toString());
+
+      Utils.showSnackBar('Error', 'Something went wrong', Colors.red);
+    } finally {
+      isLoading.value = false;
+      update();
+    }
+  }
+
+  Future<void> rejectRequestForLike(bookingId) async {
+    isLoading.value = true;
+
+    try {
+      final response = await profileCreationRepository.rejectRequestForLike(
+        bookingId,
+      );
+
+      log('Reject response: $response');
+
+      if (response != null && response['success'] == true) {
+        await getBookingDetails(cafeModel.id.toString());
+        update();
+      } else {
+        Utils.showSnackBar(
+          'Error',
+          response?['message']?.toString() ??
+              'Booking failed. Please try again.',
+          Colors.red,
+        );
+      }
+    } catch (e, s) {
+      log('Reject error: $e');
+      log(s.toString());
+
+      Utils.showSnackBar('Error', 'Something went wrong', Colors.red);
     } finally {
       isLoading.value = false;
       update();

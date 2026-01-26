@@ -37,6 +37,7 @@ abstract class Routes {
   static const VOUCHERS = _Paths.VOUCHERS;
   static const NEWSLETTER_DETAIL = _Paths.NEWSLETTER_DETAIL;
   static const CAFECONNECT = _Paths.CAFECONNECT;
+  static const CAFECONNECT_CHAT = _Paths.CAFECONNECT_CHAT;
 }
 
 abstract class _Paths {
@@ -75,4 +76,5 @@ abstract class _Paths {
   static const VOUCHERS = '/vouchers';
   static const NEWSLETTER_DETAIL = '/newsletter-detail';
   static const CAFECONNECT = '/cafeconnect';
+  static const CAFECONNECT_CHAT = '/cafeconnect-chat';
 }

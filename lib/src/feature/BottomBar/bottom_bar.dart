@@ -5,9 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../Presentation/cafeconnect/views/cafeconnect_view.dart';
+import '../../../Presentation/cafeconnect_chat/views/cafeconnect_chat_view.dart';
 import '../../../Presentation/newsletter/views/newsletter_view.dart';
 import '../food-discount/discount-profile.dart';
-import 'chat/chats.dart';
 
 // Enhanced Controller with smooth performance - no UI changes
 class BottomNavController extends ChangeNotifier {
@@ -101,7 +101,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       MatchesView(),
       NewsletterView(),
       CafeConnectView(),
-      ChatsScreen(),
+      CafeconnectChatView(),
+      // ChatsScreen(),
       widget.showDiscountProfile ? ProfileDiscount() : MyProfileScreen(),
     ];
 

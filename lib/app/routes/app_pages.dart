@@ -8,6 +8,8 @@ import '../../Presentation/cafeconnect/bindings/cafeconnect_binding.dart';
 import '../../Presentation/cafeconnect/views/cafeconnect_view.dart';
 import '../../Presentation/cafeconnect_booking_details/bindings/cafeconnect_booking_details_binding.dart';
 import '../../Presentation/cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
+import '../../Presentation/cafeconnect_chat/bindings/cafeconnect_chat_binding.dart';
+import '../../Presentation/cafeconnect_chat/views/cafeconnect_chat_view.dart';
 import '../../Presentation/cafeconnect_conversation/bindings/cafeconnect_conversation_binding.dart';
 import '../../Presentation/cafeconnect_conversation/views/cafeconnect_conversation_view.dart';
 import '../../Presentation/chat/bindings/chat_binding.dart';
@@ -253,6 +255,11 @@ class AppPages {
       name: _Paths.CAFECONNECT,
       page: () => const CafeConnectView(),
       binding: CafeconnectBinding(),
+    ),
+    GetPage(
+      name: _Paths.CAFECONNECT_CHAT,
+      page: () => const CafeconnectChatView(),
+      binding: CafeconnectChatBinding(),
     ),
   ];
 }
