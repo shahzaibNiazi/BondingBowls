@@ -576,6 +576,7 @@ class ProfileCard extends StatelessWidget {
                   Expanded(
                     child: Wrap(
                       spacing: 10,
+                      runSpacing: 10,
                       children: matching.redFlags!
                           .map(
                             (flag) => _FlagChip(

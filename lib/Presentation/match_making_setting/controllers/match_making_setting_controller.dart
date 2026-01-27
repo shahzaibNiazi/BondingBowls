@@ -33,15 +33,36 @@ class MatchMakingSettingController extends GetxController {
   void onInit() {
     super.onInit();
 
+    log(Globals.user!.toJson().toString());
+
     if (Globals.user != null) {
       selectedGender = Globals.user?.preferredGender ?? '';
-      selectedIntention = Globals.user?.preferredDatingIntentions?.first ?? '';
-      selectedNationality = Globals.user?.preferredNationality?.first ?? '';
-      selectedReligion = Globals.user?.preferredReligion?.first ?? '';
-      ageRange = RangeValues(
-        double.tryParse((Globals.user?.minAge)?.toString() ?? "") ?? 0.0,
-        double.tryParse((Globals.user?.maxAge)?.toString() ?? "") ?? 0.0,
-      );
+      selectedIntention =
+          (Globals.user?.preferredDatingIntentions?.isNotEmpty == true)
+          ? Globals.user!.preferredDatingIntentions!.first
+          : '';
+
+      selectedNationality =
+          (Globals.user?.preferredNationality?.isNotEmpty == true)
+          ? Globals.user!.preferredNationality!.first
+          : '';
+
+      selectedReligion = (Globals.user?.preferredReligion?.isNotEmpty == true)
+          ? Globals.user!.preferredReligion!.first
+          : '';
+
+      double min =
+          double.tryParse(Globals.user?.minAge?.toString() ?? '') ?? 30.0;
+      double max =
+          double.tryParse(Globals.user?.maxAge?.toString() ?? '') ?? 35.0;
+
+      if (min > max) {
+        final temp = min;
+        min = max;
+        max = temp;
+      }
+
+      ageRange = RangeValues(min, max);
     }
   }
 
