@@ -99,7 +99,7 @@ class CustomAnimatedDropdown extends StatelessWidget {
                       data: ThemeData(
                         scrollbarTheme: ScrollbarThemeData(
                           radius: const Radius.circular(3),
-                          thumbColor: MaterialStateProperty.all(
+                          thumbColor: WidgetStateProperty.all(
                             AppColors.white.withOpacity(0.6),
                           ), // Set the scrollbar thumb color
                         ),
