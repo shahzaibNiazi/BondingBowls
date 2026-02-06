@@ -11,7 +11,8 @@ class ForgotPasswordController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   final GlobalKey<FormState> emailFormKey = GlobalKey<FormState>();
   final GlobalKey<FormState> resetFormKey = GlobalKey<FormState>();
@@ -56,7 +57,8 @@ class ForgotPasswordController extends GetxController {
     if (!RegExp(r'[A-Z]').hasMatch(value)) return 'Must have uppercase letter';
     if (!RegExp(r'[a-z]').hasMatch(value)) return 'Must have lowercase letter';
     if (!RegExp(r'[0-9]').hasMatch(value)) return 'Must have number';
-    if (!RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(value)) return 'Must have special character';
+    if (!RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(value))
+      return 'Must have special character';
     return null;
   }
 
@@ -70,7 +72,8 @@ class ForgotPasswordController extends GetxController {
   String? validateOTP(String? value) {
     log('Validating OTP: $value');
     if (value == null || value.isEmpty) return 'Enter the OTP';
-    if (value.length != 6 || !RegExp(r'^\d{6}\$').hasMatch(value)) return 'OTP must be 6 digits';
+    if (value.length != 6 || !RegExp(r'^\d{6}\$').hasMatch(value))
+      return 'OTP must be 6 digits';
     return null;
   }
 
@@ -105,7 +108,6 @@ class ForgotPasswordController extends GetxController {
       startOTPTimer();
       _showSuccessMessage('Code sent to ${_getMaskedEmail(email)}');
       Get.toNamed('/verify-reset-password');
-
     } catch (e) {
       log('Error in sendPasswordResetOTP: $e');
       _showErrorMessage(e.toString());
@@ -199,11 +201,13 @@ class ForgotPasswordController extends GetxController {
   Future<void> _simulateEmailSending(String email, String otp) async {
     await Future.delayed(Duration(seconds: 2));
     log('Simulated email sent to $email with OTP $otp');
-    Get.dialog(AlertDialog(
-      title: Text('Development Mode'),
-      content: Text('OTP sent: $otp'),
-      actions: [TextButton(onPressed: () => Get.back(), child: Text('OK'))],
-    ));
+    Get.dialog(
+      AlertDialog(
+        title: Text('Development Mode'),
+        content: Text('OTP sent: $otp'),
+        actions: [TextButton(onPressed: () => Get.back(), child: Text('OK'))],
+      ),
+    );
   }
 
   void _clearAllData() {
@@ -222,7 +226,9 @@ class ForgotPasswordController extends GetxController {
       final parts = email.split('@');
       final name = parts[0];
       final domain = parts[1];
-      final maskedName = name.length <= 2 ? name[0] + "***" : name.substring(0, 2) + "***" + name.substring(name.length - 1);
+      final maskedName = name.length <= 2
+          ? "${name[0]}***"
+          : "${name.substring(0, 2)}***${name.substring(name.length - 1)}";
       final domainMasked = domain.replaceAll(RegExp(r'[^.]+'), '***');
       return '$maskedName@$domainMasked';
     } catch (_) {
@@ -230,6 +236,16 @@ class ForgotPasswordController extends GetxController {
     }
   }
 
-  void _showSuccessMessage(String msg) => Get.snackbar('Success', msg, backgroundColor: Colors.green, colorText: Colors.white);
-  void _showErrorMessage(String msg) => Get.snackbar('Error', msg, backgroundColor: Colors.red, colorText: Colors.white);
+  void _showSuccessMessage(String msg) => Get.snackbar(
+    'Success',
+    msg,
+    backgroundColor: Colors.green,
+    colorText: Colors.white,
+  );
+  void _showErrorMessage(String msg) => Get.snackbar(
+    'Error',
+    msg,
+    backgroundColor: Colors.red,
+    colorText: Colors.white,
+  );
 }

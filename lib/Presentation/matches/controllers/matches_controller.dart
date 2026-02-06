@@ -29,23 +29,22 @@ class MatchesController extends GetxController {
       final response = await profileCreationRepository.getMatchingProfile();
 
       if (response != null && response['success'] == true) {
-        final responseData = response['data'];
+        final responseData = response['data'] as List<dynamic>;
 
-        final List<MatchingProfileModel> data = List<MatchingProfileModel>.from(
-          responseData.map((e) => MatchingProfileModel.fromJson(e)),
-        );
-        log('Response data ------- $data}');
+        final List<MatchingProfileModel> data = responseData
+            .where((e) => e['role'] != 'Admin') // Filter out Admin profiles
+            .map((e) => MatchingProfileModel.fromJson(e))
+            .toList();
+
+        log('Filtered response data ------- $data');
 
         matchingProfileModel = data;
         update();
       }
-      isLoading.value = false;
-
-      log(response.toString());
     } catch (e) {
-      isLoading.value = false;
-
       log(e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -138,7 +137,8 @@ class MatchesController extends GetxController {
       currentIndex++;
     } else {
       // Optional: When finished
-      Get.snackbar("Done", "No more profiles");
+      matchingProfileModel.clear();
+      update();
     }
   }
 }
