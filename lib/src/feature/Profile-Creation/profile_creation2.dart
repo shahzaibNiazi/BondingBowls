@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../../app/routes/app_pages.dart';
 
 class ProfileCreation2 extends StatefulWidget {
-  const ProfileCreation2({Key? key}) : super(key: key);
+  const ProfileCreation2({super.key});
 
   @override
   _ProfileCreation2State createState() => _ProfileCreation2State();
@@ -597,7 +597,7 @@ class _ProfileCreation2State extends State<ProfileCreation2> {
                             ),
                           );
                         },
-                        child: Container(
+                        child: SizedBox(
                           width: 32,
                           height: 32,
                           child: Stack(

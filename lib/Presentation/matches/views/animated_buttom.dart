@@ -74,7 +74,7 @@ class _AnimatedIconButtonState extends State<AnimatedIconButton>
         builder: (context, child) {
           return Transform.scale(scale: _animation.value, child: child);
         },
-        child: Image.asset(widget.imagePath, scale: 3.5),
+        child: Image.asset(widget.imagePath, scale: 4),
       ),
     );
   }

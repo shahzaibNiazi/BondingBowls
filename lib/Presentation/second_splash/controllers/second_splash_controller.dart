@@ -5,10 +5,6 @@ class SecondSplashController extends GetxController {
   //TODO: Implement SecondSplashController
 
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   void navigateToSplashScreen3() {
     Get.off(

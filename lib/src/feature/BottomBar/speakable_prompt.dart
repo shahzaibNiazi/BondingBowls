@@ -52,10 +52,15 @@ class _SpeakablePromptState extends State<SpeakablePrompt> {
             child: Text(widget.text, style: TextStyle(fontSize: 14.sp)),
           ),
           GestureDetector(
+            behavior:
+                HitTestBehavior.opaque, // makes whole padded area clickable
             onTap: _speak,
-            child: SvgPicture.asset(
-              "assets/icon/svg/speaker_small.svg",
-              color: isSpeaking ? Colors.blue : null,
+            child: Container(
+              padding: const EdgeInsets.all(12), // increase tap area here
+              child: SvgPicture.asset(
+                "assets/icon/svg/speaker_small.svg",
+                color: isSpeaking ? Colors.blue : null,
+              ),
             ),
           ),
         ],

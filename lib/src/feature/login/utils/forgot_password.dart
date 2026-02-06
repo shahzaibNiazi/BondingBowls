@@ -34,7 +34,7 @@ class ForgotPassword extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Logo with constrained size like signup screen
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: Image.asset(
                       'assets/images/image_splash2.jpg',

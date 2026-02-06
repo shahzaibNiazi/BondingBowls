@@ -63,8 +63,11 @@ _$MatchingProfileModelImpl _$$MatchingProfileModelImplFromJson(
   v: (json['__v'] as num?)?.toInt(),
   bio: json['bio'] as String?,
   clubbing: json['clubbing'] as String?,
+  age: (json['age'] as num?)?.toInt(),
   drinking: json['drinking'] as String?,
   hobbies: json['hobbies'] as String?,
+  preferredGender: json['preferredGender'] as String?,
+  maritalStatus: json['maritalStatus'] as String?,
   lifestyleInterests: json['lifestyleInterests'] as String?,
   location: json['location'] as String?,
   nickname: json['nickname'] as String?,
@@ -73,6 +76,22 @@ _$MatchingProfileModelImpl _$$MatchingProfileModelImplFromJson(
   smoking: json['smoking'] as String?,
   userStatus: json['userStatus'] as String?,
   isRandomProfile: json['isRandomProfile'] as bool?,
+  otp: json['otp'] as String?,
+  otpCreatedAt: json['otpCreatedAt'] as String?,
+  profileSetup: json['profileSetup'] as bool?,
+  preferredDatingIntentions:
+      (json['preferredDatingIntentions'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+  preferredNationality: (json['preferredNationality'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  preferredReligion: (json['preferredReligion'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
+  likedAt: json['likedAt'] as String?,
+  likeType: json['likeType'] as String?,
+  isCrushBowl: json['isCrushBowl'] as bool?,
 );
 
 Map<String, dynamic> _$$MatchingProfileModelImplToJson(
@@ -119,8 +138,11 @@ Map<String, dynamic> _$$MatchingProfileModelImplToJson(
   '__v': instance.v,
   'bio': instance.bio,
   'clubbing': instance.clubbing,
+  'age': instance.age,
   'drinking': instance.drinking,
   'hobbies': instance.hobbies,
+  'preferredGender': instance.preferredGender,
+  'maritalStatus': instance.maritalStatus,
   'lifestyleInterests': instance.lifestyleInterests,
   'location': instance.location,
   'nickname': instance.nickname,
@@ -129,4 +151,13 @@ Map<String, dynamic> _$$MatchingProfileModelImplToJson(
   'smoking': instance.smoking,
   'userStatus': instance.userStatus,
   'isRandomProfile': instance.isRandomProfile,
+  'otp': instance.otp,
+  'otpCreatedAt': instance.otpCreatedAt,
+  'profileSetup': instance.profileSetup,
+  'preferredDatingIntentions': instance.preferredDatingIntentions,
+  'preferredNationality': instance.preferredNationality,
+  'preferredReligion': instance.preferredReligion,
+  'likedAt': instance.likedAt,
+  'likeType': instance.likeType,
+  'isCrushBowl': instance.isCrushBowl,
 };

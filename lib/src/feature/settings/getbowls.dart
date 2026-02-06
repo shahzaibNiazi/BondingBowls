@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../Presentation/payment_system/views/payment_system_view.dart';
+
 class GetBowlsScreen extends StatelessWidget {
   const GetBowlsScreen({super.key});
 
@@ -44,68 +46,115 @@ class GetBowlsScreen extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 // Bowl options
-                _bowlCard(price: "25", bowls: "250"),
+                GestureDetector(
+                  onTap: () {
+                    showVoucherDialog(
+                      context: context,
+                      title: "Purchase Successful!",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      message:
+                          "Your purchase of 250 bowls have been added into your account",
+                    );
+                  },
+                  child: _bowlCard(price: "25", bowls: "250"),
+                ),
                 const SizedBox(height: 12),
-                _bowlCard(price: "45", bowls: "500"),
+                GestureDetector(
+                  onTap: () {
+                    showVoucherDialog(
+                      context: context,
+                      title: "Purchase Successful!",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      message:
+                          "Your purchase of 250 bowls have been added into your account",
+                    );
+                  },
+                  child: _bowlCard(price: "45", bowls: "500"),
+                ),
                 const SizedBox(height: 12),
-                _bowlCard(
-                  price: "100",
-                  bowls: "1000",
-                  extra: "+1 PERMANENT\nincrement chat",
+                GestureDetector(
+                  onTap: () {
+                    showVoucherDialog(
+                      context: context,
+                      title: "Purchase Successful!",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      message:
+                          "Your purchase of 1000 bowls + 1 Permanent chat  have been added",
+                    );
+                  },
+                  child: _bowlCard(
+                    price: "100",
+                    bowls: "1000",
+                    extra: "+1 PERMANENT\nincrement chat",
+                  ),
                 ),
 
                 const SizedBox(height: 24),
 
                 // Mystery Bowl Section
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 0, 0, 0),
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Claim daily free mystery bowls ;-)",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                "assets/icon/svg/clock_timer.svg",
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                "Available",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ), // const Icon(Icons.help_outline, color: Colors.black54),
-                      const SizedBox(width: 12),
-                      Row(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SvgPicture.asset("assets/icon/svg/bowl.svg"),
-                          SvgPicture.asset("assets/icon/svg/question.svg"),
-                        ],
+                GestureDetector(
+                  onTap: () {
+                    showVoucherDialog(
+                      context: context,
+                      title: "Claim Successful!",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      message: "1 bowl have been added to your account.",
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 0, 0, 0),
+                        width: 2,
                       ),
-                    ],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Claim daily free mystery bowls ;-)",
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/icon/svg/clock_timer.svg",
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  "Available",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ), // const Icon(Icons.help_outline, color: Colors.black54),
+                        const SizedBox(width: 12),
+                        Row(
+                          // crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset("assets/icon/svg/bowl.svg"),
+                            SvgPicture.asset("assets/icon/svg/question.svg"),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

@@ -7,7 +7,6 @@ part 'matching_profile_model.g.dart';
 class MatchingProfileModel with _$MatchingProfileModel {
   const factory MatchingProfileModel({
     @JsonKey(name: '_id') String? id,
-
     String? fullName,
     String? profilePhoto,
     String? email,
@@ -48,8 +47,11 @@ class MatchingProfileModel with _$MatchingProfileModel {
     @JsonKey(name: '__v') int? v,
     String? bio,
     String? clubbing,
+    int? age,
     String? drinking,
     String? hobbies,
+    String? preferredGender,
+    String? maritalStatus,
     String? lifestyleInterests,
     String? location,
     String? nickname,
@@ -58,6 +60,17 @@ class MatchingProfileModel with _$MatchingProfileModel {
     String? smoking,
     String? userStatus,
     bool? isRandomProfile,
+
+    // ========== MISSING KEYS ==========
+    String? otp, // NEW
+    String? otpCreatedAt, // NEW
+    bool? profileSetup, // NEW
+    List<String>? preferredDatingIntentions, // NEW
+    List<String>? preferredNationality, // NEW
+    List<String>? preferredReligion, // NEW
+    String? likedAt, // NEW
+    String? likeType, // NEW
+    bool? isCrushBowl, // NEW
   }) = _MatchingProfileModel;
 
   factory MatchingProfileModel.fromJson(Map<String, dynamic> json) =>

@@ -9,6 +9,7 @@ import 'package:convo_hearts/data/repositories/profile_creation_repository.dart'
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,10 +18,10 @@ import 'package:simple_fontellico_progress_dialog/simple_fontico_loading.dart';
 
 import '../../../app/config/app_colors.dart';
 import '../../../app/config/global_var.dart';
-import '../../../app/routes/app_pages.dart';
 import '../../../app/utils/utils.dart';
 import '../../../data/model/user_model.dart';
 import '../../../data/provider/local_storage/local_db.dart';
+import '../../../src/feature/Profile-Creation/profile_creation4.dart';
 import '../../../verify-dating-profile/dating_verification.dart';
 
 class ProfileCreationController extends GetxController {
@@ -33,6 +34,13 @@ class ProfileCreationController extends GetxController {
   var question = ''.obs;
   final AudioRecorder record = AudioRecorder(); // ✅ FIXED
   final player = AudioPlayer();
+
+  FaceDetector? faceDetector;
+  Timer? _faceDetectionTimer;
+  bool _isProcessing = false;
+  RxBool isFaceValid = false.obs;
+  RxString faceDetectionMessage = 'Position your face in the frame'.obs;
+
   final ImagePicker picker = ImagePicker();
   SimpleFontelicoProgressDialog dialog = SimpleFontelicoProgressDialog(
     context: Get.context!,
@@ -133,7 +141,26 @@ class ProfileCreationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _initializeFaceDetector();
+    initCamera();
+
     reloadData();
+  }
+
+  void _initializeFaceDetector() {
+    log('🟡 Initializing face detector...');
+    try {
+      final options = FaceDetectorOptions(
+        enableContours: false,
+        enableClassification: false,
+        minFaceSize: 0.15,
+        performanceMode: FaceDetectorMode.fast,
+      );
+      faceDetector = FaceDetector(options: options);
+      log('✅ Face detector initialized successfully');
+    } catch (e) {
+      log('❌ Face detector initialization error: $e');
+    }
   }
 
   Future<void> initCamera() async {
@@ -151,14 +178,125 @@ class ProfileCreationController extends GetxController {
       );
       await cameraController!.initialize();
       isCameraInitialized.value = true;
+
+      // ADD THESE LINES
+      await Future.delayed(Duration(milliseconds: 500));
+      _startFaceDetection(); // START FACE DETECTION
+      update();
     } catch (e) {
       log('Camera init error: $e');
     }
   }
 
-  Future<void> captureImage() async {
-    if (cameraController == null || !cameraController!.value.isInitialized)
+  void _startFaceDetection() {
+    log('🟡 Starting face detection...');
+
+    if (faceDetector == null) {
+      log('❌ Cannot start face detection - detector is null');
       return;
+    }
+
+    _faceDetectionTimer?.cancel();
+    _faceDetectionTimer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
+      if (!_isProcessing &&
+          cameraController != null &&
+          cameraController!.value.isInitialized &&
+          capturedImage.value == null) {
+        _detectFace();
+      }
+    });
+    log('✅ Face detection timer started');
+  }
+
+  Future<void> _detectFace() async {
+    if (_isProcessing ||
+        faceDetector == null ||
+        cameraController == null ||
+        !cameraController!.value.isInitialized) {
+      return;
+    }
+
+    _isProcessing = true;
+
+    try {
+      final image = await cameraController!.takePicture();
+      final inputImage = InputImage.fromFilePath(image.path);
+      final faces = await faceDetector!.processImage(inputImage);
+
+      // Delete the temporary image
+      try {
+        await File(image.path).delete();
+      } catch (e) {
+        log('⚠️ Error deleting temp image: $e');
+      }
+
+      if (faces.isEmpty) {
+        isFaceValid.value = false;
+        faceDetectionMessage.value =
+            '📱 No face detected\nPlease look at the camera';
+      } else if (faces.length > 1) {
+        isFaceValid.value = false;
+        faceDetectionMessage.value =
+            '⚠️ Multiple faces detected\nOnly one person allowed';
+      } else {
+        final face = faces.first;
+        _validateFacePosition(face);
+      }
+    } catch (e) {
+      log('❌ Error detecting face: $e');
+    } finally {
+      _isProcessing = false;
+    }
+  }
+
+  void _validateFacePosition(Face face) {
+    try {
+      final boundingBox = face.boundingBox;
+      final faceWidth = boundingBox.width;
+
+      // Get camera preview size (swapped for portrait mode)
+      final imageWidth = cameraController!.value.previewSize!.height;
+      final imageHeight = cameraController!.value.previewSize!.width;
+
+      final faceWidthRatio = faceWidth / imageWidth;
+
+      // Check if face is centered
+      final faceCenterX = boundingBox.left + (boundingBox.width / 2);
+      final faceCenterY = boundingBox.top + (boundingBox.height / 2);
+      final imageCenterX = imageWidth / 2;
+      final imageCenterY = imageHeight / 2;
+
+      final isHorizontallyCentered =
+          (faceCenterX - imageCenterX).abs() < imageWidth * 0.25;
+      final isVerticallyCentered =
+          (faceCenterY - imageCenterY).abs() < imageHeight * 0.25;
+
+      // Validation logic
+      if (faceWidthRatio < 0.20) {
+        isFaceValid.value = false;
+        faceDetectionMessage.value = '📱 Please move closer\nZoom in your face';
+      } else if (faceWidthRatio > 0.75) {
+        isFaceValid.value = false;
+        faceDetectionMessage.value = '📱 Too close\nMove back a bit';
+      } else if (!isHorizontallyCentered) {
+        isFaceValid.value = false;
+        faceDetectionMessage.value = '📱 Center your face\nMove horizontally';
+      } else if (!isVerticallyCentered) {
+        isFaceValid.value = false;
+        faceDetectionMessage.value = '📱 Center your face\nMove vertically';
+      } else {
+        isFaceValid.value = true;
+        faceDetectionMessage.value = '✅ Perfect!\nReady to capture';
+      }
+    } catch (e) {
+      log('❌ Error validating face position: $e');
+    }
+  }
+
+  Future<void> captureImage() async {
+    if (cameraController == null || !cameraController!.value.isInitialized) {
+      return;
+    }
     XFile image = await cameraController!.takePicture();
 
     // Copy the file to a permanent directory
@@ -169,7 +307,13 @@ class ProfileCreationController extends GetxController {
 
     capturedImage.value = savedImage;
 
-    await generateImage(savedImage);
+    if (capturedImage.value != null) {
+      Navigator.push(
+        Get.context!,
+        MaterialPageRoute(builder: (context) => ProfileCreation4()),
+      );
+    }
+    // await generateImage(savedImage);
 
     log("Captured image: $capturedImage");
   }
@@ -403,61 +547,109 @@ class ProfileCreationController extends GetxController {
   //
   //   update();
   // }
+  RxBool isRecording = false.obs; // 🔥 Instant UI feedback
 
-  /// Start recording with 30s limit
+  /// Called instantly from UI
   Future<void> startRecording() async {
-    if (await record.hasPermission()) {
-      final dir = await getTemporaryDirectory();
-      recordedFilePath =
-          '${dir.path}/voice_${DateTime.now().millisecondsSinceEpoch}.wav';
-
-      log("🎙️ Recording to: $recordedFilePath");
-
-      await record.start(
-        const RecordConfig(
-          encoder: AudioEncoder.wav, // ✅ WAV (PCM 16-bit under the hood)
-          sampleRate: 44100, // ✅ Standard rate, iOS-safe
-          numChannels: 1, // ✅ Mono - widely supported
-          bitRate: 128000, // Optional - ignored for PCM but okay to include
-        ),
-        path: recordedFilePath!,
-      );
-
-      // Start timer (max 30 sec)
-      seconds.value = 0;
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (seconds.value >= 30) {
-          stopRecording();
-        } else {
-          seconds.value++;
-        }
-      });
-    } else {
-      log("🚫 Recording permission denied");
-    }
+    isRecording.value = true; // 🔥 UI changes immediately
+    _startMic(); // Mic starts in background (no delay felt)
   }
+
+  /// Real mic start (takes ~0.5–1 sec)
+  Future<void> _startMic() async {
+    if (!await record.hasPermission()) {
+      log("🚫 Recording permission denied");
+      isRecording.value = false;
+      return;
+    }
+
+    final dir = await getTemporaryDirectory();
+    recordedFilePath =
+        '${dir.path}/voice_${DateTime.now().millisecondsSinceEpoch}.wav';
+
+    log("🎙️ Recording to: $recordedFilePath");
+
+    // Mic start → MAY TAKE TIME
+    await record.start(
+      const RecordConfig(
+        encoder: AudioEncoder.wav,
+        sampleRate: 44100,
+        numChannels: 1,
+        bitRate: 128000,
+      ),
+      path: recordedFilePath!,
+    );
+
+    // Timer start (after recording actually starts)
+    seconds.value = 0;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (seconds.value >= 30) {
+        stopRecording();
+      } else {
+        seconds.value++;
+      }
+    });
+  }
+
+  // /// Start recording with 30s limit
+  // Future<void> startRecording() async {
+  //   if (await record.hasPermission()) {
+  //     final dir = await getTemporaryDirectory();
+  //     recordedFilePath =
+  //         '${dir.path}/voice_${DateTime.now().millisecondsSinceEpoch}.wav';
+  //
+  //     log("🎙️ Recording to: $recordedFilePath");
+  //
+  //     await record.start(
+  //       const RecordConfig(
+  //         encoder: AudioEncoder.wav, // ✅ WAV (PCM 16-bit under the hood)
+  //         sampleRate: 44100, // ✅ Standard rate, iOS-safe
+  //         numChannels: 1, // ✅ Mono - widely supported
+  //         bitRate: 128000, // Optional - ignored for PCM but okay to include
+  //       ),
+  //       path: recordedFilePath!,
+  //     );
+  //
+  //     // Start timer (max 30 sec)
+  //     seconds.value = 0;
+  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //       if (seconds.value >= 30) {
+  //         stopRecording();
+  //       } else {
+  //         seconds.value++;
+  //       }
+  //     });
+  //   } else {
+  //     log("🚫 Recording permission denied");
+  //   }
+  // }
 
   /// Stop recording
   Future<void> stopRecording() async {
     await record.stop();
     _timer?.cancel();
     _timer = null;
-
+    isRecording.value = false;
     log(recordedFilePath.toString());
 
-    if (recordedFilePath != null) {
-      Get.toNamed(Routes.VOICE_PROMPT_SECOND); // navigate to 2nd screen
-    }
+    update();
+    // if (recordedFilePath != null) {
+    //   Get.toNamed(Routes.VOICE_PROMPT_SECOND); // navigate to 2nd screen
+    // }
   }
 
   /// Redo recording
   void redoRecording() {
+    log("Shahzaib");
     if (recordedFilePath != null) {
       File(recordedFilePath!).delete();
     }
     recordedFilePath = null;
     seconds.value = 0;
-    Get.back();
+    isRecording.value = false;
+    log("Shahzaib");
+    update();
+    // Get.back();
   }
 
   Future<void> updateProfileCreation() async {
@@ -737,13 +929,27 @@ class ProfileCreationController extends GetxController {
     return filePath;
   }
 
-  void resetCapture() {
+  // MODIFY YOUR resetCapture METHOD
+  void resetCapture() async {
     capturedImage.value = null;
+    cameraController?.dispose();
+    await initCamera(); // This will restart face detection automatically
   }
 
+  // MODIFY YOUR onClose METHOD - ADD cleanup for face detection
   @override
   void onClose() {
+    // Cancel timer
+    _faceDetectionTimer?.cancel();
+    _faceDetectionTimer = null;
+
+    // Close face detector
+    faceDetector?.close();
+    faceDetector = null;
+
+    // Dispose camera
     cameraController?.dispose();
+
     super.onClose();
   }
 }

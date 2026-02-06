@@ -1,4 +1,3 @@
-
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
@@ -99,14 +98,6 @@
 //   }
 // }
 
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -114,11 +105,7 @@ class CustomPinCodeField extends StatefulWidget {
   final void Function(String)? onCompleted;
   final void Function(String)? onChanged;
 
-  const CustomPinCodeField({
-    Key? key, 
-    this.onCompleted,
-    this.onChanged,
-  }) : super(key: key);
+  const CustomPinCodeField({super.key, this.onCompleted, this.onChanged});
 
   @override
   _CustomPinCodeFieldState createState() => _CustomPinCodeFieldState();
@@ -155,7 +142,7 @@ class _CustomPinCodeFieldState extends State<CustomPinCodeField> {
 
     // Get current PIN code
     final currentCode = _controllers.map((c) => c.text).join();
-    
+
     // Call onChanged callback with current code
     widget.onChanged?.call(currentCode);
 
@@ -166,11 +153,12 @@ class _CustomPinCodeFieldState extends State<CustomPinCodeField> {
   }
 
   void _onKey(RawKeyEvent event, int index) {
-    if (event is RawKeyDownEvent && event.logicalKey == LogicalKeyboardKey.backspace) {
+    if (event is RawKeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.backspace) {
       if (_controllers[index].text.isEmpty && index > 0) {
         _focusNodes[index - 1].requestFocus();
         _controllers[index - 1].clear();
-        
+
         // Update the code after backspace
         final currentCode = _controllers.map((c) => c.text).join();
         widget.onChanged?.call(currentCode);
