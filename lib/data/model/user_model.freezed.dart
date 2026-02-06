@@ -68,6 +68,7 @@ mixin _$UserModel {
   String? get location => throw _privateConstructorUsedError;
   String? get nickname => throw _privateConstructorUsedError;
   String? get religion => throw _privateConstructorUsedError;
+  String? get maritalStatus => throw _privateConstructorUsedError;
   String? get smoking => throw _privateConstructorUsedError;
   bool? get profileSetup => throw _privateConstructorUsedError;
   String? get userStatus => throw _privateConstructorUsedError;
@@ -132,6 +133,7 @@ abstract class $UserModelCopyWith<$Res> {
     String? location,
     String? nickname,
     String? religion,
+    String? maritalStatus,
     String? smoking,
     bool? profileSetup,
     String? userStatus,
@@ -197,6 +199,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? location = freezed,
     Object? nickname = freezed,
     Object? religion = freezed,
+    Object? maritalStatus = freezed,
     Object? smoking = freezed,
     Object? profileSetup = freezed,
     Object? userStatus = freezed,
@@ -379,6 +382,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 ? _value.religion
                 : religion // ignore: cast_nullable_to_non_nullable
                       as String?,
+            maritalStatus: freezed == maritalStatus
+                ? _value.maritalStatus
+                : maritalStatus // ignore: cast_nullable_to_non_nullable
+                      as String?,
             smoking: freezed == smoking
                 ? _value.smoking
                 : smoking // ignore: cast_nullable_to_non_nullable
@@ -451,6 +458,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
     String? location,
     String? nickname,
     String? religion,
+    String? maritalStatus,
     String? smoking,
     bool? profileSetup,
     String? userStatus,
@@ -515,6 +523,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? location = freezed,
     Object? nickname = freezed,
     Object? religion = freezed,
+    Object? maritalStatus = freezed,
     Object? smoking = freezed,
     Object? profileSetup = freezed,
     Object? userStatus = freezed,
@@ -697,6 +706,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
             ? _value.religion
             : religion // ignore: cast_nullable_to_non_nullable
                   as String?,
+        maritalStatus: freezed == maritalStatus
+            ? _value.maritalStatus
+            : maritalStatus // ignore: cast_nullable_to_non_nullable
+                  as String?,
         smoking: freezed == smoking
             ? _value.smoking
             : smoking // ignore: cast_nullable_to_non_nullable
@@ -762,6 +775,7 @@ class _$UserModelImpl implements _UserModel {
     this.location,
     this.nickname,
     this.religion,
+    this.maritalStatus,
     this.smoking,
     this.profileSetup,
     this.userStatus,
@@ -928,6 +942,8 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String? religion;
   @override
+  final String? maritalStatus;
+  @override
   final String? smoking;
   @override
   final bool? profileSetup;
@@ -936,7 +952,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, profilePhoto: $profilePhoto, email: $email, password: $password, role: $role, occupation: $occupation, status: $status, otp: $otp, otpCreatedAt: $otpCreatedAt, loginType: $loginType, appUsageType: $appUsageType, aiAvatar: $aiAvatar, aiAvatarStyle: $aiAvatarStyle, profileImages: $profileImages, datingIntentions: $datingIntentions, pets: $pets, voicePrompt: $voicePrompt, favoriteQuotes: $favoriteQuotes, beforeAnything: $beforeAnything, preferredGender: $preferredGender, maxAge: $maxAge, minAge: $minAge, greenFlags: $greenFlags, redFlags: $redFlags, verificationStatus: $verificationStatus, verificationMethod: $verificationMethod, verificationDocuments: $verificationDocuments, preferredDatingIntentions: $preferredDatingIntentions, preferredNationality: $preferredNationality, preferredReligion: $preferredReligion, profileCompleted: $profileCompleted, profileCompletionStep: $profileCompletionStep, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, bio: $bio, clubbing: $clubbing, drinking: $drinking, hobbies: $hobbies, lifestyleInterests: $lifestyleInterests, location: $location, nickname: $nickname, religion: $religion, smoking: $smoking, profileSetup: $profileSetup, userStatus: $userStatus)';
+    return 'UserModel(id: $id, fullName: $fullName, profilePhoto: $profilePhoto, email: $email, password: $password, role: $role, occupation: $occupation, status: $status, otp: $otp, otpCreatedAt: $otpCreatedAt, loginType: $loginType, appUsageType: $appUsageType, aiAvatar: $aiAvatar, aiAvatarStyle: $aiAvatarStyle, profileImages: $profileImages, datingIntentions: $datingIntentions, pets: $pets, voicePrompt: $voicePrompt, favoriteQuotes: $favoriteQuotes, beforeAnything: $beforeAnything, preferredGender: $preferredGender, maxAge: $maxAge, minAge: $minAge, greenFlags: $greenFlags, redFlags: $redFlags, verificationStatus: $verificationStatus, verificationMethod: $verificationMethod, verificationDocuments: $verificationDocuments, preferredDatingIntentions: $preferredDatingIntentions, preferredNationality: $preferredNationality, preferredReligion: $preferredReligion, profileCompleted: $profileCompleted, profileCompletionStep: $profileCompletionStep, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, bio: $bio, clubbing: $clubbing, drinking: $drinking, hobbies: $hobbies, lifestyleInterests: $lifestyleInterests, location: $location, nickname: $nickname, religion: $religion, maritalStatus: $maritalStatus, smoking: $smoking, profileSetup: $profileSetup, userStatus: $userStatus)';
   }
 
   @override
@@ -1032,6 +1048,8 @@ class _$UserModelImpl implements _UserModel {
                 other.nickname == nickname) &&
             (identical(other.religion, religion) ||
                 other.religion == religion) &&
+            (identical(other.maritalStatus, maritalStatus) ||
+                other.maritalStatus == maritalStatus) &&
             (identical(other.smoking, smoking) || other.smoking == smoking) &&
             (identical(other.profileSetup, profileSetup) ||
                 other.profileSetup == profileSetup) &&
@@ -1087,6 +1105,7 @@ class _$UserModelImpl implements _UserModel {
     location,
     nickname,
     religion,
+    maritalStatus,
     smoking,
     profileSetup,
     userStatus,
@@ -1152,6 +1171,7 @@ abstract class _UserModel implements UserModel {
     final String? location,
     final String? nickname,
     final String? religion,
+    final String? maritalStatus,
     final String? smoking,
     final bool? profileSetup,
     final String? userStatus,
@@ -1250,6 +1270,8 @@ abstract class _UserModel implements UserModel {
   String? get nickname;
   @override
   String? get religion;
+  @override
+  String? get maritalStatus;
   @override
   String? get smoking;
   @override

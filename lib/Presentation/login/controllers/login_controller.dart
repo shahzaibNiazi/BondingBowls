@@ -187,21 +187,14 @@ class LoginController extends GetxController {
           log('apple login response: $resp');
           UserModel userData = UserModel.fromJson(resp['data']);
           Globals.authToken = resp['data']['tokens']['access'];
-          if (userData != null) {
-            await LocalDB.setData(
-              'auth_token',
-              resp['data']['tokens']['access'],
-            );
-            Globals.authToken = await LocalDB.getData('auth_token');
-            log('User Data ------ ${userData.toJson().toString()}');
-            await LocalDB.setData('user_data', userData.toJson());
-            Globals.user = UserModel.fromJson(
-              jsonDecode(await LocalDB.getData('user_data')),
-            );
-            Get.offAllNamed(Routes.HOME);
-          } else {
-            // Get.toNamed(Routes.PROFILE, arguments: [userData]);
-          }
+          await LocalDB.setData('auth_token', resp['data']['tokens']['access']);
+          Globals.authToken = await LocalDB.getData('auth_token');
+          log('User Data ------ ${userData.toJson().toString()}');
+          await LocalDB.setData('user_data', userData.toJson());
+          Globals.user = UserModel.fromJson(
+            jsonDecode(await LocalDB.getData('user_data')),
+          );
+          Get.offAllNamed(Routes.HOME);
         } else {
           Utils.showToast(message: "Please try again later");
         }

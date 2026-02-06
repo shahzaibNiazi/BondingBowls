@@ -75,7 +75,7 @@ class ProfileCreationDecisionView extends GetView<ProfileCreationController> {
                   color: Colors.orange,
                   onPressed: () => Get.offAll(
                     () => BottomNavBar(
-                      initialIndex: 4, // Profile tab index
+                      initialIndex: 0, // Profile tab index
                       showDiscountProfile:
                           (Globals.user != null &&
                               Globals.user!.profileSetup == true)

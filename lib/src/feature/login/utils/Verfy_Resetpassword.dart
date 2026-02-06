@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -6,16 +5,13 @@ import 'package:get/get.dart';
 import '../controller/forgot_password_controller.dart';
 
 class VerifyResetPasswordScreen extends StatelessWidget {
+  const VerifyResetPasswordScreen({super.key});
+
   @override
-
   Widget build(BuildContext context) {
-
-
-
-
-    final ForgotPasswordController controller = Get.find<ForgotPasswordController>();
+    final ForgotPasswordController controller =
+        Get.find<ForgotPasswordController>();
     //  final VerifyEmailController VerifyOtp = Get.find<VerifyEmailController>();
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -26,7 +22,10 @@ class VerifyResetPasswordScreen extends StatelessWidget {
               parent: AlwaysScrollableScrollPhysics(),
             ),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 16.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -53,25 +52,27 @@ class VerifyResetPasswordScreen extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                   ),
-                ),  
+                ),
                 const SizedBox(height: 16),
 
                 // Subtitle
-                Obx(() => Text(
-                  "Please enter the 6-digit code sent to\n${controller.userEmail.isNotEmpty 
-                  // ? VerifyOtp.getMaskedEmail() : 'your email'
-                  }",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF6C757D),
-                    height: 1.5,
+                Obx(
+                  () => Text(
+                    "Please enter the 6-digit code sent to\n${controller.userEmail.isNotEmpty
+                    // ? VerifyOtp.getMaskedEmail() : 'your email'
+                    }",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF6C757D),
+                      height: 1.5,
+                    ),
                   ),
-                )),
+                ),
                 const SizedBox(height: 32),
 
                 // OTP Input Field
-                Container(
+                SizedBox(
                   height: 60,
                   child: TextFormField(
                     controller: controller.otpController,
@@ -101,7 +102,10 @@ class VerifyResetPasswordScreen extends StatelessWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.orange, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.orange,
+                          width: 2,
+                        ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -120,77 +124,96 @@ class VerifyResetPasswordScreen extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 // Timer and Resend
-                Obx(() => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      controller.canResendOTP.value 
-                          ? "Didn't receive code?" 
-                          : "Resend code in ${controller.startOTPTimer}",
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF6C757D),
-                      ),
-                    ),
-                    if (controller.canResendOTP.value)
-                      TextButton(
-                        onPressed: controller.currentState.value == ForgotPasswordState.sendingOTP
-                            ? null
-                            : controller.resendOTP,
-                        child: Text(
-                          controller.currentState.value == ForgotPasswordState.sendingOTP
-                              ? "Sending..."
-                              : "Resend",
-                          style: TextStyle(
-                            color: controller.currentState.value == ForgotPasswordState.sendingOTP
-                                ? Colors.grey
-                                : Colors.orange,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
+                Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        controller.canResendOTP.value
+                            ? "Didn't receive code?"
+                            : "Resend code in ${controller.startOTPTimer}",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF6C757D),
                         ),
                       ),
-                  ],
-                )),
-                const SizedBox(height: 32),
-
-                // Verify Button
-                Obx(() => Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: controller.currentState.value == ForgotPasswordState.verifyingOTP
-                        ? null
-                        : controller.verifyOTP,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: controller.currentState.value == ForgotPasswordState.verifyingOTP
-                          ? Colors.orange.withOpacity(0.7)
-                          : Colors.orange,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      elevation: controller.currentState.value == ForgotPasswordState.verifyingOTP ? 0 : 2,
-                      shadowColor: Colors.orange.withOpacity(0.3),
-                    ),
-                    child: controller.currentState.value == ForgotPasswordState.verifyingOTP
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Text(
-                            "Verify",
+                      if (controller.canResendOTP.value)
+                        TextButton(
+                          onPressed:
+                              controller.currentState.value ==
+                                  ForgotPasswordState.sendingOTP
+                              ? null
+                              : controller.resendOTP,
+                          child: Text(
+                            controller.currentState.value ==
+                                    ForgotPasswordState.sendingOTP
+                                ? "Sending..."
+                                : "Resend",
                             style: TextStyle(
-                              fontSize: 18,
+                              color:
+                                  controller.currentState.value ==
+                                      ForgotPasswordState.sendingOTP
+                                  ? Colors.grey
+                                  : Colors.orange,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
+                        ),
+                    ],
                   ),
-                )),
+                ),
+                const SizedBox(height: 32),
+
+                // Verify Button
+                Obx(
+                  () => SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed:
+                          controller.currentState.value ==
+                              ForgotPasswordState.verifyingOTP
+                          ? null
+                          : controller.verifyOTP,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            controller.currentState.value ==
+                                ForgotPasswordState.verifyingOTP
+                            ? Colors.orange.withOpacity(0.7)
+                            : Colors.orange,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        elevation:
+                            controller.currentState.value ==
+                                ForgotPasswordState.verifyingOTP
+                            ? 0
+                            : 2,
+                        shadowColor: Colors.orange.withOpacity(0.3),
+                      ),
+                      child:
+                          controller.currentState.value ==
+                              ForgotPasswordState.verifyingOTP
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              "Verify",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 32),
 
                 // Back to Email

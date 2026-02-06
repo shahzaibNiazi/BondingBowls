@@ -6,11 +6,6 @@ class BookingDetailsController extends GetxController {
   final count = 0.obs;
   var selectedTabIndex = 0.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void changeTab(int index) {
     selectedTabIndex.value = index;
   }

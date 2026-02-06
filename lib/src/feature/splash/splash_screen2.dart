@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 
 class SplashScreen2Controller extends GetxController {
   void navigateToSplashScreen3() {
-    Get.off(() => const SplashScreen2(),transition: Transition.leftToRight ,duration: Duration(milliseconds: 800 ));
+    Get.off(
+      () => const SplashScreen2(),
+      transition: Transition.leftToRight,
+      duration: Duration(milliseconds: 800),
+    );
   }
 }
 
 class SplashScreen2 extends StatelessWidget {
-  const SplashScreen2({Key? key}) : super(key: key);
+  const SplashScreen2({super.key});
 
   @override
   Widget build(BuildContext context) {

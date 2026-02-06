@@ -19,7 +19,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
               children: [
                 // App bar
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.w),
                   child: Row(
                     children: [
                       IconButton(
@@ -35,14 +35,13 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                           "Matchmaking",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: "Playfair",
-                            fontSize: 36.sp,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 48),
+                      SizedBox(width: 48.w),
                     ],
                   ),
                 ),
@@ -50,16 +49,16 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                 // Main container with Expanded
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(20),
+                    margin: EdgeInsets.symmetric(horizontal: 16.w),
+                    padding: EdgeInsets.all(20.w),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.08),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
+                          blurRadius: 10.r,
+                          offset: Offset(0, 4.h),
                         ),
                       ],
                     ),
@@ -79,20 +78,23 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                             ),
                           ),
 
-                          sectionLabel("Age (25-40)"),
+                          // Dynamic age label
+                          sectionLabel(
+                            "Age (${controller.ageRange.start.round()}-${controller.ageRange.end.round()})",
+                          ),
 
                           // Custom Range Slider matching the image design
                           Container(
-                            height: 80,
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            height: 80.h,
+                            padding: EdgeInsets.symmetric(horizontal: 24.w),
                             child: LayoutBuilder(
                               builder: (context, constraints) {
                                 double trackWidth = constraints.maxWidth;
                                 double startPos =
-                                    ((controller.ageRange.start - 25) / 15) *
+                                    ((controller.ageRange.start - 18) / 49) *
                                     trackWidth;
                                 double endPos =
-                                    ((controller.ageRange.end - 25) / 15) *
+                                    ((controller.ageRange.end - 18) / 49) *
                                     trackWidth;
 
                                 return GestureDetector(
@@ -106,11 +108,15 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                     );
                                   },
                                   child: Stack(
+                                    clipBehavior: Clip.none,
                                     children: [
                                       // Age labels above the slider
                                       Positioned(
                                         top: 0,
-                                        left: startPos - 10,
+                                        left: (startPos - 15).clamp(
+                                          0,
+                                          trackWidth - 30,
+                                        ),
                                         child: Text(
                                           '${controller.ageRange.start.round()}',
                                           style: TextStyle(
@@ -122,7 +128,10 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                       ),
                                       Positioned(
                                         top: 0,
-                                        left: endPos - 10,
+                                        left: (endPos - 15).clamp(
+                                          0,
+                                          trackWidth - 30,
+                                        ),
                                         child: Text(
                                           '${controller.ageRange.end.round()}',
                                           style: TextStyle(
@@ -175,10 +184,10 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             double newStart =
                                                 (controller.ageRange.start +
                                                         (delta *
-                                                            15 /
+                                                            49 /
                                                             trackWidth))
                                                     .clamp(
-                                                      25.0,
+                                                      18.0,
                                                       controller.ageRange.end -
                                                           1,
                                                     );
@@ -194,20 +203,9 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey.shade700,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          15,
-                                                        ),
-                                                  ),
-                                                ),
                                                 Positioned(
-                                                  child: SvgPicture.asset(
-                                                    "assets/icon/svg/bowl.svg",
+                                                  child: Image.asset(
+                                                    "assets/images/match.png",
                                                     height: 40,
                                                     width: 40,
                                                   ),
@@ -228,14 +226,14 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             double newEnd =
                                                 (controller.ageRange.end +
                                                         (delta *
-                                                            15 /
+                                                            49 /
                                                             trackWidth))
                                                     .clamp(
                                                       controller
                                                               .ageRange
                                                               .start +
                                                           1,
-                                                      40.0,
+                                                      67.0,
                                                     );
                                             controller.ageRange = RangeValues(
                                               controller.ageRange.start,
@@ -249,20 +247,9 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             child: Stack(
                                               alignment: Alignment.center,
                                               children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey.shade700,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          15,
-                                                        ),
-                                                  ),
-                                                ),
                                                 Positioned(
-                                                  child: SvgPicture.asset(
-                                                    "assets/icon/svg/bowl.svg",
+                                                  child: Image.asset(
+                                                    "assets/images/match.png",
                                                     height: 40,
                                                     width: 40,
                                                   ),
@@ -284,324 +271,375 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                             children: [
                               // --- Gender Section ---
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "Gender",
-                                    style: TextStyle(
-                                      fontFamily: "Adlam_Display",
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff000000),
-                                    ),
-                                  ),
-                                  SizedBox(width: 12.w),
-
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      optionButton(
-                                        "Male",
-                                        controller.selectedGender,
-                                        (value) {
-                                          controller.selectedGender = value;
-                                          controller.update();
-                                        },
-                                      ),
-                                      const SizedBox(width: 8),
-                                      optionButton(
-                                        "Female",
-                                        controller.selectedGender,
-                                        (value) {
-                                          controller.selectedGender = value;
-                                          controller.update();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-
-                              // --- Dating Intentions Section ---
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
+                                  SizedBox(
+                                    width: 120.w,
                                     child: Text(
-                                      "Dating\nintentions",
+                                      "Gender",
                                       style: TextStyle(
                                         fontFamily: "Adlam_Display",
-                                        fontSize: 20.sp,
+                                        fontSize: 18.sp,
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xff000000),
                                       ),
                                     ),
                                   ),
                                   SizedBox(width: 12.w),
-
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          intentionButton("Any"),
-                                          const SizedBox(width: 8),
-                                          intentionButton("Serious"),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          intentionButton("Friends"),
-                                          const SizedBox(width: 8),
-                                          intentionButton("Casual"),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-
-                              // --- Nationality Section ---
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Nationality",
-                                    style: TextStyle(
-                                      fontFamily: "Adlam_Display",
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff000000),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      optionButton(
-                                        "SG/PR",
-                                        controller.selectedNationality,
-                                        (value) {
-                                          controller.selectedNationality =
-                                              value;
-                                          controller.update();
-                                        },
-                                      ),
-                                      const SizedBox(width: 8),
-                                      optionButton(
-                                        "Others",
-                                        controller.selectedNationality,
-                                        (value) {
-                                          controller.selectedNationality =
-                                              value;
-                                          controller.update();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-
-                              // --- Religion Section ---
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Religion",
-                                        style: TextStyle(
-                                          fontFamily: "Adlam_Display",
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xff000000),
+                                  SizedBox(
+                                    width: 200.w,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: optionButton(
+                                            "Male",
+                                            controller.selectedGender,
+                                            (value) {
+                                              controller.selectedGender = value;
+                                              controller.update();
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                      if (!controller.isReligionUnlocked) ...[
-                                        const SizedBox(height: 12),
-                                        InkWell(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  ConfirmPurchaseDialog(
-                                                    onPurchaseConfirmed:
-                                                        controller
-                                                            .onReligionUnlocked,
-                                                  ),
-                                            );
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              border: Border.all(
-                                                color: const Color.fromARGB(
-                                                  131,
-                                                  63,
-                                                  111,
-                                                  255,
-                                                ),
-                                                width: 1.5,
-                                              ),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  "assets/icon/svg/lock1.svg",
-                                                ),
-                                                const SizedBox(height: 8),
-                                                Text(
-                                                  "Unlock Religion filter?\n (permanent)",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    color: Color(0xff0022FF),
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                          child: optionButton(
+                                            "Female",
+                                            controller.selectedGender,
+                                            (value) {
+                                              controller.selectedGender = value;
+                                              controller.update();
+                                            },
                                           ),
                                         ),
                                       ],
-                                    ],
+                                    ),
                                   ),
-                                  SizedBox(width: 12),
-                                  Expanded(
-                                    flex: 2,
+                                ],
+                              ),
+                              SizedBox(height: 40.h),
+
+                              // --- Dating Intentions Section ---
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  SizedBox(
+                                    width: 120.w,
+                                    child: Text(
+                                      "Dating\nintentions",
+                                      style: TextStyle(
+                                        fontFamily: "Adlam_Display",
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xff000000),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  SizedBox(
+                                    width: 200.w,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: intentionButton("Any"),
+                                            ),
+                                            SizedBox(width: 12.w),
+                                            Expanded(
+                                              child: intentionButton("Serious"),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 12.h),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: intentionButton("Friends"),
+                                            ),
+                                            SizedBox(width: 12.w),
+                                            Expanded(
+                                              child: intentionButton("Casual"),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 40.h),
+
+                              // --- Nationality Section ---
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  SizedBox(
+                                    width: 120.w,
+                                    child: Text(
+                                      "Nationality",
+                                      style: TextStyle(
+                                        fontFamily: "Adlam_Display",
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xff000000),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  SizedBox(
+                                    width: 200.w,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: optionButton(
+                                            "SG/PR",
+                                            controller.selectedNationality,
+                                            (value) {
+                                              controller.selectedNationality =
+                                                  value;
+                                              controller.update();
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(width: 12.w),
+                                        Expanded(
+                                          child: optionButton(
+                                            "Others",
+                                            controller.selectedNationality,
+                                            (value) {
+                                              controller.selectedNationality =
+                                                  value;
+                                              controller.update();
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 40.h),
+                              // --- Religion Section ---
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  SizedBox(
+                                    width: 120.w,
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        GridView.count(
-                                          crossAxisCount: 2,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 10,
-                                          childAspectRatio:
-                                              2, // adjust to control button width/height
+                                        Text(
+                                          "Religion",
+                                          style: TextStyle(
+                                            fontFamily: "Adlam_Display",
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff000000),
+                                          ),
+                                        ),
+                                        if (!controller.isReligionUnlocked) ...[
+                                          SizedBox(height: 12.h),
+                                          InkWell(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    ConfirmPurchaseDialog(
+                                                      onPurchaseConfirmed:
+                                                          controller
+                                                              .onReligionUnlocked,
+                                                    ),
+                                              );
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.all(8.w),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(30.r),
+                                                border: Border.all(
+                                                  color: const Color.fromARGB(
+                                                    131,
+                                                    63,
+                                                    111,
+                                                    255,
+                                                  ),
+                                                  width: 1.5.w,
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    "assets/icon/svg/lock1.svg",
+                                                  ),
+                                                  SizedBox(height: 8.h),
+                                                  Text(
+                                                    "Unlock Religion filter?\n (permanent)",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 11.sp,
+                                                      color: Color(0xff0022FF),
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 12.w),
+                                  SizedBox(
+                                    width: 200.w,
+                                    child: Column(
+                                      children: [
+                                        Row(
                                           children: [
-                                            optionButton(
-                                              "Any",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-                                                      controller.update();
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                            Expanded(
+                                              child: optionButton(
+                                                "Any",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                        controller.update();
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
-                                            optionButton(
-                                              "Atheist",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-                                                      controller.update();
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                            SizedBox(width: 12.w),
+                                            Expanded(
+                                              child: optionButton(
+                                                "Atheist",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                        controller.update();
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
-                                            optionButton(
-                                              "Buddhism",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-                                                      controller.update();
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                          ],
+                                        ),
+                                        SizedBox(height: 12.h),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: optionButton(
+                                                "Buddhism",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                        controller.update();
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
-                                            optionButton(
-                                              "Christianity",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-                                                      controller.update();
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                            SizedBox(width: 12.w),
+                                            Expanded(
+                                              child: optionButton(
+                                                "Christianity",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                        controller.update();
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
-                                            optionButton(
-                                              "Islam",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-
-                                                      controller.update();
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                          ],
+                                        ),
+                                        SizedBox(height: 12.h),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: optionButton(
+                                                "Islam",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                        controller.update();
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
-                                            optionButton(
-                                              "Taoism",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                            SizedBox(width: 12.w),
+                                            Expanded(
+                                              child: optionButton(
+                                                "Taoism",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
-                                            optionButton(
-                                              "Hinduism",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-                                                      controller.update();
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                          ],
+                                        ),
+                                        SizedBox(height: 12.h),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: optionButton(
+                                                "Hinduism",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                        controller.update();
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
-                                            optionButton(
-                                              "Others",
-                                              controller.selectedReligion,
-                                              controller.isReligionUnlocked
-                                                  ? (value) {
-                                                      controller
-                                                              .selectedReligion =
-                                                          value;
-                                                      controller.update();
-                                                    }
-                                                  : (value) {},
-                                              isSmall: true,
+                                            SizedBox(width: 12.w),
+                                            Expanded(
+                                              child: optionButton(
+                                                "Others",
+                                                controller.selectedReligion,
+                                                controller.isReligionUnlocked
+                                                    ? (value) {
+                                                        controller
+                                                                .selectedReligion =
+                                                            value;
+                                                        controller.update();
+                                                      }
+                                                    : (value) {},
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -613,7 +651,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                             ],
                           ),
 
-                          const SizedBox(height: 30),
+                          SizedBox(height: 30.h),
 
                           // Save button
                           SizedBox(
@@ -651,12 +689,13 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 30.h),
                         ],
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
               ],
             ),
           ),
@@ -666,7 +705,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
   }
 
   Widget sectionLabel(String text) => Padding(
-    padding: const EdgeInsets.only(top: 20, bottom: 12),
+    padding: EdgeInsets.only(top: 20.h, bottom: 12.h),
     child: Text(
       text,
       style: TextStyle(
@@ -685,18 +724,21 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
     bool isSmall = false,
   }) {
     bool isSelected = groupValue == label;
+    double btnWidth = 120.w;
+    double btnHeight = 44.h;
     return GestureDetector(
       onTap: () => onTap(label),
       child: Container(
-        width: 100.w,
+        width: btnWidth,
+        height: btnHeight,
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: EdgeInsets.symmetric(vertical: 0),
         decoration: BoxDecoration(
           color: isSelected ? Colors.grey.shade700 : Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(30.r),
           border: Border.all(
             color: isSelected ? Colors.grey.shade700 : Colors.grey.shade400,
-            width: 1.5,
+            width: 1.5.w,
           ),
         ),
         child: Text(
@@ -713,21 +755,24 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
 
   Widget intentionButton(String label) {
     bool isSelected = controller.selectedIntention == label;
+    double btnWidth = 120.w;
+    double btnHeight = 44.h;
     return GestureDetector(
       onTap: () {
         controller.selectedIntention = label;
         controller.update();
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        width: 100.w,
-        height: 40,
+        width: btnWidth,
+        height: btnHeight,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(vertical: 0),
         decoration: BoxDecoration(
           color: isSelected ? Colors.grey.shade700 : Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(30.r),
           border: Border.all(
             color: isSelected ? Colors.grey.shade700 : Colors.grey.shade400,
-            width: 2,
+            width: 2.w,
           ),
         ),
         child: Text(
@@ -735,7 +780,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: isSelected ? Colors.white : Colors.black,
-            fontSize: 12.sp,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -754,21 +799,21 @@ class ConfirmPurchaseDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             color: const Color(0xffFFF7ED),
-            border: Border.all(color: Colors.pinkAccent, width: 2),
+            border: Border.all(color: Colors.pinkAccent, width: 2.w),
           ),
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(15.r),
               color: const Color.fromARGB(255, 255, 255, 255),
-              border: Border.all(color: Colors.pinkAccent, width: 1),
+              border: Border.all(color: Colors.pinkAccent, width: 1.w),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -782,11 +827,11 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Product Info Section
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -795,7 +840,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         width: 20,
                         height: 20,
                       ),
-                      SizedBox(width: 20),
+                      SizedBox(width: 20.w),
                       Expanded(
                         child: Text(
                           "Religion filter (permanent)",
@@ -816,10 +861,10 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                               color: Color(0xffBC0072),
                             ),
                           ),
-                          SvgPicture.asset(
-                            "assets/icon/svg/color_bowl.svg",
-                            width: 16,
-                            height: 16,
+                          Image.asset(
+                            "assets/images/cup.png",
+                            scale: 18,
+                            color: Color(0xffBC0072),
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -836,7 +881,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
 
                 // Description
                 Text(
@@ -844,7 +889,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                   style: TextStyle(fontSize: 13.sp, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Calculation Section
                 Row(
@@ -857,15 +902,15 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                 ),
                 Container(
                   height: 50,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(
                       color: const Color(0xffC672A5),
-                      width: 2,
+                      width: 2.w,
                     ),
                   ),
                   child: Row(
@@ -875,12 +920,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              "assets/icon/svg/color_bowl.svg",
-                              width: 16,
-                              height: 16,
+                            Image.asset(
+                              "assets/images/cup.png",
+                              scale: 18,
+                              color: Color(0xffBC0072),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 6.w),
                             Text(
                               "300",
                               style: TextStyle(
@@ -897,12 +942,12 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              "assets/icon/svg/color_bowl.svg",
-                              width: 16,
-                              height: 16,
+                            Image.asset(
+                              "assets/images/cup.png",
+                              scale: 18,
+                              color: Color(0xffBC0072),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 6.w),
                             Text(
                               "500",
                               style: TextStyle(
@@ -919,14 +964,14 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              "assets/icon/svg/color_bowl.svg",
-                              width: 16,
-                              height: 16,
+                            Image.asset(
+                              "assets/images/cup.png",
+                              scale: 18,
+                              color: Color(0xffBC0072),
                             ),
-                            const SizedBox(width: 5),
+                            SizedBox(width: 5.w),
                             Text(
-                              "-200",
+                              "200",
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: Color(0xff000000),
@@ -939,7 +984,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 // Terms Text
                 Text(
@@ -947,7 +992,7 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                   style: TextStyle(fontSize: 12.sp, color: Colors.black54),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
 
                 // Action Buttons
                 Row(
@@ -958,11 +1003,11 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.red,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(30.r),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 2,
-                            vertical: 5,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 2.w,
+                            vertical: 5.h,
                           ),
                         ),
                         onPressed: () {
@@ -978,18 +1023,18 @@ class ConfirmPurchaseDialog extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(30.r),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 5,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 5.h,
                           ),
                         ),
                         onPressed: () {

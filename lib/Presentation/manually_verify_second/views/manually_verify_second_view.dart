@@ -66,7 +66,7 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
 
                     SizedBox(height: 20),
 
-                    // Circular Camera / Video Preview
+                    // Circular Camera / Video Preview with Face Detection Overlay
                     Center(
                       child: Obx(() {
                         if (controller.capturedVideo.value != null &&
@@ -99,15 +99,22 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                           );
                         } else if (controller.cameraController != null &&
                             controller.cameraController!.value.isInitialized) {
-                          // Show live camera preview in circle
-                          return ClipOval(
-                            child: SizedBox(
-                              height: 320,
-                              width: 320,
-                              child: CameraPreview(
-                                controller.cameraController!,
+                          // Show live camera preview with face detection overlay
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              ClipOval(
+                                child: SizedBox(
+                                  height: 320,
+                                  width: 320,
+                                  child: CameraPreview(
+                                    controller.cameraController!,
+                                  ),
+                                ),
                               ),
-                            ),
+                              // Face detection overlay
+                              _buildFaceDetectionOverlay(controller),
+                            ],
                           );
                         } else {
                           return ClipOval(
@@ -128,16 +135,21 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
 
                     SizedBox(height: 20.h),
 
+                    // Dynamic instruction based on face detection
                     Center(
-                      child: Text(
-                        'Please make sure your face can be seen clearly',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      child: Obx(() {
+                        return Text(
+                          controller.faceDetectionMessage.value,
+                          style: TextStyle(
+                            color: controller.isFaceValid.value
+                                ? Colors.green
+                                : Colors.red,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        );
+                      }),
                     ).paddingOnly(bottom: 12.h),
 
                     // Info list
@@ -145,7 +157,7 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildInfoItem(
-                          "• Make sure you’re in a brightly lited space",
+                          "• Make sure you're in a brightly lited space",
                         ),
                         _buildInfoItem(
                           "• Make sure your expressions are neutral",
@@ -189,10 +201,18 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    // Only allow recording if face is valid
                                     if (controller.isRecording.value) {
                                       controller.stopRecording();
-                                    } else {
+                                    } else if (controller.isFaceValid.value) {
                                       controller.startRecording();
+                                    } else {
+                                      Get.snackbar(
+                                        'Face Not Detected',
+                                        'Please position your face properly before recording',
+                                        backgroundColor: Colors.red,
+                                        colorText: Colors.white,
+                                      );
                                     }
                                   },
                                   child: Container(
@@ -201,7 +221,9 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
                                       shape: BoxShape.circle,
                                       color: controller.isRecording.value
                                           ? Colors.red
-                                          : Color(0xff1D73BC),
+                                          : (controller.isFaceValid.value
+                                                ? Color(0xff1D73BC)
+                                                : Colors.grey),
                                     ),
                                     child: Icon(
                                       controller.isRecording.value
@@ -240,6 +262,25 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
     );
   }
 
+  Widget _buildFaceDetectionOverlay(ManuallyVerifySecondController controller) {
+    return Obx(() {
+      return Container(
+        height: 320,
+        width: 320,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: controller.isFaceValid.value ? Colors.green : Colors.red,
+            width: 4,
+          ),
+        ),
+        child: CustomPaint(
+          painter: FaceOvalPainter(isValid: controller.isFaceValid.value),
+        ),
+      );
+    });
+  }
+
   Widget _buildInfoItem(String text, {String? subtitle}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2),
@@ -266,5 +307,62 @@ class ManuallyVerifySecondView extends GetView<ManuallyVerifySecondController> {
         ],
       ),
     );
+  }
+}
+
+// Custom painter for face oval guide
+class FaceOvalPainter extends CustomPainter {
+  final bool isValid;
+
+  FaceOvalPainter({required this.isValid});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = (isValid ? Colors.green : Colors.red).withOpacity(0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    final dashedPaint = Paint()
+      ..color = isValid ? Colors.green : Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    // Draw inner oval guide for face
+    final center = Offset(size.width / 2, size.height / 2);
+    final ovalRect = Rect.fromCenter(
+      center: center,
+      width: size.width * 0.7,
+      height: size.height * 0.85,
+    );
+
+    // Draw dashed oval
+    _drawDashedOval(canvas, ovalRect, dashedPaint);
+  }
+
+  void _drawDashedOval(Canvas canvas, Rect rect, Paint paint) {
+    const dashWidth = 10.0;
+    const dashSpace = 5.0;
+    double startAngle = 0.0;
+
+    while (startAngle < 360) {
+      canvas.drawArc(
+        rect,
+        _degreesToRadians(startAngle),
+        _degreesToRadians(dashWidth),
+        false,
+        paint,
+      );
+      startAngle += dashWidth + dashSpace;
+    }
+  }
+
+  double _degreesToRadians(double degrees) {
+    return degrees * (3.141592653589793 / 180.0);
+  }
+
+  @override
+  bool shouldRepaint(FaceOvalPainter oldDelegate) {
+    return oldDelegate.isValid != isValid;
   }
 }

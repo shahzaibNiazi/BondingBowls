@@ -90,6 +90,310 @@ class ProfileCreationRepository {
     return data;
   }
 
+  Future getNewsLetter() async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getNewsLetter}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getCafe(String type, String location, String category) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getCafe}?$type=true&location=$location&category=$category',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future makeABooking(json) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.bookings}',
+      "ApiEndPoints.getUser",
+      json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getBooking(cafeId) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getBooking}/$cafeId',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future likeYou(cafeId) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}bookings/cafe/$cafeId/${ApiEndPoints.likeYou}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future available(cafeId) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.available}?cafeId=$cafeId',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future joinRequest(cafeId) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}bookings/$cafeId/${ApiEndPoints.joinRequest}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future createConversation(json) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}chat/${ApiEndPoints.createConversation}',
+      "ApiEndPoints.getUser",
+      json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future rejectRequestForLike(bookingId) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}bookings/$bookingId/${ApiEndPoints.rejectRequest}/${Globals.user?.id}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future rejectRequestForAvailable(json) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.rejectRequestForAvailable}',
+      "ApiEndPoints.getUser",
+      json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getConversation() async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}chat/${ApiEndPoints.getConversations}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future sendMessage(Json) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl: '${ApiEndPoints.otherBaseUrl}chat/${ApiEndPoints.sendMessage}',
+      "ApiEndPoints.getUser",
+      Json,
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getMessages(id) async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}chat/${ApiEndPoints.getMessage}/$id',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future fetchReceiveLikes() async {
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}matching/${ApiEndPoints.receivingLikes}',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: true,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getVouchers(String filter) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getVouchers}?sortBy=$filter',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future getVoucherDetails(id) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.baseGetAPI(
+      fullUrl:
+          '${ApiEndPoints.otherBaseUrl}${ApiEndPoints.getVouchers}/$id/detailed',
+      "ApiEndPoints.getUser",
+      {},
+      true,
+      loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
   Future getUser() async {
     Map<String, dynamic> query = {};
     Map<String, dynamic> data = {};
@@ -118,6 +422,26 @@ class ProfileCreationRepository {
       {},
       true,
       loading: false,
+      Get.context,
+    );
+    if (response is String) {
+      log('getUser api data: $response');
+    } else {
+      data = response;
+    }
+    return data;
+  }
+
+  Future redeemVoucher(json) async {
+    Map<String, dynamic> query = {};
+    Map<String, dynamic> data = {};
+    final response = await apiClient.basePostAPI(
+      fullUrl:
+          'https://bonding-bowls.projectco.space/api/v1/${ApiEndPoints.redeemVouchers}',
+      "ApiEndPoints.getUser",
+      json,
+      true,
+      loading: true,
       Get.context,
     );
     if (response is String) {

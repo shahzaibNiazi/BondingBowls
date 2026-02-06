@@ -1,7 +1,9 @@
 import 'package:convo_hearts/app.dart';
 import 'package:convo_hearts/data/provider/local_storage/local_db.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
@@ -19,5 +21,10 @@ void main() async {
   ]);
   Get.put(LocalDB());
   DeviceInfoService().initialize();
-  runApp(App());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => App(), // Wrap your app
+    ),
+  );
 }
