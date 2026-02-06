@@ -9,23 +9,22 @@ class DiscountRibbon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: [
-        Positioned(
-          top: 5,
-          left: 0,
-          child: Transform.rotate(
-            angle: -0.785398, // -45 degrees in radians
-            child: Container(
-              color: Colors.red,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+        Image.asset(
+          'assets/images/ribon.png',
+          width: 90, // 👈 important: wider than tall
+          height: 32,
+          fit: BoxFit.contain,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 6), // aligns text on stripe
+          child: Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

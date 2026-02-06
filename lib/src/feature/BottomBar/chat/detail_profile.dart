@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DetailProfile extends StatelessWidget {
-  const DetailProfile({Key? key}) : super(key: key);
+  const DetailProfile({super.key});
 
   // TextEditingController _bioController = TextEditingController();
 
@@ -405,9 +405,15 @@ class DetailProfile extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image.asset("assets/images/thumbs.png"),
+                                  Image.asset(
+                                    "assets/images/thumbs.png",
+                                    scale: 4,
+                                  ),
                                   // Image.asset("assets/images/match_logo.png"),
-                                  Image.asset("assets/images/thumbs_down.png"),
+                                  Image.asset(
+                                    "assets/images/thumbs_down.png",
+                                    scale: 4,
+                                  ),
                                 ],
                               ),
                             ),

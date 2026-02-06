@@ -1,9 +1,14 @@
 import 'dart:io';
 
+import 'package:convo_hearts/Presentation/chat/views/user_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../app/config/global_var.dart';
+import '../../cafeconnect_conversation/views/report_bottom.dart';
 import '../controllers/chat_controller.dart';
 
 class ChatView extends GetView<ChatController> {
@@ -16,6 +21,29 @@ class ChatView extends GetView<ChatController> {
           body: SafeArea(
             child: Column(
               children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey[400]!),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '~Slideshow Ads Space',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16.sp,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
+                ),
+
                 // Top header with soft background, back arrow and avatar
                 Container(
                   color: const Color(0xFFF8EBDD), // soft peach like screenshot
@@ -25,59 +53,109 @@ class ChatView extends GetView<ChatController> {
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
                         onTap: () => Get.back(),
                         child: const Icon(Icons.arrow_back_ios_new, size: 26),
                       ),
-                      const SizedBox(width: 12),
-                      Container(
-                        width: 68,
-                        height: 68,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(6),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.03),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(UserView());
+                        },
+                        child: Center(
+                          child: Text(
+                            'Alex Supra',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
                             ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Image.asset(
-                            'assets/images/AI-AVATAR.jpg',
-                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                      GestureDetector(
+                        onTap: () {
+                          showReportBottom(
+                            context,
+                            items: [
+                              "Unmatch",
+                              'Report for inappropriate/offensive behaviour',
+                              'Spam , Selling something (including financial product)',
+                              'Others',
+                            ],
+                            onTap: [
+                              () {
+                                showMatchRatingDialog(context);
+                              },
 
-                // Slideshow Ads placeholder
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '*Slideshow Ads Space',
-                      style: TextStyle(
-                        color: Colors.pink[300],
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                              () async {
+                                Navigator.pop(context);
+
+                                showConfirmReportBottomSheet(context, () async {
+                                  Navigator.pop(context);
+                                  // await controller.reportUser(
+                                  //   id: '',
+                                  //   reportReason: "Inappropriate Behaviour",
+                                  //   reasonDetail:
+                                  //   "Report for inappropriate/offensive behaviour",
+                                  // );
+                                }); // 👈 open confirm report sheet
+                              },
+                              () async {
+                                Navigator.pop(context);
+
+                                showConfirmReportBottomSheet(context, () async {
+                                  Navigator.pop(context);
+                                  // await controller.reportUser(
+                                  //   id: '',
+                                  //   reportReason: "Spam",
+                                  //   reasonDetail:
+                                  //   "Spam , Selling something (including financial product)",
+                                  // );
+                                });
+                              },
+                              () {
+                                Navigator.pop(context);
+
+                                showOtherBottomSheet(
+                                  context,
+                                ); // 👈 open second bottom sheet
+                              },
+                            ],
+                          );
+                        },
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: SvgPicture.asset(
+                            "assets/icon/svg/tri_info.svg",
+                          ),
+                        ),
                       ),
-                    ),
+
+                      // Container(
+                      //   width: 68,
+                      //   height: 68,
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.white,
+                      //     borderRadius: BorderRadius.circular(6),
+                      //     boxShadow: [
+                      //       BoxShadow(
+                      //         color: Colors.black.withValues(alpha: 0.03),
+                      //         blurRadius: 6,
+                      //         offset: const Offset(0, 2),
+                      //       ),
+                      //     ],
+                      //   ),
+                      //   child: ClipRRect(
+                      //     borderRadius: BorderRadius.circular(6),
+                      //     child: Image.asset(
+                      //       'assets/images/AI-AVATAR.jpg',
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
                   ),
                 ),
 
@@ -215,19 +293,19 @@ class ChatView extends GetView<ChatController> {
                                   ),
                                   const SizedBox(height: 2),
                                   // small timestamp
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: m.isMe ? 0 : 8,
-                                      right: m.isMe ? 8 : 0,
-                                    ),
-                                    child: Text(
-                                      _formatTime(m.createdAt),
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     left: m.isMe ? 0 : 8,
+                                  //     right: m.isMe ? 8 : 0,
+                                  //   ),
+                                  //   child: Text(
+                                  //     _formatTime(m.createdAt),
+                                  //     style: TextStyle(
+                                  //       fontSize: 11,
+                                  //       color: Colors.black54,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               );
                             },
@@ -298,7 +376,9 @@ class ChatView extends GetView<ChatController> {
                                     hintStyle: TextStyle(fontSize: 15),
                                     border: InputBorder.none,
                                   ),
-                                  onSubmitted: (_) => controller..sendMessage(),
+                                  onSubmitted: (_) => controller.sendMessage(
+                                    myUserId: Globals.user!.id ?? '',
+                                  ),
                                 ),
                               ),
                               GestureDetector(
@@ -328,7 +408,11 @@ class ChatView extends GetView<ChatController> {
                       // send button (only enabled visually when text present)
                       GestureDetector(
                         onTap: controller.enabled
-                            ? controller.sendMessage
+                            ? () {
+                                controller.sendMessage(
+                                  myUserId: "myUserId_here",
+                                );
+                              }
                             : null,
                         child: Container(
                           width: 42,
@@ -396,5 +480,136 @@ class ChatView extends GetView<ChatController> {
     final h = t.hour.toString().padLeft(2, '0');
     final m = t.minute.toString().padLeft(2, '0');
     return '$h:$m';
+  }
+
+  void showMatchRatingDialog(BuildContext context) {
+    String? selectedOption;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title
+                    Text(
+                      "How would you rate your match?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.sp,
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    // Radio Item Builder
+                    _ratingOption(
+                      title: "Decent",
+                      value: "Decent",
+                      selected: selectedOption,
+                      onChanged: (value) {
+                        setState(() => selectedOption = value);
+                      },
+                    ),
+
+                    _ratingOption(
+                      title: "Engaging",
+                      value: "Engaging",
+                      selected: selectedOption,
+                      onChanged: (value) {
+                        setState(() => selectedOption = value);
+                      },
+                    ),
+
+                    _ratingOption(
+                      title: "Dry texter",
+                      value: "Dry texter",
+                      selected: selectedOption,
+                      onChanged: (value) {
+                        setState(() => selectedOption = value);
+                      },
+                    ),
+
+                    _ratingOption(
+                      title: "Just not my type",
+                      value: "Not my type",
+                      selected: selectedOption,
+                      onChanged: (value) {
+                        setState(() => selectedOption = value);
+                      },
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Confirm Button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 150.w,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF3D6AFF),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                            ),
+                            onPressed: selectedOption == null
+                                ? null
+                                : () {
+                                    Navigator.pop(context);
+                                    print("Selected: $selectedOption");
+                                  },
+                            child: const Text(
+                              "Confirm",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _ratingOption({
+    required String title,
+    required String value,
+    required String? selected,
+    required Function(String) onChanged,
+  }) {
+    return InkWell(
+      onTap: () => onChanged(value),
+      child: Row(
+        children: [
+          Radio<String>(
+            value: value,
+            groupValue: selected,
+            onChanged: (v) => onChanged(v!),
+            visualDensity: VisualDensity.compact,
+          ),
+          Text(title, style: const TextStyle(fontSize: 16)),
+        ],
+      ),
+    );
   }
 }
