@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../app/config/global_var.dart';
 import '../../../../app/utils/utils.dart';
 import '../../controllers/make_a_booking_controller.dart';
 import '../make_a_booking_view.dart';
@@ -551,6 +552,17 @@ Widget contentCard({
           children: [
             ElevatedButton(
               onPressed: () async {
+                if (Globals.user != null &&
+                    (Globals.user!.profileSetup == null ||
+                        Globals.user!.profileSetup == false)) {
+                  Utils.showSnackBar(
+                    'Complete your profile to continue',
+                    '',
+                    Colors.green,
+                  );
+                  return;
+                }
+
                 showBookingDialog(
                   Get.context!,
                   'Confirm booking for Macdonalds\nto find other matches?',

@@ -78,7 +78,10 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                             ),
                           ),
 
-                          sectionLabel("Age (25-40)"),
+                          // Dynamic age label
+                          sectionLabel(
+                            "Age (${controller.ageRange.start.round()}-${controller.ageRange.end.round()})",
+                          ),
 
                           // Custom Range Slider matching the image design
                           Container(
@@ -88,10 +91,10 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                               builder: (context, constraints) {
                                 double trackWidth = constraints.maxWidth;
                                 double startPos =
-                                    ((controller.ageRange.start - 25) / 15) *
+                                    ((controller.ageRange.start - 18) / 49) *
                                     trackWidth;
                                 double endPos =
-                                    ((controller.ageRange.end - 25) / 15) *
+                                    ((controller.ageRange.end - 18) / 49) *
                                     trackWidth;
 
                                 return GestureDetector(
@@ -105,11 +108,15 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                     );
                                   },
                                   child: Stack(
+                                    clipBehavior: Clip.none,
                                     children: [
                                       // Age labels above the slider
                                       Positioned(
                                         top: 0,
-                                        left: startPos - 10,
+                                        left: (startPos - 15).clamp(
+                                          0,
+                                          trackWidth - 30,
+                                        ),
                                         child: Text(
                                           '${controller.ageRange.start.round()}',
                                           style: TextStyle(
@@ -121,7 +128,10 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                       ),
                                       Positioned(
                                         top: 0,
-                                        left: endPos - 10,
+                                        left: (endPos - 15).clamp(
+                                          0,
+                                          trackWidth - 30,
+                                        ),
                                         child: Text(
                                           '${controller.ageRange.end.round()}',
                                           style: TextStyle(
@@ -174,10 +184,10 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             double newStart =
                                                 (controller.ageRange.start +
                                                         (delta *
-                                                            15 /
+                                                            49 /
                                                             trackWidth))
                                                     .clamp(
-                                                      25.0,
+                                                      18.0,
                                                       controller.ageRange.end -
                                                           1,
                                                     );
@@ -216,14 +226,14 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                                             double newEnd =
                                                 (controller.ageRange.end +
                                                         (delta *
-                                                            15 /
+                                                            49 /
                                                             trackWidth))
                                                     .clamp(
                                                       controller
                                                               .ageRange
                                                               .start +
                                                           1,
-                                                      40.0,
+                                                      67.0,
                                                     );
                                             controller.ageRange = RangeValues(
                                               controller.ageRange.start,
@@ -679,6 +689,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                               ),
                             ),
                           ),
+                          SizedBox(height: 30.h),
                         ],
                       ),
                     ),

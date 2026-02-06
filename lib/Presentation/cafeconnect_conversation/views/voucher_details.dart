@@ -11,8 +11,8 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
     builder: (_) {
       return DraggableScrollableSheet(
         initialChildSize: 0.8,
-        minChildSize: 0.6,
-        maxChildSize: 0.8,
+        minChildSize: 0.8,
+        maxChildSize: 0.9,
         builder: (_, controller) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -26,10 +26,6 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(18),
                     ),
-                    // border: Border.all(
-                    //   color: const Color(0xffBC0072).withValues(alpha: 0.5),
-                    //   width: 2,
-                    // ),
                   ),
 
                   // ================= INNER STACK =================
@@ -46,6 +42,7 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             // Drag handle
                             Center(
@@ -240,7 +237,7 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                             _bullet(
                               "Each voucher is subject to limited availability as determined by the participating café or restaurant.",
                             ),
-                            _bulletText().paddingOnly(bottom: 4.h),
+                            _bulletText().paddingOnly(bottom: 1.h),
                             _bullet(
                               "To redeem the voucher, you must physically visit the participating outlet.",
                             ),
@@ -251,10 +248,12 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                             const Divider(),
 
                             Text(
-                              "We and our partner merchants reserve the right to modify or cancel vouchers at any time.",
+                              "We and our partner merchants reserve the right to modify or cancel vouchers at"
+                              "any time without prior notice due to unforeseen circumstances, including"
+                              "over-redemption or operational limitations. ",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: 12.sp,
                                 color: const Color(0xff563636),
                               ),
                             ).paddingSymmetric(horizontal: 6),
@@ -268,12 +267,12 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
 
                       // ================= RIBBON =================
                       Positioned(
-                        top: 6,
-                        left: -15,
+                        top: 10,
+                        left: -30,
                         child: Transform.rotate(
                           angle: -0.65,
                           child: Container(
-                            width: 80,
+                            width: 120,
                             height: 26,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
@@ -314,12 +313,14 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
 
 Widget _bullet(String text) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 10),
+    padding: const EdgeInsets.only(bottom: 3),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("• "),
-        Expanded(child: Text(text)),
+        Expanded(
+          child: Text(text, style: TextStyle(fontSize: 12.sp)),
+        ),
       ],
     ),
   );

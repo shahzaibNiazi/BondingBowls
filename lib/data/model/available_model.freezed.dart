@@ -23,7 +23,7 @@ AvailableModel _$AvailableModelFromJson(Map<String, dynamic> json) {
 mixin _$AvailableModel {
   @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
-  UserRefModel? get userId => throw _privateConstructorUsedError;
+  UserModel? get userId => throw _privateConstructorUsedError;
   CafeDataModel? get cafeId => throw _privateConstructorUsedError;
   List<String>? get lookingFor => throw _privateConstructorUsedError;
   List<String>? get availableFor => throw _privateConstructorUsedError;
@@ -66,7 +66,7 @@ abstract class $AvailableModelCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: '_id') String? id,
-    UserRefModel? userId,
+    UserModel? userId,
     CafeDataModel? cafeId,
     List<String>? lookingFor,
     List<String>? availableFor,
@@ -90,7 +90,7 @@ abstract class $AvailableModelCopyWith<$Res> {
     String? joinRequestStatus,
   });
 
-  $UserRefModelCopyWith<$Res>? get userId;
+  $UserModelCopyWith<$Res>? get userId;
   $CafeDataModelCopyWith<$Res>? get cafeId;
 }
 
@@ -142,7 +142,7 @@ class _$AvailableModelCopyWithImpl<$Res, $Val extends AvailableModel>
             userId: freezed == userId
                 ? _value.userId
                 : userId // ignore: cast_nullable_to_non_nullable
-                      as UserRefModel?,
+                      as UserModel?,
             cafeId: freezed == cafeId
                 ? _value.cafeId
                 : cafeId // ignore: cast_nullable_to_non_nullable
@@ -236,12 +236,12 @@ class _$AvailableModelCopyWithImpl<$Res, $Val extends AvailableModel>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $UserRefModelCopyWith<$Res>? get userId {
+  $UserModelCopyWith<$Res>? get userId {
     if (_value.userId == null) {
       return null;
     }
 
-    return $UserRefModelCopyWith<$Res>(_value.userId!, (value) {
+    return $UserModelCopyWith<$Res>(_value.userId!, (value) {
       return _then(_value.copyWith(userId: value) as $Val);
     });
   }
@@ -272,7 +272,7 @@ abstract class _$$AvailableModelImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: '_id') String? id,
-    UserRefModel? userId,
+    UserModel? userId,
     CafeDataModel? cafeId,
     List<String>? lookingFor,
     List<String>? availableFor,
@@ -297,7 +297,7 @@ abstract class _$$AvailableModelImplCopyWith<$Res>
   });
 
   @override
-  $UserRefModelCopyWith<$Res>? get userId;
+  $UserModelCopyWith<$Res>? get userId;
   @override
   $CafeDataModelCopyWith<$Res>? get cafeId;
 }
@@ -349,7 +349,7 @@ class __$$AvailableModelImplCopyWithImpl<$Res>
         userId: freezed == userId
             ? _value.userId
             : userId // ignore: cast_nullable_to_non_nullable
-                  as UserRefModel?,
+                  as UserModel?,
         cafeId: freezed == cafeId
             ? _value.cafeId
             : cafeId // ignore: cast_nullable_to_non_nullable
@@ -476,7 +476,7 @@ class _$AvailableModelImpl implements _AvailableModel {
   @JsonKey(name: '_id')
   final String? id;
   @override
-  final UserRefModel? userId;
+  final UserModel? userId;
   @override
   final CafeDataModel? cafeId;
   final List<String>? _lookingFor;
@@ -643,7 +643,7 @@ class _$AvailableModelImpl implements _AvailableModel {
 abstract class _AvailableModel implements AvailableModel {
   const factory _AvailableModel({
     @JsonKey(name: '_id') final String? id,
-    final UserRefModel? userId,
+    final UserModel? userId,
     final CafeDataModel? cafeId,
     final List<String>? lookingFor,
     final List<String>? availableFor,
@@ -674,7 +674,7 @@ abstract class _AvailableModel implements AvailableModel {
   @JsonKey(name: '_id')
   String? get id;
   @override
-  UserRefModel? get userId;
+  UserModel? get userId;
   @override
   CafeDataModel? get cafeId;
   @override
@@ -724,414 +724,6 @@ abstract class _AvailableModel implements AvailableModel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AvailableModelImplCopyWith<_$AvailableModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-UserRefModel _$UserRefModelFromJson(Map<String, dynamic> json) {
-  return _UserRefModel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UserRefModel {
-  @JsonKey(name: '_id')
-  String? get id => throw _privateConstructorUsedError;
-  String? get profilePhoto => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
-  String? get datingIntentions => throw _privateConstructorUsedError;
-  int? get age => throw _privateConstructorUsedError;
-  String? get dateOfBirth => throw _privateConstructorUsedError;
-  String? get maritalStatus => throw _privateConstructorUsedError;
-  String? get bio => throw _privateConstructorUsedError;
-  String? get fullName => throw _privateConstructorUsedError;
-  String? get location => throw _privateConstructorUsedError;
-  String? get occupation => throw _privateConstructorUsedError;
-  String? get preferredGender => throw _privateConstructorUsedError;
-
-  /// Serializes this UserRefModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of UserRefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserRefModelCopyWith<UserRefModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserRefModelCopyWith<$Res> {
-  factory $UserRefModelCopyWith(
-    UserRefModel value,
-    $Res Function(UserRefModel) then,
-  ) = _$UserRefModelCopyWithImpl<$Res, UserRefModel>;
-  @useResult
-  $Res call({
-    @JsonKey(name: '_id') String? id,
-    String? profilePhoto,
-    String? email,
-    String? datingIntentions,
-    int? age,
-    String? dateOfBirth,
-    String? maritalStatus,
-    String? bio,
-    String? fullName,
-    String? location,
-    String? occupation,
-    String? preferredGender,
-  });
-}
-
-/// @nodoc
-class _$UserRefModelCopyWithImpl<$Res, $Val extends UserRefModel>
-    implements $UserRefModelCopyWith<$Res> {
-  _$UserRefModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UserRefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? profilePhoto = freezed,
-    Object? email = freezed,
-    Object? datingIntentions = freezed,
-    Object? age = freezed,
-    Object? dateOfBirth = freezed,
-    Object? maritalStatus = freezed,
-    Object? bio = freezed,
-    Object? fullName = freezed,
-    Object? location = freezed,
-    Object? occupation = freezed,
-    Object? preferredGender = freezed,
-  }) {
-    return _then(
-      _value.copyWith(
-            id: freezed == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            profilePhoto: freezed == profilePhoto
-                ? _value.profilePhoto
-                : profilePhoto // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            email: freezed == email
-                ? _value.email
-                : email // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            datingIntentions: freezed == datingIntentions
-                ? _value.datingIntentions
-                : datingIntentions // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            age: freezed == age
-                ? _value.age
-                : age // ignore: cast_nullable_to_non_nullable
-                      as int?,
-            dateOfBirth: freezed == dateOfBirth
-                ? _value.dateOfBirth
-                : dateOfBirth // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            maritalStatus: freezed == maritalStatus
-                ? _value.maritalStatus
-                : maritalStatus // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            bio: freezed == bio
-                ? _value.bio
-                : bio // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            fullName: freezed == fullName
-                ? _value.fullName
-                : fullName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            location: freezed == location
-                ? _value.location
-                : location // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            occupation: freezed == occupation
-                ? _value.occupation
-                : occupation // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            preferredGender: freezed == preferredGender
-                ? _value.preferredGender
-                : preferredGender // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
-  }
-}
-
-/// @nodoc
-abstract class _$$UserRefModelImplCopyWith<$Res>
-    implements $UserRefModelCopyWith<$Res> {
-  factory _$$UserRefModelImplCopyWith(
-    _$UserRefModelImpl value,
-    $Res Function(_$UserRefModelImpl) then,
-  ) = __$$UserRefModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    @JsonKey(name: '_id') String? id,
-    String? profilePhoto,
-    String? email,
-    String? datingIntentions,
-    int? age,
-    String? dateOfBirth,
-    String? maritalStatus,
-    String? bio,
-    String? fullName,
-    String? location,
-    String? occupation,
-    String? preferredGender,
-  });
-}
-
-/// @nodoc
-class __$$UserRefModelImplCopyWithImpl<$Res>
-    extends _$UserRefModelCopyWithImpl<$Res, _$UserRefModelImpl>
-    implements _$$UserRefModelImplCopyWith<$Res> {
-  __$$UserRefModelImplCopyWithImpl(
-    _$UserRefModelImpl _value,
-    $Res Function(_$UserRefModelImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of UserRefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? profilePhoto = freezed,
-    Object? email = freezed,
-    Object? datingIntentions = freezed,
-    Object? age = freezed,
-    Object? dateOfBirth = freezed,
-    Object? maritalStatus = freezed,
-    Object? bio = freezed,
-    Object? fullName = freezed,
-    Object? location = freezed,
-    Object? occupation = freezed,
-    Object? preferredGender = freezed,
-  }) {
-    return _then(
-      _$UserRefModelImpl(
-        id: freezed == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        profilePhoto: freezed == profilePhoto
-            ? _value.profilePhoto
-            : profilePhoto // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        email: freezed == email
-            ? _value.email
-            : email // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        datingIntentions: freezed == datingIntentions
-            ? _value.datingIntentions
-            : datingIntentions // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        age: freezed == age
-            ? _value.age
-            : age // ignore: cast_nullable_to_non_nullable
-                  as int?,
-        dateOfBirth: freezed == dateOfBirth
-            ? _value.dateOfBirth
-            : dateOfBirth // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        maritalStatus: freezed == maritalStatus
-            ? _value.maritalStatus
-            : maritalStatus // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        bio: freezed == bio
-            ? _value.bio
-            : bio // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        fullName: freezed == fullName
-            ? _value.fullName
-            : fullName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        location: freezed == location
-            ? _value.location
-            : location // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        occupation: freezed == occupation
-            ? _value.occupation
-            : occupation // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        preferredGender: freezed == preferredGender
-            ? _value.preferredGender
-            : preferredGender // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$UserRefModelImpl implements _UserRefModel {
-  const _$UserRefModelImpl({
-    @JsonKey(name: '_id') this.id,
-    this.profilePhoto,
-    this.email,
-    this.datingIntentions,
-    this.age,
-    this.dateOfBirth,
-    this.maritalStatus,
-    this.bio,
-    this.fullName,
-    this.location,
-    this.occupation,
-    this.preferredGender,
-  });
-
-  factory _$UserRefModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserRefModelImplFromJson(json);
-
-  @override
-  @JsonKey(name: '_id')
-  final String? id;
-  @override
-  final String? profilePhoto;
-  @override
-  final String? email;
-  @override
-  final String? datingIntentions;
-  @override
-  final int? age;
-  @override
-  final String? dateOfBirth;
-  @override
-  final String? maritalStatus;
-  @override
-  final String? bio;
-  @override
-  final String? fullName;
-  @override
-  final String? location;
-  @override
-  final String? occupation;
-  @override
-  final String? preferredGender;
-
-  @override
-  String toString() {
-    return 'UserRefModel(id: $id, profilePhoto: $profilePhoto, email: $email, datingIntentions: $datingIntentions, age: $age, dateOfBirth: $dateOfBirth, maritalStatus: $maritalStatus, bio: $bio, fullName: $fullName, location: $location, occupation: $occupation, preferredGender: $preferredGender)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UserRefModelImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.profilePhoto, profilePhoto) ||
-                other.profilePhoto == profilePhoto) &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.datingIntentions, datingIntentions) ||
-                other.datingIntentions == datingIntentions) &&
-            (identical(other.age, age) || other.age == age) &&
-            (identical(other.dateOfBirth, dateOfBirth) ||
-                other.dateOfBirth == dateOfBirth) &&
-            (identical(other.maritalStatus, maritalStatus) ||
-                other.maritalStatus == maritalStatus) &&
-            (identical(other.bio, bio) || other.bio == bio) &&
-            (identical(other.fullName, fullName) ||
-                other.fullName == fullName) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
-            (identical(other.occupation, occupation) ||
-                other.occupation == occupation) &&
-            (identical(other.preferredGender, preferredGender) ||
-                other.preferredGender == preferredGender));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    profilePhoto,
-    email,
-    datingIntentions,
-    age,
-    dateOfBirth,
-    maritalStatus,
-    bio,
-    fullName,
-    location,
-    occupation,
-    preferredGender,
-  );
-
-  /// Create a copy of UserRefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UserRefModelImplCopyWith<_$UserRefModelImpl> get copyWith =>
-      __$$UserRefModelImplCopyWithImpl<_$UserRefModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserRefModelImplToJson(this);
-  }
-}
-
-abstract class _UserRefModel implements UserRefModel {
-  const factory _UserRefModel({
-    @JsonKey(name: '_id') final String? id,
-    final String? profilePhoto,
-    final String? email,
-    final String? datingIntentions,
-    final int? age,
-    final String? dateOfBirth,
-    final String? maritalStatus,
-    final String? bio,
-    final String? fullName,
-    final String? location,
-    final String? occupation,
-    final String? preferredGender,
-  }) = _$UserRefModelImpl;
-
-  factory _UserRefModel.fromJson(Map<String, dynamic> json) =
-      _$UserRefModelImpl.fromJson;
-
-  @override
-  @JsonKey(name: '_id')
-  String? get id;
-  @override
-  String? get profilePhoto;
-  @override
-  String? get email;
-  @override
-  String? get datingIntentions;
-  @override
-  int? get age;
-  @override
-  String? get dateOfBirth;
-  @override
-  String? get maritalStatus;
-  @override
-  String? get bio;
-  @override
-  String? get fullName;
-  @override
-  String? get location;
-  @override
-  String? get occupation;
-  @override
-  String? get preferredGender;
-
-  /// Create a copy of UserRefModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserRefModelImplCopyWith<_$UserRefModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

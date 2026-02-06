@@ -1,3 +1,4 @@
+import 'package:convo_hearts/data/model/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'available_model.freezed.dart';
@@ -8,7 +9,7 @@ class AvailableModel with _$AvailableModel {
   const factory AvailableModel({
     @JsonKey(name: '_id') String? id,
 
-    UserRefModel? userId,
+    UserModel? userId,
     CafeDataModel? cafeId,
 
     List<String>? lookingFor,
@@ -45,26 +46,26 @@ class AvailableModel with _$AvailableModel {
 
 /* ------------------ USER ------------------ */
 
-@freezed
-class UserRefModel with _$UserRefModel {
-  const factory UserRefModel({
-    @JsonKey(name: '_id') String? id,
-    String? profilePhoto,
-    String? email,
-    String? datingIntentions,
-    int? age,
-    String? dateOfBirth,
-    String? maritalStatus,
-    String? bio,
-    String? fullName,
-    String? location,
-    String? occupation,
-    String? preferredGender,
-  }) = _UserRefModel;
-
-  factory UserRefModel.fromJson(Map<String, dynamic> json) =>
-      _$UserRefModelFromJson(json);
-}
+// @freezed
+// class UserRefModel with _$UserRefModel {
+//   const factory UserRefModel({
+//     @JsonKey(name: '_id') String? id,
+//     String? profilePhoto,
+//     String? email,
+//     String? datingIntentions,
+//     int? age,
+//     String? dateOfBirth,
+//     String? maritalStatus,
+//     String? bio,
+//     String? nickname,
+//     String? location,
+//     String? occupation,
+//     String? preferredGender,
+//   }) = _UserRefModel;
+//
+//   factory UserRefModel.fromJson(Map<String, dynamic> json) =>
+//       _$UserRefModelFromJson(json);
+// }
 
 /* ------------------ CAFE ------------------ */
 

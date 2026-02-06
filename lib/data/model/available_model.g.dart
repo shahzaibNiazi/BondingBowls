@@ -11,7 +11,7 @@ _$AvailableModelImpl _$$AvailableModelImplFromJson(Map<String, dynamic> json) =>
       id: json['_id'] as String?,
       userId: json['userId'] == null
           ? null
-          : UserRefModel.fromJson(json['userId'] as Map<String, dynamic>),
+          : UserModel.fromJson(json['userId'] as Map<String, dynamic>),
       cafeId: json['cafeId'] == null
           ? null
           : CafeDataModel.fromJson(json['cafeId'] as Map<String, dynamic>),
@@ -84,38 +84,6 @@ Map<String, dynamic> _$$AvailableModelImplToJson(
   'joinRequestId': instance.joinRequestId,
   'joinRequestStatus': instance.joinRequestStatus,
 };
-
-_$UserRefModelImpl _$$UserRefModelImplFromJson(Map<String, dynamic> json) =>
-    _$UserRefModelImpl(
-      id: json['_id'] as String?,
-      profilePhoto: json['profilePhoto'] as String?,
-      email: json['email'] as String?,
-      datingIntentions: json['datingIntentions'] as String?,
-      age: (json['age'] as num?)?.toInt(),
-      dateOfBirth: json['dateOfBirth'] as String?,
-      maritalStatus: json['maritalStatus'] as String?,
-      bio: json['bio'] as String?,
-      fullName: json['fullName'] as String?,
-      location: json['location'] as String?,
-      occupation: json['occupation'] as String?,
-      preferredGender: json['preferredGender'] as String?,
-    );
-
-Map<String, dynamic> _$$UserRefModelImplToJson(_$UserRefModelImpl instance) =>
-    <String, dynamic>{
-      '_id': instance.id,
-      'profilePhoto': instance.profilePhoto,
-      'email': instance.email,
-      'datingIntentions': instance.datingIntentions,
-      'age': instance.age,
-      'dateOfBirth': instance.dateOfBirth,
-      'maritalStatus': instance.maritalStatus,
-      'bio': instance.bio,
-      'fullName': instance.fullName,
-      'location': instance.location,
-      'occupation': instance.occupation,
-      'preferredGender': instance.preferredGender,
-    };
 
 _$CafeDataModelImpl _$$CafeDataModelImplFromJson(Map<String, dynamic> json) =>
     _$CafeDataModelImpl(

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:convo_hearts/app/config/global_var.dart';
 import 'package:convo_hearts/data/model/matching_profile_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +22,7 @@ class MatchesView extends GetView<MatchesController> {
 
   @override
   Widget build(BuildContext context) {
+    log(Globals.user!.password.toString());
     return GetBuilder<MatchesController>(
       init: MatchesController(),
       builder: (controller) {

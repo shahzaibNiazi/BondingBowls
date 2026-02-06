@@ -405,9 +405,15 @@ class DetailProfile extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image.asset("assets/images/thumbs.png"),
+                                  Image.asset(
+                                    "assets/images/thumbs.png",
+                                    scale: 4,
+                                  ),
                                   // Image.asset("assets/images/match_logo.png"),
-                                  Image.asset("assets/images/thumbs_down.png"),
+                                  Image.asset(
+                                    "assets/images/thumbs_down.png",
+                                    scale: 4,
+                                  ),
                                 ],
                               ),
                             ),

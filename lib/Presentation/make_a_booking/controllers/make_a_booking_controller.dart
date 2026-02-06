@@ -223,6 +223,9 @@ class MakeABookingController extends GetxController {
     /// ---- API CALL ----
     try {
       final response = await profileCreationRepository.available(cafeModel.id);
+
+      log(response.toString());
+
       availableModel.clear();
       if (response != null &&
           response['success'] == true &&
@@ -233,7 +236,7 @@ class MakeABookingController extends GetxController {
             .map<AvailableModel>((e) => AvailableModel.fromJson(e))
             .toList();
         availableModel = data;
-        log('Length ----- ${availableModel.length.toString()}');
+        log('Length ----- ${availableModel.toString()}');
 
         update();
 
