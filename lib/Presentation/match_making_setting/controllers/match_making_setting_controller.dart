@@ -16,7 +16,7 @@ class MatchMakingSettingController extends GetxController {
   //TODO: Implement MatchMakingSettingController
 
   final count = 0.obs;
-  RangeValues ageRange = const RangeValues(25, 28);
+  RangeValues ageRange = const RangeValues(25, 40);
   String selectedGender = 'Female';
   String selectedIntention = 'Any';
   String selectedNationality = 'SG/PR';
@@ -33,15 +33,40 @@ class MatchMakingSettingController extends GetxController {
   void onInit() {
     super.onInit();
 
+    log(Globals.user!.toJson().toString());
+
     if (Globals.user != null) {
       selectedGender = Globals.user?.preferredGender ?? '';
-      selectedIntention = Globals.user?.preferredDatingIntentions?.first ?? '';
-      selectedNationality = Globals.user?.preferredNationality?.first ?? '';
-      selectedReligion = Globals.user?.preferredReligion?.first ?? '';
-      ageRange = RangeValues(
-        double.tryParse((Globals.user?.minAge)?.toString() ?? "") ?? 0.0,
-        double.tryParse((Globals.user?.maxAge)?.toString() ?? "") ?? 0.0,
-      );
+      selectedIntention =
+          (Globals.user?.preferredDatingIntentions?.isNotEmpty == true)
+          ? Globals.user!.preferredDatingIntentions!.first
+          : '';
+
+      selectedNationality =
+          (Globals.user?.preferredNationality?.isNotEmpty == true)
+          ? Globals.user!.preferredNationality!.first
+          : '';
+
+      selectedReligion = (Globals.user?.preferredReligion?.isNotEmpty == true)
+          ? Globals.user!.preferredReligion!.first
+          : '';
+
+      double min =
+          double.tryParse(Globals.user?.minAge?.toString() ?? '') ?? 25.0;
+      double max =
+          double.tryParse(Globals.user?.maxAge?.toString() ?? '') ?? 40.0;
+
+      if (min > max) {
+        final temp = min;
+        min = max;
+        max = temp;
+      }
+
+      // Clamp values to valid range
+      min = min.clamp(18.0, 67.0);
+      max = max.clamp(18.0, 67.0);
+
+      ageRange = RangeValues(min, max);
     }
   }
 
@@ -118,7 +143,7 @@ class MatchMakingSettingController extends GetxController {
     double localPosition =
         renderBox.globalToLocal(details.globalPosition).dx - 24;
     double percentage = (localPosition / trackWidth).clamp(0.0, 1.0);
-    double newValue = 25 + (percentage * 15);
+    double newValue = 18 + (percentage * 49); // 18 to 67 range (49 years)
 
     // Determine which thumb is closer
     double startDistance = (startPos - localPosition).abs();
@@ -126,13 +151,13 @@ class MatchMakingSettingController extends GetxController {
 
     if (startDistance < endDistance) {
       // Move start thumb
-      double newStart = newValue.clamp(25.0, ageRange.end - 1);
+      double newStart = newValue.clamp(18.0, ageRange.end - 1);
       ageRange = RangeValues(newStart, ageRange.end);
     } else {
       // Move end thumb
-      double newEnd = newValue.clamp(ageRange.start + 1, 40.0);
+      double newEnd = newValue.clamp(ageRange.start + 1, 67.0);
       ageRange = RangeValues(ageRange.start, newEnd);
-      update();
     }
+    update();
   }
 }

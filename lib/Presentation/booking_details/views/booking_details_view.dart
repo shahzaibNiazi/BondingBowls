@@ -1,10 +1,8 @@
-import 'package:convo_hearts/Presentation/booking_details/views/purchase_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../app/config/app_colors.dart';
 import '../../../app/utils/utils.dart';
 import '../controllers/booking_details_controller.dart';
 
@@ -111,66 +109,74 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
+                                  // Image.asset(
+                                  //   Utils.getImagePath('no_book'),
+                                  //   scale: 5,
+                                  // ),
+                                  // Image.asset(
+                                  //   Utils.getImagePath('cooldown'),
+                                  //   scale: 5,
+                                  // ),
                                   Image.asset(
-                                    Utils.getImagePath('no_book'),
+                                    Utils.getImagePath('no_verify'),
                                     scale: 5,
                                   ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        'Cafeconnect is on cooldown!',
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: Colors.black87,
-                                        ),
-                                      ),
-                                      Text(
-                                        '(6 Days  22 Hours  51 Mins)',
-                                        style: TextStyle(
-                                          fontSize: 13.sp,
-                                          color: Colors.black87,
-                                        ),
-                                      ).paddingOnly(bottom: 12.h),
-
-                                      GestureDetector(
-                                        onTap: () {
-                                          showCafeConnectPurchaseDialog(
-                                            context,
-                                          );
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(12),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              30,
-                                            ),
-                                            border: Border.all(
-                                              width: 3,
-                                              color: AppColors.black,
-                                            ),
-                                          ),
-                                          child: Text.rich(
-                                            TextSpan(
-                                              text: 'refresh now for',
-                                              children: [
-                                                TextSpan(
-                                                  text: ' 200',
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ).paddingOnly(bottom: 50.h),
+                                  // Column(
+                                  //   children: [
+                                  //     Text(
+                                  //       'Cafeconnect is on cooldown!',
+                                  //       style: TextStyle(
+                                  //         fontSize: 14.sp,
+                                  //         color: Colors.black87,
+                                  //       ),
+                                  //     ),
+                                  //     Text(
+                                  //       '(6 Days  22 Hours  51 Mins)',
+                                  //       style: TextStyle(
+                                  //         fontSize: 13.sp,
+                                  //         color: Colors.black87,
+                                  //       ),
+                                  //     ).paddingOnly(bottom: 12.h),
+                                  //
+                                  //     GestureDetector(
+                                  //       onTap: () {
+                                  //         showCafeConnectPurchaseDialog(
+                                  //           context,
+                                  //         );
+                                  //       },
+                                  //       child: Container(
+                                  //         padding: EdgeInsets.all(12),
+                                  //         decoration: BoxDecoration(
+                                  //           borderRadius: BorderRadius.circular(
+                                  //             30,
+                                  //           ),
+                                  //           border: Border.all(
+                                  //             width: 3,
+                                  //             color: AppColors.black,
+                                  //           ),
+                                  //         ),
+                                  //         child: Text.rich(
+                                  //           TextSpan(
+                                  //             text: 'refresh now for',
+                                  //             children: [
+                                  //               TextSpan(
+                                  //                 text: ' 200',
+                                  //                 style: TextStyle(
+                                  //                   color: Colors.red,
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //           style: TextStyle(
+                                  //             fontSize: 14.sp,
+                                  //             fontWeight: FontWeight.bold,
+                                  //             color: Colors.black87,
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ).paddingOnly(bottom: 50.h),
                                 ],
                               ),
                             ],
@@ -244,7 +250,7 @@ class BookingDetailsView extends GetView<BookingDetailsController> {
           text,
           style: TextStyle(
             color: isActive ? Colors.white : Colors.grey,
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -260,24 +266,17 @@ class _BulletText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('• ', style: TextStyle(fontSize: 14, height: 1.5)),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.black87,
-                height: 1.5,
-              ),
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('• ', style: TextStyle(fontSize: 14.sp)),
+        Expanded(
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 12.sp, color: Colors.black87),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

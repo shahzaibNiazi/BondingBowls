@@ -1,11 +1,11 @@
 import 'package:convo_hearts/app/routes/app_pages.dart';
-import 'package:convo_hearts/src/feature/BottomBar/chat/received_likes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../Presentation/payment_system/views/payment_system_view.dart';
+import '../../../../Presentation/received_likes/views/received_likes_view.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({super.key});
@@ -157,7 +157,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReceivedLikesScreen(),
+                        builder: (context) => ReceivedLikesView(),
                       ),
                     );
                   },
@@ -274,6 +274,10 @@ class _ChatsScreenState extends State<ChatsScreen> {
                         SizedBox(height: 20),
 
                         ChatItemTaco(
+                          onTap: () {
+                            Get.toNamed(Routes.SYSTEM_CHAT);
+                          },
+
                           name: "SysTaco",
                           details: "1M/F, Taco",
                           badgeText: "TacoPass",
@@ -451,10 +455,13 @@ class ChatItemTaco extends StatelessWidget {
   final String badgeText;
   final String imagePath;
   final String messageCount;
+  final void Function() onTap;
 
   const ChatItemTaco({
     super.key,
     required this.name,
+    required this.onTap,
+
     required this.details,
     required this.badgeText,
     required this.imagePath,
@@ -463,103 +470,106 @@ class ChatItemTaco extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-          padding: const EdgeInsets.fromLTRB(80, 12, 16, 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.black26),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    badgeText,
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 6),
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 4),
-                    Image.asset("assets/images/verify.png", scale: 2),
-                  ],
-                ),
-                SizedBox(height: 2),
-                Text(
-                  details,
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-
-        Positioned(
-          top: -5,
-          left: 60,
-          child: Image.asset(imagePath, height: 110),
-        ),
-
-        Positioned(
-          top: -2,
-          right: 9,
-          child: Container(
-            height: 28,
-            width: 28,
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            padding: const EdgeInsets.fromLTRB(80, 12, 16, 12),
             decoration: BoxDecoration(
               color: Colors.white,
-              shape: BoxShape.circle,
+              border: Border.all(color: Colors.black26),
+              borderRadius: BorderRadius.circular(10),
             ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 60),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      badgeText,
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Image.asset("assets/images/verify.png", scale: 2),
+                    ],
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    details,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: -5,
+            left: 60,
+            child: Image.asset(imagePath, height: 110),
+          ),
+
+          Positioned(
+            top: -2,
+            right: 9,
             child: Container(
+              height: 28,
+              width: 28,
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: Colors.white,
                 shape: BoxShape.circle,
               ),
-              child: Center(
-                child: Text(
-                  "1",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.bold,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    "1",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

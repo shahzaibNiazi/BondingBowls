@@ -52,6 +52,7 @@ class UserModel with _$UserModel {
     String? location,
     String? nickname,
     String? religion,
+    String? maritalStatus,
     String? smoking,
     bool? profileSetup,
     String? userStatus,

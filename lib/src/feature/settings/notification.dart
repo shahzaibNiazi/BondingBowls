@@ -179,9 +179,11 @@ class NotificationScreen extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       time,
@@ -403,13 +405,15 @@ class NotificationScreen extends StatelessWidget {
                       svgAssetPath: "assets/images/cup_coffee1.jpg",
                       time: '7 min ago',
                       extra: 'T&C applies',
-                      message: '50% OFF at Coffee Haven at Cafeco',
+                      message:
+                          '50% OFF at Coffee Haven at Cafeco or more i have known about this',
                     ),
                     offerCard(
                       svgAssetPath: "assets/icon/svg/bold_newsletter.svg",
                       time: '2 min ago',
                       extra: 'T&C applies',
-                      message: 'Buy 1 Get 1 free at Bread Walk at Nea',
+                      message:
+                          'Buy 1 Get 1 free at Bread Walk at Nea or more i have known about this',
                     ),
                   ],
                 ),

@@ -136,96 +136,100 @@ class VoicePromptSecondView extends GetView<ProfileCreationController> {
                     const SizedBox(height: 40),
 
                     /// Record mic
-                    Center(
-                      child: GestureDetector(
-                        onTap: () async {
-                          log("Shah");
-                          if (controller.recordedFilePath != null) {
-                            log("Shah");
-                            await controller.player.setFilePath(
-                              controller.recordedFilePath!,
-                            );
-                            log("Shah");
-                            controller.player.play();
-                            log("Shah");
-                          }
-                        },
-                        child: Container(
-                          height: 80,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                              color: Color(0xff505050),
-                              width: 2,
+                    Column(
+                      children: [
+                        Center(
+                          child: GestureDetector(
+                            onTap: () async {
+                              log("Shah");
+                              if (controller.recordedFilePath != null) {
+                                log("Shah");
+                                await controller.player.setFilePath(
+                                  controller.recordedFilePath!,
+                                );
+                                log("Shah");
+                                controller.player.play();
+                                log("Shah");
+                              }
+                            },
+                            child: Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                  color: Color(0xff505050),
+                                  width: 2,
+                                ),
+                                color: Color(0xffEEBCBC),
+                              ),
+                              child: Image.asset("assets/images/speaker.png"),
                             ),
-                            color: Color(0xffEEBCBC),
-                          ),
-                          child: Image.asset("assets/images/speaker.png"),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Center(
-                      child: const Text(
-                        'Tap the speaker to hear your voice!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: controller.redoRecording,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: Size(285, 50),
-                        ),
-                        child: Text(
-                          "Redo",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xff505050),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (controller.recordedFilePath != null &&
-                              controller.recordedFilePath!.isNotEmpty) {
-                            controller.uploadAudio(
-                              controller.recordedFilePath ?? '',
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffC672A5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: Size(285, 50),
-                        ),
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                        const SizedBox(height: 30),
+                        Center(
+                          child: const Text(
+                            'Tap the speaker to hear your voice!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.black54,
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 30),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: controller.redoRecording,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              minimumSize: Size(285, 50),
+                            ),
+                            child: Text(
+                              "Redo",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xff505050),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (controller.recordedFilePath != null &&
+                                  controller.recordedFilePath!.isNotEmpty) {
+                                controller.uploadAudio(
+                                  controller.recordedFilePath ?? '',
+                                );
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xffC672A5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              minimumSize: Size(285, 50),
+                            ),
+                            child: Text(
+                              "Save",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
