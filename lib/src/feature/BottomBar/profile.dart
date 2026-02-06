@@ -8,7 +8,7 @@ import '../../../app/utils/utils.dart';
 import '../settings/settings.dart';
 
 class MyProfileScreen extends StatelessWidget {
-  const MyProfileScreen({Key? key}) : super(key: key);
+  const MyProfileScreen({super.key});
 
   // TextEditingController _bioController = TextEditingController();
 
@@ -98,16 +98,41 @@ class MyProfileScreen extends StatelessWidget {
 
                     // Profile Avatar
                     Container(
+                      width: 140.h,
+                      height: 140.h,
                       padding: const EdgeInsets.all(8),
-                      child: Image.asset(
-                        'assets/images/female-avatar.jpg', // Replace with your avatar image
-                        fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          50,
+                        ), // Make it circular
+                        child: Image.network(
+                          Globals.user?.profilePhoto ??
+                              '', // Network image URL from API
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            // Fallback if image fails to load
+                            return Container(
+                              color: Colors.grey[200],
+                              child: const Icon(
+                                Icons.person,
+                                size: 50,
+                                color: Colors.grey,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
 
                     // Name
                     Text(
-                      Globals.user?.fullName ?? '',
+                      Globals.user?.nickname ?? '',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 32,
@@ -139,9 +164,21 @@ class MyProfileScreen extends StatelessWidget {
                         const SizedBox(height: 12),
                         Row(
                           children: [
-                            Expanded(child: _buildProfileDetail('Age', '22')),
+                            Expanded(
+                              child: _buildProfileDetail(
+                                'Age',
+                                Globals.user!.maxAge.toString(),
+                              ),
+                            ),
                             const SizedBox(width: 20),
-                            Expanded(child: _buildProfileDetail('Gender', '?')),
+                            Expanded(
+                              child: _buildProfileDetail(
+                                'Gender',
+                                Globals.user!.preferredGender == null
+                                    ? ''
+                                    : Globals.user!.preferredGender!,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -347,8 +384,8 @@ class MyProfileScreen extends StatelessWidget {
                                 //     ),
                                 //     style: const TextStyle(fontSize: 14),
                                 //   ),
-                                const Text(
-                                  "Hi! I'm someone who loves meaningful conversations, spontaneous adventures, and the little things in life. Whether it's deep talks over coffee or laughing at silly memes, I'm all in. Looking to meet someone genuine, kind, and curious. Let's explore connections beyond just swipes.",
+                                Text(
+                                  '${Globals.user!.bio}',
                                   style: TextStyle(fontSize: 14),
                                 ),
                           ),
