@@ -59,11 +59,6 @@ class ManuallyVerifyController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   Future uploadFile() async {
     dialog.show(
       indicatorColor: AppColors.lightBlack,

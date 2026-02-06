@@ -6,10 +6,6 @@ class ThirdSplashController extends GetxController {
   //TODO: Implement ThirdSplashController
 
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   void navigateToSignUp() {
     Get.toNamed(Routes.SIGNUP);

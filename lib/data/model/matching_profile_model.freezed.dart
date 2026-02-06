@@ -64,8 +64,11 @@ mixin _$MatchingProfileModel {
   int? get v => throw _privateConstructorUsedError;
   String? get bio => throw _privateConstructorUsedError;
   String? get clubbing => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
   String? get drinking => throw _privateConstructorUsedError;
   String? get hobbies => throw _privateConstructorUsedError;
+  String? get preferredGender => throw _privateConstructorUsedError;
+  String? get maritalStatus => throw _privateConstructorUsedError;
   String? get lifestyleInterests => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
   String? get nickname => throw _privateConstructorUsedError;
@@ -73,7 +76,20 @@ mixin _$MatchingProfileModel {
   String? get religion => throw _privateConstructorUsedError;
   String? get smoking => throw _privateConstructorUsedError;
   String? get userStatus => throw _privateConstructorUsedError;
-  bool? get isRandomProfile => throw _privateConstructorUsedError;
+  bool? get isRandomProfile =>
+      throw _privateConstructorUsedError; // ========== MISSING KEYS ==========
+  String? get otp => throw _privateConstructorUsedError; // NEW
+  String? get otpCreatedAt => throw _privateConstructorUsedError; // NEW
+  bool? get profileSetup => throw _privateConstructorUsedError; // NEW
+  List<String>? get preferredDatingIntentions =>
+      throw _privateConstructorUsedError; // NEW
+  List<String>? get preferredNationality =>
+      throw _privateConstructorUsedError; // NEW
+  List<String>? get preferredReligion =>
+      throw _privateConstructorUsedError; // NEW
+  String? get likedAt => throw _privateConstructorUsedError; // NEW
+  String? get likeType => throw _privateConstructorUsedError; // NEW
+  bool? get isCrushBowl => throw _privateConstructorUsedError;
 
   /// Serializes this MatchingProfileModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -134,8 +150,11 @@ abstract class $MatchingProfileModelCopyWith<$Res> {
     @JsonKey(name: '__v') int? v,
     String? bio,
     String? clubbing,
+    int? age,
     String? drinking,
     String? hobbies,
+    String? preferredGender,
+    String? maritalStatus,
     String? lifestyleInterests,
     String? location,
     String? nickname,
@@ -144,6 +163,15 @@ abstract class $MatchingProfileModelCopyWith<$Res> {
     String? smoking,
     String? userStatus,
     bool? isRandomProfile,
+    String? otp,
+    String? otpCreatedAt,
+    bool? profileSetup,
+    List<String>? preferredDatingIntentions,
+    List<String>? preferredNationality,
+    List<String>? preferredReligion,
+    String? likedAt,
+    String? likeType,
+    bool? isCrushBowl,
   });
 }
 
@@ -206,8 +234,11 @@ class _$MatchingProfileModelCopyWithImpl<
     Object? v = freezed,
     Object? bio = freezed,
     Object? clubbing = freezed,
+    Object? age = freezed,
     Object? drinking = freezed,
     Object? hobbies = freezed,
+    Object? preferredGender = freezed,
+    Object? maritalStatus = freezed,
     Object? lifestyleInterests = freezed,
     Object? location = freezed,
     Object? nickname = freezed,
@@ -216,6 +247,15 @@ class _$MatchingProfileModelCopyWithImpl<
     Object? smoking = freezed,
     Object? userStatus = freezed,
     Object? isRandomProfile = freezed,
+    Object? otp = freezed,
+    Object? otpCreatedAt = freezed,
+    Object? profileSetup = freezed,
+    Object? preferredDatingIntentions = freezed,
+    Object? preferredNationality = freezed,
+    Object? preferredReligion = freezed,
+    Object? likedAt = freezed,
+    Object? likeType = freezed,
+    Object? isCrushBowl = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -383,6 +423,10 @@ class _$MatchingProfileModelCopyWithImpl<
                 ? _value.clubbing
                 : clubbing // ignore: cast_nullable_to_non_nullable
                       as String?,
+            age: freezed == age
+                ? _value.age
+                : age // ignore: cast_nullable_to_non_nullable
+                      as int?,
             drinking: freezed == drinking
                 ? _value.drinking
                 : drinking // ignore: cast_nullable_to_non_nullable
@@ -390,6 +434,14 @@ class _$MatchingProfileModelCopyWithImpl<
             hobbies: freezed == hobbies
                 ? _value.hobbies
                 : hobbies // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            preferredGender: freezed == preferredGender
+                ? _value.preferredGender
+                : preferredGender // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            maritalStatus: freezed == maritalStatus
+                ? _value.maritalStatus
+                : maritalStatus // ignore: cast_nullable_to_non_nullable
                       as String?,
             lifestyleInterests: freezed == lifestyleInterests
                 ? _value.lifestyleInterests
@@ -422,6 +474,42 @@ class _$MatchingProfileModelCopyWithImpl<
             isRandomProfile: freezed == isRandomProfile
                 ? _value.isRandomProfile
                 : isRandomProfile // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            otp: freezed == otp
+                ? _value.otp
+                : otp // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            otpCreatedAt: freezed == otpCreatedAt
+                ? _value.otpCreatedAt
+                : otpCreatedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            profileSetup: freezed == profileSetup
+                ? _value.profileSetup
+                : profileSetup // ignore: cast_nullable_to_non_nullable
+                      as bool?,
+            preferredDatingIntentions: freezed == preferredDatingIntentions
+                ? _value.preferredDatingIntentions
+                : preferredDatingIntentions // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            preferredNationality: freezed == preferredNationality
+                ? _value.preferredNationality
+                : preferredNationality // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            preferredReligion: freezed == preferredReligion
+                ? _value.preferredReligion
+                : preferredReligion // ignore: cast_nullable_to_non_nullable
+                      as List<String>?,
+            likedAt: freezed == likedAt
+                ? _value.likedAt
+                : likedAt // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            likeType: freezed == likeType
+                ? _value.likeType
+                : likeType // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            isCrushBowl: freezed == isCrushBowl
+                ? _value.isCrushBowl
+                : isCrushBowl // ignore: cast_nullable_to_non_nullable
                       as bool?,
           )
           as $Val,
@@ -480,8 +568,11 @@ abstract class _$$MatchingProfileModelImplCopyWith<$Res>
     @JsonKey(name: '__v') int? v,
     String? bio,
     String? clubbing,
+    int? age,
     String? drinking,
     String? hobbies,
+    String? preferredGender,
+    String? maritalStatus,
     String? lifestyleInterests,
     String? location,
     String? nickname,
@@ -490,6 +581,15 @@ abstract class _$$MatchingProfileModelImplCopyWith<$Res>
     String? smoking,
     String? userStatus,
     bool? isRandomProfile,
+    String? otp,
+    String? otpCreatedAt,
+    bool? profileSetup,
+    List<String>? preferredDatingIntentions,
+    List<String>? preferredNationality,
+    List<String>? preferredReligion,
+    String? likedAt,
+    String? likeType,
+    bool? isCrushBowl,
   });
 }
 
@@ -548,8 +648,11 @@ class __$$MatchingProfileModelImplCopyWithImpl<$Res>
     Object? v = freezed,
     Object? bio = freezed,
     Object? clubbing = freezed,
+    Object? age = freezed,
     Object? drinking = freezed,
     Object? hobbies = freezed,
+    Object? preferredGender = freezed,
+    Object? maritalStatus = freezed,
     Object? lifestyleInterests = freezed,
     Object? location = freezed,
     Object? nickname = freezed,
@@ -558,6 +661,15 @@ class __$$MatchingProfileModelImplCopyWithImpl<$Res>
     Object? smoking = freezed,
     Object? userStatus = freezed,
     Object? isRandomProfile = freezed,
+    Object? otp = freezed,
+    Object? otpCreatedAt = freezed,
+    Object? profileSetup = freezed,
+    Object? preferredDatingIntentions = freezed,
+    Object? preferredNationality = freezed,
+    Object? preferredReligion = freezed,
+    Object? likedAt = freezed,
+    Object? likeType = freezed,
+    Object? isCrushBowl = freezed,
   }) {
     return _then(
       _$MatchingProfileModelImpl(
@@ -725,6 +837,10 @@ class __$$MatchingProfileModelImplCopyWithImpl<$Res>
             ? _value.clubbing
             : clubbing // ignore: cast_nullable_to_non_nullable
                   as String?,
+        age: freezed == age
+            ? _value.age
+            : age // ignore: cast_nullable_to_non_nullable
+                  as int?,
         drinking: freezed == drinking
             ? _value.drinking
             : drinking // ignore: cast_nullable_to_non_nullable
@@ -732,6 +848,14 @@ class __$$MatchingProfileModelImplCopyWithImpl<$Res>
         hobbies: freezed == hobbies
             ? _value.hobbies
             : hobbies // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        preferredGender: freezed == preferredGender
+            ? _value.preferredGender
+            : preferredGender // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        maritalStatus: freezed == maritalStatus
+            ? _value.maritalStatus
+            : maritalStatus // ignore: cast_nullable_to_non_nullable
                   as String?,
         lifestyleInterests: freezed == lifestyleInterests
             ? _value.lifestyleInterests
@@ -764,6 +888,42 @@ class __$$MatchingProfileModelImplCopyWithImpl<$Res>
         isRandomProfile: freezed == isRandomProfile
             ? _value.isRandomProfile
             : isRandomProfile // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        otp: freezed == otp
+            ? _value.otp
+            : otp // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        otpCreatedAt: freezed == otpCreatedAt
+            ? _value.otpCreatedAt
+            : otpCreatedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        profileSetup: freezed == profileSetup
+            ? _value.profileSetup
+            : profileSetup // ignore: cast_nullable_to_non_nullable
+                  as bool?,
+        preferredDatingIntentions: freezed == preferredDatingIntentions
+            ? _value._preferredDatingIntentions
+            : preferredDatingIntentions // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        preferredNationality: freezed == preferredNationality
+            ? _value._preferredNationality
+            : preferredNationality // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        preferredReligion: freezed == preferredReligion
+            ? _value._preferredReligion
+            : preferredReligion // ignore: cast_nullable_to_non_nullable
+                  as List<String>?,
+        likedAt: freezed == likedAt
+            ? _value.likedAt
+            : likedAt // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        likeType: freezed == likeType
+            ? _value.likeType
+            : likeType // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        isCrushBowl: freezed == isCrushBowl
+            ? _value.isCrushBowl
+            : isCrushBowl // ignore: cast_nullable_to_non_nullable
                   as bool?,
       ),
     );
@@ -815,8 +975,11 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
     @JsonKey(name: '__v') this.v,
     this.bio,
     this.clubbing,
+    this.age,
     this.drinking,
     this.hobbies,
+    this.preferredGender,
+    this.maritalStatus,
     this.lifestyleInterests,
     this.location,
     this.nickname,
@@ -825,12 +988,24 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
     this.smoking,
     this.userStatus,
     this.isRandomProfile,
+    this.otp,
+    this.otpCreatedAt,
+    this.profileSetup,
+    final List<String>? preferredDatingIntentions,
+    final List<String>? preferredNationality,
+    final List<String>? preferredReligion,
+    this.likedAt,
+    this.likeType,
+    this.isCrushBowl,
   }) : _profileImages = profileImages,
        _greenFlags = greenFlags,
        _redFlags = redFlags,
        _verificationDocuments = verificationDocuments,
        _rejectedUsers = rejectedUsers,
-       _fcmTokens = fcmTokens;
+       _fcmTokens = fcmTokens,
+       _preferredDatingIntentions = preferredDatingIntentions,
+       _preferredNationality = preferredNationality,
+       _preferredReligion = preferredReligion;
 
   factory _$MatchingProfileModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MatchingProfileModelImplFromJson(json);
@@ -969,9 +1144,15 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
   @override
   final String? clubbing;
   @override
+  final int? age;
+  @override
   final String? drinking;
   @override
   final String? hobbies;
+  @override
+  final String? preferredGender;
+  @override
+  final String? maritalStatus;
   @override
   final String? lifestyleInterests;
   @override
@@ -988,10 +1169,67 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
   final String? userStatus;
   @override
   final bool? isRandomProfile;
+  // ========== MISSING KEYS ==========
+  @override
+  final String? otp;
+  // NEW
+  @override
+  final String? otpCreatedAt;
+  // NEW
+  @override
+  final bool? profileSetup;
+  // NEW
+  final List<String>? _preferredDatingIntentions;
+  // NEW
+  @override
+  List<String>? get preferredDatingIntentions {
+    final value = _preferredDatingIntentions;
+    if (value == null) return null;
+    if (_preferredDatingIntentions is EqualUnmodifiableListView)
+      return _preferredDatingIntentions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  // NEW
+  final List<String>? _preferredNationality;
+  // NEW
+  @override
+  List<String>? get preferredNationality {
+    final value = _preferredNationality;
+    if (value == null) return null;
+    if (_preferredNationality is EqualUnmodifiableListView)
+      return _preferredNationality;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  // NEW
+  final List<String>? _preferredReligion;
+  // NEW
+  @override
+  List<String>? get preferredReligion {
+    final value = _preferredReligion;
+    if (value == null) return null;
+    if (_preferredReligion is EqualUnmodifiableListView)
+      return _preferredReligion;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  // NEW
+  @override
+  final String? likedAt;
+  // NEW
+  @override
+  final String? likeType;
+  // NEW
+  @override
+  final bool? isCrushBowl;
 
   @override
   String toString() {
-    return 'MatchingProfileModel(id: $id, fullName: $fullName, profilePhoto: $profilePhoto, email: $email, role: $role, status: $status, loginType: $loginType, appUsageType: $appUsageType, aiAvatar: $aiAvatar, aiAvatarStyle: $aiAvatarStyle, profileImages: $profileImages, datingIntentions: $datingIntentions, pets: $pets, voicePrompt: $voicePrompt, video: $video, greenFlags: $greenFlags, redFlags: $redFlags, verificationStatus: $verificationStatus, verificationMethod: $verificationMethod, verificationDocuments: $verificationDocuments, profileCompleted: $profileCompleted, profileCompletionStep: $profileCompletionStep, isDelete: $isDelete, suspended: $suspended, bowlBalance: $bowlBalance, permanentChatIncrements: $permanentChatIncrements, rejectedUsers: $rejectedUsers, receivedLikesCount: $receivedLikesCount, profileBoostActive: $profileBoostActive, profileBoostExpiresAt: $profileBoostExpiresAt, crushBowlActive: $crushBowlActive, crushBowlExpiresAt: $crushBowlExpiresAt, activeConversations: $activeConversations, subscriptionChatIncrements: $subscriptionChatIncrements, fcmToken: $fcmToken, fcmTokens: $fcmTokens, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, bio: $bio, clubbing: $clubbing, drinking: $drinking, hobbies: $hobbies, lifestyleInterests: $lifestyleInterests, location: $location, nickname: $nickname, occupation: $occupation, religion: $religion, smoking: $smoking, userStatus: $userStatus, isRandomProfile: $isRandomProfile)';
+    return 'MatchingProfileModel(id: $id, fullName: $fullName, profilePhoto: $profilePhoto, email: $email, role: $role, status: $status, loginType: $loginType, appUsageType: $appUsageType, aiAvatar: $aiAvatar, aiAvatarStyle: $aiAvatarStyle, profileImages: $profileImages, datingIntentions: $datingIntentions, pets: $pets, voicePrompt: $voicePrompt, video: $video, greenFlags: $greenFlags, redFlags: $redFlags, verificationStatus: $verificationStatus, verificationMethod: $verificationMethod, verificationDocuments: $verificationDocuments, profileCompleted: $profileCompleted, profileCompletionStep: $profileCompletionStep, isDelete: $isDelete, suspended: $suspended, bowlBalance: $bowlBalance, permanentChatIncrements: $permanentChatIncrements, rejectedUsers: $rejectedUsers, receivedLikesCount: $receivedLikesCount, profileBoostActive: $profileBoostActive, profileBoostExpiresAt: $profileBoostExpiresAt, crushBowlActive: $crushBowlActive, crushBowlExpiresAt: $crushBowlExpiresAt, activeConversations: $activeConversations, subscriptionChatIncrements: $subscriptionChatIncrements, fcmToken: $fcmToken, fcmTokens: $fcmTokens, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, bio: $bio, clubbing: $clubbing, age: $age, drinking: $drinking, hobbies: $hobbies, preferredGender: $preferredGender, maritalStatus: $maritalStatus, lifestyleInterests: $lifestyleInterests, location: $location, nickname: $nickname, occupation: $occupation, religion: $religion, smoking: $smoking, userStatus: $userStatus, isRandomProfile: $isRandomProfile, otp: $otp, otpCreatedAt: $otpCreatedAt, profileSetup: $profileSetup, preferredDatingIntentions: $preferredDatingIntentions, preferredNationality: $preferredNationality, preferredReligion: $preferredReligion, likedAt: $likedAt, likeType: $likeType, isCrushBowl: $isCrushBowl)';
   }
 
   @override
@@ -1089,9 +1327,14 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.clubbing, clubbing) ||
                 other.clubbing == clubbing) &&
+            (identical(other.age, age) || other.age == age) &&
             (identical(other.drinking, drinking) ||
                 other.drinking == drinking) &&
             (identical(other.hobbies, hobbies) || other.hobbies == hobbies) &&
+            (identical(other.preferredGender, preferredGender) ||
+                other.preferredGender == preferredGender) &&
+            (identical(other.maritalStatus, maritalStatus) ||
+                other.maritalStatus == maritalStatus) &&
             (identical(other.lifestyleInterests, lifestyleInterests) ||
                 other.lifestyleInterests == lifestyleInterests) &&
             (identical(other.location, location) ||
@@ -1106,7 +1349,29 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
             (identical(other.userStatus, userStatus) ||
                 other.userStatus == userStatus) &&
             (identical(other.isRandomProfile, isRandomProfile) ||
-                other.isRandomProfile == isRandomProfile));
+                other.isRandomProfile == isRandomProfile) &&
+            (identical(other.otp, otp) || other.otp == otp) &&
+            (identical(other.otpCreatedAt, otpCreatedAt) ||
+                other.otpCreatedAt == otpCreatedAt) &&
+            (identical(other.profileSetup, profileSetup) ||
+                other.profileSetup == profileSetup) &&
+            const DeepCollectionEquality().equals(
+              other._preferredDatingIntentions,
+              _preferredDatingIntentions,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._preferredNationality,
+              _preferredNationality,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._preferredReligion,
+              _preferredReligion,
+            ) &&
+            (identical(other.likedAt, likedAt) || other.likedAt == likedAt) &&
+            (identical(other.likeType, likeType) ||
+                other.likeType == likeType) &&
+            (identical(other.isCrushBowl, isCrushBowl) ||
+                other.isCrushBowl == isCrushBowl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1154,8 +1419,11 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
     v,
     bio,
     clubbing,
+    age,
     drinking,
     hobbies,
+    preferredGender,
+    maritalStatus,
     lifestyleInterests,
     location,
     nickname,
@@ -1164,6 +1432,15 @@ class _$MatchingProfileModelImpl implements _MatchingProfileModel {
     smoking,
     userStatus,
     isRandomProfile,
+    otp,
+    otpCreatedAt,
+    profileSetup,
+    const DeepCollectionEquality().hash(_preferredDatingIntentions),
+    const DeepCollectionEquality().hash(_preferredNationality),
+    const DeepCollectionEquality().hash(_preferredReligion),
+    likedAt,
+    likeType,
+    isCrushBowl,
   ]);
 
   /// Create a copy of MatchingProfileModel
@@ -1227,8 +1504,11 @@ abstract class _MatchingProfileModel implements MatchingProfileModel {
     @JsonKey(name: '__v') final int? v,
     final String? bio,
     final String? clubbing,
+    final int? age,
     final String? drinking,
     final String? hobbies,
+    final String? preferredGender,
+    final String? maritalStatus,
     final String? lifestyleInterests,
     final String? location,
     final String? nickname,
@@ -1237,6 +1517,15 @@ abstract class _MatchingProfileModel implements MatchingProfileModel {
     final String? smoking,
     final String? userStatus,
     final bool? isRandomProfile,
+    final String? otp,
+    final String? otpCreatedAt,
+    final bool? profileSetup,
+    final List<String>? preferredDatingIntentions,
+    final List<String>? preferredNationality,
+    final List<String>? preferredReligion,
+    final String? likedAt,
+    final String? likeType,
+    final bool? isCrushBowl,
   }) = _$MatchingProfileModelImpl;
 
   factory _MatchingProfileModel.fromJson(Map<String, dynamic> json) =
@@ -1327,9 +1616,15 @@ abstract class _MatchingProfileModel implements MatchingProfileModel {
   @override
   String? get clubbing;
   @override
+  int? get age;
+  @override
   String? get drinking;
   @override
   String? get hobbies;
+  @override
+  String? get preferredGender;
+  @override
+  String? get maritalStatus;
   @override
   String? get lifestyleInterests;
   @override
@@ -1345,7 +1640,25 @@ abstract class _MatchingProfileModel implements MatchingProfileModel {
   @override
   String? get userStatus;
   @override
-  bool? get isRandomProfile;
+  bool? get isRandomProfile; // ========== MISSING KEYS ==========
+  @override
+  String? get otp; // NEW
+  @override
+  String? get otpCreatedAt; // NEW
+  @override
+  bool? get profileSetup; // NEW
+  @override
+  List<String>? get preferredDatingIntentions; // NEW
+  @override
+  List<String>? get preferredNationality; // NEW
+  @override
+  List<String>? get preferredReligion; // NEW
+  @override
+  String? get likedAt; // NEW
+  @override
+  String? get likeType; // NEW
+  @override
+  bool? get isCrushBowl;
 
   /// Create a copy of MatchingProfileModel
   /// with the given fields replaced by the non-null parameter values.

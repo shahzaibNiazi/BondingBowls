@@ -389,36 +389,36 @@ class _StrokedHintTextFieldState extends State<StrokedHintTextField> {
         ),
         child: Stack(
           children: [
-            if (widget.controller.text.isEmpty)
-              Positioned(
-                left: 12,
-                top: 12,
-                child: Stack(
-                  children: [
-                    // Stroke layer
-                    Text(
-                      widget.hint,
-                      style: GoogleFonts.inriaSans(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = 3
-                          ..color = const Color(0xFFD9D9D9),
-                      ),
-                    ),
-                    // Fill layer
-                    Text(
-                      widget.hint,
-                      style: TextStyle(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withAlpha(100),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            // if (widget.controller.text.isEmpty)
+            //   Positioned(
+            //     left: 12,
+            //     top: 12,
+            //     child: Stack(
+            //       children: [
+            //         // Stroke layer
+            //         Text(
+            //           widget.hint,
+            //           style: GoogleFonts.inriaSans(
+            //             fontSize: 14.sp,
+            //             fontWeight: FontWeight.bold,
+            //             foreground: Paint()
+            //               ..style = PaintingStyle.stroke
+            //               ..strokeWidth = 3
+            //               ..color = const Color(0xFFD9D9D9),
+            //           ),
+            //         ),
+            //         // Fill layer
+            //         Text(
+            //           widget.hint,
+            //           style: TextStyle(
+            //             fontSize: 15.sp,
+            //             fontWeight: FontWeight.bold,
+            //             color: Colors.black.withAlpha(100),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
             TextField(
               controller: widget.controller,
               maxLines: widget.maxLines,
@@ -427,7 +427,12 @@ class _StrokedHintTextFieldState extends State<StrokedHintTextField> {
 
               style: TextStyle(fontSize: 14.sp),
               decoration: InputDecoration(
-                hintText: "",
+                hintText: widget.hint,
+                hintStyle: GoogleFonts.inriaSans(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
+                  color: Color(0xff000000).withValues(alpha: 0.5),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide.none,

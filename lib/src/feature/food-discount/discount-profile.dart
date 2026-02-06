@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../app/config/global_var.dart';
 import '../../../app/routes/app_pages.dart';
 import '../../../app/utils/utils.dart';
 import '../settings/settings.dart';
@@ -21,6 +22,7 @@ class ProfileDiscount extends StatelessWidget {
               const SizedBox(height: 20),
 
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Visibility(
                     visible: false,
@@ -93,7 +95,7 @@ class ProfileDiscount extends StatelessWidget {
 
                     // Email
                     Text(
-                      'ahjdoud!@gmail.com',
+                      Globals.user?.email ?? '',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: 24.sp,
