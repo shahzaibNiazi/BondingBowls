@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class SlideShow extends StatefulWidget {
-  final VoidCallback onRedeem; // callback
-  final bool redeemed; // callback
+  final VoidCallback onRedeem;
+  final bool redeemed;
 
   const SlideShow({super.key, required this.onRedeem, required this.redeemed});
 
@@ -13,22 +12,21 @@ class SlideShow extends StatefulWidget {
 }
 
 class _SlideShowState extends State<SlideShow> {
-  double sliderX = 0; // drag position of handle
+  double sliderX = 0;
 
   final double containerHeight = 80;
-  final double handleSize = 70.w; // width & height of the sliding handle
+  final double handleSize = 70.0; // Remove .w from here
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double maxSlide = constraints.maxWidth - handleSize - 12.w * 2;
-        // container width minus handle width minus horizontal padding
 
         return AnimatedContainer(
           height: containerHeight,
           duration: Duration(milliseconds: 300),
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(40),
@@ -40,7 +38,7 @@ class _SlideShowState extends State<SlideShow> {
             boxShadow: [
               (!widget.redeemed)
                   ? BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.15),
+                      color: Colors.black.withOpacity(0.15),
                       spreadRadius: 2,
                       blurRadius: 10,
                       offset: Offset(0, 5),
@@ -70,32 +68,36 @@ class _SlideShowState extends State<SlideShow> {
                             ),
                           ],
                         )
-                      : Align(
-                          alignment: Alignment.centerRight,
+                      : Padding(
+                          key: ValueKey("normal"),
+                          padding: EdgeInsets.only(
+                            left:
+                                handleSize + 20.w, // Space for handle + margin
+                            right: 12.w,
+                          ),
                           child: Row(
-                            key: ValueKey("normal"),
                             mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              SizedBox(width: 12.w),
                               Image.asset(
                                 "assets/images/forward.png",
                                 width: 15.w,
                                 height: 15.w,
-                              ).paddingOnly(left: 50.w, right: 3.w),
+                              ),
+                              SizedBox(width: 8.w),
                               Flexible(
                                 child: Text(
                                   "ONLY SLIDE WHEN PRESENTING TO CASHIER!",
                                   textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: Color(
-                                      0xff000000,
-                                    ).withValues(alpha: 0.5),
+                                    color: Color(0xff000000).withOpacity(0.5),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12.sp,
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 3.w),
                             ],
                           ),
                         ),
@@ -111,21 +113,17 @@ class _SlideShowState extends State<SlideShow> {
                     onHorizontalDragUpdate: (details) {
                       setState(() {
                         sliderX += details.delta.dx;
-
                         if (sliderX < 0) sliderX = 0;
                         if (sliderX > maxSlide) sliderX = maxSlide;
                       });
                     },
                     onHorizontalDragEnd: (_) {
                       if (sliderX >= maxSlide) {
-                        // Only redeem when fully slid
-                        // setState(() => widget.redeemed = true);
                         widget.onRedeem();
                         if (!widget.redeemed) {
-                          sliderX = 0;
+                          setState(() => sliderX = 0);
                         }
                       } else {
-                        // return handle back smoothly
                         setState(() => sliderX = 0);
                       }
                     },

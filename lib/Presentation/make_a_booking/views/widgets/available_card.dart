@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
 import '../../controllers/make_a_booking_controller.dart';
 import '../make_a_booking_view.dart';
 
@@ -28,12 +29,24 @@ Widget availableCard(MakeABookingController controller) {
               children: [
                 Column(
                   children: [
-                    Text(
-                      "${profile.userId?.nickname}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.sp,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          "${profile.userId?.nickname}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
+                        ).paddingOnly(right: 8),
+
+                        Text(
+                          "38",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 8.h),
                     Column(
@@ -83,13 +96,18 @@ Widget availableCard(MakeABookingController controller) {
                           ),
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          '${profile.userId!.maritalStatus.toString()} ${Globals.user!.preferredGender ?? ''}',
-                        ).paddingOnly(left: 20.w),
+                        Row(
+                          children: [
+                            Text(
+                              '${profile.userId!.maritalStatus.toString()} ${Globals.user!.preferredGender ?? ''}',
+                            ).paddingOnly(left: 10.w),
+
+                            Text(
+                              profile.cafeId!.location!.region.toString(),
+                            ).paddingOnly(left: 1.w),
+                          ],
+                        ),
                         SizedBox(height: 4.h),
-                        Text(
-                          profile.cafeId!.location!.region.toString(),
-                        ).paddingOnly(left: 20.w),
                       ],
                     ),
                   ],
@@ -160,8 +178,8 @@ Widget availableCard(MakeABookingController controller) {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        controller.joinRequest(profile.id);
-                        // showMatchDialog(Get.context!);
+                        // controller.joinRequest(profile.id);
+                        showMatchDialog(Get.context!);
                       },
                       child: Container(
                         decoration: BoxDecoration(),
@@ -171,9 +189,9 @@ Widget availableCard(MakeABookingController controller) {
                     SizedBox(width: 16.w),
                     GestureDetector(
                       onTap: () {
-                        controller.rejectRequestForAvailable(
-                          profile.userId?.id!,
-                        );
+                        // controller.rejectRequestForAvailable(
+                        //   profile.userId?.id!,
+                        // );
                       },
                       child: Container(
                         decoration: BoxDecoration(),

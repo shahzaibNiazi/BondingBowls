@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../app/config/global_var.dart';
+import '../../../cafeconnect_booking_details/views/cafeconnect_booking_details_view.dart';
 import '../../controllers/make_a_booking_controller.dart';
 import '../make_a_booking_view.dart';
 
 Widget likesYouCard(MakeABookingController controller) {
+  // Sample data
+
   return Column(
-    children: controller.likeYouModel.map((profile) {
+    children: controller.availableModel.map((profile) {
       return Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
@@ -18,112 +22,125 @@ Widget likesYouCard(MakeABookingController controller) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Top row: profile info and warning icon
+            // Top row: name, age, nationality, warning icon
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Column(
                   children: [
-                    Column(
+                    Row(
                       children: [
                         Text(
-                          "${profile.requestedBy?.nickname?.capitalizeFirst}",
+                          "${profile.userId?.nickname}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
+                        ).paddingOnly(right: 8),
+
+                        Text(
+                          "38",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16.sp,
                           ),
                         ),
-                        SizedBox(height: 8.h),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                width: 90.w,
-                                height: 90.w,
-                                child: Image.network(
-                                  profile
-                                              .requestedBy
-                                              ?.profilePhoto
-                                              ?.isNotEmpty ==
-                                          true
-                                      ? profile.requestedBy!.profilePhoto!
-                                      : 'https://via.placeholder.com/150',
-                                  fit: BoxFit.cover,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return const Center(
-                                          child: SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      width: 90.w,
-                                      height: 90.w,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.grey,
-                                      ),
-                                      child: const Icon(
-                                        Icons.person,
-                                        size: 28,
-                                        color: Colors.white,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              '${profile.requestedBy!.maritalStatus.toString()} ${profile.requestedBy?.age ?? ''}',
-                            ).paddingOnly(left: 20.w),
-                            SizedBox(height: 4.h),
-                            Text(
-                              profile.requestedBy!.location!.toString(),
-                            ).paddingOnly(left: 20.w),
-                          ],
-                        ),
                       ],
-                    ).paddingOnly(right: 12.w),
+                    ),
+                    SizedBox(height: 8.h),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          profile.requestedBy?.location ?? '',
-                          style: TextStyle(fontSize: 14.sp),
-                        ),
-                        SizedBox(height: 6.h),
-                        Text(
-                          profile.requestedBy?.occupation ?? ''.toString(),
-                          style: TextStyle(fontSize: 11.sp, color: Colors.pink),
+                        ClipOval(
+                          child: SizedBox(
+                            width: 90.w,
+                            height: 90.w,
+                            child: Image.network(
+                              profile.userId?.profilePhoto?.isNotEmpty == true
+                                  ? profile.userId!.profilePhoto!
+                                  : 'https://via.placeholder.com/150',
+                              fit: BoxFit.cover,
+
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+
+                                    return const Center(
+                                      child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                    );
+                                  },
+
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  width: 90.w,
+                                  height: 90.w,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.grey,
+                                  ),
+                                  child: const Icon(
+                                    Icons.person,
+                                    size: 28,
+                                    color: Colors.white,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
                         SizedBox(height: 4.h),
-                        Text("Available"),
+                        Row(
+                          children: [
+                            Text(
+                              '${profile.userId!.maritalStatus.toString()} ${Globals.user!.preferredGender ?? ''}',
+                            ).paddingOnly(left: 10.w),
+
+                            Text(
+                              profile.cafeId!.location!.region.toString(),
+                            ).paddingOnly(left: 1.w),
+                          ],
+                        ),
                         SizedBox(height: 4.h),
-                        // Uncomment these if you want to show additional info
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     Text(
-                        //       "Looking for: ${(profile.lookingFor as List).join(', ')}",
-                        //     ).paddingOnly(right: 70.w),
-                        //   ],
-                        // ),
-                        // SizedBox(height: 4.h),
-                        // Text("Note: ${profile.requestedBy.additionalNotes}"),
                       ],
                     ),
+                  ],
+                ),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      profile.userId!.location.toString(),
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
+                    SizedBox(height: 6.h),
+                    Text(
+                      profile.userId?.occupation ?? ''.toString(),
+                      style: TextStyle(fontSize: 11.sp, color: Colors.pink),
+                    ),
+
+                    SizedBox(height: 4.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Looking for: ${(profile.lookingFor as List).join(', ')}",
+                        ).paddingOnly(right: 70.w),
+                      ],
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      "Available for: ${(profile.availableFor as List).join(', ')}",
+                    ),
+                    SizedBox(height: 4.h),
+                    Text("Note: ${profile.additionalNotes}"),
                   ],
                 ),
 
@@ -152,7 +169,7 @@ Widget likesYouCard(MakeABookingController controller) {
                     ),
                   ),
                   child: Text(
-                    profile.requestedBy?.datingIntentions ?? '',
+                    profile.userId?.datingIntentions ?? '',
                     style: TextStyle(fontSize: 14.sp),
                   ),
                 ).paddingOnly(left: 10.w),
@@ -160,10 +177,9 @@ Widget likesYouCard(MakeABookingController controller) {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: () async {
-                        await controller.createConversation(
-                          profile.requestedBy!.id,
-                        );
+                      onTap: () {
+                        // controller.joinRequest(profile.id);
+                        showMatchDialog(Get.context!);
                       },
                       child: Container(
                         decoration: BoxDecoration(),
@@ -173,9 +189,9 @@ Widget likesYouCard(MakeABookingController controller) {
                     SizedBox(width: 16.w),
                     GestureDetector(
                       onTap: () {
-                        controller.rejectRequestForAvailable(
-                          profile.requestedBy!.id!,
-                        );
+                        // controller.rejectRequestForAvailable(
+                        //   profile.userId?.id!,
+                        // );
                       },
                       child: Container(
                         decoration: BoxDecoration(),
