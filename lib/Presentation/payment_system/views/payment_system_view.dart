@@ -493,6 +493,7 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
           showDialog(
             context: Get.context!,
             builder: (context) => ExtraChatDialog(
+              month:1 ,
               count: 1,
               bowl: 200,
               onPurchaseConfirmed: controller.onReligionUnlocked,
@@ -504,7 +505,8 @@ class PaymentSystemView extends GetView<PaymentSystemController> {
           showDialog(
             context: Get.context!,
             builder: (context) => ExtraChatDialog(
-              count: 2,
+              month: 2,
+              count: 1,
               bowl: 280,
               onPurchaseConfirmed: controller.onReligionUnlocked,
             ),
@@ -1709,12 +1711,14 @@ class ProfileBoostDialog extends StatelessWidget {
 class ExtraChatDialog extends StatelessWidget {
   final VoidCallback onPurchaseConfirmed;
   final int count;
+  final int month;
   final int bowl;
 
   const ExtraChatDialog({
     super.key,
     required this.onPurchaseConfirmed,
     required this.count,
+    required this.month,
     required this.bowl,
   });
 
@@ -1765,7 +1769,7 @@ class ExtraChatDialog extends StatelessWidget {
                       SizedBox(width: 20),
                       Expanded(
                         child: Text(
-                          "+ ${count} Extra chat \nfor 1 month",
+                          "+ $count Extra chat \nfor $month month",
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 15.sp,
