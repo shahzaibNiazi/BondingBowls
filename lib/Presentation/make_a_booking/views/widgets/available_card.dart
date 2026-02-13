@@ -38,14 +38,6 @@ Widget availableCard(MakeABookingController controller) {
                             fontSize: 16.sp,
                           ),
                         ).paddingOnly(right: 8),
-
-                        Text(
-                          "38",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.sp,
-                          ),
-                        ),
                       ],
                     ),
                     SizedBox(height: 8.h),
@@ -100,14 +92,14 @@ Widget availableCard(MakeABookingController controller) {
                           children: [
                             Text(
                               '${profile.userId!.maritalStatus.toString()} ${Globals.user!.preferredGender ?? ''}',
-                            ).paddingOnly(left: 10.w),
+                            ).paddingOnly(left: 15.w),
 
-                            Text(
-                              profile.cafeId!.location!.region.toString(),
-                            ).paddingOnly(left: 1.w),
                           ],
                         ),
-                        SizedBox(height: 4.h),
+                        Text(
+                          'Singaporean',
+                        ).paddingOnly(left: 10.w),
+
                       ],
                     ),
                   ],
@@ -116,9 +108,21 @@ Widget availableCard(MakeABookingController controller) {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      profile.userId!.location.toString(),
-                      style: TextStyle(fontSize: 14.sp),
+                    Row(
+                      children: [
+                        Text(
+                          profile.userId!.location.toString(),
+                          style: TextStyle(fontSize: 14.sp),
+                        ).paddingOnly(right: 6),
+                        Text(
+                          "38 Years Old",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
+
                     ),
                     SizedBox(height: 6.h),
                     Text(

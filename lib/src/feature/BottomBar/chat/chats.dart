@@ -337,6 +337,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

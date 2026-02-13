@@ -184,7 +184,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   textAlign: TextAlign.left,
                 ),
               );
-            } else if (index == 4) {
+            } else if (index == 3) {
+
+            }
+
+            else if (index == 4) {
               final Uri webUri = Uri.parse(
                 'https://bonding-bowls.vercel.app/privacy-policy',
               );

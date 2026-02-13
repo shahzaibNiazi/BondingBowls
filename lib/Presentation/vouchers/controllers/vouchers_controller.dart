@@ -51,33 +51,86 @@ class VouchersController extends GetxController {
     });
   }
 
+
   Future<void> getVouchers() async {
     isLoading.value = true;
+
+    await Future.delayed(const Duration(milliseconds: 500));
+    // small delay to simulate loading
+
     try {
-      final response = await profileCreationRepository.getVouchers(filter);
+      vouchers = [
+        VoucherModel(
+          id: "1",
+          title: "20% off on all Macdonald’s item",
+          discountValue: 20,
+          startDate: "2025-12-01",
+          expiryDate: "2025-12-07",
+          currentUsageCount: 3,
+        ),
+        VoucherModel(
+          id: "2",
+          title: "Buy 1 Get 1 Free Pizza",
+          discountValue: 50,
+          startDate: "2025-12-02",
+          expiryDate: "2025-12-10",
+          currentUsageCount: 1,
+        ),
+        VoucherModel(
+          id: "3",
+          title: "Flat 100৳ off on Orders above 500৳",
+          discountValue: 100,
+          startDate: "2025-12-01",
+          expiryDate: "2025-12-15",
+          currentUsageCount: 5,
+        ),
+        VoucherModel(
+          id: "4",
+          title: "15% off on KFC Meals",
+          discountValue: 15,
+          startDate: "2025-12-05",
+          expiryDate: "2025-12-20",
+          currentUsageCount: 2,
+        ),
+      ];
 
-      log('Length ----- ${response.toString()}');
-
-      if (response != null && response['success'] == true) {
-        // Parse JSON → Immutable Model
-        final List voucher = response['data']?['vouchers'] ?? [];
-
-        final voucherList = voucher
-            .map((e) => VoucherModel.fromJson(e))
-            .toList();
-
-        vouchers = voucherList;
-      }
-      isLoading.value = false;
       update();
-      log(response.toString());
     } catch (e) {
-      isLoading.value = false;
-      update();
-      log(e.toString());
+      debugPrint(e.toString());
     } finally {
       isLoading.value = false;
       update();
     }
   }
+
+
+// Future<void> getVouchers() async {
+  //   isLoading.value = true;
+  //   try {
+  //     final response = await profileCreationRepository.getVouchers(filter);
+  //
+  //     log('Length ----- ${response.toString()}');
+  //
+  //     if (response != null && response['success'] == true) {
+  //       // Parse JSON → Immutable Model
+  //       final List voucher = response['data']?['vouchers'] ?? [];
+  //
+  //       final voucherList = voucher
+  //           .map((e) => VoucherModel.fromJson(e))
+  //           .toList();
+  //
+  //       vouchers = voucherList;
+  //     }
+  //     isLoading.value = false;
+  //     update();
+  //     log(response.toString());
+  //   } catch (e) {
+  //     isLoading.value = false;
+  //     update();
+  //     log(e.toString());
+  //   } finally {
+  //     isLoading.value = false;
+  //     update();
+  //   }
+  // }
 }

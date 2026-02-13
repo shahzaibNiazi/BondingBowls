@@ -17,6 +17,8 @@ class ChatController extends GetxController {
 
   bool get canSend => inputController.text.trim().isNotEmpty;
 
+  bool isVisibleImage = false;
+
   bool enabled = false;
   String? conversationId;
   String? receiverId;
@@ -26,8 +28,8 @@ class ChatController extends GetxController {
     // TODO: implement onInit
     super.onInit();
 
-    conversationId = Get.arguments['conversationId'];
-    receiverId = Get.arguments['receiverId'];
+    // conversationId = Get.arguments['conversationId'];
+    // receiverId = Get.arguments['receiverId'];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchMessages(
@@ -38,6 +40,16 @@ class ChatController extends GetxController {
 
     inputController.addListener(buttonEnabled);
   }
+
+
+  void visiblePhoto(bool value){
+    isVisibleImage=value;
+    update();
+
+
+  }
+
+
 
   buttonEnabled() {
     enabled = inputController.text.trim().isNotEmpty;

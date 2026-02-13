@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:convo_hearts/Presentation/chat/views/user_view.dart';
@@ -61,7 +62,7 @@ class ChatView extends GetView<ChatController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.to(UserView());
+                          Get.to(UserView(isVisibleImage: controller.isVisibleImage));
                         },
                         child: Center(
                           child: Text(
@@ -85,11 +86,11 @@ class ChatView extends GetView<ChatController> {
                               'Others',
                             ],
                             onTap: [
-                              () {
+                                  () {
                                 showMatchRatingDialog(context);
                               },
 
-                              () async {
+                                  () async {
                                 Navigator.pop(context);
 
                                 showConfirmReportBottomSheet(context, () async {
@@ -102,7 +103,7 @@ class ChatView extends GetView<ChatController> {
                                   // );
                                 }); // 👈 open confirm report sheet
                               },
-                              () async {
+                                  () async {
                                 Navigator.pop(context);
 
                                 showConfirmReportBottomSheet(context, () async {
@@ -115,7 +116,7 @@ class ChatView extends GetView<ChatController> {
                                   // );
                                 });
                               },
-                              () {
+                                  () {
                                 Navigator.pop(context);
 
                                 showOtherBottomSheet(
@@ -203,112 +204,253 @@ class ChatView extends GetView<ChatController> {
                         ), // leave space for input bar
                         child: Obx(() {
                           final msgs = controller.messages;
-                          if (msgs.isEmpty) {
-                            // when empty, show just background (no messages)
-                            return Container();
-                          }
-                          return ListView.builder(
-                            controller: controller.scrollController,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 12,
-                            ),
-                            itemCount: msgs.length,
-                            itemBuilder: (context, index) {
-                              final m = msgs[index];
-                              final alignment = m.isMe
-                                  ? CrossAxisAlignment.end
-                                  : CrossAxisAlignment.start;
-                              final bg = m.isMe
-                                  ? Colors.black
-                                  : Colors.grey[200];
-                              final txtColor = m.isMe
-                                  ? Colors.white
-                                  : Colors.black87;
-                              final radius = BorderRadius.only(
-                                topLeft: const Radius.circular(12),
-                                topRight: const Radius.circular(12),
-                                bottomLeft: Radius.circular(m.isMe ? 12 : 2),
-                                bottomRight: Radius.circular(m.isMe ? 2 : 12),
-                              );
-                              return Column(
-                                crossAxisAlignment: alignment,
-                                children: [
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    mainAxisAlignment: m.isMe
-                                        ? MainAxisAlignment.end
-                                        : MainAxisAlignment.start,
-                                    children: [
-                                      Flexible(
-                                        child: Container(
-                                          constraints: BoxConstraints(
-                                            maxWidth:
-                                                MediaQuery.of(
-                                                  context,
-                                                ).size.width *
-                                                0.75,
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 14,
-                                            vertical: 10,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: bg,
-                                            borderRadius: radius,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withValues(
-                                                  alpha: 0.03,
+                          return Stack(
+                            children: [
+                              if (msgs.isNotEmpty)
+                                ListView.builder(
+                                  controller: controller.scrollController,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                    vertical: 12,
+                                  ),
+                                  itemCount: msgs.length,
+                                  itemBuilder: (context, index) {
+                                    final m = msgs[index];
+                                    final alignment = m.isMe
+                                        ? CrossAxisAlignment.end
+                                        : CrossAxisAlignment.start;
+                                    final bg = m.isMe
+                                        ? Colors.black
+                                        : Colors.grey[200];
+                                    final txtColor = m.isMe
+                                        ? Colors.white
+                                        : Colors.black87;
+                                    final radius = BorderRadius.only(
+                                      topLeft: const Radius.circular(12),
+                                      topRight: const Radius.circular(12),
+                                      bottomLeft: Radius.circular(m.isMe ? 12 : 2),
+                                      bottomRight: Radius.circular(m.isMe ? 2 : 12),
+                                    );
+                                    return Column(
+                                      crossAxisAlignment: alignment,
+                                      children: [
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          mainAxisAlignment: m.isMe
+                                              ? MainAxisAlignment.end
+                                              : MainAxisAlignment.start,
+                                          children: [
+                                            Flexible(
+                                              child: Container(
+                                                constraints: BoxConstraints(
+                                                  maxWidth:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width *
+                                                      0.75,
                                                 ),
-                                                blurRadius: 2,
-                                                offset: const Offset(0, 1),
-                                              ),
-                                            ],
-                                          ),
-                                          child: (m.imagePath != null)
-                                              ? ClipRRect(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 14,
+                                                  vertical: 10,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: bg,
+                                                  borderRadius: radius,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black.withValues(
+                                                        alpha: 0.03,
+                                                      ),
+                                                      blurRadius: 2,
+                                                      offset: const Offset(0, 1),
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: (m.imagePath != null)
+                                                    ? ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(12),
+                                                  BorderRadius.circular(12),
                                                   child: Image.file(
                                                     File(m.imagePath!),
                                                     width:
-                                                        MediaQuery.of(
-                                                          context,
-                                                        ).size.width *
+                                                    MediaQuery.of(
+                                                      context,
+                                                    ).size.width *
                                                         0.6,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 )
-                                              : Text(
+                                                    : Text(
                                                   m.text ?? '',
                                                   style: TextStyle(
                                                     color: txtColor,
                                                     fontSize: 15,
                                                   ),
                                                 ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                        const SizedBox(height: 2),
+                                        // small timestamp
+                                        // Padding(
+                                        //   padding: EdgeInsets.only(
+                                        //     left: m.isMe ? 0 : 8,
+                                        //     right: m.isMe ? 8 : 0,
+                                        //   ),
+                                        //   child: Text(
+                                        //     _formatTime(m.createdAt),
+                                        //     style: TextStyle(
+                                        //       fontSize: 11,
+                                        //       color: Colors.black54,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    );
+                                  },
+                                ),
+
+                              // Show Picture Dialog Overlay - Always visible for testing
+                              // TODO: Add controller.showPictureDialog boolean to control visibility
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffFFF3F3),
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(alpha: 0.15),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 3),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 2),
-                                  // small timestamp
-                                  // Padding(
-                                  //   padding: EdgeInsets.only(
-                                  //     left: m.isMe ? 0 : 8,
-                                  //     right: m.isMe ? 8 : 0,
-                                  //   ),
-                                  //   child: Text(
-                                  //     _formatTime(m.createdAt),
-                                  //     style: TextStyle(
-                                  //       fontSize: 11,
-                                  //       color: Colors.black54,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              );
-                            },
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Congratulations for 3 days of chatting!',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16.r,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'Do you want to show your picture to your match? :)',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16.r,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                       SizedBox(height: 16.r),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          // No Button
+                                          Expanded(
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                // Handle No action
+                                                log('User clicked No');
+                                                controller.visiblePhoto(false);
+
+                                                Get.snackbar(
+                                                  'Picture',
+                                                  'You chose not to show your picture',
+                                                  snackPosition: SnackPosition.TOP,
+                                                  duration: const Duration(seconds: 2),
+                                                );
+                                                // TODO: controller.declineShowPicture();
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color(0xFFFF6B9D),
+                                                foregroundColor: Colors.white,
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 24,
+                                                  vertical: 12,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(25),
+                                                ),
+                                                elevation: 2,
+                                              ),
+                                              child: const Text(
+                                                'No',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          // Yes, Show Button
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(25),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.blueAccent.withValues(alpha: 0.4),
+                                                    blurRadius: 8,
+                                                    offset: const Offset(0, 4),
+                                                    spreadRadius: 0,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  // Handle Yes action
+                                                  print('User clicked Yes, Show');
+
+                                                  controller.visiblePhoto(true);
+                                                  Get.snackbar(
+                                                    'Picture',
+                                                    'You chose to show your picture!',
+                                                    snackPosition: SnackPosition.TOP,
+                                                    duration: const Duration(seconds: 2),
+                                                  );
+                                                  // TODO: controller.acceptShowPicture();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.blueAccent,
+                                                  foregroundColor: Colors.white,
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 18,
+                                                    vertical: 12,
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(25),
+                                                  ),
+                                                  elevation: 0, // Remove default elevation
+                                                ),
+                                                child: const Text(
+                                                  'Yes, Show',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           );
                         }),
                       ),
@@ -370,7 +512,7 @@ class ChatView extends GetView<ChatController> {
                                 child: TextField(
                                   controller: controller.inputController,
                                   textCapitalization:
-                                      TextCapitalization.sentences,
+                                  TextCapitalization.sentences,
                                   decoration: const InputDecoration(
                                     hintText: 'Write a message',
                                     hintStyle: TextStyle(fontSize: 15),
@@ -409,10 +551,10 @@ class ChatView extends GetView<ChatController> {
                       GestureDetector(
                         onTap: controller.enabled
                             ? () {
-                                controller.sendMessage(
-                                  myUserId: "myUserId_here",
-                                );
-                              }
+                          controller.sendMessage(
+                            myUserId: "myUserId_here",
+                          );
+                        }
                             : null,
                         child: Container(
                           width: 42,
@@ -567,9 +709,9 @@ class ChatView extends GetView<ChatController> {
                             onPressed: selectedOption == null
                                 ? null
                                 : () {
-                                    Navigator.pop(context);
-                                    print("Selected: $selectedOption");
-                                  },
+                              Navigator.pop(context);
+                              print("Selected: $selectedOption");
+                            },
                             child: const Text(
                               "Confirm",
                               style: TextStyle(

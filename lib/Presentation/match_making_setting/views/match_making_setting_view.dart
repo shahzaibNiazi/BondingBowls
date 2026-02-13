@@ -50,13 +50,13 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 16.w),
-                    padding: EdgeInsets.all(20.w),
+                    padding: EdgeInsets.only(top: 20.r,right:20.r,left: 20.r),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
+                          color: Colors.black.withValues(alpha: 0.08),
                           blurRadius: 10.r,
                           offset: Offset(0, 4.h),
                         ),
@@ -695,7 +695,7 @@ class MatchMakingSettingView extends GetView<MatchMakingSettingController> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16.h),
+                // SizedBox(height: 16.h),
               ],
             ),
           ),

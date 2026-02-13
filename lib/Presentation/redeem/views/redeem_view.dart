@@ -47,22 +47,23 @@ class RedeemView extends GetView<RedeemController> {
                             ),
                           ),
 
-                          Expanded(
-                            child: Text(
-                              controller
-                                      .voucherDetailModel
-                                      ?.displayInfo
-                                      ?.outletDetails
-                                      ?.name ??
-                                  '',
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontFamily: "Playfair",
-                                fontWeight: FontWeight.w700,
-                              ),
+                          Text(
+                            controller
+                                    .voucherDetailModel
+                                    ?.displayInfo
+                                    ?.outletDetails
+                                    ?.name ??
+                                '',
+                            style: TextStyle(
+                              fontSize: 32.r,
+                              fontFamily: "Playfair",
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           Visibility(
+                            maintainState: true,
+                            maintainSize: true,
+                            maintainAnimation: true,
                             visible: false,
                             child: IconButton(
                               onPressed: () {},
@@ -105,8 +106,9 @@ class RedeemView extends GetView<RedeemController> {
 
                                 Container(
                                   height: 200,
+                                  padding: EdgeInsets.all(4),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
+                                    borderRadius: BorderRadius.circular(15),
                                     border: Border.all(color: Colors.grey),
                                   ),
                                   child: ClipRRect(
@@ -114,13 +116,15 @@ class RedeemView extends GetView<RedeemController> {
                                       4,
                                     ), // Optional, for rounded corners
                                     child: Image.network(
-                                      '${ApiEndPoints.imageUrl}${controller.voucherDetailModel?.displayInfo?.images?.mainImage}' ??
+                                      '${controller.voucherDetailModel?.displayInfo?.images?.mainImage}' ??
                                           '', // Replace with your actual URL
                                       fit: BoxFit.cover,
+                                      width: double.infinity,
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
-                                            if (loadingProgress == null)
+                                            if (loadingProgress == null) {
                                               return child;
+                                            }
                                             return Center(
                                               child: CircularProgressIndicator(
                                                 value:
@@ -141,7 +145,7 @@ class RedeemView extends GetView<RedeemController> {
                                               child: Icon(
                                                 Icons.broken_image,
                                                 color: Colors.grey,
-                                                size: 50,
+                                                size: 50.r,
                                               ),
                                             );
                                           },
@@ -149,14 +153,14 @@ class RedeemView extends GetView<RedeemController> {
                                   ),
                                 ),
 
-                                SizedBox(height: 16),
+                                SizedBox(height: 16.r),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       'Buy 1 get 1 Free!',
                                       style: TextStyle(
-                                        fontSize: 24.sp,
+                                        fontSize: 24.r,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -165,7 +169,7 @@ class RedeemView extends GetView<RedeemController> {
                                 SizedBox(height: 8),
                                 Text(
                                   'Buy any coffee/latte and get one free drink on us!',
-                                  style: TextStyle(fontSize: 16.sp),
+                                  style: TextStyle(fontSize: 15.r),
                                 ),
                                 SizedBox(height: 16),
                                 Column(
@@ -179,7 +183,7 @@ class RedeemView extends GetView<RedeemController> {
                                           .map((condition) {
                                             return Padding(
                                               padding: EdgeInsets.only(
-                                                bottom: 3.h,
+                                                bottom: 3.r,
                                               ),
                                               child: Row(
                                                 crossAxisAlignment:
@@ -188,7 +192,7 @@ class RedeemView extends GetView<RedeemController> {
                                                   Text(
                                                     '•',
                                                     style: TextStyle(
-                                                      fontSize: 14.sp,
+                                                      fontSize: 14.r,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: AppColors.black
@@ -198,12 +202,12 @@ class RedeemView extends GetView<RedeemController> {
                                                       height: 1.4,
                                                     ),
                                                   ),
-                                                  SizedBox(width: 8.w),
+                                                  SizedBox(width: 8.r),
                                                   Expanded(
                                                     child: Text(
                                                       condition,
                                                       style: TextStyle(
-                                                        fontSize: 14.sp,
+                                                        fontSize: 14.r,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: AppColors.black
@@ -219,7 +223,7 @@ class RedeemView extends GetView<RedeemController> {
                                             );
                                           })
                                           .toList(),
-                                ).paddingOnly(left: 6),
+                                ).paddingOnly(left: 6.r),
 
                                 Divider(color: Colors.redAccent),
                                 Row(
@@ -228,14 +232,14 @@ class RedeemView extends GetView<RedeemController> {
                                     Text(
                                       'Terms and Conditions',
                                       style: TextStyle(
-                                        fontSize: 24.sp,
+                                        fontSize: 24.r,
                                         decoration: TextDecoration.underline,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                SizedBox(height: 8.r),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children:
@@ -250,7 +254,7 @@ class RedeemView extends GetView<RedeemController> {
                                           .toList(),
                                 ),
 
-                                SizedBox(height: 16),
+                                SizedBox(height: 16.r),
 
                                 Obx(
                                   () => SlideShow(
@@ -268,7 +272,7 @@ class RedeemView extends GetView<RedeemController> {
                                   ),
                                 ),
 
-                                SizedBox(height: 20.h),
+                                SizedBox(height: 20.r),
                               ],
                             )
                           : SizedBox.shrink(),
@@ -285,23 +289,23 @@ class RedeemView extends GetView<RedeemController> {
 
   Widget _buildBulletPoint(String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      padding:  EdgeInsets.symmetric(vertical: 2.0.r),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '• ',
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 12.r,
               color: Colors.red, // Bullet color
-              height: 1.5,
+              height: 1,
             ),
           ),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 12.sp,
+                fontSize: 12.r,
                 color: Colors.black.withValues(alpha: 0.7),
                 height: 1.5, // Better line spacing for long text
               ),
@@ -315,7 +319,7 @@ class RedeemView extends GetView<RedeemController> {
 
 Widget _buildBulletPoint(String text) {
   return Padding(
-    padding: EdgeInsets.only(bottom: 10.h),
+    padding: EdgeInsets.only(bottom: 10.r),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -328,12 +332,12 @@ Widget _buildBulletPoint(String text) {
             height: 1.5,
           ),
         ),
-        SizedBox(width: 8.w),
+        SizedBox(width: 8.r),
         Expanded(
           child: Text(
             text,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 14.r,
               fontWeight: FontWeight.bold,
               color: AppColors.black.withValues(alpha: 0.7),
               height: 1.5,

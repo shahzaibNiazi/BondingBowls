@@ -53,7 +53,7 @@ class SystemChatView extends GetView<SystemChatController> {
                         children: [
                           Image.asset(
                             'assets/images/image_splash2.jpg',
-                            scale: 1,
+                            scale: 2,
                             fit: BoxFit.contain,
                           ),
                           const SizedBox(height: 8),
@@ -70,7 +70,7 @@ class SystemChatView extends GetView<SystemChatController> {
                       ),
                     ),
                   ),
-                ),
+                ).paddingOnly(top: MediaQuery.of(context).size.height/5),
                 Column(
                   children: [
                     Container(
@@ -130,6 +130,7 @@ class SystemChatView extends GetView<SystemChatController> {
                       () => Container(
                         padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
+                          color: Colors.white,
                           border: Border.all(color: Colors.black45),
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(12),
@@ -175,30 +176,45 @@ class SystemChatView extends GetView<SystemChatController> {
                               child: Text(
                                 "Click here for more info!",
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 20.sp,
                                   color: Color(0xff4F04FF),
                                   decoration: TextDecoration.underline,
                                 ),
                               ),
                             ),
                             SizedBox(height: 4),
-                            Text(
-                              "T&C applies",
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Text(
-                                controller.deals['time']!,
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: Colors.black,
+                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Visibility(
+                                  visible: false,
+                                  maintainAnimation: true,
+                                  maintainSize: true,
+                                  maintainState: true,
+                                  child: Text(
+                                    controller.deals['time']!,
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Text(
+                                  "T&C applies",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  controller.deals['time']!,
+                                  style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
                             ),
+
                           ],
                         ),
                       ),

@@ -299,7 +299,7 @@ class ReceivedLikesView extends GetView<ReceivedLikesController> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${profile.age ?? '--'}',
+                              '${profile.age ?? '--'} Years Old',
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w700,

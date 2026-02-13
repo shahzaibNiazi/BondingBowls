@@ -165,7 +165,7 @@ class VoucherCard extends StatelessWidget {
                       SizedBox(width: 6.w),
                       Expanded(
                         child: Text(
-                          'Used By $expiryText',
+                          'Expiring Soon! Used By $expiryText',
                           style: TextStyle(
                             fontSize: 10.sp,
                             color: isExpired ? Colors.red : expiryTextColor,

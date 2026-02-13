@@ -239,12 +239,14 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                             ),
                             _bulletText().paddingOnly(bottom: 1.h),
                             _bullet(
-                              "To redeem the voucher, you must physically visit the participating outlet.",
+                              "To redeem the voucher, you must physically visit the participating outlet. Upon arrival, open the app and swipe right on the “logo” below in the presence of the café/restaurant staff.",
                             ),
                             _bullet(
-                              "Vouchers are non-transferable and non-refundable.",
+                              "Vouchers are non-transferable and can only be used by the account holder who accepted the voucher. Vouchers cannot be exchanged for cash, credit, or other services outside of what is explicitly offered.",
                             ),
-
+                            _bullet(
+                              "Any misuse or fraudulent behavior (e.g., swiping the voucher off-premise) may result in the forfeiture of the voucher and potential suspension of your account.",
+                            ),
                             const Divider(),
 
                             Text(
@@ -253,7 +255,7 @@ void showVoucherDetailsBottomSheet(BuildContext context) {
                               "over-redemption or operational limitations. ",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 12.sp,
+                                fontSize: 10.sp,
                                 color: const Color(0xff563636),
                               ),
                             ).paddingSymmetric(horizontal: 6),
@@ -319,7 +321,7 @@ Widget _bullet(String text) {
       children: [
         const Text("• "),
         Expanded(
-          child: Text(text, style: TextStyle(fontSize: 12.sp)),
+          child: Text(text, style: TextStyle(fontSize: 11.sp)),
         ),
       ],
     ),
@@ -334,16 +336,36 @@ Widget _bulletText() {
       Expanded(
         child: Text.rich(
           TextSpan(
-            children: const [
+            children:  [
               TextSpan(
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w400,
+                ),
                 text:
-                    "Vouchers are issued on a first-come, first-served basis. ",
+                    "Vouchers are issued on a ",
+              ),
+
+              TextSpan(
+                text: "first-come, first-served",
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               TextSpan(
-                text: "No further redemptions will be accepted.",
+                text: " basis and may be redeemed by up to the stated maximum number of users (e.g. 50)",
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              TextSpan(
+                text: " No further redemptions will be accepted.",
                 style: TextStyle(
                   color: Colors.red,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ],

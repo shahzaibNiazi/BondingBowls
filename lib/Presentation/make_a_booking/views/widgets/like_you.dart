@@ -39,13 +39,7 @@ Widget likesYouCard(MakeABookingController controller) {
                           ),
                         ).paddingOnly(right: 8),
 
-                        Text(
-                          "38",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.sp,
-                          ),
-                        ),
+
                       ],
                     ),
                     SizedBox(height: 8.h),
@@ -116,9 +110,20 @@ Widget likesYouCard(MakeABookingController controller) {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      profile.userId!.location.toString(),
-                      style: TextStyle(fontSize: 14.sp),
+                    Row(
+                      children: [
+                        Text(
+                          profile.userId!.location.toString(),
+                          style: TextStyle(fontSize: 14.sp),
+                        ).paddingOnly(right: 4),
+                        Text(
+                          "38 Years Old",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 6.h),
                     Text(

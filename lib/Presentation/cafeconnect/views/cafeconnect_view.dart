@@ -23,20 +23,20 @@ class CafeConnectView extends GetView<CafeconnectController> {
             child: Column(
               children: [
                 // ====== STATIC PART ======
-                const SizedBox(height: 8),
+                 SizedBox(height: 8.r),
                 _buildHeader(context),
-                const SizedBox(height: 8),
+                 SizedBox(height: 8.r),
 
                 // slideshow placeholder
                 Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                  margin:  EdgeInsets.symmetric(
+                    horizontal: 16.r,
+                    vertical: 8.r,
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  padding:  EdgeInsets.symmetric(vertical: 30.r),
                   decoration: BoxDecoration(
                     color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.r),
                     border: Border.all(color: Colors.grey[400]!),
                   ),
                   child: Center(
@@ -44,7 +44,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                       '~Slideshow Ads Space',
                       style: TextStyle(
                         color: Colors.grey,
-                        fontSize: 16.sp,
+                        fontSize: 16.r,
                         fontStyle: FontStyle.italic,
                       ),
                     ),
@@ -53,15 +53,15 @@ class CafeConnectView extends GetView<CafeconnectController> {
 
                 // filter + tags row
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  margin:  EdgeInsets.symmetric(horizontal: 16.r),
                   child: Row(
                     children: [
                       InkWell(
                         onTap: () => showFilterBottomSheet(context),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 6,
+                          padding:  EdgeInsets.symmetric(
+                            horizontal: 20.r,
+                            vertical: 6.r,
                           ),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -71,7 +71,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                           child: SvgPicture.asset("assets/icon/svg/filter.svg"),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                       SizedBox(width: 10.r),
                       Flexible(
                         child: _SelectableTag(
                           text: "Hot",
@@ -79,7 +79,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                           onTap: () => controller.selectTag("Hot"),
                         ),
                       ),
-                      const SizedBox(width: 10),
+                       SizedBox(width: 10.r),
                       Flexible(
                         child: _SelectableTag(
                           text: "Deals",
@@ -91,7 +91,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                 SizedBox(height: 12.r),
 
                 // ====== SCROLLABLE PART ======
                 Expanded(
@@ -100,9 +100,9 @@ class CafeConnectView extends GetView<CafeconnectController> {
                     children: [
                       // main hero card (static)
                       Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
+                        margin:  EdgeInsets.symmetric(
+                          horizontal: 16.r,
+                          vertical: 8.r,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xffffffff),
@@ -112,23 +112,23 @@ class CafeConnectView extends GetView<CafeconnectController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 10,
+                              padding:  EdgeInsets.symmetric(
+                                horizontal: 15.r,
+                                vertical: 10.r,
                               ),
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.r),
                                 child: Image.asset(
                                   "assets/images/cup_coffee1.jpg",
-                                  height: 120,
-                                  width: 120,
+                                  height: 120.r,
+                                  width: 120.r,
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
                             Flexible(
                               child: Padding(
-                                padding: const EdgeInsets.all(15.0),
+                                padding:  EdgeInsets.all(15.0.r),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,13 +137,13 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                       textAlign: TextAlign.center,
                                       "Find the perfect activities to enjoy with someone - feel free to explore LAST MINUTE events and spontaneous plans!",
                                       style: TextStyle(
-                                        fontSize: 11.sp,
+                                        fontSize: 11.r,
                                         fontWeight: FontWeight.w700,
                                         color: Color(0xff505050),
                                         height: 1.4,
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                     SizedBox(height: 10.r),
                                     Column(
                                       children: [
                                         Row(
@@ -155,7 +155,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                 textAlign: TextAlign.center,
                                                 "Cafeconnect is available!",
                                                 style: TextStyle(
-                                                  fontSize: 12.sp,
+                                                  fontSize: 12.r,
                                                   fontWeight: FontWeight.w600,
                                                   color: Color(0xff0022FF),
                                                   decoration:
@@ -165,7 +165,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 5),
+                                         SizedBox(height: 5.r),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -173,12 +173,12 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                             SvgPicture.asset(
                                               "assets/icon/svg/timer.svg",
                                             ),
-                                            const SizedBox(width: 5),
+                                             SizedBox(width: 5.r),
                                             Flexible(
                                               child: Text(
                                                 "(7 days countdown)",
                                                 style: TextStyle(
-                                                  fontSize: 13.sp,
+                                                  fontSize: 13.r,
                                                   color: Color(0xff000000),
                                                 ),
                                               ),
@@ -210,9 +210,9 @@ class CafeConnectView extends GetView<CafeconnectController> {
                               );
                             },
                             child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 3,
+                              margin:  EdgeInsets.symmetric(
+                                horizontal: 15.r,
+                                vertical: 3.r,
                               ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -233,7 +233,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
 
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(16.0),
+                                    padding:  EdgeInsets.all(16.0.r),
                                     child: Row(
                                       children: [
                                         // Image container - Fixed width for consistency
@@ -243,8 +243,8 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                           children: [
                                             // IMAGE
                                             Container(
-                                              width: 165,
-                                              height: 120,
+                                              width: 165.r,
+                                              height: 120.r,
                                               decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
@@ -277,8 +277,8 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                     -0.75, // correct Figma angle
                                                 child: Container(
                                                   width:
-                                                      90, // SHORT – important
-                                                  height: 26,
+                                                      90.r, // SHORT – important
+                                                  height: 26.r,
                                                   alignment: Alignment.center,
                                                   decoration: BoxDecoration(
                                                     color: const Color(
@@ -311,7 +311,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 13.sp,
+                                                      fontSize: 13.r,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                     ),
@@ -322,7 +322,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                           ],
                                         ),
 
-                                        const SizedBox(width: 16),
+                                         SizedBox(width: 16.r),
                                         // Content - Flexible to adapt to remaining space
                                         Flexible(
                                           child: Column(
@@ -339,7 +339,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                     child: Text(
                                                       cafe.name ?? '',
                                                       style: TextStyle(
-                                                        fontSize: 20.sp,
+                                                        fontSize: 20.r,
                                                         fontFamily: "Poppins",
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -351,7 +351,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                   ),
                                                 ],
                                               ),
-                                              const SizedBox(height: 4),
+                                               SizedBox(height: 4.r),
                                               // Rating row
                                               Row(
                                                 mainAxisAlignment:
@@ -364,12 +364,12 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                         cafe.reviews!.rating
                                                             .toString(),
                                                         style: TextStyle(
-                                                          fontSize: 14.sp,
+                                                          fontSize: 14.r,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
                                                       ),
-                                                      const SizedBox(width: 4),
+                                                       SizedBox(width: 4.r),
 
                                                       Row(
                                                         children: List.generate(5, (
@@ -377,8 +377,8 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                         ) {
                                                           return Padding(
                                                             padding:
-                                                                const EdgeInsets.only(
-                                                                  right: 2.0,
+                                                                 EdgeInsets.only(
+                                                                  right: 2.0.r,
                                                                 ),
                                                             child: SvgPicture.asset(
                                                               index < 4.8.floor()
@@ -398,13 +398,13 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                       SvgPicture.asset(
                                                         "assets/icon/svg/location2.svg",
                                                       ),
-                                                      const SizedBox(width: 4),
+                                                       SizedBox(width: 4.r),
                                                       Text(
                                                         cafe.location?.region ??
                                                             '',
                                                         style: TextStyle(
                                                           fontFamily: "Poppins",
-                                                          fontSize: 13.sp,
+                                                          fontSize: 13.r,
                                                           color: Colors.grey,
                                                         ),
                                                         overflow: TextOverflow
@@ -414,7 +414,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                   ),
                                                 ],
                                               ),
-                                              const SizedBox(height: 8),
+                                               SizedBox(height: 8.r),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -422,9 +422,9 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                 children: [
                                                   Container(
                                                     padding:
-                                                        const EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                          vertical: 4,
+                                                         EdgeInsets.symmetric(
+                                                          horizontal: 12.r,
+                                                          vertical: 4.r,
                                                         ),
                                                     decoration: BoxDecoration(
                                                       image: DecorationImage(
@@ -439,7 +439,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                         fontFamily: "Poppins",
-                                                        fontSize: 10.sp,
+                                                        fontSize: 10.r,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                       ),
@@ -461,7 +461,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                   // ),
                                                 ],
                                               ),
-                                              const SizedBox(height: 12),
+                                               SizedBox(height: 12.r),
                                               Row(
                                                 children: [
                                                   Flexible(
@@ -470,14 +470,14 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                                       '10',
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 16),
+                                                   SizedBox(width: 16.r),
                                                   Flexible(
                                                     child: _buildStatItem(
                                                       "assets/icon/svg/female.svg",
                                                       '10',
                                                     ),
                                                   ),
-                                                  const SizedBox(width: 16),
+                                                   SizedBox(width: 16.r),
                                                   Flexible(
                                                     child: _buildStatItem(
                                                       "assets/icon/svg/heart.svg",
@@ -514,10 +514,10 @@ class CafeConnectView extends GetView<CafeconnectController> {
                         child: Row(
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
+                              padding:  EdgeInsets.symmetric(
+                                horizontal: 10.r,
                               ),
-                              width: 160,
+                              width: 160.r,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -529,12 +529,12 @@ class CafeConnectView extends GetView<CafeconnectController> {
                                     width: 100,
                                     fit: BoxFit.cover,
                                   ),
-                                  SizedBox(height: 10),
+                                  SizedBox(height: 10.r),
                                   Text(
                                     "Enjoy Up to 30% off deals for these restaurants!",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 15.sp,
+                                      fontSize: 15.r,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -563,7 +563,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 80),
+                       SizedBox(height: 80.r),
                     ],
                   ),
                 ),
@@ -578,7 +578,7 @@ class CafeConnectView extends GetView<CafeconnectController> {
 
 Widget _buildHeader(BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 10),
+    padding:  EdgeInsets.symmetric(horizontal: 10.r),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -592,7 +592,7 @@ Widget _buildHeader(BuildContext context) {
           child: Text(
             "Cafeconnect",
             style: TextStyle(
-              fontSize: 24.sp,
+              fontSize: 24.r,
               fontWeight: FontWeight.w600,
               color: Colors.black,
             ),
@@ -616,7 +616,7 @@ Widget _buildHeader(BuildContext context) {
             Text(
               "300",
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 14.r,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w700,
               ),
@@ -634,10 +634,10 @@ Widget _buildHeader(BuildContext context) {
 Widget buildRestaurantCard(String image, String name, String banner) {
   return Row(
     children: [
-      Container(width: 1, height: 200, color: const Color(0xff000000)),
+      Container(width: 1.r, height: 200.r, color: const Color(0xff000000)),
       Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-        width: 150,
+        margin:  EdgeInsets.symmetric(horizontal: 8.r, vertical: 10.r),
+        width: 150.r,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: Colors.white,
@@ -648,13 +648,13 @@ Widget buildRestaurantCard(String image, String name, String banner) {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                  borderRadius:  BorderRadius.only(
+                    topLeft: Radius.circular(12.r),
+                    topRight: Radius.circular(12.r)
                   ),
                   child: Image.asset(
                     image,
-                    height: 100,
+                    height: 100.r,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
@@ -666,16 +666,16 @@ Widget buildRestaurantCard(String image, String name, String banner) {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8.r),
             Text(
               name,
               style: TextStyle(
                 color: Color(0xff000000),
                 fontWeight: FontWeight.w700,
-                fontSize: 20.sp,
+                fontSize: 20.r,
               ),
             ),
-            const SizedBox(height: 6),
+             SizedBox(height: 6.r),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
@@ -690,7 +690,7 @@ Widget buildRestaurantCard(String image, String name, String banner) {
                 "Food",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16.sp,
+                  fontSize: 16.r,
                   color: Color(0xffFFFFFF),
                 ),
               ),
@@ -746,7 +746,7 @@ class CafeCardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+        margin:  EdgeInsets.symmetric(horizontal: 15.r, vertical: 3.r),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: const Color(0xffBCBCBC), width: 2),
@@ -763,13 +763,13 @@ class CafeCardWidget extends StatelessWidget {
 
           children: [
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding:  EdgeInsets.all(16.0.r),
               child: Row(
                 children: [
                   // Image container - Fixed width for consistency
                   Container(
-                    width: 165,
-                    height: 120,
+                    width: 165.r,
+                    height: 120.r,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
@@ -778,7 +778,7 @@ class CafeCardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 16),
+                   SizedBox(width: 16.r),
                   // Content - Flexible to adapt to remaining space
                   Flexible(
                     child: Column(
@@ -792,7 +792,7 @@ class CafeCardWidget extends StatelessWidget {
                               child: Text(
                                 title,
                                 style: TextStyle(
-                                  fontSize: 20.sp,
+                                  fontSize: 20.r,
                                   fontFamily: "Poppins",
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
@@ -802,7 +802,7 @@ class CafeCardWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                         SizedBox(height: 4.r),
                         // Rating row
                         Row(
                           children: [
@@ -989,9 +989,10 @@ class _SelectableTag extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.02),
-                blurRadius: 6.0,
-                offset: const Offset(0, 3),
+                color: Colors.black.withValues(alpha: 0.25),
+                blurRadius: 4.0,
+                spreadRadius: 0,
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -1025,8 +1026,7 @@ void showFilterBottomSheet(BuildContext context) {
     },
   ).then((selectedFilters) {
     if (selectedFilters != null) {
-      log('Selected locations: $selectedFilters');
-      // handle selected filters if needed
+      log('Selected filters: $selectedFilters');
     }
   });
 }
@@ -1039,16 +1039,21 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  // allow multiple selection in this example
-  Set<String> selectedLocations = <String>{};
 
-  // single-select examples
-  String selectedLocation = "South";
-  String selectedCategory = "Beverages";
+  /// ✅ MULTI SELECT SETS
+  Set<String> selectedLocations = {};
+  Set<String> selectedCategories = {};
+
+  void toggle(Set<String> set, String value) {
+    if (set.contains(value)) {
+      set.remove(value);
+    } else {
+      set.add(value);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // ensure sheet height uses content + keyboard
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -1056,7 +1061,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
-        border: Border.all(color: const Color.fromARGB(204, 0, 0, 0), width: 2),
+        border: Border.all(
+          color: const Color.fromARGB(204, 0, 0, 0),
+          width: 2,
+        ),
       ),
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom + 16,
@@ -1064,7 +1072,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // header
+
+          /// HEADER
           Padding(
             padding: const EdgeInsets.fromLTRB(24, 5, 24, 8),
             child: Stack(
@@ -1083,13 +1092,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 ),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Text(
                       'Filter',
                       style: TextStyle(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -1099,17 +1107,15 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   top: 8,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pop(context, {
-                        'location': selectedLocation,
-                        'category': selectedCategory,
+                      setState(() {
+                        selectedLocations.clear();
+                        selectedCategories.clear();
                       });
-                      Get.find<CafeconnectController>().clearFilter();
                     },
                     child: Text(
                       'clear all',
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: Color.fromARGB(255, 0, 0, 0),
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -1123,9 +1129,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           const Text('(Can select multiple options for all)'),
           const SizedBox(height: 12),
 
-          // Location label
+          /// LOCATION LABEL
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               children: [
                 SvgPicture.asset("assets/icon/svg/location3.svg"),
@@ -1135,7 +1141,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
                   ),
                 ),
               ],
@@ -1144,41 +1149,31 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           const SizedBox(height: 12),
 
-          // location options (single-select in this example)
+          /// LOCATION OPTIONS — MULTI
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
-                buildSelectableOption("North", selectedLocation, (val) {
-                  setState(() => selectedLocation = val);
-                }),
-                buildSelectableOption("South", selectedLocation, (val) {
-                  setState(() => selectedLocation = val);
-                }),
-                buildSelectableOption("East", selectedLocation, (val) {
-                  setState(() => selectedLocation = val);
-                }),
-                buildSelectableOption("West", selectedLocation, (val) {
-                  setState(() => selectedLocation = val);
-                }),
+                buildMultiOption("North", selectedLocations, toggle, setState),
+                buildMultiOption("South", selectedLocations, toggle, setState),
+                buildMultiOption("East", selectedLocations, toggle, setState),
+                buildMultiOption("West", selectedLocations, toggle, setState),
               ],
             ),
           ),
 
           const SizedBox(height: 18),
 
-          // Looking for
+          /// CATEGORY LABEL
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               children: [
-                SizedBox(width: 8),
                 Text(
                   '👀 Looking For',
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
                   ),
                 ),
               ],
@@ -1187,52 +1182,39 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
 
           const SizedBox(height: 12),
 
+          /// CATEGORY OPTIONS — MULTI
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
-                buildSelectableOption("Food", selectedCategory, (val) {
-                  setState(() => selectedCategory = val);
-                }),
-                buildSelectableOption("Beverages", selectedCategory, (val) {
-                  setState(() => selectedCategory = val);
-                }),
-                buildSelectableOption("Event", selectedCategory, (val) {
-                  setState(() => selectedCategory = val);
-                }),
+                buildMultiOption("Food", selectedCategories, toggle, setState),
+                buildMultiOption("Beverages", selectedCategories, toggle, setState),
+                buildMultiOption("Event", selectedCategories, toggle, setState),
               ],
             ),
           ),
 
           const SizedBox(height: 24),
 
-          // Save button
+          /// SAVE BUTTON
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: InkWell(
               onTap: () {
                 Navigator.pop(context, {
-                  'location': selectedLocation,
-                  'category': selectedCategory,
+                  'locations': selectedLocations,
+                  'categories': selectedCategories,
                 });
-
-                Get.find<CafeconnectController>().selectFilter(
-                  selectedLocation,
-                  selectedCategory,
-                );
-                // return chosen filter set (as example return locations & category)
               },
               child: Container(
                 width: double.infinity,
                 height: 45,
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   border: Border.all(color: const Color(0xff003FFF)),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Center(
                   child: Text(
-                    textAlign: TextAlign.center,
                     'Save',
                     style: TextStyle(
                       fontSize: 24.sp,
@@ -1243,6 +1225,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ),
             ),
           ),
+
           const SizedBox(height: 16),
         ],
       ),
@@ -1250,21 +1233,24 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   }
 }
 
-Widget buildSelectableOption(
-  String text,
-  String selectedValue,
-  Function(String) onTap,
-) {
-  bool isSelected = text == selectedValue;
+/// ✅ MULTI SELECT OPTION WIDGET
+Widget buildMultiOption(
+    String text,
+    Set<String> selectedSet,
+    Function(Set<String>, String) toggle,
+    void Function(VoidCallback fn) setState,
+    ) {
+  final isSelected = selectedSet.contains(text);
+
   return GestureDetector(
-    onTap: () => onTap(text),
+    onTap: () => setState(() => toggle(selectedSet, text)),
     child: Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 6),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
       decoration: BoxDecoration(
         color: isSelected ? Colors.grey[800] : Colors.white,
-        border: Border.all(color: Colors.black, width: 1),
+        border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(

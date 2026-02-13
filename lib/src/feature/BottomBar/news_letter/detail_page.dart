@@ -489,7 +489,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 InkWell(
                   onTap: () => Navigator.pop(context, selectedLocation),
                   child: Container(
-                    height: 45,
+                    height: 55.h,
                     decoration: BoxDecoration(
                       border: Border.all(color: AppColors.blue),
                       borderRadius: BorderRadius.circular(20),
@@ -498,7 +498,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       child: Text(
                         'Save',
                         style: TextStyle(
-                          fontSize: 24.sp,
+                          fontSize: 24.r,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

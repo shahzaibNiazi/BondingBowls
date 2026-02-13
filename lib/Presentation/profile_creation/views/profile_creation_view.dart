@@ -786,7 +786,8 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
       },
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+
+        padding:  EdgeInsets.symmetric(horizontal: 12.r, vertical: 6.r),
         decoration: BoxDecoration(
           border: Border.all(color: const Color(0xffFA6D8C), width: 1.5),
           borderRadius: BorderRadius.circular(10),
@@ -796,7 +797,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
           children: [
             // Icon
             SvgPicture.asset(svgPicture),
-            const SizedBox(width: 10),
+             SizedBox(width: 10.r),
             // Text
             Expanded(
               child: Text(
@@ -807,7 +808,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                   color: selectedValue.isEmpty || selectedValue == placeholder
                       ? const Color(0xff040001)
                       : Colors.black,
-                  fontSize: 14.sp,
+                  fontSize: 14.r,
                 ),
               ),
             ),
@@ -849,9 +850,10 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
           controller.update();
         },
         child: Container(
-          width: 150,
+          width: 150.r,
+          height: 62.r,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding:  EdgeInsets.symmetric(horizontal: 20.r, vertical: 10.r),
           decoration: BoxDecoration(
             border: Border.all(color: const Color(0xffFA6D8C), width: 1.5),
             color: isSelected ? const Color(0xffFA6D8C) : Colors.white,
@@ -861,7 +863,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
             option,
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.grey.shade700,
-              fontSize: 14.sp,
+              fontSize: 12.r,
               fontWeight: FontWeight.w500,
             ),
           ),

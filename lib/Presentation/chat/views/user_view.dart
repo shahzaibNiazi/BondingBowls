@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../app/config/global_var.dart';
 
-class UserView extends StatelessWidget {
-  const UserView({super.key});
+class UserView extends StatefulWidget {
+  final bool isVisibleImage;
 
+  const UserView({super.key,this.isVisibleImage=false});
+
+  @override
+  State<UserView> createState() => _UserViewState();
+}
+
+class _UserViewState extends State<UserView> {
   // TextEditingController _bioController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +26,8 @@ class UserView extends StatelessWidget {
             children: [
               // Main profile card
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(20),
+                margin:  EdgeInsets.symmetric(horizontal: 16.r),
+                padding:  EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -68,27 +75,67 @@ class UserView extends StatelessWidget {
 
                     // Name
                     Text(
-                      Globals.user?.fullName ?? '',
+                      'Nicole',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
-                        fontSize: 32,
+                        fontSize: 32.r,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
 
-                    const Text(
+                     Text(
                       'Software Engineer | Coffee Enthusiast | Yoga lover',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 15.r,
                         color: Color(0xFFBC0072),
                         fontWeight: FontWeight.w700,
                       ),
                     ),
 
-                    const SizedBox(height: 15),
+                     SizedBox(height: 15.r),
 
+
+                    if(widget.isVisibleImage==true)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12.r),
+                            child: Image.asset(
+                              'assets/images/football.png',
+                              height: 120.r,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 4.r),
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12.r),
+                            child: Image.asset(
+                              'assets/images/football.png',
+                              height: 120.r,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 4.r),
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12.r),
+                            child: Image.asset(
+                              'assets/images/football.png',
+                              height: 120.r,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 12.r),
                     // Profile Details
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,19 +144,19 @@ class UserView extends StatelessWidget {
                           'Nationality',
                           Globals.user?.location ?? '',
                         ),
-                        const SizedBox(height: 12),
+                         SizedBox(height: 12.r),
                         Row(
                           children: [
                             Expanded(child: _buildProfileDetail('Age', '22')),
-                            const SizedBox(width: 20),
-                            Expanded(child: _buildProfileDetail('Gender', '?')),
+                             SizedBox(width: 20.r),
+                            Expanded(child: _buildProfileDetail('Gender', 'Male')),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                         SizedBox(height: 12.r),
                         Row(
                           children: [
-                            Expanded(child: _buildProfileDetail('Race', '?')),
-                            const SizedBox(width: 20),
+                            Expanded(child: _buildProfileDetail('Race', 'Run')),
+                             SizedBox(width: 20.r),
                             Expanded(
                               child: _buildProfileDetail(
                                 'Status',
@@ -121,7 +168,7 @@ class UserView extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 30),
+                     SizedBox(height: 30.r),
 
                     LayoutBuilder(
                       builder: (context, constraints) {
@@ -144,16 +191,16 @@ class UserView extends StatelessWidget {
                       },
                     ),
 
-                    const Center(
+                     Center(
                       child: Text(
                         "Nitty - Gritty",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.r,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                     SizedBox(height: 16.r),
 
                     // Row 1
                     Row(

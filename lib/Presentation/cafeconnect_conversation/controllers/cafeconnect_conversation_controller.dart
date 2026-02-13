@@ -29,8 +29,8 @@ class CafeconnectConversationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    conversationId = Get.arguments['conversationId'];
-    receiverId = Get.arguments['receiverId'];
+    // conversationId = Get.arguments['conversationId'];
+    // receiverId = Get.arguments['receiverId'];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchMessages(

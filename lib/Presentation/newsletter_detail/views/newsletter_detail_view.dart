@@ -248,7 +248,7 @@ class NewsletterDetailView extends GetView<NewsletterDetailController> {
                         // Food Image 1
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 16),
-                          height: 200,
+                          height: 240.h,
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),

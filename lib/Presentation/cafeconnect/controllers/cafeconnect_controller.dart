@@ -47,6 +47,8 @@ class CafeconnectController extends GetxController {
     await getCafeConnect();
   }
 
+
+
   void selectTag(String tag) async {
     selectedTag = tag;
     cafeList.clear();

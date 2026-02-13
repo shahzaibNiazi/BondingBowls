@@ -130,7 +130,10 @@ class NewsletterView extends GetView<NewsletterController> {
                                         ),
                                       ),
                                     );
-                                  }),
+                                  },
+
+                                      "assets/images/food1.png"
+                                  ),
                                 _buildHorizontalList(
                                   items: controller.foodItems,
                                 ),
@@ -150,7 +153,9 @@ class NewsletterView extends GetView<NewsletterController> {
                                         ),
                                       ),
                                     );
-                                  }),
+                                  },
+                                  "assets/images/beverages.png"
+                                  ),
                                 _buildHorizontalList(
                                   items: controller.beveragesItems,
                                 ),
@@ -171,7 +176,9 @@ class NewsletterView extends GetView<NewsletterController> {
                                         ),
                                       ),
                                     );
-                                  }),
+                                  },
+                                      "assets/images/events.png"
+                                  ),
                                 _buildHorizontalList(
                                   items: controller.eventsItems,
                                 ),
@@ -190,28 +197,40 @@ class NewsletterView extends GetView<NewsletterController> {
   }
 
   // =================== SECTION HEADER =====================
-  Widget _buildSectionHeader(String title, VoidCallback? onTap) {
+  Widget _buildSectionHeader(String title, VoidCallback? onTap,String image) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/Rectangle 121.jpg"),
-                fit: BoxFit.cover,
+          Stack(
+            children: [
+              // Background Image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.cover,
+                  scale: 4.5,
+                ),
+              ).paddingAll(5.r),
+
+              // Content Container (padding + text)
+              Positioned.fill(  // Add this to fill the entire Stack
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.r, vertical: 5.r),
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
-            ),
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            ],
           ),
 
           GestureDetector(

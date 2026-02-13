@@ -26,7 +26,7 @@ class _SlideToRedeemState extends State<SlideToRedeem> {
         return AnimatedContainer(
           height: containerHeight,
           duration: Duration(milliseconds: 300),
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: EdgeInsets.symmetric(horizontal:8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(40),
