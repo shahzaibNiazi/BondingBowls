@@ -67,6 +67,7 @@ class VoucherCard extends StatelessWidget {
                 Flexible(
                   flex: 2,
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // Voucher icon
                       SizedBox(

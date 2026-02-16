@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -88,11 +90,11 @@ class AiAvatarPickImageView extends GetView<ProfileCreationController> {
 
                     SizedBox(height: 40.h),
 
-                    // Circular Camera Preview with Face Detection Border
+                    // Camera Preview with Circular Guide Overlay (No Distortion)
                     Center(
                       child: Obx(() {
                         if (controller.capturedImage.value != null) {
-                          // Show captured image
+                          // Show captured image in circle
                           return Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -117,22 +119,68 @@ class AiAvatarPickImageView extends GetView<ProfileCreationController> {
                             ),
                           );
                         } else if (controller.isCameraInitialized.value) {
-                          // Show camera with face detection overlay
-                          return Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              ClipOval(
-                                child: SizedBox(
-                                  height: 320,
-                                  width: 320,
-                                  child: CameraPreview(
-                                    controller.cameraController!,
-                                  ),
+                          // Show FULL rectangular camera preview with circular guide overlay
+                          return Container(
+                            width: 320,
+                            height: 320,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 15,
+                                  spreadRadius: 2,
                                 ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // Full rectangular camera preview (NO CROPPING)
+                                  AspectRatio(
+                                    aspectRatio: 1 /
+                                        controller.cameraController!.value.aspectRatio,
+                                    child: CameraPreview(controller.cameraController!),
+                                  ),
+
+                                  // Semi-transparent overlay to dim area outside circle
+                                  Container(
+                                    width: 320,
+                                    height: 320,
+                                    color: Colors.black.withOpacity(0.3),
+                                  ),
+                                  // Clear circle in the center
+                                  Container(
+                                    width: 350.h,
+                                    height: 350.w,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: controller.isFaceValid.value
+                                            ? Colors.green
+                                            : Colors.red,
+                                        width: 4,
+                                      ),
+                                    ),
+                                    child: ClipOval(
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Face guide oval inside
+                                  _buildFaceDetectionOverlay(controller),
+                                ],
                               ),
-                              // Face detection overlay
-                              _buildFaceDetectionOverlay(controller),
-                            ],
+                            ),
                           );
                         } else {
                           // Show placeholder
@@ -294,22 +342,22 @@ class AiAvatarPickImageView extends GetView<ProfileCreationController> {
                                     shape: BoxShape.circle,
                                     color: controller.isCameraInitialized.value
                                         ? (controller.isFaceValid.value
-                                              ? Color(0xff1D73BC)
-                                              : Colors.grey)
+                                        ? Color(0xff1D73BC)
+                                        : Colors.grey)
                                         : Colors.grey.shade600,
                                     boxShadow: [
                                       BoxShadow(
                                         color:
-                                            (controller
-                                                        .isCameraInitialized
-                                                        .value
-                                                    ? (controller
-                                                              .isFaceValid
-                                                              .value
-                                                          ? Color(0xff1D73BC)
-                                                          : Colors.grey)
-                                                    : Colors.grey.shade600)
-                                                .withOpacity(0.4),
+                                        (controller
+                                            .isCameraInitialized
+                                            .value
+                                            ? (controller
+                                            .isFaceValid
+                                            .value
+                                            ? Color(0xff1D73BC)
+                                            : Colors.grey)
+                                            : Colors.grey.shade600)
+                                            .withOpacity(0.4),
                                         blurRadius: 15,
                                         spreadRadius: 2,
                                       ),
@@ -355,13 +403,13 @@ class AiAvatarPickImageView extends GetView<ProfileCreationController> {
   Widget _buildFaceDetectionOverlay(ProfileCreationController controller) {
     return Obx(() {
       return Container(
-        height: 320,
-        width: 320,
+        height: 370.h,
+        width: 370.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: controller.isFaceValid.value ? Colors.green : Colors.red,
-            width: 4,
+            color: Colors.transparent, // Border is already shown outside
+            width: 0,
           ),
         ),
         child: CustomPaint(

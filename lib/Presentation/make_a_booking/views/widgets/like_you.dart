@@ -38,8 +38,6 @@ Widget likesYouCard(MakeABookingController controller) {
                             fontSize: 16.sp,
                           ),
                         ).paddingOnly(right: 8),
-
-
                       ],
                     ),
                     SizedBox(height: 8.h),
@@ -58,18 +56,18 @@ Widget likesYouCard(MakeABookingController controller) {
 
                               loadingBuilder:
                                   (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
+                                if (loadingProgress == null) return child;
 
-                                    return const Center(
-                                      child: SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                return const Center(
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                );
+                              },
 
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
@@ -94,14 +92,14 @@ Widget likesYouCard(MakeABookingController controller) {
                           children: [
                             Text(
                               '${profile.userId!.maritalStatus.toString()} ${Globals.user!.preferredGender ?? ''}',
-                            ).paddingOnly(left: 10.w),
+                            ).paddingOnly(left: 15.w),
 
-                            Text(
-                              profile.cafeId!.location!.region.toString(),
-                            ).paddingOnly(left: 1.w),
                           ],
                         ),
-                        SizedBox(height: 4.h),
+                        Text(
+                          'Singaporean',
+                        ).paddingOnly(left: 10.w),
+
                       ],
                     ),
                   ],
@@ -115,7 +113,7 @@ Widget likesYouCard(MakeABookingController controller) {
                         Text(
                           profile.userId!.location.toString(),
                           style: TextStyle(fontSize: 14.sp),
-                        ).paddingOnly(right: 4),
+                        ).paddingOnly(right: 6),
                         Text(
                           "38 Years Old",
                           style: TextStyle(
@@ -124,6 +122,7 @@ Widget likesYouCard(MakeABookingController controller) {
                           ),
                         ),
                       ],
+
                     ),
                     SizedBox(height: 6.h),
                     Text(

@@ -62,7 +62,7 @@ class VouchersController extends GetxController {
       vouchers = [
         VoucherModel(
           id: "1",
-          title: "20% off on all Macdonald’s item",
+          title: "20% off on all Macdonald’s item,\n20% off on all Macdonald’s item,,",
           discountValue: 20,
           startDate: "2025-12-01",
           expiryDate: "2025-12-07",
@@ -70,7 +70,7 @@ class VouchersController extends GetxController {
         ),
         VoucherModel(
           id: "2",
-          title: "Buy 1 Get 1 Free Pizza",
+          title: "Buy 1 Get 1 Free Pizza\nBuy 1 Get 1 Free Pizza",
           discountValue: 50,
           startDate: "2025-12-02",
           expiryDate: "2025-12-10",
@@ -78,7 +78,7 @@ class VouchersController extends GetxController {
         ),
         VoucherModel(
           id: "3",
-          title: "Flat 100৳ off on Orders above 500৳",
+          title: "Flat 100৳ off on Orders above 500৳\nFlat 100৳ off on Orders above 500৳",
           discountValue: 100,
           startDate: "2025-12-01",
           expiryDate: "2025-12-15",
@@ -86,7 +86,7 @@ class VouchersController extends GetxController {
         ),
         VoucherModel(
           id: "4",
-          title: "15% off on KFC Meals",
+          title: "15% off on KFC Meals\n15% off on KFC Meals",
           discountValue: 15,
           startDate: "2025-12-05",
           expiryDate: "2025-12-20",

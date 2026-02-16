@@ -129,7 +129,7 @@ class ProfileCreationView extends GetView<ProfileCreationController> {
                           controller.updateNickname,
                           showCharCount: true,
                           showLabelAbove: false,
-                          maxLength: 20,
+                          maxLength: 15,
                         ),
                         const SizedBox(height: 15),
 
